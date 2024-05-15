@@ -1,0 +1,61 @@
+version: 2.1
+
+orbs:
+  node: circleci/node@4.1.0
+
+jobs:
+  test:
+    executor: node/default
+    resource_class: medium
+    steps:
+      - checkout
+      - node/install-packages:
+          pkg-manager: npm
+      - run:
+          name: Run Tests
+          command: npm run test
+  release:
+    executor:
+      name: node/default
+      tag: '18'
+    steps:
+      - checkout
+      - node/with-cache:
+          steps:
+            - run: npm install
+      - run:
+          name: Lint
+          command: npm run lint
+      - run:
+          name: Run Tests
+          command: npm run test
+      - run:
+          name: Build
+          command: npm run build
+      - run:
+          name: Publish
+          command: npm run publish
+          environment:
+            NODE_AUTH_TOKEN: $GENERATIVE_TS_NPM_TOKEN
+
+workflows:
+  version: 2
+  raise_pr:
+    when:
+      and:
+        - not:
+            equal: [main, << pipeline.git.branch >>]
+        - not:
+            regexp: 
+              - << pipeline.git.branch >>: "/release\/.*/"
+    jobs:
+      - test:
+          context:
+            - generative-ts-npm-token
+  push_release:
+    jobs:
+      - release:
+          filters:
+            branches:
+              only:
+                - /release\/.*/

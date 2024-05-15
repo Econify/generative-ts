@@ -1,17 +1,24 @@
 {
   "compilerOptions": {
-    "target": "ES2020",
-    "module": "commonjs",
-
-    "moduleResolution": "node",
+    "target": "es6",
+    "module": "esnext",
+    "lib": ["es6"],
+    "importHelpers": true,
+    "declaration": true,
+    "declarationMap": true,
+    "sourceMap": true,
     "esModuleInterop": true,
-
+    "skipDefaultLibCheck": true,                      
+    "skipLibCheck": true,
     "typeRoots": ["./node_modules/@types", "./@types"],
-
-    "baseUrl": ".",
-    "rootDir": ".",
     "outDir": "./dist",
+    "rootDir": ".",
 
+    /* module resolution */
+    "baseUrl": ".",
+    "moduleResolution": "node",
+
+    /* solid ts */
     "strict": true ,
     "alwaysStrict": true,
     "strictNullChecks": true,
@@ -20,15 +27,11 @@
     "noImplicitAny": true,
     "noImplicitThis": true,
     "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
-    "noUncheckedIndexedAccess": true,
-    "skipDefaultLibCheck": true,                      
-    "skipLibCheck": true
+    "noUncheckedIndexedAccess": true
   },
-  "include": ["**/*.ts", "**/*.d.ts"],
-  "exclude": [
-    "node_modules",
-    "dist"
-  ]
+  "include": ["src/**/*.ts"],
+  "exclude": ["node_modules"]
 }

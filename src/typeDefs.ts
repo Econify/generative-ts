@@ -26,11 +26,11 @@ export interface ModelProvider<
 }
 
 export interface HttpClient {
-  post<TResponse>(
+  post(
     endpoint: string,
     body: string,
     headers: Record<string, string>,
-  ): Promise<TResponse>;
+  ): Promise<unknown>;
 }
 
 // Makes props in K optional in T.

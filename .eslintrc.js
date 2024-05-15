@@ -50,5 +50,5 @@ module.exports = {
       },
     },
   ],
-  ignorePatterns: ["**/*.js", "dist/**", "**/*.json", "**/*.snap"],
+  ignorePatterns: ["**/*.js", "**/*.mjs", "dist/**", "**/*.json", "**/*.snap"],
 };

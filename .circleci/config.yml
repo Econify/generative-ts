@@ -47,7 +47,7 @@ workflows:
             equal: [main, << pipeline.git.branch >>]
         - not:
             matches:
-              pattern: "/release\/.*/"
+              pattern: '/release\/.*'
               value: << pipeline.git.branch >>
     jobs:
       - test:

@@ -48,6 +48,7 @@
     "eslint-plugin-promise": "^6.1.1",
     "jest": "^29.7.0",
     "rollup": "^4.17.2",
+    "rollup-plugin-dts": "^6.1.0",
     "ts-jest": "^29.1.2",
     "typescript": "^5.4.5"
   },
@@ -61,5 +62,12 @@
     "url": "https://github.com/Econify/generative-ts/issues"
   },
   "homepage": "https://github.com/Econify/generative-ts#readme",
-  "keywords": ["llm", "gpt", "llama", "ts", "generative", "typescript"]
+  "keywords": [
+    "llm",
+    "gpt",
+    "llama",
+    "ts",
+    "generative",
+    "typescript"
+  ]
 }

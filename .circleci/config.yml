@@ -48,12 +48,12 @@ workflows:
               pattern: '/release\/.*'
               value: << pipeline.git.branch >>
     jobs:
-      - test:
-          context:
-            - generative-ts-npm-token
+      - test
   push_release:
     jobs:
       - release:
+          context:
+            - generative-ts-npm-token
           filters:
             branches:
               only:

@@ -31,10 +31,10 @@ jobs:
           name: Build
           command: npm run build
       - run:
-          name: Publish
-          command: npm run publish
-          environment:
-            NODE_AUTH_TOKEN: $GENERATIVE_TS_NPM_TOKEN
+          name: Publish to NPM
+          command: |
+            npm set //registry.npmjs.org/:_authToken=$GENERATIVE_TS_NPM_TOKEN
+            npm run publish
 
 workflows:
   version: 2
@@ -45,15 +45,15 @@ workflows:
             equal: [main, << pipeline.git.branch >>]
         - not:
             matches:
-              pattern: '/release\/.*'
+              pattern: '^release\/.*$'
               value: << pipeline.git.branch >>
     jobs:
-      - test:
-          context:
-            - generative-ts-npm-token
+      - test
   push_release:
     jobs:
       - release:
+          context:
+            - generative-ts-npm-token
           filters:
             branches:
               only:

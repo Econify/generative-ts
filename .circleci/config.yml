@@ -34,7 +34,7 @@ jobs:
           name: Publish
           command: npm run publish
           environment:
-            NPM_TOKEN: $GENERATIVE_TS_NPM_TOKEN
+            NPM_AUTH_TOKEN: $GENERATIVE_TS_NPM_TOKEN
 
 workflows:
   version: 2

@@ -32,9 +32,7 @@ jobs:
           command: npm run build
       - run:
           name: Publish to NPM
-          command: |
-            npm set //registry.npmjs.org/:_authToken=$GENERATIVE_TS_NPM_TOKEN
-            npm publish
+          command: npm publish
 
 workflows:
   version: 2

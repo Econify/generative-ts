@@ -62,6 +62,9 @@
     "url": "https://github.com/Econify/generative-ts/issues"
   },
   "homepage": "https://github.com/Econify/generative-ts#readme",
+  "publishConfig": {
+    "access": "public"
+  },
   "keywords": [
     "llm",
     "gpt",

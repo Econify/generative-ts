@@ -31,13 +31,10 @@ jobs:
           name: Build
           command: npm run build
       - run:
-          name: Print npm config (debugging)
-          command: npm config list
-      - run:
-          name: Publish
-          command: echo $NPM_TOKEN
-          environment:
-            NPM_TOKEN: $GENERATIVE_TS_NPM_TOKEN
+          name: Publish to NPM
+          command: |
+            npm set //registry.npmjs.org/:_authToken=$GENERATIVE_TS_NPM_TOKEN
+            npm publish
 
 workflows:
   version: 2

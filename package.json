@@ -10,11 +10,12 @@
   ],
   "scripts": {
     "build": "rollup -c",
+    "check": "npm run typecheck && npm run lint && npm run test",
     "lint": "eslint src/",
     "lint:fix": "eslint --fix src/",
     "prepare": "npm run build",
-    "prepublishOnly": "npm run lint && npm run test",
-    "publish": "npm publish",
+    "prepublishOnly": "npm run check",
+    "publish:alpha": "npm publish --tag alpha",
     "test": "jest",
     "test:cov": "jest --coverage",
     "typecheck": "tsc --noEmit"

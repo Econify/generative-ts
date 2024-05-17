@@ -2,7 +2,7 @@ import type { ModelApi, ModelRequestOptions } from "../../typeDefs";
 
 import { Template } from "../../utils/template";
 
-import type { FewShotRequestOptions } from "../shared/fewShot";
+import type { FewShotRequestOptions } from "../_shared_interfaces/fewShot";
 
 import { isLlamaResponse, LlamaResponse } from "./llama";
 
@@ -12,7 +12,7 @@ const llama2ChatPrompt =
   "{% for pair in examplePairs %}{{ pair.user | safe }} [/INST] {{ pair.assistant | safe }} </s><s>[INST] {% endfor %}" +
   "{{ prompt | safe }} [/INST]";
 
-export const templateSource =
+const templateSource =
   "{" +
   `"prompt": "${llama2ChatPrompt}"` +
   '{% if temperature %}, "temperature": {{ temperature }}{% endif %}' +

@@ -6,7 +6,7 @@ import type { ModelApi, ModelRequestOptions } from "../typeDefs";
 
 import { Template } from "../utils/template";
 
-export const templateSource = `{
+const templateSource = `{
   "prompt": "{{ prompt | safe }}"
   {% if temperature %}
     , "temperature": {{ temperature }}

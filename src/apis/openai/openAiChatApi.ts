@@ -6,7 +6,7 @@ import type { ModelApi, ModelRequestOptions } from "../../typeDefs";
 
 import { Template } from "../../utils/template";
 
-import type { FewShotRequestOptions } from "../shared/fewShot";
+import type { FewShotRequestOptions } from "../_shared_interfaces/fewShot";
 
 const templateSource = `{
   "model": "{{ modelId }}",

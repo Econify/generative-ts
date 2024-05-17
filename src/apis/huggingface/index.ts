@@ -1,1 +1,1 @@
-export { HuggingfaceTextGenerationApi } from "./huggingfaceTextGenerationApi";
+export * from "./huggingfaceTextGenerationApi";

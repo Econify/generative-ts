@@ -6,7 +6,7 @@ import type { ModelApi, ModelRequestOptions } from "../typeDefs";
 
 import { Template } from "../utils/template";
 
-export const templateSource = `{
+const templateSource = `{
   "inputText": "{{ prompt | safe }}"
   {% if temperature or topP or maxTokenCount or stopSequences %}
   , "textGenerationConfig": {

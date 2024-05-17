@@ -1,4 +1,4 @@
-export { BaseModelProvider } from "./baseModelProvider";
+export * from "./baseModelProvider";
 export * from "./openai";
 export * from "./lm_studio";
 export * from "./huggingface_inference";

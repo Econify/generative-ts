@@ -1,3 +1,4 @@
 export { BaseHttpModelProvider } from "./baseHttpModelProvider";
-export { HttpModelProvider } from "./httpModelProvider";
 export { createHttpModelProvider } from "./createHttpModelProvider";
+export { HttpModelProvider } from "./httpModelProvider";
+export * from "./strategies";

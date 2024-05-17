@@ -1,1 +1,1 @@
-export { OpenAiChatApi } from "./openAiChatApi";
+export * from "./openAiChatApi";

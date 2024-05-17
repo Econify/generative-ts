@@ -6,7 +6,7 @@ import type { ModelApi, ModelRequestOptions } from "../../typeDefs";
 
 import { Template } from "../../utils/template";
 
-export const templateSource = `{
+const templateSource = `{
   "prompt": "{{ prompt | safe }}"
   {% if temperature %}
     , "temperature": {{ temperature }}
@@ -39,8 +39,6 @@ export const templateSource = `{
     , "truncate": "{{ truncate }}"
   {% endif %}
 }`;
-
-// TODO I think this is the "generate API" - rename CohereGenerateOptions
 
 export interface CohereGenerateOptions extends ModelRequestOptions {
   num_generations?: number;

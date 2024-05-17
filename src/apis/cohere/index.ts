@@ -1,1 +1,1 @@
-export { CohereGenerateApi } from "./cohere_generate";
+export * from "./cohere_generate";

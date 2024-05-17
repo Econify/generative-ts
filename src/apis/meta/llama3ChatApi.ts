@@ -2,7 +2,7 @@ import type { ModelApi, ModelRequestOptions } from "../../typeDefs";
 
 import { Template } from "../../utils/template";
 
-import type { FewShotRequestOptions } from "../shared/fewShot";
+import type { FewShotRequestOptions } from "../_shared_interfaces/fewShot";
 
 import { isLlamaResponse, LlamaResponse } from "./llama";
 
@@ -12,7 +12,7 @@ const llama3ChatPrompt =
   "{% for pair in examplePairs %}<|start_header_id|>user<|end_header_id|>\\n\\n{{ pair.user | safe }}<|eot_id|><|start_header_id|>assistant<|end_header_id|>\\n\\n{{ pair.assistant | safe }}<|eot_id|>{% endfor %}" +
   "<|start_header_id|>user<|end_header_id|>\\n\\n{{ prompt | safe }}<|eot_id|><|start_header_id|>assistant<|end_header_id|>";
 
-export const templateSource =
+const templateSource =
   "{" +
   `"prompt": "${llama3ChatPrompt}"` +
   '{% if temperature %}, "temperature": {{ temperature }}{% endif %}' +

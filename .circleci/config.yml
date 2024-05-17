@@ -22,19 +22,22 @@ jobs:
       - node/install-packages:
           pkg-manager: npm
       - run:
+          name: Typecheck
+          command: npm run typecheck
+      - run:
           name: Lint
           command: npm run lint
       - run:
-          name: Run Tests
+          name: Test
           command: npm run test
       - run:
           name: Build
           command: npm run build
       - run:
-          name: Publish to NPM
+          name: Publish
           command: |
             npm set //registry.npmjs.org/:_authToken=$GENERATIVE_TS_NPM_TOKEN
-            npm run publish
+            npm publish
 
 workflows:
   version: 2

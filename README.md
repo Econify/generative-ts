@@ -2,29 +2,17 @@
 
 generative.ts is a typescript first library for easily interfacing with LLMs.
 
-* It's **NOT** an attempt at a *universal* interface
+* It provides typesafe interfaces for popular model APIs and service providers *as they're defined by the people who make them* -- It's **NOT** an attempt at a *universal* interface
 
-* It provides typesafe interfaces for popular model APIs and service providers *as they're defined by the people who make them*
+* It gives you the lowest level of control (in most cases, HTTP) over model interactions. Control things you otherwise couldn't like timeouts, retries, and proxies -- It's **NOT** a wrapper around other existing SDKs or libraries. 
 
-* It's **NOT** a wrapper around other existing SDKs or libraries. 
+* It allows you to build a very tiny bundle and it's isomorphic. Drop it into any JS environment and it should start working -- It's **NOT** heavy
 
-* It gives you the lowest level of control (in most cases, HTTP) over model interactions. Control things you otherwise couldn't like timeouts, retries, and proxies. 
+* A guiding design principle is that "Agent AI" is easiest to write using normal, imperative code. You don't have to learn a new way of making API calls -- It's **NOT** declarative or configuration based.
 
-* It's **NOT** heavy
+* It's a minimal but feature-rich utility library -- It's **NOT** a framework
 
-* It allows you to build a very tiny bundle and it's isomorphic. Drop it into any JS environment and it should start working. 
-
-* It's **NOT** declarative or configuration based.
-
-* A guiding design principle is that "Agent AI" is easiest to write using normal, imperative code. You don't have to learn a new way of making API calls.
-
-* It's **NOT** a framework
-
-* It's a minimal but feature-rich utility library. 
-
-* It's **NOT** opinionated
-
-* It gives sensible default implementations but also allows you fine grained control. You can easily define new model APIs and service providers. You can inject your own http client or template rendering function.
+* It gives sensible default implementations but also allows you fine grained control. You can easily define new model APIs and service providers. You can inject your own http client or template rendering function -- It's **NOT** opinionated
 
 *generative.ts does the tedious stuff like type-checking and error-handling, allowing you to write the interesting stuff like RAG context grooming and new AI agents*
 
@@ -105,3 +93,4 @@ console.log("Llama3 (Groq):", llama3groqResponse.choices[0]?.message.content)
 ```
 
 ### Etc...
+

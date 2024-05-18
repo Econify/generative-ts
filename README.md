@@ -28,68 +28,75 @@ npm i generative-ts
 
 A good example of the use-case of generative.ts is comparing how it looks to use (1) gpt4 on openAI (2) llama3 on AWS bedrock (3) llama3 on groq
 
-The reason this is a good example is because it highlights the diversity of the ecosystem. OpenAI provides both models and services. AWS Bedrock is only a service, and exposes the APIs of the models it hosts as-is. Whereas Groq is a service but puts all the models it hosts behind the OpenAI API!
+The reason this is a good example is because it highlights the diversity of the ecosystem. OpenAI provides both models and services. AWS Bedrock is only a service, and exposes the APIs of the models it hosts as-is. Whereas Groq is a service but puts all the models it hosts behind the OpenAI API. 
 
 This mix-and-match of "APIs" and "Providers" is found throughout the ecosystem, so it's also the main pattern of generative-ts. It turns out that it allows for a lot of flexibility:
 
+(**These are just 3 examples** -- see [TODO] for the complete list of supported models and providers, and see [TODO] for how to add your own)
+
+#### GPT4 on OpenAI
+
 ```
-import { 
-  createAwsBedrockModelProvider, 
-  createOpenAiChatModelProvider, 
-  createGroqModelProvider,
-  Llama3ChatApi,
-} from "generative-ts";
+import { createOpenAiChatModelProvider } from "generative-ts";
 
 const gpt4 = createOpenAiChatModelProvider({
-  // no 'api' necessary, everything on openAI uses openAI
   modelId: "gpt-4-turbo", // the modelId as defined by openAI
 });
 
-const llama3aws = createAwsBedrockModelProvider({
-  api: Llama3ChatApi, // since it's bedrock, specify what api to use
+const response = await gpt4.sendRequest({
+  prompt: "Tell me the history of the NY Mets"
+
+  // all OpenAI Chat Completion options are available here:
+  temperature: 1.0,
+  max_tokens: 1024,
+})
+
+console.log(response.choices[0]?.message.content) // the typesafe chat completion response
+```
+
+#### Llama3 on AWS Bedrock
+
+```
+import { 
+  createAwsBedrockModelProvider,
+  Llama3ChatApi,
+} from "generative-ts";
+
+const llama3 = createAwsBedrockModelProvider({
+  api: Llama3ChatApi, // bedrock provides many different APIs
   modelId: "meta.llama3-8b-instruct-v1:0", // the modelId as defined by bedrock
 });
 
-const llama3groq = createGroqModelProvider({
-  // no 'api' necessary, everything on groq uses openAI
+const response = await llama3.sendRequest({
+  prompt: "Tell me the history of the NY Mets",
+
+  // all LLama3 Chat options are available here:
+  temperature: 1.0,
+  max_gen_len: 1024,
+})
+
+console.log(response.generation) // the typesafe llama3 chat response
+```
+
+#### Llama3 on Groq
+
+```
+import { createGroqModelProvider } from "generative-ts";
+
+const llama3 = createGroqModelProvider({
+  // no 'api' option is necessary. like OpenAI, everything on groq uses the openAI API.
   modelId: "llama3-70b-8192", // the modelId as defined by groq
 });
 
-// make requests. note: request options are type-safe and specific to the API being used!
+const response = await llama3.sendRequest({
+  prompt: "Tell me the history of the NY Mets"
 
-const prompt = "Tell me the history of the NY Mets"
-const temp = 1.0
-const tokens = 1024
-
-const gpt4response = await gpt4.sendRequest({
-  prompt,
-
-  // some openAI request options:
-  temperature: temp,
-  max_tokens: tokens,
+  // all OpenAI Chat Completion options are available here:
+  temperature: 1.0,
+  max_tokens: 1024,
 })
 
-const llama3awsResponse = await llama3aws.sendRequest({
-  prompt,
-
-  // some llama3 request options:
-  temperature: temp,
-  max_gen_len: tokens,
-})
-
-const llama3groqResponse = await llama3groq.sendRequest({
-  prompt,
-
-  // some openAI request options:
-  temperature: temp,
-  max_tokens: tokens,
-})
-
-// print responses. again, they're type-safe and specific to the API being used:
-
-console.log("GPT-4-Turbo (OpenAI):", gpt4response.choices[0]?.message.content)
-console.log("Llama3 (Bedrock):", llama3awsResponse.generation)
-console.log("Llama3 (Groq):", llama3groqResponse.choices[0]?.message.content)
+console.log(response.choices[0]?.message.content) // the typesafe chat completion response
 ```
 
 ### Etc...

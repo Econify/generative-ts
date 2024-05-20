@@ -1,1 +1,1 @@
-export { createAwsBedrockModelProvider } from "./createAwsBedrockModelProvider";
+export * from "./createAwsBedrockModelProvider";

@@ -1,1 +1,1 @@
-export { createCohereLegacyModelProvider } from "./createCohereLegacyModelProvider";
+export * from "./createCohereLegacyModelProvider";

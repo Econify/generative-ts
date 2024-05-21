@@ -32,6 +32,13 @@
     "noUnusedParameters": true,
     "noUncheckedIndexedAccess": true
   },
-  "include": ["src/**/*.ts"],
-  "exclude": ["node_modules"]
+  "include": ["**/*.ts"],
+  "exclude": ["node_modules"],
+
+  /* for running scripts+examples: */
+  "ts-node": {
+    "compilerOptions": {
+      "module": "commonjs"
+    }
+  },
 }

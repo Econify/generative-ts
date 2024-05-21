@@ -17,7 +17,8 @@
     "prepublishOnly": "npm run check",
     "test": "jest",
     "test:cov": "jest --coverage",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "example": "ts-node -r dotenv/config ./examples/index.ts"
   },
   "dependencies": {
     "aws4": "^1.12.0",
@@ -50,6 +51,7 @@
     "rollup": "^4.17.2",
     "rollup-plugin-dts": "^6.1.0",
     "ts-jest": "^29.1.2",
+    "ts-node": "^10.9.2",
     "typescript": "^5.4.5"
   },
   "repository": {

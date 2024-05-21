@@ -27,6 +27,12 @@ const templateSource = `{
       "content": "{{ pair.assistant | safe }}"
     },
     {% endfor %}
+    {% for message in messages %}
+    {
+      "role": "{{ message.role }}",
+      "content": "{{ message.content | safe }}"
+    },
+    {% endfor %}
     {
       "role": "user",
       "content": "{{ prompt | safe }}"
@@ -35,35 +41,62 @@ const templateSource = `{
   {% if temperature %}, "temperature": {{ temperature }}{% endif %}
   {% if max_tokens %}, "max_tokens": {{ max_tokens }}{% endif %}
   {% if frequency_penalty %}, "frequency_penalty": {{ frequency_penalty }}{% endif %}
+  {% if logit_bias %}, "logit_bias": {{ logit_bias | to_json }}{% endif %}
   {% if logprobs %}, "logprobs": true{% endif %}
   {% if top_logprobs %}, "top_logprobs": {{ top_logprobs }}{% endif %}
   {% if n %}, "n": {{ n }}{% endif %}
   {% if presence_penalty %}, "presence_penalty": {{ presence_penalty }}{% endif %}
+  {% if response_format %}, "response_format": {{ response_format | to_json }}{% endif %}
   {% if seed %}, "seed": {{ seed }}{% endif %}
   {% if stop %}, "stop": {{ stop | to_json }}{% endif %}
   {% if top_p %}, "top_p": {{ top_p }}{% endif %}
+  {% if tools %}, "tools": {{ tools | to_json }}{% endif %}
+  {% if tool_choice %}, "tool_choice": {{ tool_choice | to_json }}{% endif %}
+  {% if user %}, "user": "{{ user }}{% endif %}
 }`;
 
 export interface OpenAiChatOptions
   extends ModelRequestOptions,
     FewShotRequestOptions {
+  messages?: {
+    role: "user" | "assistant" | "system";
+    content: string;
+  }[];
   temperature?: number;
   max_tokens?: number;
   frequency_penalty?: number;
-  // logit_bias: Record<string, number>;
+  logit_bias?: Record<string, number>;
   logprobs?: boolean;
   top_logprobs?: number;
   n?: number;
   presence_penalty?: number;
-  // response_format
+  response_format?: {
+    type: "text" | "json_object";
+  };
   seed?: number;
   stop?: string | string[];
   // stream
   // stream_options
   top_p?: number;
-  // tools
-  // tool_choice
-  // user
+  tools?: {
+    type: "function";
+    function: {
+      name: string;
+      description?: string;
+      parameters?: object; // TODO: JsonSchema
+    };
+  }[];
+  tool_choice?:
+    | "none"
+    | "auto"
+    | "required"
+    | {
+        type: "function";
+        function: {
+          name: string;
+        };
+      };
+  user?: string;
   // function_call
   // functions
 }

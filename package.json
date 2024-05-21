@@ -9,7 +9,7 @@
     "dist"
   ],
   "scripts": {
-    "build": "rollup -c",gut 
+    "build": "rollup -c",
     "check": "npm run typecheck && npm run lint && npm run test",
     "lint": "eslint src/",
     "lint:fix": "eslint --fix src/",

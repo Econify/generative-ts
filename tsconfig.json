@@ -4,8 +4,6 @@
     "module": "esnext",
     "lib": ["es6"],
     "importHelpers": true,
-    "declaration": true,
-    "declarationMap": true,
     "sourceMap": true,
     "esModuleInterop": true,
     "skipDefaultLibCheck": true,                      
@@ -17,6 +15,10 @@
     /* module resolution */
     "baseUrl": ".",
     "moduleResolution": "node",
+
+    /* rollup handles d.ts */
+    "declaration": false,
+    "declarationMap": false,
 
     /* solid ts */
     "strict": true ,

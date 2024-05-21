@@ -3,6 +3,7 @@ import commonjs from '@rollup/plugin-commonjs';
 import typescript from '@rollup/plugin-typescript';
 import terser from '@rollup/plugin-terser';
 import dts from 'rollup-plugin-dts';
+import { visualizer } from 'rollup-plugin-visualizer';
 
 const config = [
   // main bundles (cjs, esm)
@@ -24,7 +25,13 @@ const config = [
       typescript(),
       resolve(),
       commonjs(),
-      terser()
+      terser(),
+      visualizer({
+        filename: './stats.html',
+        open: true,
+        gzipSize: true,
+        brotliSize: true
+      })
     ],
     external: ['process']
   },

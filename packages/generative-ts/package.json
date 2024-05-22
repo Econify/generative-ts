@@ -6,12 +6,17 @@
   "module": "dist/bundle.esm.js",
   "types": "dist/index.d.ts",
   "files": [
-    "dist"
+    "dist/bundle.cjs.js",
+    "dist/bundle.cjs.js.map",
+    "dist/bundle.esm.js",
+    "dist/bundle.esm.js.map"
   ],
   "scripts": {
-    "build": "npm run clean && rollup -c",
+    "build": "npm run clean && npm run build:rollup",
+    "build:rollup": "rollup -c",
+    "build:dts": "tsc -b ./tsconfig.build-dts.json",
     "check": "npm run lint && npm run test",
-    "clean": "rm -rf dist",
+    "clean": "rm -rf dist && rm -rf .rollup.cache && rm -f *.tsbuildinfo",
     "lint": "eslint src/",
     "lint:fix": "eslint --fix src/",
     "prepublishOnly": "npm run check && npm run build",

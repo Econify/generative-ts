@@ -1,4 +1,4 @@
-import { baseConfig, dtsConfig } from '../../rollup.config.base.mjs';
+import { baseConfig } from '../../rollup.config.base.mjs';
 
 export default [
   // main bundles (cjs, esm)
@@ -17,14 +17,5 @@ export default [
       }
     ],
     ...baseConfig
-  },
-  // typedefs (index.d.ts)
-  {
-    input: 'src/index.ts',
-    output: [{
-      file: 'dist/index.d.ts',
-      format: 'es'
-    }],
-    ...dtsConfig
   }
 ];

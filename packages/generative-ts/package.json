@@ -1,0 +1,49 @@
+{
+  "name": "generative-ts",
+  "version": "0.1.0-alpha.3",
+  "description": "simple, type-safe, isomorphic LLM interactions (with power)",
+  "main": "dist/bundle.cjs.js",
+  "module": "dist/bundle.esm.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "npm run clean && rollup -c",
+    "check": "npm run lint && npm run test",
+    "clean": "rm -rf dist",
+    "lint": "eslint src/",
+    "lint:fix": "eslint --fix src/",
+    "prepublishOnly": "npm run check && npm run build",
+    "test": "jest",
+    "test:cov": "jest --coverage"
+  },
+  "dependencies": {
+    "@generative-ts/core": "^0.1.0-alpha.3",
+    "tslib": "^2.6.2"
+  },
+  "peerDependencies": {
+    "@generative-ts/core": "*"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Econify/generative-ts.git"
+  },
+  "author": "John M Naglick",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Econify/generative-ts/issues"
+  },
+  "homepage": "https://github.com/Econify/generative-ts#readme",
+  "keywords": [
+    "llm",
+    "gpt",
+    "llama",
+    "ts",
+    "generative",
+    "typescript"
+  ]
+}

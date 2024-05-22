@@ -1,19 +1,18 @@
-import { createAwsBedrockModelProvider } from "../src/providers/aws_bedrock";
 import {
+  Ai21Jurassic2Api,
+  AmazonTitanTextApi,
+  CohereGenerateApi,
+  createAwsBedrockModelProvider,
+  createCohereLegacyModelProvider,
+  createGroqModelProvider,
   createHuggingfaceInferenceModelProvider,
   createHuggingfaceTextGenerationModelProvider,
-} from "../src/providers/huggingface_inference";
-import { createOpenAiChatModelProvider } from "../src/providers/openai";
-import { createGroqModelProvider } from "../src/providers/groq";
-import { createLmStudioModelProvider } from "../src/providers/lm_studio";
-import { createCohereLegacyModelProvider } from "../src/providers/cohere";
-
-import { AmazonTitanTextApi } from "../src/apis/amazon_titan_text";
-import { CohereGenerateApi } from "../src/apis/cohere";
-import { Llama3ChatApi } from "../src/apis/meta";
-import { MistralApi } from "../src/apis/mistral";
-import { Ai21Jurassic2Api } from "../src/apis/ai21_jurassic2";
-import { HuggingfaceTextGenerationApi } from "../src/apis/huggingface";
+  createLmStudioModelProvider,
+  createOpenAiChatModelProvider,
+  HuggingfaceTextGenerationApi,
+  Llama3ChatApi,
+  MistralApi,
+} from "generative-ts";
 
 async function handleRequest<T>(
   promise: Promise<T>,

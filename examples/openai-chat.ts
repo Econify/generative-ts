@@ -1,4 +1,4 @@
-import { createOpenAiChatModelProvider } from "../src";
+import { createOpenAiChatModelProvider } from "generative-ts";
 
 async function main() {
   const prompt = "Brief History of NY Mets:";

@@ -3,7 +3,13 @@
   "description": "integration/e2e tests (just sanity checks on the generated bundles for now)",
   "private": true,
   "scripts": {
-    "test:cjs": "node ./cjs-bundle.test.js",
-    "test:esm": "node ./esm-bundle.test.mjs",
+    "test:cjs:node": "node ./cjs-bundle.test.js",
+    "test:cjs:browser": "open http://localhost:3001/tests/cjs-bundle.test.html && python3 -m http.server 3001 --directory ../",
+    "test:esm:node": "node ./esm-bundle.test.mjs",
+    "test:esm:browser": "open http://localhost:3001/tests/esm-bundle.test.html && python3 -m http.server 3001 --directory ../",
+    "browserify:cjs": "browserify ./cjs-bundle.test.js -o ./cjs-bundle.test.browserified.js"
+  },
+  "devDependencies": {
+    "browserify": "^17.0.0"
   }
 }

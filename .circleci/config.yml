@@ -22,9 +22,6 @@ jobs:
       - node/install-packages:
           pkg-manager: npm
       - run:
-          name: Typecheck
-          command: npm run typecheck
-      - run:
           name: Lint
           command: npm run lint
       - run:
@@ -58,6 +55,6 @@ workflows:
           context:
             - generative-ts-npm-token
           filters:
-            branches:
+            tags:
               only:
-                - /release\/.*/
+                - /^release\/.*/

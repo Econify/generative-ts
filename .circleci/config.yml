@@ -4,12 +4,13 @@ orbs:
   node: circleci/node@5.1.0
 
 jobs:
-  needful:
-    name: node/default
-  steps:
-    - run:
-        name: Something happened
-        command: echo It worked yay
+  awfawfafwafwafw:
+    executor:
+      name: node/default
+    steps:
+      - run:
+          name: ok
+          command: echo "ok"
   test:
     executor:
       name: node/default

@@ -1,30 +1,30 @@
 {
-  "name": "@generative-ts/core",
-  "version": "0.1.0-alpha.2",
-  "description": "simple, type-safe, isomorphic LLM interactions (with power)",
-  "main": "dist/bundle.cjs.js",
-  "module": "dist/bundle.esm.js",
-  "types": "dist/index.d.ts",
-  "files": [
-    "dist"
+  "name": "generative-ts-development",
+  "version": "0.1.0-alpha.3",
+  "private": true,
+  "description": "monorepo development configuration for generative-ts",
+  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Econify/generative-ts.git"
+  },
+  "author": "John M Naglick",
+  "homepage": "https://github.com/Econify/generative-ts#readme",
+  "bugs": {
+    "url": "https://github.com/Econify/generative-ts/issues"
+  },
+  "workspaces": [
+    "packages/*"
   ],
   "scripts": {
-    "build": "rollup -c",
-    "check": "npm run typecheck && npm run lint && npm run test",
-    "lint": "eslint src/",
-    "lint:fix": "eslint --fix src/",
-    "prepare": "npm run build",
-    "prepublishOnly": "npm run check",
-    "test": "jest",
-    "test:cov": "jest --coverage",
-    "typecheck": "tsc --noEmit"
-  },
-  "dependencies": {
-    "aws4": "^1.12.0",
-    "fp-ts": "^2.16.5",
-    "io-ts": "^2.2.21",
-    "nunjucks": "^3.2.4",
-    "tslib": "^2.6.2"
+    "build": "npm run clean && npm run build:core && npm run build:main",
+    "build:core": "npm run build -w @generative-ts/core",
+    "build:main": "npm run build -w generative-ts",
+    "clean": "npm run clean --workspaces",
+    "check": "npm run lint && npm run test",
+    "lint": "npm run lint --workspaces",
+    "test": "npm run test --workspaces",
+    "example": "ts-node -r tsconfig-paths/register -r dotenv/config ./examples/openai-chat.ts"
   },
   "devDependencies": {
     "@rollup/plugin-commonjs": "^25.0.7",
@@ -48,22 +48,11 @@
     "eslint-plugin-promise": "^6.1.1",
     "jest": "^29.7.0",
     "rollup": "^4.17.2",
-    "rollup-plugin-dts": "^6.1.0",
+    "rollup-plugin-visualizer": "^5.12.0",
     "ts-jest": "^29.1.2",
+    "ts-node": "^10.9.2",
+    "tsconfig-paths": "^4.2.0",
     "typescript": "^5.4.5"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/Econify/generative-ts.git"
-  },
-  "author": "John M Naglick",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/Econify/generative-ts/issues"
-  },
-  "homepage": "https://github.com/Econify/generative-ts#readme",
-  "publishConfig": {
-    "access": "public"
   },
   "keywords": [
     "llm",

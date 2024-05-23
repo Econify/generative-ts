@@ -1,0 +1,56 @@
+{
+  "name": "@generative-ts/core",
+  "version": "0.1.0-alpha.3",
+  "description": "Core functionalities for generative-ts",
+  "main": "dist/index.cjs",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
+  "exports": {
+    "default": "./dist/index.cjs",
+    "import": "./dist/index.mjs",
+    "types": "./dist/index.d.ts"
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "npm run clean && npm run build:rollup",
+    "build:rollup": "rollup -c",
+    "build:dts": "tsc -b ./tsconfig.build-dts.json",
+    "check": "npm run lint && npm run test",
+    "clean": "rm -rf dist && rm -rf .rollup.cache && rm -f *.tsbuildinfo",
+    "lint": "eslint src/",
+    "lint:fix": "eslint --fix src/",
+    "prepublishOnly": "npm run check && npm run build",
+    "test": "jest",
+    "test:cov": "jest --coverage"
+  },
+  "dependencies": {
+    "aws4": "^1.12.0",
+    "fp-ts": "^2.16.5",
+    "io-ts": "^2.2.21",
+    "nunjucks": "^3.2.4",
+    "tslib": "^2.6.2"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "license": "ISC",
+  "repository": {
+    "url": "Econify/generative-ts",
+    "directory": "packages/core"
+  },
+  "author": "John M Naglick",
+  "homepage": "https://github.com/Econify/generative-ts#readme",
+  "bugs": {
+    "url": "https://github.com/Econify/generative-ts/issues"
+  },
+  "keywords": [
+    "llm",
+    "gpt",
+    "llama",
+    "ts",
+    "generative",
+    "typescript"
+  ]
+}

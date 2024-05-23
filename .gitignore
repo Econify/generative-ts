@@ -2,3 +2,7 @@ node_modules
 dist
 coverage
 .env
+stats.html
+*.tsbuildinfo
+.rollup.cache
+.DS_Store

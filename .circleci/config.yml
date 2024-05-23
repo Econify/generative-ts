@@ -55,6 +55,9 @@ workflows:
           context:
             - generative-ts-npm-token
           filters:
+            branches:
+              ignore:
+                - /.*/
             tags:
               only:
                 - /^release\/.*/

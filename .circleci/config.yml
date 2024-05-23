@@ -4,13 +4,6 @@ orbs:
   node: circleci/node@5.1.0
 
 jobs:
-  needful:
-    executor:
-      name: node/default
-    steps:
-      - run:
-          name: ok
-          command: echo "ok"
   test:
     executor:
       name: node/default
@@ -21,7 +14,7 @@ jobs:
       - run:
           name: Run Tests
           command: npm run test
-  release:
+  publish:
     executor:
       name: node/default
     steps:
@@ -56,12 +49,12 @@ workflows:
               value: << pipeline.git.branch >>
     jobs:
       - test
-  push_release:
-    when:
-      matches:
-        pattern: '^release\/.*$'
-        value: << pipeline.git.tag >>
+  push_release_branch:
     jobs:
-      - needful:
+      - publish:
           context:
             - generative-ts-npm-token
+          filters:
+            branches:
+              only:
+                - /release\/.*/

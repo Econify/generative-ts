@@ -98,23 +98,8 @@ Encountered a bug? Report it here. TODO
 
 TODO: License details will be added here.
 
-- right nows:
-  // rollup
-  // docs
-  // relocate tests
-  // specs: templates, factory funcs
+## Package publishing and ownership.
 
-- features:
-  // rest client params (timeout, Proxy, what else?)
-  // memoization in template
-  // plugins
-  // response tracking
-  // utils that run on providers
+Both the "main" `generative-ts` package and the scoped `@generative-ts` packages are controlled by the generative-ts npm organization and require either 2FA or a granular access token for publishing. Currently the 'developer' team in the org only has read permissions to these packages, so that the only way they can be published is via ci/cd (as described below).
 
-- exploratory
-  // ToolUse common interfaces?
-  // do something about explicitly passing auth to awsProvider (param that controls it? Is that overcomplicating?)
-
-- infra
-  // try in browser
-  // look @ bundle size; build strategies separating providers
+Releases are published via circleci upon pushes to branches that have a name starting with `release/`. The job expects a circleci env variable called GENERATIVE_TS_NPM_TOKEN containing an NPM token that has publishing permissioned to both `generative-ts` and `@generative-ts`. Currently this is a "granular" token set to expire every 30 days, created by @jnaglick. In the future, members of the generative-ts npm organization will be able to create this token, if they are on a team that has read+write permissions to the packages.

@@ -1,6 +1,6 @@
 {
   "name": "@generative-ts/core",
-  "version": "0.1.0-alpha.3",
+  "version": "0.1.0-alpha.4",
   "description": "Core functionalities for generative-ts",
   "main": "dist/index.cjs",
   "module": "dist/index.mjs",

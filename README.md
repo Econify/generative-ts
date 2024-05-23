@@ -1,103 +1,120 @@
-# 🦧 generative.ts
+# Generative-TS
 
-generative.ts is a typescript first library for easily interfacing with LLMs.
+**Simple, type-safe, isomorphic LLM interactions.**
 
-* It provides typesafe interfaces for popular model APIs and service providers *as they're defined by the people who make them* -- It's **NOT** an attempt at a *universal* interface
+Generative-TS is a TypeScript library designed to simplify the process of developing applications powered by large language models (LLMs). This library makes it easy to interact with various LLMs and model providers, ensuring a smooth and efficient development experience.
 
-* It gives you the lowest level of control (in most cases, HTTP) over model interactions. Control things you otherwise couldn't like timeouts, retries, and proxies -- It's **NOT** a wrapper around other existing SDKs or libraries. 
+## Features
 
-* It allows you to build a very tiny bundle and it's isomorphic. Drop it into any JS environment and it should start working -- It's **NOT** heavy
-
-* A guiding design principle is that "Agent AI" is easiest to write using normal, imperative code. You don't have to learn a new way of making API calls -- It's **NOT** declarative or configuration based.
-
-* It's a minimal but feature-rich utility library -- It's **NOT** a framework
-
-* It gives sensible default implementations but also allows you fine grained control. You can easily define new model APIs and service providers. You can inject your own http client or template rendering function -- It's **NOT** opinionated
-
-*generative.ts does the tedious stuff like type-checking and error-handling, allowing you to write the interesting stuff like RAG context grooming and new AI agents*
+- **Simple interface**: Easy to use and understand. TODO
+- **Type safety**: Leverages TypeScript to provide type-safe interactions. TODO
+- **Isomorphic**: Works seamlessly on both server and client sides.
+- **Tiny bundle size**: Minimal footprint for optimal performance. TODO
 
 ## Install
 
+```sh
+npm install generative-ts
 ```
-npm i generative-ts
+
+## Developing
+
+```sh
+nvm use
+npm install
 ```
 
-## Examples
+## How it Works
 
-### Basic Usage
+### APIs
 
-A good example of the use-case of generative.ts is comparing how it looks to use (1) gpt4 on openAI (2) llama3 on AWS bedrock (3) llama3 on groq
+Model APIs help you talk to different models easily without obsessing over the prompt template format, model configuration parameters, and response format. Generative-TS abstracts away these complexities, providing a unified interface for various LLMs.
 
-The reason this is a good example is because it highlights the diversity of the ecosystem. OpenAI provides both models and services. AWS Bedrock is only a service, and exposes the APIs of the models it hosts as-is. Whereas Groq is a service but puts all the models it hosts behind the OpenAI API. 
+Currently supported models:
 
-This mix-and-match of "APIs" and "Providers" is found throughout the ecosystem, so it's also the main pattern of generative-ts. It turns out that it allows for a lot of flexibility:
+- Cohere
+- Llama 2
+- Llama 3
+- OpenAI
+- Jurassic
 
-(**These are just 3 examples** -- see [TODO] for the complete list of supported models and providers, and see [TODO] for how to add your own)
+### Providers
 
-#### GPT4 on OpenAI
+Model Providers help you interact with your models easily no matter where you host them. Generative-TS ensures seamless integration with different hosting environments, allowing you to focus on building your application rather than managing infrastructure.
 
+Currently supported providers:
+
+- Bedrock
+- Groq
+- LM Studio
+
+## Usage
+
+### Importing API and Provider
+
+```ts
+import { createAwsBedrockModelProvider } from "$generative-ts/providers/aws_bedrock";
+import { Llama3ChatApi } from "$generative-ts/apis/meta";
 ```
-import { createOpenAiChatModelProvider } from "generative-ts";
 
-const gpt4 = createOpenAiChatModelProvider({
-  modelId: "gpt-4-turbo", // the modelId as defined by openAI
+### Instantiating a Model Provider
+
+```ts
+const model = createAwsBedrockModelProvider({
+  api: Llama3ChatApi,
+  modelId: "meta.llama3-8b-instruct-v1:0",
+  // Optional
+  auth: {
+    accessKeyId: "TODO",
+    secretAccessKey: "TODO",
+    region: "us-east-1",
+  },
 });
-
-const response = await gpt4.sendRequest({
-  prompt: "Tell me the history of the NY Mets"
-
-  // all OpenAI Chat Completion options are available here:
-  temperature: 1.0,
-  max_tokens: 1024,
-})
-
-console.log(response.choices[0]?.message.content) // the typesafe chat completion response
 ```
 
-#### Llama3 on AWS Bedrock
+### Custom HTTP Client
 
-```
-import { 
-  createAwsBedrockModelProvider,
-  Llama3ChatApi,
-} from "generative-ts";
-
-const llama3 = createAwsBedrockModelProvider({
-  api: Llama3ChatApi, // bedrock provides many different APIs
-  modelId: "meta.llama3-8b-instruct-v1:0", // the modelId as defined by bedrock
-});
-
-const response = await llama3.sendRequest({
-  prompt: "Tell me the history of the NY Mets",
-
-  // all LLama3 Chat options are available here:
-  temperature: 1.0,
-  max_gen_len: 1024,
-})
-
-console.log(response.generation) // the typesafe llama3 chat response
+```ts
+todo;
 ```
 
-#### Llama3 on Groq
+### Additional Examples
 
-```
-import { createGroqModelProvider } from "generative-ts";
+For more examples, please refer to the /examples folder in the repository.
 
-const llama3 = createGroqModelProvider({
-  // no 'api' option is necessary. like OpenAI, everything on groq uses the openAI API.
-  modelId: "llama3-70b-8192", // the modelId as defined by groq
-});
+## Contributing
 
-const response = await llama3.sendRequest({
-  prompt: "Tell me the history of the NY Mets"
+We welcome contributions! Please check out the open Github Issues for a starting point.
 
-  // all OpenAI Chat Completion options are available here:
-  temperature: 1.0,
-  max_tokens: 1024,
-})
+## Submit Feature Request
 
-console.log(response.choices[0]?.message.content) // the typesafe chat completion response
-```
+Have a feature request? Please submit it here. TODO
 
-### Etc...
+## Report Bug
 
+Encountered a bug? Report it here. TODO
+
+## License
+
+TODO: License details will be added here.
+
+- right nows:
+  // rollup
+  // docs
+  // relocate tests
+  // specs: templates, factory funcs
+
+- features:
+  // rest client params (timeout, Proxy, what else?)
+  // memoization in template
+  // plugins
+  // response tracking
+  // utils that run on providers
+
+- exploratory
+  // ToolUse common interfaces?
+  // do something about explicitly passing auth to awsProvider (param that controls it? Is that overcomplicating?)
+
+- infra
+  // try in browser
+  // look @ bundle size; build strategies separating providers

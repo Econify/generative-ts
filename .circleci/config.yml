@@ -55,12 +55,3 @@ workflows:
               value: << pipeline.git.branch >>
     jobs:
       - test
-  push_release:
-    when:
-      matches:
-        pattern: '^release\/.*$'
-        value: << pipeline.git.tag >>
-    jobs:
-      - needful:
-          context:
-            - generative-ts-npm-token

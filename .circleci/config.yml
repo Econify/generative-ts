@@ -4,6 +4,12 @@ orbs:
   node: circleci/node@5.1.0
 
 jobs:
+  needful:
+    name: node/default
+  steps:
+    - run:
+        name: Something happened!
+        command: echo It worked yay
   test:
     executor:
       name: node/default
@@ -50,12 +56,11 @@ workflows:
     jobs:
       - test
   push_release:
+    when:
+      matches:
+        pattern: '^release\/.*$'
+        value: << pipeline.git.tag >>
     jobs:
-      - release:
+      - needful:
           context:
             - generative-ts-npm-token
-          filters:
-            tags:
-              only: /^release.*/
-            branches:
-              ignore: /.*/

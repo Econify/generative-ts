@@ -1,8 +1,18 @@
 {
   "name": "generative-ts-development",
   "version": "0.1.0-alpha.3",
-  "description": "Defines monorepo development configuration for generative-ts. Should not be published or installed directly.",
   "private": true,
+  "description": "monorepo development configuration for generative-ts",
+  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Econify/generative-ts.git"
+  },
+  "author": "John M Naglick",
+  "homepage": "https://github.com/Econify/generative-ts#readme",
+  "bugs": {
+    "url": "https://github.com/Econify/generative-ts/issues"
+  },
   "workspaces": [
     "packages/*"
   ],
@@ -44,16 +54,6 @@
     "tsconfig-paths": "^4.2.0",
     "typescript": "^5.4.5"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/Econify/generative-ts.git"
-  },
-  "author": "John M Naglick",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/Econify/generative-ts/issues"
-  },
-  "homepage": "https://github.com/Econify/generative-ts#readme",
   "keywords": [
     "llm",
     "gpt",

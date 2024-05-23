@@ -1,0 +1,9 @@
+{
+  "name": "generative-ts-tests",
+  "description": "integration/e2e tests (just sanity checks on the generated bundles for now)",
+  "private": true,
+  "scripts": {
+    "test:cjs": "node ./cjs-bundle.test.js",
+    "test:esm": "node ./esm-bundle.test.mjs",
+  }
+}

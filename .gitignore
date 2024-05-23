@@ -5,3 +5,4 @@ coverage
 stats.html
 *.tsbuildinfo
 .rollup.cache
+.DS_Store

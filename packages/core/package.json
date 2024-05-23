@@ -2,14 +2,16 @@
   "name": "@generative-ts/core",
   "version": "0.1.0-alpha.3",
   "description": "Core functionalities for generative-ts",
-  "main": "dist/bundle.cjs.js",
-  "module": "dist/bundle.esm.js",
+  "main": "dist/index.cjs",
+  "module": "dist/index.mjs",
   "types": "dist/index.d.ts",
+  "exports": {
+    "default": "./dist/index.cjs",
+    "import": "./dist/index.mjs",
+    "types": "./dist/index.d.ts"
+  },
   "files": [
-    "dist/bundle.cjs.js",
-    "dist/bundle.cjs.js.map",
-    "dist/bundle.esm.js",
-    "dist/bundle.esm.js.map"
+    "dist"
   ],
   "scripts": {
     "build": "npm run clean && npm run build:rollup",
@@ -33,16 +35,16 @@
   "publishConfig": {
     "access": "public"
   },
+  "license": "ISC",
   "repository": {
-    "type": "git",
-    "url": "git+https://github.com/Econify/generative-ts.git"
+    "url": "Econify/generative-ts",
+    "directory": "packages/core"
   },
   "author": "John M Naglick",
-  "license": "ISC",
+  "homepage": "https://github.com/Econify/generative-ts#readme",
   "bugs": {
     "url": "https://github.com/Econify/generative-ts/issues"
   },
-  "homepage": "https://github.com/Econify/generative-ts#readme",
   "keywords": [
     "llm",
     "gpt",

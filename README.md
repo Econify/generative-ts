@@ -4,13 +4,15 @@
 
 generative-ts provides a strongly-typed interface for invoking LLMs from various service providers as defined by their own APIs. It’s not a "universal interface," set of heavy abstractions, or wrapper around existing SDKs. Instead, it offers an easy way to get type-safe requests and responses from multiple LLM providers using their actual APIs. It has some useful features purpose-built for LLMs, and it’s designed for the TypeScript ecosystem with a minimal footprint and high portability in mind.
 
-## Features
+## Design Goals
 
-- **Simple interface**: Easy to use and understand. TODO
-- **Type safety**: Leverages TypeScript to provide type-safe interactions. TODO
-- **Isomorphic**: Works seamlessly on both server and client sides.
-- **Tiny bundle size**: Minimal footprint for optimal performance. TODO
-- **HTTP-level control**: It uses native fetch (or optionally lets you to pass your own client) to interact with models APIs, giving you uniform control of the request at the http level
+- **Simple**: Invoke many different popular models and providers out of the box, using their native interfaces, with a couple lines of code
+- **Typesafe**: todo
+- **Customizable**: Built on interfaces and injectable dependencies, you can define your own APIs and Providers, supply your own Template implementation, or use your own HTTP client.
+- **Portable**: Runs in node or the browser, ships with cjs, esm, and browser-optimized bundles
+- **Minimal**: Minimal dependencies, <100KB bundles, and [scoped packages](#packages) for fine-grain installs 
+- **HTTP-level control**: It uses native fetch (or optionally lets you to [pass your own client](#custom-http-client)) to interact with models APIs, giving you uniform control of the request at the http level
+- **Useful**: todo 
 
 ## Install
 
@@ -26,50 +28,53 @@ You can also do more granular installs of scoped packages if you want to optimiz
 
 TODO explain concept of APIs vs. Providers here
 
-### APIs
+### ModelAPIs
 
-* AI21 Jurrassic
-* Amazon Titan Text
-* Antrophic: TODO
-* Cohere: chat and generate (legacy) 
-* Huggingface Inference: Text Generation (and TODO)
-* Meta: LLama2 chat, LLama3 chat
-* Mistral (TODO: name?)
-* OpenAI: chat
-* (see TODO about adding your own)
+* AI21: Jurrassic
+* Amazon: Titan Text
+* Cohere: Chat and Generate
+* Huggingface Inference: Text Generation; Conversational (TODO!)
+* Meta: LLama2 Chat; LLama3 Chat
+* Mistral: Mistral AI API 0.0.2 ChatCompletion; Bedrock-compliant 
+* OpenAI: ChatCompletion
+* Antrophic: (COMING SOON)
+* Google: Gemini (COMING SOON)
 
-### Providers
+### ModelProviders
 
 * AWS Bedrock
 * Cohere
 * Groq
 * Huggingface Inference
-* LMStudio
 * OpenAI
-* Any model provider with an HTTP interface should be trivial to add (see TODO)
+* Replicate (TODO!)
+* LMStudio
+* LLamafile (TODO - OpenAI ChatCompletion)
+* vLLM (TODO - OpenAI ChatCompletion)
+* Google Vertex AI (COMING SOON)
+* Microsoft Azure (COMING SOON?)
+
+It's also easy to add your own APIs and ModelProviders (TODO section)
 
 ## Usage
 
-### Importing API and Provider
+### Hello gpt
 
 ```ts
-import { createAwsBedrockModelProvider } from "$generative-ts/providers/aws_bedrock";
-import { Llama3ChatApi } from "$generative-ts/apis/meta";
-```
+import { createOpenAiChatModelProvider } from "generative-ts";
 
-### Instantiating a Model Provider
-
-```ts
-const model = createAwsBedrockModelProvider({
-  api: Llama3ChatApi,
-  modelId: "meta.llama3-8b-instruct-v1:0",
-  // Optional
-  auth: {
-    accessKeyId: "TODO",
-    secretAccessKey: "TODO",
-    region: "us-east-1",
-  },
+const gpt = createOpenAiChatModelProvider({
+  modelId: "gpt-3.5-turbo",
+  // you can explicitly pass auth here, otherwise by default it is read from process.env
 });
+
+const response = await gpt.sendRequest({
+  prompt: "Brief History of NY Mets:",
+  temperature: 1.0,
+  // all other OpenAI Chat Completion options are available here
+});
+
+console.log(response.choices[0]?.message); // the response has been runtime validated within a typeguard, so this is also typesafe
 ```
 
 ### Custom HTTP Client
@@ -92,7 +97,7 @@ If you're using a modern bundler, just install generative-ts to get everything. 
 | `@generative-ts/core`        | Core functionality (zero dependencies)                      | Interfaces, classes, utilities, etc                                                                                           |
 | `@generative-ts/providers`   | All Model Providers                    | All `ModelProvider` implementations that aren't in their own packages. Most providers don't require any special dependencies so are here                         |
 | `@generative-ts/provider-bedrock` | AWS Bedrock provider                    | This is its own package because it uses the `aws4` dependency to properly authenticate when running in AWS environments        |
-| `@generative-ts/apis`        | Model APIs                             | `ModelAPI` implementations. These use some internal dependencies (like `ejs` for templating) which arent strictly necessary if you want to use your own implementation of `ModelAPI` (see docs of `ModelAPI` for full details -- **TODO**) |
+| `@generative-ts/apis`        | Model APIs                             | `ModelAPI` implementations. These use some internal dependencies (like `ejs` for templating) which arent strictly necessary because you can implement your own (see docs of `ModelAPI` for full details -- **TODO**) |
 
 
 ## Contributing
@@ -104,7 +109,7 @@ nvm use
 npm install
 ```
 
-From there you can run the example scripts (`npm run example`) which import from src/ or the "e2e tests" in `tests/`
+From there you can run the examples (`npm run example`) or the "e2e tests" in `tests/`
 
 ## Report Bugs / Submit Feature Requests
 
@@ -116,6 +121,6 @@ Encountered a bug or have a feature request? Please submit issues here: https://
 
 ## Package publishing and ownership
 
-Both the "main" `generative-ts` package and the scoped `@generative-ts` packages are controlled by the generative-ts npm organization and require either 2FA or a granular access token for publishing. Currently the 'developer' team in the org only has read permissions to these packages, so that the only way they can be published is via ci/cd (as described below).
+Both the "main" `generative-ts` package and the scoped `@generative-ts` packages are controlled by the generative-ts npm organization. Currently the 'developer' team in the org only has read permissions. The only way the packages can be published is via ci/cd.
 
-Releases are published via circleci job upon pushes to branches that have a name starting with `release/`. The job requires an NPM token that has publishing permissions to both `generative-ts` and `@generative-ts`. Currently this is a "granular" token set to expire every 30 days, created by @jnaglick
+Releases are published via circleci job upon pushes to branches that have a name starting with `release/`. The job requires an NPM token that has publishing permissions to both `generative-ts` and `@generative-ts`. Currently this is a "granular" token set to expire every 30 days, created by @jnaglick, set in a circleci context.

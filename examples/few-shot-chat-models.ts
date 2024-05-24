@@ -15,8 +15,8 @@ const payload = {
         '{ "answer": "The Chicago Cubs won the World Series in 2016." }',
     },
     {
-      user: "Brief History of NY Mets:",
-      assistant: '{ "answer": "The NY Mets won the World Series in 1969." }',
+      user: "Brief History of LA Dodgers:",
+      assistant: '{ "answer": "The LA Dodgers won the World Series in 2020." }',
     },
   ],
   prompt: "Brief History of NY Mets:",

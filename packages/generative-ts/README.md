@@ -26,7 +26,7 @@ You can also do more granular installs of scoped packages if you want to optimiz
 
 ## How it Works
 
-TODO explain concept of APIs vs. Providers here
+TODO explain concept of ModelAPIs vs ModelProviders here
 
 ### ModelAPIs
 
@@ -35,7 +35,7 @@ TODO explain concept of APIs vs. Providers here
 * Cohere: Chat and Generate
 * Huggingface Inference: Text Generation; Conversational (TODO!)
 * Meta: LLama2 Chat; LLama3 Chat
-* Mistral: Mistral AI API 0.0.2 ChatCompletion; Bedrock-compliant 
+* Mistral: Mistral AI API ChatCompletion; Mistral Bedrock
 * OpenAI: ChatCompletion
 * Antrophic: (COMING SOON)
 * Google: Gemini (COMING SOON)
@@ -48,9 +48,10 @@ TODO explain concept of APIs vs. Providers here
 * Huggingface Inference
 * OpenAI
 * Replicate (TODO!)
+* Mistral (TODO!)
 * LMStudio
-* LLamafile (TODO - OpenAI ChatCompletion)
-* vLLM (TODO - OpenAI ChatCompletion)
+* LLamafile (TODO - OpenAI ChatCompletion running local)
+* vLLM (TODO - OpenAI ChatCompletion running local)
 * Google Vertex AI (COMING SOON)
 * Microsoft Azure (COMING SOON?)
 

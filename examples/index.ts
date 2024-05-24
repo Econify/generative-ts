@@ -9,7 +9,7 @@ import {
   createLmStudioModelProvider,
   createOpenAiChatModelProvider,
   Llama3ChatApi,
-  MistralApi,
+  MistralBedrockApi,
 } from "packages/generative-ts/src";
 
 async function main() {
@@ -35,7 +35,7 @@ async function main() {
   });
 
   const mistral = createAwsBedrockModelProvider({
-    api: MistralApi,
+    api: MistralBedrockApi,
     modelId: "mistral.mistral-7b-instruct-v0:2",
   });
 

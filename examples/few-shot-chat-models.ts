@@ -3,6 +3,7 @@ import {
   createOpenAiChatModelProvider,
   Llama2ChatApi,
   Llama3ChatApi,
+  MistralBedrockApi,
 } from "packages/generative-ts/src";
 
 const payload = {
@@ -37,6 +38,11 @@ async function main() {
     modelId: "meta.llama3-8b-instruct-v1:0",
   });
 
+  const mistral = createAwsBedrockModelProvider({
+    api: MistralBedrockApi,
+    modelId: "mistral.mistral-7b-instruct-v0:2",
+  });
+
   return Promise.all([
     (async () => {
       const r = await gptProvider.sendRequest(payload);
@@ -55,6 +61,12 @@ async function main() {
 
       console.log("\nLlama3 Response:");
       console.log(r.generation);
+    })(),
+    (async () => {
+      const r = await mistral.sendRequest(payload);
+
+      console.log("\nMistral Response:");
+      console.log(r.outputs[0]?.text);
     })(),
   ]);
 }

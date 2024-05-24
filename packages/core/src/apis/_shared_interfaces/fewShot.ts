@@ -1,8 +1,6 @@
 import { Template } from "../../utils/template";
 
-// import type { ModelRequestOptions } from "../../typeDefs";
-
-const templateSource = `<% if (typeof system !== 'undefined') { %>
+export const FewShotPromptTemplateSource = `<% if (typeof system !== 'undefined') { %>
   INSTRUCTIONS:
   <%= system %>
   <% } %>
@@ -26,5 +24,5 @@ export interface FewShotRequestOptions {
 }
 
 export const FewShotPromptTemplate = new Template<FewShotRequestOptions>(
-  templateSource,
+  FewShotPromptTemplateSource,
 );

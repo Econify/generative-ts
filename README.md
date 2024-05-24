@@ -30,14 +30,14 @@ TODO explain concept of ModelAPIs vs ModelProviders here
 
 ### ModelAPIs
 
-* AI21: Jurrassic
-* Amazon: Titan Text
-* Cohere: Chat and Generate
-* Huggingface Inference: Text Generation; Conversational (TODO!)
+* AI21 Jurrassic
+* Amazon Titan Text
+* Cohere: Chat; Generate
+* Huggingface: Text Generation task; Conversational task
 * Meta: LLama2 Chat; LLama3 Chat
-* Mistral: Mistral AI API ChatCompletion; Mistral Bedrock
+* Mistral: ChatCompletion; Bedrock
 * OpenAI: ChatCompletion
-* Antrophic: (COMING SOON)
+* Antrophic: ? (COMING SOON)
 * Google: Gemini (COMING SOON)
 
 ### ModelProviders

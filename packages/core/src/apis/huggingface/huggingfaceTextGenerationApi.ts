@@ -30,7 +30,7 @@ const templateSource = `{
   <% } %>
 }`;
 
-export interface HuggingfaceTextGenerationOptions extends ModelRequestOptions {
+export interface HfTextGenerationTaskOptions extends ModelRequestOptions {
   parameters?: {
     top_k?: number;
     top_p?: number;
@@ -48,29 +48,29 @@ export interface HuggingfaceTextGenerationOptions extends ModelRequestOptions {
   };
 }
 
-export const HuggingfaceTextGenerationTemplate =
-  new Template<HuggingfaceTextGenerationOptions>(templateSource);
+export const HfTextGenerationTaskTemplate =
+  new Template<HfTextGenerationTaskOptions>(templateSource);
 
-const HuggingfaceTextGenerationResponseCodec = t.array(
+const HfTextGenerationTaskResponseCodec = t.array(
   t.type({
     generated_text: t.string,
   }),
 );
 
-export type HuggingfaceTextGenerationResponse = TypeOf<
-  typeof HuggingfaceTextGenerationResponseCodec
+export type HfTextGenerationTaskResponse = TypeOf<
+  typeof HfTextGenerationTaskResponseCodec
 >;
 
-export function isHuggingfaceTextGenerationResponse(
+export function isHfTextGenerationTaskResponse(
   response: unknown,
-): response is HuggingfaceTextGenerationResponse {
-  return !isLeft(HuggingfaceTextGenerationResponseCodec.decode(response));
+): response is HfTextGenerationTaskResponse {
+  return !isLeft(HfTextGenerationTaskResponseCodec.decode(response));
 }
 
-export const HuggingfaceTextGenerationApi: ModelApi<
-  HuggingfaceTextGenerationOptions,
-  HuggingfaceTextGenerationResponse
+export const HfTextGenerationTaskApi: ModelApi<
+  HfTextGenerationTaskOptions,
+  HfTextGenerationTaskResponse
 > = {
-  requestTemplate: HuggingfaceTextGenerationTemplate,
-  responseGuard: isHuggingfaceTextGenerationResponse,
+  requestTemplate: HfTextGenerationTaskTemplate,
+  responseGuard: isHfTextGenerationTaskResponse,
 };

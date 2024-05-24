@@ -1,12 +1,12 @@
 import type { HttpClient } from "../../typeDefs";
 
-import { HfTextGenerationTaskApi } from "../../apis/huggingface";
+import { HfConversationalTaskApi } from "../../apis/huggingface";
 
 import { createHuggingfaceInferenceModelProvider } from "./createHuggingfaceInferenceModelProvider";
 
 import { HuggingfaceAuthConfig } from "./loadAuthConfig";
 
-export function createHuggingfaceTextGenerationModelProvider({
+export function createHuggingfaceConversationalModelProvider({
   modelId,
   client,
   auth,
@@ -16,7 +16,7 @@ export function createHuggingfaceTextGenerationModelProvider({
   auth?: HuggingfaceAuthConfig;
 }) {
   return createHuggingfaceInferenceModelProvider({
-    api: HfTextGenerationTaskApi,
+    api: HfConversationalTaskApi,
     modelId,
     client,
     auth,

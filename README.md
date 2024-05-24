@@ -1,8 +1,8 @@
-# Generative-TS
+# generative-ts
 
-**Simple, type-safe, isomorphic LLM interactions.**
+**a typescript-first utility library for building LLM applications+agents for node and the browser**
 
-Generative-TS is a TypeScript library designed to simplify the process of developing applications powered by large language models (LLMs). This library makes it easy to interact with various LLMs and model providers, ensuring a smooth and efficient development experience.
+generative-ts provides a strongly-typed interface for invoking LLMs from various service providers as defined by their own APIs. It’s not a "universal interface," set of heavy abstractions, or wrapper around existing SDKs. Instead, it offers an easy way to get type-safe requests and responses from multiple LLM providers using their actual APIs. It has some useful features purpose-built for LLMs, and it’s designed for the TypeScript ecosystem with a minimal footprint and high portability in mind.
 
 ## Features
 
@@ -10,43 +10,43 @@ Generative-TS is a TypeScript library designed to simplify the process of develo
 - **Type safety**: Leverages TypeScript to provide type-safe interactions. TODO
 - **Isomorphic**: Works seamlessly on both server and client sides.
 - **Tiny bundle size**: Minimal footprint for optimal performance. TODO
+- **HTTP-level control**: It uses native fetch (or optionally lets you to pass your own client) to interact with models APIs, giving you uniform control of the request at the http level
 
 ## Install
 
-```sh
-npm install generative-ts
-```
-
-## Developing
+To install everything:
 
 ```sh
-nvm use
-npm install
+npm i generative-ts
 ```
+
+You can also do more granular installs of scoped packages if you want to optimize your builds further (see [packages](#packages))
 
 ## How it Works
 
+TODO explain concept of APIs vs. Providers here
+
 ### APIs
 
-Model APIs help you talk to different models easily without obsessing over the prompt template format, model configuration parameters, and response format. Generative-TS abstracts away these complexities, providing a unified interface for various LLMs.
-
-Currently supported models:
-
-- Cohere
-- Llama 2
-- Llama 3
-- OpenAI
-- Jurassic
+* AI21 Jurrassic
+* Amazon Titan Text
+* Antrophic: TODO
+* Cohere: chat and generate (legacy) 
+* Huggingface Inference: Text Generation (and TODO)
+* Meta: LLama2 chat, LLama3 chat
+* Mistral (TODO: name?)
+* OpenAI: chat
+* (see TODO about adding your own)
 
 ### Providers
 
-Model Providers help you interact with your models easily no matter where you host them. Generative-TS ensures seamless integration with different hosting environments, allowing you to focus on building your application rather than managing infrastructure.
-
-Currently supported providers:
-
-- Bedrock
-- Groq
-- LM Studio
+* AWS Bedrock
+* Cohere
+* Groq
+* Huggingface Inference
+* LMStudio
+* OpenAI
+* Any model provider with an HTTP interface should be trivial to add (see TODO)
 
 ## Usage
 
@@ -82,24 +82,40 @@ todo;
 
 For more examples, please refer to the /examples folder in the repository.
 
+## Packages
+
+If you're using a modern bundler, just install generative-ts to get everything. Modern bundlers support tree-shaking, so your final bundle won't include unused code. (Note: we distribute both ESM and CJS bundles for compatibility.) If you prefer to avoid unnecessary downloads, or you're operating under constraints where tree-shaking isn't an option, we offer scoped packages under @generative-ts/ with specific functionality for more fine-grained installs.
+
+|Package|Description||
+|-|-|-|
+| `generative-ts`              | Everything                             | Includes all scoped packages listed below                                                                                                  |
+| `@generative-ts/core`        | Core functionality (zero dependencies)                      | Interfaces, classes, utilities, etc                                                                                           |
+| `@generative-ts/providers`   | All Model Providers                    | All `ModelProvider` implementations that aren't in their own packages. Most providers don't require any special dependencies so are here                         |
+| `@generative-ts/provider-bedrock` | AWS Bedrock provider                    | This is its own package because it uses the `aws4` dependency to properly authenticate when running in AWS environments        |
+| `@generative-ts/apis`        | Model APIs                             | `ModelAPI` implementations. These use some internal dependencies (like `ejs` for templating) which arent strictly necessary if you want to use your own implementation of `ModelAPI` (see docs of `ModelAPI` for full details -- **TODO**) |
+
+
 ## Contributing
 
-We welcome contributions! Please check out the open Github Issues for a starting point.
+We welcome contributions! To get started developing, clone the repository and run:
 
-## Submit Feature Request
+```sh
+nvm use
+npm install
+```
 
-Have a feature request? Please submit it here. TODO
+From there you can run the example scripts (`npm run example`) which import from src/ or the "e2e tests" in `tests/`
 
-## Report Bug
+## Report Bugs / Submit Feature Requests
 
-Encountered a bug? Report it here. TODO
+Encountered a bug or have a feature request? Please submit issues here: https://github.com/Econify/generative-ts/issues
 
 ## License
 
-TODO: License details will be added here.
+**TODO**: License details will be added here.
 
-## Package publishing and ownership.
+## Package publishing and ownership
 
 Both the "main" `generative-ts` package and the scoped `@generative-ts` packages are controlled by the generative-ts npm organization and require either 2FA or a granular access token for publishing. Currently the 'developer' team in the org only has read permissions to these packages, so that the only way they can be published is via ci/cd (as described below).
 
-Releases are published via circleci upon pushes to branches that have a name starting with `release/`. The job expects a circleci env variable called GENERATIVE_TS_NPM_TOKEN containing an NPM token that has publishing permissioned to both `generative-ts` and `@generative-ts`. Currently this is a "granular" token set to expire every 30 days, created by @jnaglick. In the future, members of the generative-ts npm organization will be able to create this token, if they are on a team that has read+write permissions to the packages.
+Releases are published via circleci job upon pushes to branches that have a name starting with `release/`. The job requires an NPM token that has publishing permissions to both `generative-ts` and `@generative-ts`. Currently this is a "granular" token set to expire every 30 days, created by @jnaglick

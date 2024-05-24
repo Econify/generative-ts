@@ -1,29 +1,30 @@
-// import { Template } from "../../utils/template";
+import { Template } from "../../utils/template";
 
 // import type { ModelRequestOptions } from "../../typeDefs";
 
-// const templateSource = `{
-//   {{ system | safe }}
+const templateSource = `<% if (typeof system !== 'undefined') { %>
+  INSTRUCTIONS:
+  <%= system %>
+  <% } %>
 
-//   EXAMPLES:
+  <% (typeof examplePairs !== 'undefined' ? examplePairs : []).forEach(pair => {
+  User:
+  <%= pair.user %>
+  Assistant:
+  <%= pair.assistant %>
+  }) %>
 
-//   {% for pair in examplePairs %}
-//   User:
-//   {{ pair.user | safe }}
-//   Assistant:
-//   {{ pair.assistant | safe }}
-//   {% endfor %}
-
-//   User:
-//   {{ prompt | safe }}
-//   Assistant:
-// }`;
+  User:
+  <%= prompt %>
+  Assistant:
+`;
 
 export interface FewShotRequestOptions {
+  prompt: string;
   system?: string;
   examplePairs?: { user: string; assistant: string }[];
 }
 
-// export const FewShotTemplate = new Template<
-//   FewShotRequestOptions & ModelRequestOptions
-// >(templateSource);
+export const FewShotPromptTemplate = new Template<FewShotRequestOptions>(
+  templateSource,
+);

@@ -6,23 +6,15 @@ import type { ModelApi, ModelRequestOptions } from "../typeDefs";
 
 import { Template } from "../utils/template";
 
+// TODO LLama2 ChatML!
+
 const templateSource = `{
-  "prompt": "{{ prompt | safe }}"
-  {% if max_tokens %}
-    , "max_tokens": {{ max_tokens }}
-  {% endif %}
-  {% if stop %}
-    , "stop": [{{ stop | join(', ') | safe }}]
-  {% endif %}
-  {% if temperature %}
-    , "temperature": {{ temperature }}
-  {% endif %}
-  {% if top_p %}
-    , "top_p": {{ top_p }}
-  {% endif %}
-  {% if top_k %}
-    , "top_k": {{ top_k }}
-  {% endif %}
+  "prompt": "<%= prompt %>"
+  <% if (typeof max_tokens !== 'undefined') { %>, "max_tokens": <%= max_tokens %><% } %>
+  <% if (typeof stop !== 'undefined') { %>, "stop": [<%= stop.join(', ') %>]<% } %>
+  <% if (typeof temperature !== 'undefined') { %>, "temperature": <%= temperature %><% } %>
+  <% if (typeof top_p !== 'undefined') { %>, "top_p": <%= top_p %><% } %>
+  <% if (typeof top_k !== 'undefined') { %>, "top_k": <%= top_k %><% } %>  
 }`;
 
 export interface MistralOptions extends ModelRequestOptions {

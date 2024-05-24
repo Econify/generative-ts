@@ -5,14 +5,12 @@ import {
   createAwsBedrockModelProvider,
   createCohereLegacyModelProvider,
   createGroqModelProvider,
-  createHuggingfaceInferenceModelProvider,
   createHuggingfaceTextGenerationModelProvider,
   createLmStudioModelProvider,
   createOpenAiChatModelProvider,
-  HuggingfaceTextGenerationApi,
   Llama3ChatApi,
   MistralApi,
-} from "generative-ts";
+} from "packages/generative-ts/src";
 
 async function handleRequest<T>(
   promise: Promise<T>,
@@ -60,11 +58,6 @@ async function main() {
     modelId: "ai21.j2-mid-v1",
   });
 
-  const huggingfaceProvider = createHuggingfaceInferenceModelProvider({
-    api: HuggingfaceTextGenerationApi,
-    modelId: "gpt2",
-  });
-
   const huggingfaceProvider2 = createHuggingfaceTextGenerationModelProvider({
     modelId: "gpt2",
   });
@@ -81,6 +74,27 @@ async function main() {
   const cohereProvider = createCohereLegacyModelProvider({
     modelId: "command",
   });
+
+  await Promise.all([
+    (async () => {
+      const response = await gptProvider.sendRequest({
+        system: "talk like jafar from aladdin",
+        prompt,
+        max_tokens: 1024,
+      });
+
+      console.log(response.choices[0]?.message.content);
+    })(),
+    (async () => {
+      const response = await llama3aws.sendRequest({
+        system: "talk like jafar from aladdin",
+        prompt,
+        max_gen_len: 1024,
+      });
+
+      console.log(response.generation);
+    })(),
+  ]);
 
   const requests = [
     handleRequest(
@@ -112,18 +126,6 @@ async function main() {
       }),
       "Cohere-Command(AWS)",
       (response) => response.generations[0]?.text,
-    ),
-
-    handleRequest(
-      huggingfaceProvider.sendRequest({
-        prompt,
-        parameters: {
-          max_new_tokens: 50,
-          temperature: 1.0,
-        },
-      }),
-      "GPT2(HF)",
-      (response) => response[0]?.generated_text,
     ),
 
     handleRequest(

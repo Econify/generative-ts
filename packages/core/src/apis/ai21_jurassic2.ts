@@ -7,79 +7,79 @@ import type { ModelApi, ModelRequestOptions } from "../typeDefs";
 import { Template } from "../utils/template";
 
 const templateSource = `{
-  "prompt": "{{ prompt | safe }}"
-  {% if temperature %}
-    , "temperature": {{ temperature }}
-  {% endif %}
-  {% if topP %}
-    , "topP": {{ topP }}
-  {% endif %}
-  {% if maxTokens %}
-    , "maxTokens": {{ maxTokens }}
-  {% endif %}
-  {% if stopSequences %}
-    , "stopSequences": [{{ stopSequences | join(', ') | safe }}]
-  {% endif %}
-  {% if countPenalty %}
+  "prompt": "<%= prompt %>"
+  <% if (typeof temperature !== 'undefined') { %>
+    , "temperature": <%= temperature %>
+  <% } %>
+  <% if (typeof topP !== 'undefined') { %>
+    , "topP": <%= topP %>
+  <% } %>
+  <% if (typeof maxTokens !== 'undefined') { %>
+    , "maxTokens": <%= maxTokens %>
+  <% } %>
+  <% if (typeof stopSequences !== 'undefined') { %>
+    , "stopSequences": [<%= stopSequences.join(', ') %>]
+  <% } %>
+  <% if (typeof countPenalty !== 'undefined') { %>
     , "countPenalty": {
-      "scale": {{ countPenalty.scale }}
-      {% if countPenalty.applyToWhitespaces %}
-        , "applyToWhitespaces": {{ countPenalty.applyToWhitespaces }}
-      {% endif %}
-      {% if countPenalty.applyToPunctuations %}
-        , "applyToPunctuations": {{ countPenalty.applyToPunctuations }}
-      {% endif %}
-      {% if countPenalty.applyToNumbers %}
-        , "applyToNumbers": {{ countPenalty.applyToNumbers }}
-      {% endif %}
-      {% if countPenalty.applyToStopwords %}
-        , "applyToStopwords": {{ countPenalty.applyToStopwords }}
-      {% endif %}
-      {% if countPenalty.applyToEmojis %}
-        , "applyToEmojis": {{ countPenalty.applyToEmojis }}
-      {% endif %}
+      "scale": <%= countPenalty.scale %>
+      <% if (typeof countPenalty.applyToWhitespaces !== 'undefined') { %>
+        , "applyToWhitespaces": <%= countPenalty.applyToWhitespaces %>
+      <% } %>
+      <% if (typeof countPenalty.applyToPunctuations !== 'undefined') { %>
+        , "applyToPunctuations": <%= countPenalty.applyToPunctuations %>
+      <% } %>
+      <% if (typeof countPenalty.applyToNumbers !== 'undefined') { %>
+        , "applyToNumbers": <%= countPenalty.applyToNumbers %>
+      <% } %>
+      <% if (typeof countPenalty.applyToStopwords !== 'undefined') { %>
+        , "applyToStopwords": <%= countPenalty.applyToStopwords %>
+      <% } %>
+      <% if (typeof countPenalty.applyToEmojis !== 'undefined') { %>
+        , "applyToEmojis": <%= countPenalty.applyToEmojis %>
+      <% } %>
     }
-  {% endif %}
-  {% if presencePenalty %}
+  <% } %>
+  <% if (typeof presencePenalty !== 'undefined') { %>
     , "presencePenalty": {
-      "scale": {{ presencePenalty.scale }}
-      {% if presencePenalty.applyToWhitespaces %}
-      , "applyToWhitespaces": {{ presencePenalty.applyToWhitespaces }}
-      {% endif %}
-      {% if presencePenalty.applyToPunctuations %}
-        , "applyToPunctuations": {{ presencePenalty.applyToPunctuations }}
-      {% endif %}
-      {% if presencePenalty.applyToNumbers %}
-        , "applyToNumbers": {{ presencePenalty.applyToNumbers }}
-      {% endif %}
-      {% if presencePenalty.applyToStopwords %}
-        , "applyToStopwords": {{ presencePenalty.applyToStopwords }}
-      {% endif %}
-      {% if presencePenalty.applyToEmojis %}
-        , "applyToEmojis": {{ presencePenalty.applyToEmojis }}
-      {% endif %}
+      "scale": <%= presencePenalty.scale %>
+      <% if (typeof presencePenalty.applyToWhitespaces !== 'undefined') { %>
+        , "applyToWhitespaces": <%= presencePenalty.applyToWhitespaces %>
+      <% } %>
+      <% if (typeof presencePenalty.applyToPunctuations !== 'undefined') { %>
+        , "applyToPunctuations": <%= presencePenalty.applyToPunctuations %>
+      <% } %>
+      <% if (typeof presencePenalty.applyToNumbers !== 'undefined') { %>
+        , "applyToNumbers": <%= presencePenalty.applyToNumbers %>
+      <% } %>
+      <% if (typeof presencePenalty.applyToStopwords !== 'undefined') { %>
+        , "applyToStopwords": <%= presencePenalty.applyToStopwords %>
+      <% } %>
+      <% if (typeof presencePenalty.applyToEmojis !== 'undefined') { %>
+        , "applyToEmojis": <%= presencePenalty.applyToEmojis %>
+      <% } %>
     }
-  {% endif %}
-  {% if frequencyPenalty %}
+  <% } %>
+  <% if (typeof frequencyPenalty !== 'undefined') { %>
     , "frequencyPenalty": {
-      "scale": {{ frequencyPenalty.scale }}
-      {% if frequencyPenalty.applyToWhitespaces %}
-      , "applyToWhitespaces": {{ frequencyPenalty.applyToWhitespaces }}
-      {% endif %}
-      {% if frequencyPenalty.applyToPunctuations %}
-        , "applyToPunctuations": {{ frequencyPenalty.applyToPunctuations }}
-      {% endif %}
-      {% if frequencyPenalty.applyToNumbers %}
-        , "applyToNumbers": {{ frequencyPenalty.applyToNumbers }}
-      {% endif %}
-      {% if frequencyPenalty.applyToStopwords %}
-        , "applyToStopwords": {{ frequencyPenalty.applyToStopwords }}
-      {% endif %}
-      {% if frequencyPenalty.applyToEmojis %}
-        , "applyToEmojis": {{ frequencyPenalty.applyToEmojis }}
-      {% endif %}
+      "scale": <%= frequencyPenalty.scale %>
+      <% if (typeof frequencyPenalty.applyToWhitespaces !== 'undefined') { %>
+        , "applyToWhitespaces": <%= frequencyPenalty.applyToWhitespaces %>
+      <% } %>
+      <% if (typeof frequencyPenalty.applyToPunctuations !== 'undefined') { %>
+        , "applyToPunctuations": <%= frequencyPenalty.applyToPunctuations %>
+      <% } %>
+      <% if (typeof frequencyPenalty.applyToNumbers !== 'undefined') { %>
+        , "applyToNumbers": <%= frequencyPenalty.applyToNumbers %>
+      <% } %>
+      <% if (typeof frequencyPenalty.applyToStopwords !== 'undefined') { %>
+        , "applyToStopwords": <%= frequencyPenalty.applyToStopwords %>
+      <% } %>
+      <% if (typeof frequencyPenalty.applyToEmojis !== 'undefined') { %>
+        , "applyToEmojis": <%= frequencyPenalty.applyToEmojis %>
+      <% } %>
     }
-  {% endif %}
+  <% } %>
 }`;
 
 interface PenaltyOptions {

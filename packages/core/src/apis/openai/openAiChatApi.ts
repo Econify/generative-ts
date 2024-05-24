@@ -9,50 +9,50 @@ import { Template } from "../../utils/template";
 import type { FewShotRequestOptions } from "../_shared_interfaces/fewShot";
 
 const templateSource = `{
-  "model": "{{ modelId }}",
+  "model": "<%= modelId %>",
   "messages": [
-    {% if system %}
+    <% if (typeof system !== 'undefined') { %>
     {
       "role": "system",
-      "content": "{{ system | safe }}"
+      "content": "<%= system %>"
     },
-    {% endif %}
-    {% for pair in examplePairs %}
+    <% } %>
+    <% (typeof examplePairs !== 'undefined' ? examplePairs : []).forEach(pair => { %>
     {
       "role": "user",
-      "content": "{{ pair.user | safe }}"
+      "content": "<%= pair.user %>"
     },
     {
       "role": "assistant",
-      "content": "{{ pair.assistant | safe }}"
+      "content": "<%= pair.assistant %>"
     },
-    {% endfor %}
-    {% for message in messages %}
+    <% }) %>
+    <% (typeof messages !== 'undefined' ? messages : []).forEach(message => { %>
     {
-      "role": "{{ message.role }}",
-      "content": "{{ message.content | safe }}"
+      "role": "<%= message.role %>",
+      "content": "<%= message.content %>"
     },
-    {% endfor %}
+    <% }) %>
     {
       "role": "user",
-      "content": "{{ prompt | safe }}"
+      "content": "<%= prompt %>"
     }
   ]
-  {% if temperature %}, "temperature": {{ temperature }}{% endif %}
-  {% if max_tokens %}, "max_tokens": {{ max_tokens }}{% endif %}
-  {% if frequency_penalty %}, "frequency_penalty": {{ frequency_penalty }}{% endif %}
-  {% if logit_bias %}, "logit_bias": {{ logit_bias | to_json }}{% endif %}
-  {% if logprobs %}, "logprobs": true{% endif %}
-  {% if top_logprobs %}, "top_logprobs": {{ top_logprobs }}{% endif %}
-  {% if n %}, "n": {{ n }}{% endif %}
-  {% if presence_penalty %}, "presence_penalty": {{ presence_penalty }}{% endif %}
-  {% if response_format %}, "response_format": {{ response_format | to_json }}{% endif %}
-  {% if seed %}, "seed": {{ seed }}{% endif %}
-  {% if stop %}, "stop": {{ stop | to_json }}{% endif %}
-  {% if top_p %}, "top_p": {{ top_p }}{% endif %}
-  {% if tools %}, "tools": {{ tools | to_json }}{% endif %}
-  {% if tool_choice %}, "tool_choice": {{ tool_choice | to_json }}{% endif %}
-  {% if user %}, "user": "{{ user }}{% endif %}
+  <% if (typeof temperature !== 'undefined') { %>, "temperature": <%= temperature %><% } %>
+  <% if (typeof max_tokens !== 'undefined') { %>, "max_tokens": <%= max_tokens %><% } %>
+  <% if (typeof frequency_penalty !== 'undefined') { %>, "frequency_penalty": <%= frequency_penalty %><% } %>
+  <% if (typeof logit_bias !== 'undefined') { %>, "logit_bias": <%= JSON.stringify(logit_bias) %><% } %>
+  <% if (typeof logprobs !== 'undefined') { %>, "logprobs": <%= logprobs %><% } %>
+  <% if (typeof top_logprobs !== 'undefined') { %>, "top_logprobs": <%= top_logprobs %><% } %>
+  <% if (typeof n !== 'undefined') { %>, "n": <%= n %><% } %>
+  <% if (typeof presence_penalty !== 'undefined') { %>, "presence_penalty": <%= presence_penalty %><% } %>
+  <% if (typeof response_format !== 'undefined') { %>, "response_format": <%= JSON.stringify(response_format) %><% } %>
+  <% if (typeof seed !== 'undefined') { %>, "seed": <%= seed %><% } %>
+  <% if (typeof stop !== 'undefined') { %>, "stop": <%= JSON.stringify(stop) %><% } %>
+  <% if (typeof top_p !== 'undefined') { %>, "top_p": <%= top_p %><% } %>
+  <% if (typeof tools !== 'undefined') { %>, "tools": <%= JSON.stringify(tools) %><% } %>
+  <% if (typeof tool_choice !== 'undefined') { %>, "tool_choice": <%= JSON.stringify(tool_choice) %><% } %>
+  <% if (typeof user !== 'undefined') { %>, "user": "<%= user %>"<% } %>
 }`;
 
 export interface OpenAiChatOptions

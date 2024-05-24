@@ -24,7 +24,8 @@
     "check": "npm run lint && npm run test",
     "lint": "npm run lint --workspaces",
     "test": "npm run test --workspaces",
-    "example": "ts-node -r tsconfig-paths/register -r dotenv/config ./examples/openai-chat.ts"
+    "example": "ts-node -r tsconfig-paths/register -r dotenv/config ./examples/index.ts",
+    "example:fewshot": "ts-node -r tsconfig-paths/register -r dotenv/config ./examples/few-shot-chat-models.ts"
   },
   "devDependencies": {
     "@rollup/plugin-commonjs": "^25.0.7",

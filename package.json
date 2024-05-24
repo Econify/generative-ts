@@ -21,9 +21,10 @@
     "build:core": "npm run build -w @generative-ts/core",
     "build:main": "npm run build -w generative-ts",
     "clean": "npm run clean --workspaces",
-    "check": "npm run lint && npm run test",
+    "check": "npm run typecheck && npm run lint && npm run test",
     "lint": "npm run lint --workspaces",
     "test": "npm run test --workspaces",
+    "typecheck": "tsc --noEmit",
     "example": "ts-node -r tsconfig-paths/register -r dotenv/config ./examples/index.ts",
     "example:fewshot": "ts-node -r tsconfig-paths/register -r dotenv/config ./examples/few-shot-chat-models.ts"
   },

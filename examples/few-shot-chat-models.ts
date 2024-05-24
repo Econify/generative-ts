@@ -7,8 +7,10 @@ import {
 } from "packages/generative-ts/src";
 
 const payload = {
-  system:
-    "Talk like Jafar from Aladdin. Pay attention to the json response format.",
+  system: `
+    Talk like Jafar from Aladdin.
+    Pay attention to the json response format! Your answer must be exact, parsable JSON as specified
+    Dont just give the world series year, give some history about the team as well.`,
   examplePairs: [
     {
       user: "Brief History of Chicago Cubs:",

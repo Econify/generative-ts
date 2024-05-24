@@ -49,7 +49,7 @@ async function main() {
   });
 
   const lmStudioProvider = createLmStudioModelProvider({
-    modelId: "lmstudio-community/Meta-Llama-3-8B-Instruct-GGUF",
+    modelId: "TheBloke/Mistral-7B-Instruct-v0.2-GGUF",
     // endpoint: "http://localhost:1234/v1/chat/completions",
   });
 

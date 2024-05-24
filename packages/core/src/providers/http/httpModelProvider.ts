@@ -51,7 +51,24 @@ export class HttpModelProvider<
   }
 
   protected getBody(options: TRequestOptions) {
-    return this.api.requestTemplate.render(options);
+    // TODO move this to "JsonBodyStrategy" (or something like that)
+    const escapedOptions = Object.entries(options).reduce(
+      (acc, [key, value]) => {
+        if (typeof value === "string") {
+          return {
+            ...acc,
+            [key]: value.replace(/\n/g, "\\n"),
+          };
+        }
+        return {
+          ...acc,
+          [key]: value as unknown,
+        };
+      },
+      {} as TRequestOptions,
+    );
+
+    return this.api.requestTemplate.render(escapedOptions);
   }
 
   protected getHeaders(options: TRequestOptions) {

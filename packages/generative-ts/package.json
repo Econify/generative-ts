@@ -1,6 +1,6 @@
 {
   "name": "generative-ts",
-  "version": "0.1.0-alpha.4",
+  "version": "0.1.0-alpha.5",
   "description": "simple, type-safe, isomorphic LLM interactions (with power)",
   "main": "dist/index.cjs",
   "module": "dist/index.mjs",
@@ -26,7 +26,7 @@
     "test:cov": "jest --coverage"
   },
   "dependencies": {
-    "@generative-ts/core": "^0.1.0-alpha.4",
+    "@generative-ts/core": "^0.1.0-alpha.5",
     "tslib": "^2.6.2"
   },
   "peerDependencies": {

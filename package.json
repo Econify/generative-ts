@@ -23,7 +23,7 @@
     "clean": "npm run clean --workspaces",
     "check": "npm run typecheck && npm run lint && npm run test",
     "lint": "npm run lint --workspaces",
-    "publish:all": "npm run publish:core && npm run publish:main",
+    "publish": "npm run publish:core && npm run publish:main",
     "publish:core": "cd packages/core && npm publish",
     "publish:main": "cd packages/generative-ts && npm publish",
     "test": "npm run test --workspaces",

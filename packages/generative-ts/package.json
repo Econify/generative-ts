@@ -17,13 +17,14 @@
   "scripts": {
     "build": "npm run clean && npm run build:rollup",
     "build:rollup": "rollup -c",
-    "check": "npm run lint && npm run test",
+    "check": "npm run typecheck && npm run lint && npm run test",
     "clean": "rm -rf dist && rm -rf .rollup.cache && rm -f *.tsbuildinfo",
     "lint": "eslint src/",
     "lint:fix": "eslint --fix src/",
     "prepublishOnly": "npm run check && npm run build",
     "test": "jest",
-    "test:cov": "jest --coverage"
+    "test:cov": "jest --coverage",
+    "typecheck": "tsc --noEmit"
   },
   "dependencies": {
     "@generative-ts/core": "^0.1.0-alpha.5",

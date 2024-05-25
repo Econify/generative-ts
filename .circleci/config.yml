@@ -43,7 +43,7 @@ jobs:
           name: Publish
           command: |
             npm set //registry.npmjs.org/:_authToken=$GENERATIVE_TS_NPM_TOKEN
-            npm publish
+            npm run publish:all
 
 workflows:
   version: 2

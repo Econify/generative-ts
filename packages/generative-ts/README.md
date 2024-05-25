@@ -1,18 +1,17 @@
 # generative-ts
 
-**a typescript-first utility library for building LLM applications+agents for node and the browser**
+**a typescript utility library for building LLM applications+agents for node and the browser**
 
-generative-ts provides a strongly-typed interface for invoking LLMs from various service providers as defined by their own APIs. It’s not a "universal interface," set of heavy abstractions, or wrapper around existing SDKs. Instead, it offers an easy way to get type-safe requests and responses from multiple LLM providers using their actual APIs. It has some useful features purpose-built for LLMs, and it’s designed for the TypeScript ecosystem with a minimal footprint and high portability in mind.
+generative-ts seeks to be an unopinionated "web-first" utility library for LLM applications. Its core selling point is a simple interface for hitting a wide variety of LLM providers, providing type-safety (including runtime checking of responses) *without* hiding APIs under layers of abstraction. It uses native fetch (or lets you inject an http client) to give better control over the request than many SDKs allow, in addition to being tiny and portable. It also tries to provide some utility functions for common LLM use-cases... 
 
-## Design Goals
+## Goals
 
-- **Simple**: Invoke many different popular models and providers out of the box, using their native interfaces, with a couple lines of code
-- **Typesafe**: todo
-- **Customizable**: Built on interfaces and injectable dependencies, you can define your own APIs and Providers, supply your own Template implementation, or use your own HTTP client.
-- **Portable**: Runs in node or the browser, ships with cjs, esm, and browser-optimized bundles
-- **Minimal**: Minimal dependencies, <100KB bundles, and [scoped packages](#packages) for fine-grain installs 
-- **HTTP-level control**: It uses native fetch (or optionally lets you to [pass your own client](#custom-http-client)) to interact with models APIs, giving you uniform control of the request at the http level
-- **Useful**: todo 
+- **Simple**: Provides support for [many different model providers](#supported-model-providers) out of the box, giving typesafe interfaces for the APIs as they're already defined
+- **Minimal/Portable**: Runs in node or the browser, has tiny bundles and [scoped packages](#packages) for fine-grain installs 
+- **Features**
+  - Stuff
+  - Goes
+  - Here
 
 ## Install
 
@@ -26,21 +25,17 @@ You can also do more granular installs of scoped packages if you want to optimiz
 
 ## How it Works
 
-TODO explain concept of ModelAPIs vs ModelProviders here
+**TODO** This should go in a guide/docs:
 
-### ModelAPIs
+* A model isn't synonymous with its API or its hosting provider. There are many quirks like:
+  * Services like Groq, LMStudio, LLamafile, and vLLM put many different open source models behind OpenAI's ChatCompletion spec
+  * But if you're using a model hosted by its own creator (mistral on mistral, cohere on cohere, etc) you'll often get that provider's unique API
+  * Some models (like LLama) arent hosted by their creators at all, and their APIs depend on where theyre hosted
+  * Some models (like GPT3.5 and above) are only hosted by their creators, and their APIs never change
+  * There are one-off situations to deal with, like mistral on AWS bedrock using llama2's chat prompt format
+  * Providers like huggingface provide thousands of models behind a set of several different APIs
 
-* AI21 Jurrassic
-* Amazon Titan Text
-* Cohere: Chat; Generate
-* Huggingface: Text Generation task; Conversational task
-* Meta: LLama2 Chat; LLama3 Chat
-* Mistral: ChatCompletion; Bedrock
-* OpenAI: ChatCompletion
-* Antrophic: ? (COMING SOON)
-* Google: Gemini (COMING SOON)
-
-### ModelProviders
+### Supported Model Providers
 
 * AWS Bedrock
 * Cohere
@@ -50,12 +45,25 @@ TODO explain concept of ModelAPIs vs ModelProviders here
 * Replicate (TODO!)
 * Mistral (TODO!)
 * LMStudio
-* LLamafile (TODO - OpenAI ChatCompletion running local)
-* vLLM (TODO - OpenAI ChatCompletion running local)
+* LLamafile (TODO!)
+* vLLM (TODO!)
 * Google Vertex AI (COMING SOON)
 * Microsoft Azure (COMING SOON?)
 
-It's also easy to add your own APIs and ModelProviders (TODO section)
+### Supported Models APIs
+
+* OpenAI ChatCompletion
+* LLama2 Chat
+* LLama3 Instruct
+* Cohere Chat and Generate
+* Mistral AI API ChatCompletion; Bedrock-specific Mistral API
+* AI21 Jurrassic
+* Amazon Titan Text
+* Huggingface Inference Text Generation and Conversational tasks
+* Antrophic: ? (COMING SOON)
+* Google: Gemini (COMING SOON)
+
+It's also easy to add your own (**TODO** link here)
 
 ## Usage
 

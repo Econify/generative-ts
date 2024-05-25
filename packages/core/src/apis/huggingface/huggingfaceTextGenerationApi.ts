@@ -6,31 +6,31 @@ import type { ModelApi, ModelRequestOptions } from "../../typeDefs";
 import { Template } from "../../utils/template";
 
 const templateSource = `{
-  "inputs": "{{ prompt | safe }}"
-  {% if parameters %}
+  "inputs": "<%= prompt %>"
+  <% if (typeof parameters !== 'undefined') { %>
   , "parameters": {
-    {% set comma = false %}
-    {% if parameters.top_k %}"top_k": {{ parameters.top_k }}{% set comma = true %}{% endif %}
-    {% if parameters.top_p %}{% if comma %}, {% endif %}"top_p": {{ parameters.top_p }}{% set comma = true %}{% endif %}
-    {% if parameters.temperature %}{% if comma %}, {% endif %}"temperature": {{ parameters.temperature }}{% set comma = true %}{% endif %}
-    {% if parameters.repetition_penalty %}{% if comma %}, {% endif %}"repetition_penalty": {{ parameters.repetition_penalty }}{% set comma = true %}{% endif %}
-    {% if parameters.max_new_tokens %}{% if comma %}, {% endif %}"max_new_tokens": {{ parameters.max_new_tokens }}{% set comma = true %}{% endif %}
-    {% if parameters.max_time %}{% if comma %}, {% endif %}"max_time": {{ parameters.max_time }}{% set comma = true %}{% endif %}
-    {% if parameters.return_full_text %}{% if comma %}, {% endif %}"return_full_text": {{ parameters.return_full_text }}{% set comma = true %}{% endif %}
-    {% if parameters.num_return_sequences %}{% if comma %}, {% endif %}"num_return_sequences": {{ parameters.num_return_sequences }}{% set comma = true %}{% endif %}
-    {% if parameters.do_sample %}{% if comma %}, {% endif %}"do_sample": {{ parameters.do_sample }}{% endif %}
+    <% let comma = false; %>
+    <% if (typeof parameters.top_k !== 'undefined') { %>"top_k": <%= parameters.top_k %><% comma = true; %><% } %>
+    <% if (typeof parameters.top_p !== 'undefined') { %><% if (comma) { %>, <% } %>"top_p": <%= parameters.top_p %><% comma = true; %><% } %>
+    <% if (typeof parameters.temperature !== 'undefined') { %><% if (comma) { %>, <% } %>"temperature": <%= parameters.temperature %><% comma = true; %><% } %>
+    <% if (typeof parameters.repetition_penalty !== 'undefined') { %><% if (comma) { %>, <% } %>"repetition_penalty": <%= parameters.repetition_penalty %><% comma = true; %><% } %>
+    <% if (typeof parameters.max_new_tokens !== 'undefined') { %><% if (comma) { %>, <% } %>"max_new_tokens": <%= parameters.max_new_tokens %><% comma = true; %><% } %>
+    <% if (typeof parameters.max_time !== 'undefined') { %><% if (comma) { %>, <% } %>"max_time": <%= parameters.max_time %><% comma = true; %><% } %>
+    <% if (typeof parameters.return_full_text !== 'undefined') { %><% if (comma) { %>, <% } %>"return_full_text": <%= parameters.return_full_text %><% comma = true; %><% } %>
+    <% if (typeof parameters.num_return_sequences !== 'undefined') { %><% if (comma) { %>, <% } %>"num_return_sequences": <%= parameters.num_return_sequences %><% comma = true; %><% } %>
+    <% if (typeof parameters.do_sample !== 'undefined') { %><% if (comma) { %>, <% } %>"do_sample": <%= parameters.do_sample %><% } %>
   }
-  {% endif %}
-  {% if options %}
+  <% } %>
+  <% if (typeof options !== 'undefined') { %>
   , "options": {
-    {% set comma = false %}
-    {% if options.use_cache %}"use_cache": {{ options.use_cache }}{% set comma = true %}{% endif %}
-    {% if options.wait_for_model %}{% if comma %}, {% endif %}"wait_for_model": {{ options.wait_for_model }}{% endif %}
+    <% let commaOptions = false; %>
+    <% if (typeof options.use_cache !== 'undefined') { %>"use_cache": <%= options.use_cache %><% commaOptions = true; %><% } %>
+    <% if (typeof options.wait_for_model !== 'undefined') { %><% if (commaOptions) { %>, <% } %>"wait_for_model": <%= options.wait_for_model %><% } %>
   }
-  {% endif %}
+  <% } %>
 }`;
 
-export interface HuggingfaceTextGenerationOptions extends ModelRequestOptions {
+export interface HfTextGenerationTaskOptions extends ModelRequestOptions {
   parameters?: {
     top_k?: number;
     top_p?: number;
@@ -48,29 +48,29 @@ export interface HuggingfaceTextGenerationOptions extends ModelRequestOptions {
   };
 }
 
-export const HuggingfaceTextGenerationTemplate =
-  new Template<HuggingfaceTextGenerationOptions>(templateSource);
+export const HfTextGenerationTaskTemplate =
+  new Template<HfTextGenerationTaskOptions>(templateSource);
 
-const HuggingfaceTextGenerationResponseCodec = t.array(
+const HfTextGenerationTaskResponseCodec = t.array(
   t.type({
     generated_text: t.string,
   }),
 );
 
-export type HuggingfaceTextGenerationResponse = TypeOf<
-  typeof HuggingfaceTextGenerationResponseCodec
+export type HfTextGenerationTaskResponse = TypeOf<
+  typeof HfTextGenerationTaskResponseCodec
 >;
 
-export function isHuggingfaceTextGenerationResponse(
+export function isHfTextGenerationTaskResponse(
   response: unknown,
-): response is HuggingfaceTextGenerationResponse {
-  return !isLeft(HuggingfaceTextGenerationResponseCodec.decode(response));
+): response is HfTextGenerationTaskResponse {
+  return !isLeft(HfTextGenerationTaskResponseCodec.decode(response));
 }
 
-export const HuggingfaceTextGenerationApi: ModelApi<
-  HuggingfaceTextGenerationOptions,
-  HuggingfaceTextGenerationResponse
+export const HfTextGenerationTaskApi: ModelApi<
+  HfTextGenerationTaskOptions,
+  HfTextGenerationTaskResponse
 > = {
-  requestTemplate: HuggingfaceTextGenerationTemplate,
-  responseGuard: isHuggingfaceTextGenerationResponse,
+  requestTemplate: HfTextGenerationTaskTemplate,
+  responseGuard: isHfTextGenerationTaskResponse,
 };

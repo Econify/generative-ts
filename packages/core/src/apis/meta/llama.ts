@@ -5,13 +5,12 @@ import { isLeft } from "fp-ts/Either";
 import type { ModelApi, ModelRequestOptions } from "../../typeDefs";
 import { Template } from "../../utils/template";
 
-const templateSource =
-  "{" +
-  '"prompt": "{{ prompt | safe }}"' +
-  '{% if temperature %}, "temperature": {{ temperature }}{% endif %}' +
-  '{% if top_p %}, "top_p": {{ top_p }}{% endif %}' +
-  '{% if max_gen_len %}, "max_gen_len": {{ max_gen_len }}{% endif %}' +
-  "}";
+const templateSource = `{
+  "prompt": "<%= prompt %>"
+  <% if (typeof temperature !== 'undefined') { %>, "temperature": <%= temperature %><% } %>
+  <% if (typeof top_p !== 'undefined') { %>, "top_p": <%= top_p %><% } %>
+  <% if (typeof max_gen_len !== 'undefined') { %>, "max_gen_len": <%= max_gen_len %><% } %>
+}`;
 
 export interface LlamaOptions extends ModelRequestOptions {
   temperature?: number;

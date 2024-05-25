@@ -6,19 +6,14 @@ import type { FewShotRequestOptions } from "../_shared_interfaces/fewShot";
 
 import { isLlamaResponse, LlamaResponse } from "./llama";
 
-const llama2ChatPrompt =
-  "<s>[INST] " +
-  `{% if system %}<<SYS>>\\n{{ system | safe }}\\n<</SYS>>\\n\\n{% endif %}` +
-  "{% for pair in examplePairs %}{{ pair.user | safe }} [/INST] {{ pair.assistant | safe }} </s><s>[INST] {% endfor %}" +
-  "{{ prompt | safe }} [/INST]";
+export const Llama2ChatMlTemplateSource = `<s>[INST] <% if (typeof system !== 'undefined') { %><<SYS>>\\n<%= system %>\\n<</SYS>>\\n\\n<% } %><% (typeof examplePairs !== 'undefined' ? examplePairs : []).forEach(pair => { %><%= pair.user %> [/INST] <%= pair.assistant %> </s><s>[INST] <% }) %><%= prompt %> [/INST]`;
 
-const templateSource =
-  "{" +
-  `"prompt": "${llama2ChatPrompt}"` +
-  '{% if temperature %}, "temperature": {{ temperature }}{% endif %}' +
-  '{% if top_p %}, "top_p": {{ top_p }}{% endif %}' +
-  '{% if max_gen_len %}, "max_gen_len": {{ max_gen_len }}{% endif %}' +
-  "}";
+const templateSource = `{
+  "prompt": "${Llama2ChatMlTemplateSource}"
+  <% if (typeof temperature !== 'undefined') { %>, "temperature": <%= temperature %><% } %>
+  <% if (typeof top_p !== 'undefined') { %>, "top_p": <%= top_p %><% } %>
+  <% if (typeof max_gen_len !== 'undefined') { %>, "max_gen_len": <%= max_gen_len %><% } %>
+}`;
 
 export interface Llama2ChatOptions
   extends FewShotRequestOptions,

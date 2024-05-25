@@ -6,19 +6,14 @@ import type { FewShotRequestOptions } from "../_shared_interfaces/fewShot";
 
 import { isLlamaResponse, LlamaResponse } from "./llama";
 
-const llama3ChatPrompt =
-  "<|begin_of_text|>" +
-  "{% if system %}<|start_header_id|>system<|end_header_id|>\\n\\n{{ system | safe }}<|eot_id|>{% endif %}" +
-  "{% for pair in examplePairs %}<|start_header_id|>user<|end_header_id|>\\n\\n{{ pair.user | safe }}<|eot_id|><|start_header_id|>assistant<|end_header_id|>\\n\\n{{ pair.assistant | safe }}<|eot_id|>{% endfor %}" +
-  "<|start_header_id|>user<|end_header_id|>\\n\\n{{ prompt | safe }}<|eot_id|><|start_header_id|>assistant<|end_header_id|>";
+export const Llama3ChatMlTemplateSource = `<|begin_of_text|><% if (typeof system !== 'undefined') { %><|start_header_id|>system<|end_header_id|>\\n\\n<%= system %><|eot_id|><% } %><% (typeof examplePairs !== 'undefined' ? examplePairs : []).forEach(pair => { %><|start_header_id|>user<|end_header_id|>\\n\\n<%= pair.user %><|eot_id|><|start_header_id|>assistant<|end_header_id|>\\n\\n<%= pair.assistant %><|eot_id|><% }) %><|start_header_id|>user<|end_header_id|>\\n\\n<%= prompt %><|eot_id|><|start_header_id|>assistant<|end_header_id|>`;
 
-const templateSource =
-  "{" +
-  `"prompt": "${llama3ChatPrompt}"` +
-  '{% if temperature %}, "temperature": {{ temperature }}{% endif %}' +
-  '{% if top_p %}, "top_p": {{ top_p }}{% endif %}' +
-  '{% if max_gen_len %}, "max_gen_len": {{ max_gen_len }}{% endif %}' +
-  "}";
+const templateSource = `{
+  "prompt": "${Llama3ChatMlTemplateSource}"
+  <% if (typeof temperature !== 'undefined') { %>, "temperature": <%= temperature %><% } %>
+  <% if (typeof top_p !== 'undefined') { %>, "top_p": <%= top_p %><% } %>
+  <% if (typeof max_gen_len !== 'undefined') { %>, "max_gen_len": <%= max_gen_len %><% } %>
+}`;
 
 export interface Llama3ChatOptions
   extends FewShotRequestOptions,

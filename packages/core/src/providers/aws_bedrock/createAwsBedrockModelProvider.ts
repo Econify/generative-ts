@@ -50,6 +50,28 @@ export class AwsBedrockModelProvider<
     });
   }
 
+  // TODO AwsBedrockModelProvider should inherit from HttpModelProvider
+  protected getBody(options: TRequestOptions) {
+    // TODO move this to "JsonBodyStrategy" (or something like that)
+    const escapedOptions = Object.entries(options).reduce(
+      (acc, [key, value]) => {
+        if (typeof value === "string") {
+          return {
+            ...acc,
+            [key]: value.replace(/\n/g, "\\n"),
+          };
+        }
+        return {
+          ...acc,
+          [key]: value as unknown,
+        };
+      },
+      {} as TRequestOptions,
+    );
+
+    return this.api.requestTemplate.render(escapedOptions);
+  }
+
   async dispatchRequest(options: TRequestOptions) {
     const { auth, region } = this.config;
     const { modelId } = options;
@@ -64,7 +86,7 @@ export class AwsBedrockModelProvider<
         }
       : undefined;
 
-    const body = this.api.requestTemplate.render(options);
+    const body = this.getBody(options);
 
     const { headers: signedHeaders } = aws4.sign(
       {

@@ -12,9 +12,15 @@ jobs:
       - node/install-packages:
           pkg-manager: npm
       - run:
-          name: Run Tests
+          name: Typecheck
+          command: npm run typecheck
+      - run:
+          name: Lint
+          command: npm run lint
+      - run:
+          name: Test
           command: npm run test
-  release:
+  publish:
     executor:
       name: node/default
     steps:
@@ -52,12 +58,13 @@ workflows:
               value: << pipeline.git.branch >>
     jobs:
       - test
-  push_release:
+  push_release_branch:
     jobs:
-      - release:
+      - publish:
           context:
             - generative-ts-npm-token
           filters:
             branches:
-              only:
-                - /release\/.*/
+              ignore: /.*/
+            tags:
+              only: /^release\/(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)(?:-((?:0|[1-9]\d*|(?:[0-9A-Za-z-]*[A-Za-z-][0-9A-Za-z-]*))(?:\.(?:0|[1-9]\d*|(?:[0-9A-Za-z-]*[A-Za-z-][0-9A-Za-z-]*)))*))?(?:\+([0-9A-Za-z-]+(?:\.[0-9A-Za-z-]+)*))?$/

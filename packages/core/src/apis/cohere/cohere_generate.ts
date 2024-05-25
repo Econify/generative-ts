@@ -7,37 +7,37 @@ import type { ModelApi, ModelRequestOptions } from "../../typeDefs";
 import { Template } from "../../utils/template";
 
 const templateSource = `{
-  "prompt": "{{ prompt | safe }}"
-  {% if temperature %}
-    , "temperature": {{ temperature }}
-  {% endif %}
-  {% if p %}
-    , "p": {{ p }}
-  {% endif %}
-  {% if k %}
-    , "k": {{ k }}
-  {% endif %}
-  {% if max_tokens %}
-    , "max_tokens": {{ max_tokens }}
-  {% endif %}
-  {% if stop_sequences %}
-    , "stop_sequences": [{{ stop_sequences | join(', ') }}]
-  {% endif %}
-  {% if return_likelihoods %}
-    , "return_likelihoods": "{{ return_likelihoods }}"
-  {% endif %}
-  {% if stream %}
-    , "stream": {{ stream }}
-  {% endif %}
-  {% if num_generations %}
-    , "num_generations": {{ num_generations }}
-  {% endif %}
-  {% if logit_bias %}
-    , "logit_bias": {{ logit_bias | dump | safe }}
-  {% endif %}
-  {% if truncate %}
-    , "truncate": "{{ truncate }}"
-  {% endif %}
+  "prompt": "<%= prompt %>"
+  <% if (typeof temperature !== 'undefined') { %>
+    , "temperature": <%= temperature %>
+  <% } %>
+  <% if (typeof p !== 'undefined') { %>
+    , "p": <%= p %>
+  <% } %>
+  <% if (typeof k !== 'undefined') { %>
+    , "k": <%= k %>
+  <% } %>
+  <% if (typeof max_tokens !== 'undefined') { %>
+    , "max_tokens": <%= max_tokens %>
+  <% } %>
+  <% if (typeof stop_sequences !== 'undefined') { %>
+    , "stop_sequences": [<%= stop_sequences.join(', ') %>]
+  <% } %>
+  <% if (typeof return_likelihoods !== 'undefined') { %>
+    , "return_likelihoods": "<%= return_likelihoods %>"
+  <% } %>
+  <% if (typeof stream !== 'undefined') { %>
+    , "stream": <%= stream %>
+  <% } %>
+  <% if (typeof num_generations !== 'undefined') { %>
+    , "num_generations": <%= num_generations %>
+  <% } %>
+  <% if (typeof logit_bias !== 'undefined') { %>
+    , "logit_bias": <%= JSON.stringify(logit_bias) %>
+  <% } %>
+  <% if (typeof truncate !== 'undefined') { %>
+    , "truncate": "<%= truncate %>"
+  <% } %>
 }`;
 
 export interface CohereGenerateOptions extends ModelRequestOptions {

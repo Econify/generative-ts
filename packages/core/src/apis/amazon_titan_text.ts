@@ -7,27 +7,27 @@ import type { ModelApi, ModelRequestOptions } from "../typeDefs";
 import { Template } from "../utils/template";
 
 const templateSource = `{
-  "inputText": "{{ prompt | safe }}"
-  {% if temperature or topP or maxTokenCount or stopSequences %}
+  "inputText": "<%= prompt %>"
+  <% if (typeof temperature !== 'undefined' || typeof topP !== 'undefined' || typeof maxTokenCount !== 'undefined' || typeof stopSequences !== 'undefined') { %>
   , "textGenerationConfig": {
-    {% set comma = false %}
-    {% if temperature %}
-      "temperature": {{ temperature }}
-      {% set comma = true %}
-    {% endif %}
-    {% if topP %}
-      {% if comma %},{% endif %} "topP": {{ topP }}
-      {% set comma = true %}
-    {% endif %}
-    {% if maxTokenCount %}
-      {% if comma %},{% endif %} "maxTokenCount": {{ maxTokenCount }}
-      {% set comma = true %}
-    {% endif %}
-    {% if stopSequences %}
-      {% if comma %},{% endif %} "stopSequences": [{{ stopSequences | join(', ') }}]
-    {% endif %}
+    <% let comma = false; %>
+    <% if (typeof temperature !== 'undefined') { %>
+      "temperature": <%= temperature %>
+      <% comma = true; %>
+    <% } %>
+    <% if (typeof topP !== 'undefined') { %>
+      <% if (comma) { %>, <% } %> "topP": <%= topP %>
+      <% comma = true; %>
+    <% } %>
+    <% if (typeof maxTokenCount !== 'undefined') { %>
+      <% if (comma) { %>, <% } %> "maxTokenCount": <%= maxTokenCount %>
+      <% comma = true; %>
+    <% } %>
+    <% if (typeof stopSequences !== 'undefined') { %>
+      <% if (comma) { %>, <% } %> "stopSequences": [<%= stopSequences.join(', ') %>]
+    <% } %>
   }
-  {% endif %}
+  <% } %>
 }`;
 
 export interface AmazonTitanTextOptions extends ModelRequestOptions {

@@ -5,28 +5,12 @@ import {
   createAwsBedrockModelProvider,
   createCohereLegacyModelProvider,
   createGroqModelProvider,
-  createHuggingfaceInferenceModelProvider,
   createHuggingfaceTextGenerationModelProvider,
   createLmStudioModelProvider,
   createOpenAiChatModelProvider,
-  HuggingfaceTextGenerationApi,
   Llama3ChatApi,
-  MistralApi,
-} from "generative-ts";
-
-async function handleRequest<T>(
-  promise: Promise<T>,
-  description: string,
-  extractResponse: (response: T) => string | undefined,
-): Promise<void> {
-  try {
-    const response = await promise;
-    const formattedResponse = extractResponse(response);
-    console.log(`\n${description}:\n=====\n${formattedResponse}\n=====`);
-  } catch (error) {
-    console.error(`Error in ${description}:`, error);
-  }
-}
+  MistralBedrockApi,
+} from "packages/generative-ts/src";
 
 async function main() {
   const prompt = "Brief History of NY Mets:";
@@ -51,7 +35,7 @@ async function main() {
   });
 
   const mistral = createAwsBedrockModelProvider({
-    api: MistralApi,
+    api: MistralBedrockApi,
     modelId: "mistral.mistral-7b-instruct-v0:2",
   });
 
@@ -60,17 +44,12 @@ async function main() {
     modelId: "ai21.j2-mid-v1",
   });
 
-  const huggingfaceProvider = createHuggingfaceInferenceModelProvider({
-    api: HuggingfaceTextGenerationApi,
-    modelId: "gpt2",
-  });
-
   const huggingfaceProvider2 = createHuggingfaceTextGenerationModelProvider({
     modelId: "gpt2",
   });
 
   const lmStudioProvider = createLmStudioModelProvider({
-    modelId: "lmstudio-community/Meta-Llama-3-8B-Instruct-GGUF",
+    modelId: "TheBloke/Mistral-7B-Instruct-v0.2-GGUF",
     // endpoint: "http://localhost:1234/v1/chat/completions",
   });
 
@@ -82,122 +61,92 @@ async function main() {
     modelId: "command",
   });
 
-  const requests = [
-    handleRequest(
-      gptProvider.sendRequest({
-        prompt,
+  const queries = [
+    {
+      name: "GPT-4-Turbo(OpenAI)",
+      provider: gptProvider,
+      params: {
         system: "talk like jafar from aladdin",
-        max_tokens: 50,
-        temperature: 1.0,
-      }),
-      "GPT-4-Turbo(OpenAI)",
-      (response) => response.choices[0]?.message.content,
-    ),
-
-    handleRequest(
-      titanTextProvider.sendRequest({
-        prompt,
-        maxTokenCount: 50,
-        temperature: 1.0,
-      }),
-      "Titan(AWS)",
-      (response) => response.results[0]?.outputText,
-    ),
-
-    handleRequest(
-      cohereCommandProvider.sendRequest({
         prompt,
         max_tokens: 50,
         temperature: 1.0,
-      }),
-      "Cohere-Command(AWS)",
-      (response) => response.generations[0]?.text,
-    ),
-
-    handleRequest(
-      huggingfaceProvider.sendRequest({
-        prompt,
-        parameters: {
-          max_new_tokens: 50,
-          temperature: 1.0,
-        },
-      }),
-      "GPT2(HF)",
-      (response) => response[0]?.generated_text,
-    ),
-
-    handleRequest(
-      huggingfaceProvider2.sendRequest({
-        prompt,
-        parameters: {
-          max_new_tokens: 50,
-          temperature: 1.0,
-        },
-      }),
-      "GPT2(HF)",
-      (response) => response[0]?.generated_text,
-    ),
-
-    handleRequest(
-      lmStudioProvider.sendRequest({
+      },
+    },
+    {
+      name: "Titan(AWS)",
+      provider: titanTextProvider,
+      params: { prompt, maxTokenCount: 50, temperature: 1.0 },
+    },
+    {
+      name: "Cohere-Command(AWS)",
+      provider: cohereCommandProvider,
+      params: { prompt, max_tokens: 50, temperature: 1.0 },
+    },
+    {
+      name: "GPT2(HF)",
+      provider: huggingfaceProvider2,
+      params: { prompt, parameters: { max_new_tokens: 50, temperature: 1.0 } },
+    },
+    {
+      name: "LLama3(LM Studio)",
+      provider: lmStudioProvider,
+      params: {
         prompt,
         system: "talk like iago from aladdin",
         temperature: 1.0,
         max_tokens: 50,
-      }),
-      "LLama3(LM Studio)",
-      (response) => response.choices[0]?.message.content,
-    ),
-
-    handleRequest(
-      llama3aws.sendRequest({
+      },
+    },
+    {
+      name: "Llama3(Bedrock)",
+      provider: llama3aws,
+      params: {
         prompt,
         system: "talk like jafar from aladdin",
         temperature: 1.0,
-      }),
-      "Llama3(Bedrock)",
-      (response) => response.generation,
-    ),
-
-    handleRequest(
-      jurassic.sendRequest({
-        prompt,
-        maxTokens: 50,
-        temperature: 1.0,
-      }),
-      "Jurassic2(AWS)",
-      (response) => response.completions[0]?.data.text,
-    ),
-
-    handleRequest(
-      mistral.sendRequest({
-        prompt,
-        temperature: 1.0,
-      }),
-      "Mistral(AWS)",
-      (response) => response.outputs[0]?.text,
-    ),
-
-    handleRequest(
-      groqProvider.sendRequest({
+      },
+    },
+    {
+      name: "Jurassic2(AWS)",
+      provider: jurassic,
+      params: { prompt, maxTokens: 50, temperature: 1.0 },
+    },
+    {
+      name: "Mistral(AWS)",
+      provider: mistral,
+      params: { prompt, temperature: 1.0 },
+    },
+    {
+      name: "Lama3-70b(Groq)",
+      provider: groqProvider,
+      params: {
         prompt,
         system: "talk like jafar from aladdin",
         temperature: 1.0,
-      }),
-      "Lama3-70b(Groq)",
-      (response) => response.choices[0]?.message.content,
-    ),
-
-    handleRequest(
-      cohereProvider.sendRequest({
-        prompt,
-      }),
-      "Cohere-Command(Cohere-API)",
-      (response) => response.generations[0]?.text,
-    ),
+      },
+    },
+    {
+      name: "Cohere-Command(Cohere-API)",
+      provider: cohereProvider,
+      params: { prompt },
+    },
   ];
 
-  await Promise.all(requests);
+  const results = await Promise.all(
+    queries.map(async (query) => {
+      try {
+        const response = await query.provider.sendRequest(query.params);
+        return { name: query.name, status: "Success", response };
+      } catch (error) {
+        return { name: query.name, status: "Failed", error };
+      }
+    }),
+  );
+
+  console.log("Results:\n=====");
+  results.forEach((result) => {
+    console.log(`[${result.status}] ${result.name}`);
+  });
 }
 
 main().catch((error) => {

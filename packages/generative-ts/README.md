@@ -2,7 +2,7 @@
 
 **a typescript utility library for building LLM applications+agents for node and the browser**
 
-generative-ts seeks to be an unopinionated "web-first" utility library for LLM applications. Its core selling point is a simple interface for hitting a wide variety of LLM providers, providing type-safety (including runtime checking of responses) *without* hiding APIs under layers of abstraction. It uses native fetch (or lets you inject an http client) to give better control over the request than many SDKs allow, in addition to being tiny and portable. It also tries to provide some utility functions for common LLM use-cases... 
+generative-ts seeks to be an unopinionated "web-first" utility library for LLM applications. Its core functionality is a simple interface for hitting a wide variety of LLM providers, providing type-safety (including runtime checking of responses) *without* hiding APIs under layers of abstraction. It uses native fetch (or lets you inject an http client) to give better control over the request than many SDKs allow, in addition to being tiny and portable. It also tries to provide some utility functions for common LLM use-cases... 
 
 ## Goals
 

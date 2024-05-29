@@ -62,7 +62,7 @@ async function main() {
   ]);
 
   console.log("Test pass");
-  process.exit(1);
+  process.exit(0);
 }
 
 main().catch((error) => {

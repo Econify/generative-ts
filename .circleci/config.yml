@@ -60,9 +60,7 @@ workflows:
               pattern: '^release\/.*$'
               value: << pipeline.git.branch >>
     jobs:
-      - test:
-        context:
-          - econify-aws
+      - test
   push_release_branch:
     jobs:
       - publish:

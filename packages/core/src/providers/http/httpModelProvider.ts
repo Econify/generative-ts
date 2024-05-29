@@ -16,6 +16,9 @@ interface HttpModelProviderConstructorParams<
   auth: AuthStrategy;
 }
 
+/**
+ * @category Core Implementations
+ */
 export class HttpModelProvider<
   TRequestOptions extends ModelRequestOptions,
   TResponse = unknown,

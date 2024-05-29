@@ -1,0 +1,7 @@
+{
+  "entryPoints": ["packages/*/src"],
+  "out": "docs",
+  "exclude": ["**/*.spec.ts"],
+  "includeVersion": true,
+  "categoryOrder": ["Model Providers", "APIs", "Requests", "Responses", "Templates", "Core Implementations", "Core Interfaces", "*"]
+}

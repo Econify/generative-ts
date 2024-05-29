@@ -10,6 +10,9 @@ export interface BaseModelProviderConfig {
   modelId: ModelId;
 }
 
+/**
+ * @category Core Implementations
+ */
 export abstract class BaseModelProvider<
   TRequestOptions extends ModelRequestOptions,
   TResponse = unknown,

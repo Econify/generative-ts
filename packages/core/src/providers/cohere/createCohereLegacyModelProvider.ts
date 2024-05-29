@@ -8,6 +8,9 @@ import { createHttpModelProvider } from "../http";
 
 import { CohereAuthConfig, loadAuthConfig } from "./loadAuthConfig";
 
+/**
+ * @category Model Providers
+ */
 export function createCohereLegacyModelProvider({
   modelId,
   client,

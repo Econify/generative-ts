@@ -4,7 +4,7 @@ import { isLeft } from "fp-ts/Either";
 
 import type { ModelApi, ModelRequestOptions } from "../../typeDefs";
 
-import { Template } from "../../utils/template";
+import { EjsTemplate } from "../../utils/ejsTemplate";
 
 import type { FewShotRequestOptions } from "../_shared_interfaces/fewShot";
 
@@ -19,6 +19,10 @@ const templateSource = `{
   <% if (typeof top_k !== 'undefined') { %>, "top_k": <%= top_k %><% } %>  
 }`;
 
+/**
+ * @category Mistral (AWS Bedrock)
+ * @category Requests
+ */
 export interface MistralBedrockOptions
   extends FewShotRequestOptions,
     ModelRequestOptions {
@@ -29,7 +33,11 @@ export interface MistralBedrockOptions
   top_k?: number;
 }
 
-export const MistralBedrockTemplate = new Template<MistralBedrockOptions>(
+/**
+ * @category Mistral (AWS Bedrock)
+ * @category Templates
+ */
+export const MistralBedrockTemplate = new EjsTemplate<MistralBedrockOptions>(
   templateSource,
 );
 
@@ -42,7 +50,12 @@ const MistralBedrockResponseCodec = t.type({
   ),
 });
 
-export type MistralBedrockResponse = TypeOf<typeof MistralBedrockResponseCodec>;
+/**
+ * @category Mistral (AWS Bedrock)
+ * @category Responses
+ */
+export interface MistralBedrockResponse
+  extends TypeOf<typeof MistralBedrockResponseCodec> {}
 
 export function isMistralBedrockResponse(
   response: unknown,
@@ -50,6 +63,14 @@ export function isMistralBedrockResponse(
   return !isLeft(MistralBedrockResponseCodec.decode(response));
 }
 
+/**
+ * Mistral on AWS Bedrock API (https://docs.aws.amazon.com/bedrock/latest/userguide/model-parameters-mistral.html)
+ * This API is specific to Mistral on AWS Bedrockl. It is different than the one offered by Mistral directly.
+ *
+ * @category Mistral (AWS Bedrock)
+ * @category APIs
+ * @type {ModelApi<MistralAiOptions, MistralAiResponse>}
+ */
 export const MistralBedrockApi: ModelApi<
   MistralBedrockOptions,
   MistralBedrockResponse

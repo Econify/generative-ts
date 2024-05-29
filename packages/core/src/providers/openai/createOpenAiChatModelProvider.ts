@@ -8,6 +8,9 @@ import { createHttpModelProvider } from "../http";
 
 import { loadAuthConfig, OpenAiAuthConfig } from "./loadAuthConfig";
 
+/**
+ * @category Model Providers
+ */
 export function createOpenAiChatModelProvider({
   modelId,
   client,

@@ -4,7 +4,7 @@ import { isLeft } from "fp-ts/Either";
 
 import type { ModelApi, ModelRequestOptions } from "../../typeDefs";
 
-import { Template } from "../../utils/template";
+import { EjsTemplate } from "../../utils/ejsTemplate";
 
 const templateSource = `{
   "prompt": "<%= prompt %>"
@@ -33,13 +33,17 @@ const templateSource = `{
     , "num_generations": <%= num_generations %>
   <% } %>
   <% if (typeof logit_bias !== 'undefined') { %>
-    , "logit_bias": <%= JSON.stringify(logit_bias) %>
+    , "logit_bias": <%- JSON.stringify(logit_bias) %>
   <% } %>
   <% if (typeof truncate !== 'undefined') { %>
     , "truncate": "<%= truncate %>"
   <% } %>
 }`;
 
+/**
+ * @category Cohere Generate
+ * @category Requests
+ */
 export interface CohereGenerateOptions extends ModelRequestOptions {
   num_generations?: number;
   stream?: boolean;
@@ -58,7 +62,11 @@ export interface CohereGenerateOptions extends ModelRequestOptions {
   logit_bias?: { [token_id: number]: number }; // on bedrock but not cohere /generate?
 }
 
-export const CohereGenerateTemplate = new Template<CohereGenerateOptions>(
+/**
+ * @category Cohere Generate
+ * @category Templates
+ */
+export const CohereGenerateTemplate = new EjsTemplate<CohereGenerateOptions>(
   templateSource,
 );
 
@@ -77,7 +85,12 @@ const CohereGenerateResponseCodec = t.type({
   ),
 });
 
-export type CohereGenerateResponse = TypeOf<typeof CohereGenerateResponseCodec>;
+/**
+ * @category Cohere Generate
+ * @category Responses
+ */
+export interface CohereGenerateResponse
+  extends TypeOf<typeof CohereGenerateResponseCodec> {}
 
 export function isCohereGenerateResponse(
   response: unknown,
@@ -85,6 +98,13 @@ export function isCohereGenerateResponse(
   return !isLeft(CohereGenerateResponseCodec.decode(response));
 }
 
+/**
+ * Cohere Generate (Legacy) API (https://docs.cohere.com/reference/generate)
+ *
+ * @category Cohere Generate
+ * @category APIs
+ * @type {ModelApi<CohereGenerateOptions, CohereGenerateResponse>}
+ */
 export const CohereGenerateApi: ModelApi<
   CohereGenerateOptions,
   CohereGenerateResponse

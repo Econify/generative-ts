@@ -6,6 +6,9 @@ import { createHuggingfaceInferenceModelProvider } from "./createHuggingfaceInfe
 
 import { HuggingfaceAuthConfig } from "./loadAuthConfig";
 
+/**
+ * @category Model Providers
+ */
 export function createHuggingfaceConversationalModelProvider({
   modelId,
   client,

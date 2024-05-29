@@ -4,7 +4,7 @@ import { isLeft } from "fp-ts/Either";
 
 import type { ModelApi, ModelRequestOptions } from "../typeDefs";
 
-import { Template } from "../utils/template";
+import { EjsTemplate } from "../utils/ejsTemplate";
 
 const templateSource = `{
   "prompt": "<%= prompt %>"
@@ -91,6 +91,10 @@ interface PenaltyOptions {
   applyToEmojis?: boolean;
 }
 
+/**
+ * @category Ai21 Jurassic 2
+ * @category Requests
+ */
 export interface Ai21Jurassic2Options extends ModelRequestOptions {
   temperature?: number;
   topP?: number;
@@ -101,7 +105,11 @@ export interface Ai21Jurassic2Options extends ModelRequestOptions {
   frequencyPenalty?: PenaltyOptions;
 }
 
-export const Ai21Jurassic2Template = new Template<Ai21Jurassic2Options>(
+/**
+ * @category Ai21 Jurassic 2
+ * @category Templates
+ */
+export const Ai21Jurassic2Template = new EjsTemplate<Ai21Jurassic2Options>(
   templateSource,
 );
 
@@ -155,7 +163,12 @@ const Ai21Jurassic2ResponseCodec = t.type({
   ),
 });
 
-export type Ai21Jurassic2Response = TypeOf<typeof Ai21Jurassic2ResponseCodec>;
+/**
+ * @category Ai21 Jurassic 2
+ * @category Responses
+ */
+export interface Ai21Jurassic2Response
+  extends TypeOf<typeof Ai21Jurassic2ResponseCodec> {}
 
 export function isAi21Jurassic2Response(
   response: unknown,
@@ -163,6 +176,13 @@ export function isAi21Jurassic2Response(
   return !isLeft(Ai21Jurassic2ResponseCodec.decode(response));
 }
 
+/**
+ * Ai21 Jurrassic 2 (https://docs.ai21.com/reference/j2-complete-api-ref)
+ *
+ * @category Ai21 Jurassic 2
+ * @category APIs
+ * @type {ModelApi<Ai21Jurassic2Options, Ai21Jurassic2Response>}
+ */
 export const Ai21Jurassic2Api: ModelApi<
   Ai21Jurassic2Options,
   Ai21Jurassic2Response

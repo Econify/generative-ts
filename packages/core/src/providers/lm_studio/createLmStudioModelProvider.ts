@@ -4,6 +4,9 @@ import { OpenAiChatApi } from "../../apis/openai";
 
 import { createHttpModelProvider } from "../http";
 
+/**
+ * @category Model Providers
+ */
 export function createLmStudioModelProvider({
   modelId,
   client,

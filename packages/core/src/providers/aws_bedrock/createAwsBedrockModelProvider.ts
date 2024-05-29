@@ -124,6 +124,9 @@ export class AwsBedrockModelProvider<
 
 const DEFAULT_REGION = "us-east-1";
 
+/**
+ * @category Model Providers
+ */
 export function createAwsBedrockModelProvider<
   TRequestOptions extends ModelRequestOptions,
   TResponse = unknown,

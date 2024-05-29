@@ -6,6 +6,9 @@ import { createHttpModelProvider } from "../http";
 
 import { HuggingfaceAuthConfig, loadAuthConfig } from "./loadAuthConfig";
 
+/**
+ * @category Model Providers
+ */
 export function createHuggingfaceInferenceModelProvider<
   TRequestOptions extends ModelRequestOptions,
   TResponse = unknown,

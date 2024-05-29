@@ -3,18 +3,16 @@ import type { TypeOf } from "io-ts";
 import { isLeft } from "fp-ts/Either";
 
 import type { ModelApi, ModelRequestOptions } from "../../typeDefs";
-import { Template } from "../../utils/template";
+import { EjsTemplate } from "../../utils/ejsTemplate";
 
 const templateSource = `{
-  "inputs": {
-    <% if (typeof past_user_inputs !== 'undefined' && past_user_inputs.length > 0) { %>
-      "past_user_inputs": <%= JSON.stringify(past_user_inputs) %>,
-    <% } %>
-    <% if (typeof generated_responses !== 'undefined' && generated_responses.length > 0) { %>
-      "generated_responses": <%= JSON.stringify(generated_responses) %>,
-    <% } %>
-    "text": "<%= prompt %>"
-  }
+  "inputs": "<%= prompt %>"
+  <% if (typeof past_user_inputs !== 'undefined' && past_user_inputs.length > 0) { %>
+    , "past_user_inputs": <%- JSON.stringify(past_user_inputs) %>
+  <% } %>
+  <% if (typeof generated_responses !== 'undefined' && generated_responses.length > 0) { %>
+    , "generated_responses": <%- JSON.stringify(generated_responses) %>
+  <% } %>
   <% if (typeof parameters !== 'undefined') { %>
   , "parameters": {
     <% let comma = false; %>
@@ -36,15 +34,18 @@ const templateSource = `{
   <% } %>
 }`;
 
+/**
+ * @category Huggingface Conversational Task
+ * @category Requests
+ */
 export interface HfConversationalTaskOptions extends ModelRequestOptions {
   past_user_inputs?: string[];
   generated_responses?: string[];
-  text: string;
   parameters?: {
-    min_length?: number;
-    max_length?: number;
     top_k?: number;
     top_p?: number;
+    min_length?: number;
+    max_length?: number;
     temperature?: number;
     repetition_penalty?: number;
     max_time?: number;
@@ -55,16 +56,25 @@ export interface HfConversationalTaskOptions extends ModelRequestOptions {
   };
 }
 
+/**
+ * @category Huggingface Conversational Task
+ * @category Templates
+ */
 export const HfConversationalTaskTemplate =
-  new Template<HfConversationalTaskOptions>(templateSource);
+  new EjsTemplate<HfConversationalTaskOptions>(templateSource);
 
-const HfConversationalTaskResponseCodec = t.type({
-  generated_text: t.string,
-});
+const HfConversationalTaskResponseCodec = t.array(
+  t.type({
+    generated_text: t.string,
+  }),
+);
 
-export type HfConversationalTaskResponse = TypeOf<
-  typeof HfConversationalTaskResponseCodec
->;
+/**
+ * @category Huggingface Conversational Task
+ * @category Responses
+ */
+export interface HfConversationalTaskResponse
+  extends TypeOf<typeof HfConversationalTaskResponseCodec> {}
 
 export function isHfConversationalTaskResponse(
   response: unknown,
@@ -72,6 +82,10 @@ export function isHfConversationalTaskResponse(
   return !isLeft(HfConversationalTaskResponseCodec.decode(response));
 }
 
+/**
+ * @category Huggingface Conversational Task
+ * @category APIs
+ */
 export const HfConversationalTaskApi: ModelApi<
   HfConversationalTaskOptions,
   HfConversationalTaskResponse

@@ -3,7 +3,7 @@ import type { TypeOf } from "io-ts";
 import { isLeft } from "fp-ts/Either";
 
 import type { ModelApi, ModelRequestOptions } from "../../typeDefs";
-import { Template } from "../../utils/template";
+import { EjsTemplate } from "../../utils/ejsTemplate";
 
 const templateSource = `{
   "inputs": "<%= prompt %>"
@@ -30,6 +30,10 @@ const templateSource = `{
   <% } %>
 }`;
 
+/**
+ * @category Huggingface Text Generation Task
+ * @category Requests
+ */
 export interface HfTextGenerationTaskOptions extends ModelRequestOptions {
   parameters?: {
     top_k?: number;
@@ -48,8 +52,12 @@ export interface HfTextGenerationTaskOptions extends ModelRequestOptions {
   };
 }
 
+/**
+ * @category Huggingface Text Generation Task
+ * @category Templates
+ */
 export const HfTextGenerationTaskTemplate =
-  new Template<HfTextGenerationTaskOptions>(templateSource);
+  new EjsTemplate<HfTextGenerationTaskOptions>(templateSource);
 
 const HfTextGenerationTaskResponseCodec = t.array(
   t.type({
@@ -57,9 +65,12 @@ const HfTextGenerationTaskResponseCodec = t.array(
   }),
 );
 
-export type HfTextGenerationTaskResponse = TypeOf<
-  typeof HfTextGenerationTaskResponseCodec
->;
+/**
+ * @category Huggingface Text Generation Task
+ * @category Responses
+ */
+export interface HfTextGenerationTaskResponse
+  extends TypeOf<typeof HfTextGenerationTaskResponseCodec> {}
 
 export function isHfTextGenerationTaskResponse(
   response: unknown,
@@ -67,6 +78,10 @@ export function isHfTextGenerationTaskResponse(
   return !isLeft(HfTextGenerationTaskResponseCodec.decode(response));
 }
 
+/**
+ * @category Huggingface Text Generation Task
+ * @category APIs
+ */
 export const HfTextGenerationTaskApi: ModelApi<
   HfTextGenerationTaskOptions,
   HfTextGenerationTaskResponse

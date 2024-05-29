@@ -8,6 +8,9 @@ import { createHttpModelProvider } from "../http";
 
 import { GroqAuthConfig, loadAuthConfig } from "./loadAuthConfig";
 
+/**
+ * @category Model Providers
+ */
 export function createGroqModelProvider({
   modelId,
   client,

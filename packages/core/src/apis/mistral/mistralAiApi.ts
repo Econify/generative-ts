@@ -4,7 +4,7 @@ import { isLeft } from "fp-ts/Either";
 
 import type { ModelApi, ModelRequestOptions } from "../../typeDefs";
 
-import { Template } from "../../utils/template";
+import { EjsTemplate } from "../../utils/ejsTemplate";
 
 import type { FewShotRequestOptions } from "../_shared_interfaces/fewShot";
 
@@ -46,7 +46,11 @@ const templateSource = `{
   <% if (typeof random_seed !== 'undefined') { %>, "seed": <%= seed %><% } %>
 }`;
 
-export interface MistralAiApiOptions
+/**
+ * @category Mistral
+ * @category Requests
+ */
+export interface MistralAiOptions
   extends FewShotRequestOptions,
     ModelRequestOptions {
   messages?: {
@@ -61,7 +65,11 @@ export interface MistralAiApiOptions
   random_seed?: number;
 }
 
-export const MistralAiApiTemplate = new Template<MistralAiApiOptions>(
+/**
+ * @category Mistral
+ * @category Templates
+ */
+export const MistralAiTemplate = new EjsTemplate<MistralAiOptions>(
   templateSource,
 );
 
@@ -69,16 +77,27 @@ const MistralAiApiResponseCodec = t.type({
   id: t.string,
 });
 
-export type MistralAiApiResponse = TypeOf<typeof MistralAiApiResponseCodec>;
+/**
+ * @category Mistral
+ * @category Responses
+ */
+export interface MistralAiResponse
+  extends TypeOf<typeof MistralAiApiResponseCodec> {}
 
-export function isMistralAiApiResponse(
+export function isMistralAiResponse(
   response: unknown,
-): response is MistralAiApiResponse {
+): response is MistralAiResponse {
   return !isLeft(MistralAiApiResponseCodec.decode(response));
 }
 
-export const MistralAiApi: ModelApi<MistralAiApiOptions, MistralAiApiResponse> =
-  {
-    requestTemplate: MistralAiApiTemplate,
-    responseGuard: isMistralAiApiResponse,
-  };
+/**
+ * Mistral Chat Completion API (https://docs.mistral.ai/api/#operation/createChatCompletion)
+ *
+ * @category Mistral
+ * @category APIs
+ * @type {ModelApi<MistralAiOptions, MistralAiResponse>}
+ */
+export const MistralAiApi: ModelApi<MistralAiOptions, MistralAiResponse> = {
+  requestTemplate: MistralAiTemplate,
+  responseGuard: isMistralAiResponse,
+};

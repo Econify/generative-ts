@@ -1,1 +1,1 @@
-export * from "./cohere_generate";
+export * from "./cohereGenerate";

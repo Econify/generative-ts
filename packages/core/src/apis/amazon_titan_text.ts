@@ -4,7 +4,7 @@ import { isLeft } from "fp-ts/Either";
 
 import type { ModelApi, ModelRequestOptions } from "../typeDefs";
 
-import { Template } from "../utils/template";
+import { EjsTemplate } from "../utils/ejsTemplate";
 
 const templateSource = `{
   "inputText": "<%= prompt %>"
@@ -30,6 +30,10 @@ const templateSource = `{
   <% } %>
 }`;
 
+/**
+ * @category Amazon Titan Text
+ * @category Requests
+ */
 export interface AmazonTitanTextOptions extends ModelRequestOptions {
   temperature?: number; // float [0, 1.0]
   topP?: number; // float [1.00E-45, 1.0]
@@ -37,7 +41,11 @@ export interface AmazonTitanTextOptions extends ModelRequestOptions {
   stopSequences?: string[]; // must be one of: "|" | "User:"
 }
 
-export const AmazonTitanTextTemplate = new Template<AmazonTitanTextOptions>(
+/**
+ * @category Amazon Titan Text
+ * @category Templates
+ */
+export const AmazonTitanTextTemplate = new EjsTemplate<AmazonTitanTextOptions>(
   templateSource,
 );
 
@@ -50,9 +58,12 @@ const AmazonTitanTextResponseCodec = t.type({
   ),
 });
 
-export type AmazonTitanTextResponse = TypeOf<
-  typeof AmazonTitanTextResponseCodec
->;
+/**
+ * @category Amazon Titan Text
+ * @category Responses
+ */
+export interface AmazonTitanTextResponse
+  extends TypeOf<typeof AmazonTitanTextResponseCodec> {}
 
 export function isAmazonTitanTextResponse(
   response: unknown,
@@ -60,6 +71,13 @@ export function isAmazonTitanTextResponse(
   return !isLeft(AmazonTitanTextResponseCodec.decode(response));
 }
 
+/**
+ * Amazon Titan Text API (https://docs.aws.amazon.com/bedrock/latest/userguide/model-parameters-titan-text.html)
+ *
+ * @category Amazon Titan Text
+ * @category APIs
+ * @type {ModelApi<AmazonTitanTextOptions, AmazonTitanTextResponse>}
+ */
 export const AmazonTitanTextApi: ModelApi<
   AmazonTitanTextOptions,
   AmazonTitanTextResponse

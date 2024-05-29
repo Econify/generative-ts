@@ -28,6 +28,9 @@ type CreateHttpModelProviderParams<
   auth?: AuthStrategy;
 };
 
+/**
+ * @category Model Providers
+ */
 export function createHttpModelProvider<
   TRequestOptions extends ModelRequestOptions,
   TResponse = unknown,
@@ -42,7 +45,7 @@ export function createHttpModelProvider<
 
   const headersStrategy = !isHeadersStrategy(params.headers)
     ? new StaticHeadersStrategy(
-        params.headers ?? { "Content-Type": "application/json" }, // TODO apply defaults elsewhere?
+        params.headers ?? { "Content-Type": "application/json" },
       )
     : params.headers;
 

@@ -1,6 +1,6 @@
 import type { ModelApi, ModelRequestOptions } from "../../typeDefs";
 
-import { Template } from "../../utils/template";
+import { EjsTemplate } from "../../utils/ejsTemplate";
 
 import type { FewShotRequestOptions } from "../_shared_interfaces/fewShot";
 
@@ -15,6 +15,10 @@ const templateSource = `{
   <% if (typeof max_gen_len !== 'undefined') { %>, "max_gen_len": <%= max_gen_len %><% } %>
 }`;
 
+/**
+ * @category Llama3
+ * @category Requests
+ */
 export interface Llama3ChatOptions
   extends FewShotRequestOptions,
     ModelRequestOptions {
@@ -23,9 +27,22 @@ export interface Llama3ChatOptions
   max_gen_len?: number;
 }
 
-export const Llama3Template = new Template<Llama3ChatOptions>(templateSource);
+/**
+ * @category Llama3
+ * @category Templates
+ */
+export const Llama3ChatTemplate = new EjsTemplate<Llama3ChatOptions>(
+  templateSource,
+);
 
+/**
+ * LLama3 API (https://llama.meta.com/docs/model-cards-and-prompt-formats/meta-llama-3)
+ *
+ * @category Llama3
+ * @category APIs
+ * @type {ModelApi<Llama3ChatOptions, LlamaResponse>}
+ */
 export const Llama3ChatApi: ModelApi<Llama3ChatOptions, LlamaResponse> = {
-  requestTemplate: Llama3Template,
+  requestTemplate: Llama3ChatTemplate,
   responseGuard: isLlamaResponse,
 };

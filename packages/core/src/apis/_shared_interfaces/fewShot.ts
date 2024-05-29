@@ -1,4 +1,4 @@
-import { Template } from "../../utils/template";
+import { EjsTemplate } from "../../utils/ejsTemplate";
 
 export const FewShotPromptTemplateSource = `<% if (typeof system !== 'undefined') { %>
   INSTRUCTIONS:
@@ -23,6 +23,6 @@ export interface FewShotRequestOptions {
   examplePairs?: { user: string; assistant: string }[];
 }
 
-export const FewShotPromptTemplate = new Template<FewShotRequestOptions>(
+export const FewShotPromptTemplate = new EjsTemplate<FewShotRequestOptions>(
   FewShotPromptTemplateSource,
 );

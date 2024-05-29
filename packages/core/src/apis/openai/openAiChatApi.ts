@@ -4,7 +4,7 @@ import { isLeft } from "fp-ts/Either";
 
 import type { ModelApi, ModelRequestOptions } from "../../typeDefs";
 
-import { Template } from "../../utils/template";
+import { EjsTemplate } from "../../utils/ejsTemplate";
 
 import type { FewShotRequestOptions } from "../_shared_interfaces/fewShot";
 
@@ -41,20 +41,24 @@ const templateSource = `{
   <% if (typeof temperature !== 'undefined') { %>, "temperature": <%= temperature %><% } %>
   <% if (typeof max_tokens !== 'undefined') { %>, "max_tokens": <%= max_tokens %><% } %>
   <% if (typeof frequency_penalty !== 'undefined') { %>, "frequency_penalty": <%= frequency_penalty %><% } %>
-  <% if (typeof logit_bias !== 'undefined') { %>, "logit_bias": <%= JSON.stringify(logit_bias) %><% } %>
+  <% if (typeof logit_bias !== 'undefined') { %>, "logit_bias": <%- JSON.stringify(logit_bias) %><% } %>
   <% if (typeof logprobs !== 'undefined') { %>, "logprobs": <%= logprobs %><% } %>
   <% if (typeof top_logprobs !== 'undefined') { %>, "top_logprobs": <%= top_logprobs %><% } %>
   <% if (typeof n !== 'undefined') { %>, "n": <%= n %><% } %>
   <% if (typeof presence_penalty !== 'undefined') { %>, "presence_penalty": <%= presence_penalty %><% } %>
-  <% if (typeof response_format !== 'undefined') { %>, "response_format": <%= JSON.stringify(response_format) %><% } %>
+  <% if (typeof response_format !== 'undefined') { %>, "response_format": <%- JSON.stringify(response_format) %><% } %>
   <% if (typeof seed !== 'undefined') { %>, "seed": <%= seed %><% } %>
-  <% if (typeof stop !== 'undefined') { %>, "stop": <%= JSON.stringify(stop) %><% } %>
+  <% if (typeof stop !== 'undefined') { %>, "stop": <%- JSON.stringify(stop) %><% } %>
   <% if (typeof top_p !== 'undefined') { %>, "top_p": <%= top_p %><% } %>
-  <% if (typeof tools !== 'undefined') { %>, "tools": <%= JSON.stringify(tools) %><% } %>
-  <% if (typeof tool_choice !== 'undefined') { %>, "tool_choice": <%= JSON.stringify(tool_choice) %><% } %>
+  <% if (typeof tools !== 'undefined') { %>, "tools": <%- JSON.stringify(tools) %><% } %>
+  <% if (typeof tool_choice !== 'undefined') { %>, "tool_choice": <%- JSON.stringify(tool_choice) %><% } %>
   <% if (typeof user !== 'undefined') { %>, "user": "<%= user %>"<% } %>
 }`;
 
+/**
+ * @category OpenAI ChatCompletion
+ * @category Requests
+ */
 export interface OpenAiChatOptions
   extends ModelRequestOptions,
     FewShotRequestOptions {
@@ -101,7 +105,11 @@ export interface OpenAiChatOptions
   // functions
 }
 
-export const OpenAiChatTemplate = new Template<OpenAiChatOptions>(
+/**
+ * @category OpenAI ChatCompletion
+ * @category Templates
+ */
+export const OpenAiChatTemplate = new EjsTemplate<OpenAiChatOptions>(
   templateSource,
 );
 
@@ -140,7 +148,12 @@ const OpenAiChatResponseCodec = t.type({
   // system_fingerprint: t.string,
 });
 
-export type OpenAiChatResponse = TypeOf<typeof OpenAiChatResponseCodec>;
+/**
+ * @category OpenAI ChatCompletion
+ * @category Responses
+ */
+export interface OpenAiChatResponse
+  extends TypeOf<typeof OpenAiChatResponseCodec> {}
 
 export function isOpenAiChatResponse(
   response: unknown,
@@ -148,6 +161,14 @@ export function isOpenAiChatResponse(
   return !isLeft(OpenAiChatResponseCodec.decode(response));
 }
 
+/**
+ * OpenAI Chat Completion API (https://github.com/openai/openai-openapi/)
+ * Used by OpenAI, LLamaCPP frontends, Groq, and probably others
+ *
+ * @category OpenAI ChatCompletion
+ * @category APIs
+ * @type {ModelApi<OpenAiChatOptions, OpenAiChatResponse>}
+ */
 export const OpenAiChatApi: ModelApi<OpenAiChatOptions, OpenAiChatResponse> = {
   requestTemplate: OpenAiChatTemplate,
   responseGuard: isOpenAiChatResponse,

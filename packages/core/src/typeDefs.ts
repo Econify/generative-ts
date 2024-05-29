@@ -1,15 +1,27 @@
+/**
+ * @category Core Interfaces
+ */
 export interface Template<TVars> {
   source: string;
   render(context: TVars): string;
 }
 
+/**
+ * @category Core Interfaces
+ */
 export type ModelId = string;
 
+/**
+ * @category Core Interfaces
+ */
 export interface ModelRequestOptions {
   modelId: ModelId;
   prompt: string;
 }
 
+/**
+ * @category Core Interfaces
+ */
 export interface ModelApi<
   TRequestOptions extends ModelRequestOptions = ModelRequestOptions,
   TResponse = unknown,
@@ -18,6 +30,9 @@ export interface ModelApi<
   responseGuard: (response: unknown) => response is TResponse;
 }
 
+/**
+ * @category Core Interfaces
+ */
 export interface ModelProvider<
   TRequestOptions extends ModelRequestOptions = ModelRequestOptions,
   TResponse = unknown,
@@ -25,6 +40,9 @@ export interface ModelProvider<
   sendRequest(options: TRequestOptions): Promise<TResponse>;
 }
 
+/**
+ * @category Core Interfaces
+ */
 export interface HttpClient {
   post(
     endpoint: string,

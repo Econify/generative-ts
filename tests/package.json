@@ -9,11 +9,15 @@
     "e2e:esm:node": "node ./e2e/esm-bundle.test.mjs",
     "e2e:esm:browser": "open http://localhost:3001/tests/e2e/esm-bundle.test.html && python3 -m http.server 3001 --directory ../",
     "int:bedrock": "DOTENV_CONFIG_PATH=../.env ts-node -r tsconfig-paths/register -r dotenv/config ./integration/bedrock.ts",
+    "int:hf": "DOTENV_CONFIG_PATH=../.env ts-node -r tsconfig-paths/register -r dotenv/config ./integration/hf.ts",
     "clean": "",
     "lint": "",
-    "test": ""
+    "test": "",
+    "test:e2e": "npm-run-all e2e:*",
+    "test:int": "npm-run-all int:*"
   },
   "devDependencies": {
-    "browserify": "^17.0.0"
+    "browserify": "^17.0.0",
+    "npm-run-all": "^4.1.5"
   }
 }

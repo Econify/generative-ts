@@ -63,6 +63,7 @@ workflows:
       - test:
           context:
             - econify-aws
+            - generative-ts-hf-token
   push_release_branch:
     jobs:
       - publish:

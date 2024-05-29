@@ -61,12 +61,12 @@ async function main() {
     })(),
   ]);
 
-  console.log("Test pass");
+  console.log("AWS Bedrock Test pass");
   process.exit(0);
 }
 
 main().catch((error) => {
   console.log(error);
-  console.log("Test fail");
+  console.log("AWS Bedrock Test fail");
   process.exit(1);
 });

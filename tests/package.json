@@ -1,13 +1,17 @@
 {
   "name": "generative-ts-tests",
-  "description": "integration/e2e tests (just sanity checks on the generated bundles for now)",
   "private": true,
+  "description": "integration/e2e tests",
   "scripts": {
-    "test:cjs:node": "node ./cjs-bundle.test.js",
-    "test:cjs:browser": "open http://localhost:3001/tests/cjs-bundle.test.html && python3 -m http.server 3001 --directory ../",
-    "test:esm:node": "node ./esm-bundle.test.mjs",
-    "test:esm:browser": "open http://localhost:3001/tests/esm-bundle.test.html && python3 -m http.server 3001 --directory ../",
-    "browserify:cjs": "browserify ./cjs-bundle.test.js -o ./cjs-bundle.test.browserified.js"
+    "browserify:cjs": "browserify ./e2e/cjs-bundle.test.js -o ./e2e/cjs-bundle.test.browserified.js",
+    "e2e:cjs:node": "node ./e2e/cjs-bundle.test.js",
+    "e2e:cjs:browser": "open http://localhost:3001/tests/e2e/cjs-bundle.test.html && python3 -m http.server 3001 --directory ../",
+    "e2e:esm:node": "node ./e2e/esm-bundle.test.mjs",
+    "e2e:esm:browser": "open http://localhost:3001/tests/e2e/esm-bundle.test.html && python3 -m http.server 3001 --directory ../",
+    "int:bedrock": "DOTENV_CONFIG_PATH=../.env ts-node -r tsconfig-paths/register -r dotenv/config ./integration/bedrock.ts",
+    "clean": "",
+    "lint": "",
+    "test": ""
   },
   "devDependencies": {
     "browserify": "^17.0.0"

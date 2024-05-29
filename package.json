@@ -14,7 +14,8 @@
     "url": "https://github.com/Econify/generative-ts/issues"
   },
   "workspaces": [
-    "packages/*"
+    "packages/*",
+    "tests/"
   ],
   "scripts": {
     "build": "npm run clean && npm run build:core && npm run build:main",
@@ -29,6 +30,7 @@
     "publish:core": "cd packages/core && npm publish",
     "publish:main": "cd packages/generative-ts && npm publish",
     "test": "npm run test --workspaces",
+    "test:integration": "npm run int:bedrock -w generative-ts-tests",
     "typecheck": "tsc --noEmit",
     "example": "ts-node -r tsconfig-paths/register -r dotenv/config ./examples/index.ts",
     "example:fewshot": "ts-node -r tsconfig-paths/register -r dotenv/config ./examples/few-shot-chat-models.ts",
@@ -66,8 +68,15 @@
   },
   "keywords": [
     "llm",
+    "openai",
     "gpt",
+    "meta",
     "llama",
+    "mistral",
+    "cohere",
+    "bedrock",
+    "groq",
+    "huggingface",
     "ts",
     "generative",
     "typescript"

@@ -20,6 +20,9 @@ jobs:
       - run:
           name: Test
           command: npm run test
+      - run:
+          name: Integration Test
+          command: npm run test:integration
   publish:
     executor:
       name: node/default
@@ -58,6 +61,9 @@ workflows:
               value: << pipeline.git.branch >>
     jobs:
       - test
+      - integration_test:
+        context:
+          - econify-aws
   push_release_branch:
     jobs:
       - publish:

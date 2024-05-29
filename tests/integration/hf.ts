@@ -38,12 +38,12 @@ async function main() {
     })(),
   ]);
 
-  console.log("Huggingface Inference API Test fail");
+  console.log("Huggingface Inference API Test pass");
   process.exit(0);
 }
 
 main().catch((error) => {
   console.log(error);
-  console.log("Huggingface Inference API Test pass");
+  console.log("Huggingface Inference API Test fail");
   process.exit(1);
 });

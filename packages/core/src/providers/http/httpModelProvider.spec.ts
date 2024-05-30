@@ -61,8 +61,20 @@ describe("HttpModelProvider", () => {
       await provider.sendRequest({ prompt: "Hello, world!" });
 
       // assert
-      expect(endpointStrategy.getEndpoint).toHaveBeenCalled();
-      expect(headersStrategy.getHeaders).toHaveBeenCalled();
+      expect(endpointStrategy.getEndpoint).toHaveBeenCalledWith(
+        {
+          modelId: mockModelId,
+          prompt: "Hello, world!",
+        },
+        { modelId: mockModelId },
+      );
+      expect(headersStrategy.getHeaders).toHaveBeenCalledWith(
+        {
+          modelId: mockModelId,
+          prompt: "Hello, world!",
+        },
+        { modelId: mockModelId },
+      );
       expect(authStrategy.applyAuth).toHaveBeenCalledWith({
         endpoint: mockEndpoint,
         body: mockBody,

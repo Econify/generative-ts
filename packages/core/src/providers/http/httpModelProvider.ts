@@ -1,4 +1,7 @@
 import type {
+  Body,
+  Endpoint,
+  Headers,
   HttpClient,
   ModelApi,
   ModelId,
@@ -7,10 +10,7 @@ import type {
 
 import type {
   AuthStrategy,
-  Body,
-  Endpoint,
   EndpointStrategy,
-  Headers,
   HeadersStrategy,
 } from "./typeDefs";
 
@@ -35,11 +35,11 @@ export class HttpModelProvider<
   TRequestOptions extends ModelRequestOptions,
   TResponse = unknown,
 > extends BaseHttpModelProvider<TRequestOptions, TResponse> {
-  private endpoint: EndpointStrategy;
+  private endpoint: EndpointStrategy<TRequestOptions, typeof this.config>;
 
-  private headers: HeadersStrategy;
+  private headers: HeadersStrategy<TRequestOptions, typeof this.config>;
 
-  private auth: AuthStrategy;
+  private auth: AuthStrategy<TRequestOptions, typeof this.config>;
 
   constructor({
     api,

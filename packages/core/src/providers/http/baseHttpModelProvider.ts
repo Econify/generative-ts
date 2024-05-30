@@ -10,8 +10,9 @@ import {
 export abstract class BaseHttpModelProvider<
   TRequestOptions extends ModelRequestOptions,
   TResponse = unknown,
-  TConfig extends BaseModelProviderConfig = BaseModelProviderConfig,
-> extends BaseModelProvider<TRequestOptions, TResponse, TConfig> {
+  TModelProviderConfig extends
+    BaseModelProviderConfig = BaseModelProviderConfig,
+> extends BaseModelProvider<TRequestOptions, TResponse, TModelProviderConfig> {
   public readonly client: HttpClient;
 
   constructor({
@@ -20,7 +21,7 @@ export abstract class BaseHttpModelProvider<
     client,
   }: {
     api: ModelApi<TRequestOptions, TResponse>;
-    config: TConfig;
+    config: TModelProviderConfig;
     client?: HttpClient;
   }) {
     super({

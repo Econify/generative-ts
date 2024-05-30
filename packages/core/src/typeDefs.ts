@@ -40,15 +40,15 @@ export interface ModelProvider<
   sendRequest(options: TRequestOptions): Promise<TResponse>;
 }
 
+export type Endpoint = string;
+export type Body = string;
+export type Headers = Record<string, string | ReadonlyArray<string>>;
+
 /**
  * @category Core Interfaces
  */
 export interface HttpClient {
-  post(
-    endpoint: string,
-    body: string,
-    headers: Record<string, string | ReadonlyArray<string>>,
-  ): Promise<unknown>;
+  post(endpoint: Endpoint, body: Body, headers: Headers): Promise<unknown>;
 }
 
 // Makes props in K optional in T.

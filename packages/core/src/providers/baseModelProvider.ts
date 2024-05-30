@@ -6,6 +6,7 @@ import type {
   ModelRequestOptions,
 } from "../typeDefs";
 
+// TODO Rename "ModelProviderConfig"
 export interface BaseModelProviderConfig {
   modelId: ModelId;
 }
@@ -16,19 +17,20 @@ export interface BaseModelProviderConfig {
 export abstract class BaseModelProvider<
   TRequestOptions extends ModelRequestOptions,
   TResponse = unknown,
-  TConfig extends BaseModelProviderConfig = BaseModelProviderConfig,
+  TModelProviderConfig extends
+    BaseModelProviderConfig = BaseModelProviderConfig,
 > implements ModelProvider<TRequestOptions, TResponse>
 {
   public readonly api: ModelApi<TRequestOptions, TResponse>;
 
-  public readonly config: TConfig;
+  public readonly config: TModelProviderConfig;
 
   constructor({
     api,
     config,
   }: {
     api: ModelApi<TRequestOptions, TResponse>;
-    config: TConfig;
+    config: TModelProviderConfig;
   }) {
     this.api = api;
     this.config = config;

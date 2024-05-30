@@ -1,4 +1,10 @@
-import type { HttpClient, ModelApi, ModelRequestOptions } from "../../typeDefs";
+import type {
+  Endpoint,
+  Headers,
+  HttpClient,
+  ModelApi,
+  ModelRequestOptions,
+} from "../../typeDefs";
 
 import {
   AuthStrategy,
@@ -23,8 +29,8 @@ type CreateHttpModelProviderParams<
   api: ModelApi<TRequestOptions, TResponse>;
   modelId: string;
   client?: HttpClient;
-  endpoint: string | EndpointStrategy;
-  headers?: Record<string, string> | HeadersStrategy;
+  endpoint: Endpoint | EndpointStrategy;
+  headers?: Headers | HeadersStrategy;
   auth?: AuthStrategy;
 };
 

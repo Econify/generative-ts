@@ -30,9 +30,6 @@
     "@generative-ts/core": "^0.1.0-alpha.5",
     "tslib": "^2.6.2"
   },
-  "peerDependencies": {
-    "@generative-ts/core": "*"
-  },
   "publishConfig": {
     "access": "public"
   },

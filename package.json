@@ -24,7 +24,7 @@
     "clean": "npm run clean --workspaces",
     "check": "npm run typecheck && npm run lint && npm run test",
     "docs:gen": "typedoc",
-    "docs:server": "echo Launching server on localhost:8000... && python3 -m http.server --directory docs/api-reference",
+    "docs:server": "echo Launching server on localhost:8000... && python3 -m http.server --directory ./docs",
     "lint": "npm run lint --workspaces",
     "publish": "npm run publish:core && npm run publish:main",
     "publish:core": "cd packages/core && npm publish",

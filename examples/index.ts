@@ -12,7 +12,7 @@ import {
   HfTextGenerationTaskApi,
   Llama3ChatApi,
   MistralBedrockApi,
-} from "packages/generative-ts/src";
+} from "@packages/core";
 
 async function main() {
   const prompt = "Brief History of NY Mets:";

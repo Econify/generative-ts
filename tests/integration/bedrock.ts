@@ -3,7 +3,7 @@ import {
   Llama2ChatApi,
   Llama3ChatApi,
   MistralBedrockApi,
-} from "packages/generative-ts/src";
+} from "@packages/core";
 
 const payload = {
   system: `

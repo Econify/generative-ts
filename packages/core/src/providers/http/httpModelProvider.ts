@@ -6,7 +6,7 @@ import type {
   ModelApi,
   ModelId,
   ModelRequestOptions,
-} from "../../typeDefs";
+} from "@typeDefs";
 
 import type {
   AuthStrategy,

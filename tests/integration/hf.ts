@@ -2,7 +2,7 @@ import {
   createHuggingfaceInferenceModelProvider,
   HfConversationalTaskApi,
   HfTextGenerationTaskApi,
-} from "packages/generative-ts/src";
+} from "@packages/core";
 
 async function main() {
   const gpt2 = createHuggingfaceInferenceModelProvider({

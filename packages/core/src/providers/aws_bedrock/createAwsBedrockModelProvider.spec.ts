@@ -1,6 +1,6 @@
 import aws4 from "aws4";
 
-import type { ModelApi } from "../../typeDefs";
+import type { ModelApi } from "@typeDefs";
 
 import {
   AwsBedrockModelProvider,

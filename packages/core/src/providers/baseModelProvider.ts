@@ -4,7 +4,7 @@ import type {
   ModelId,
   ModelProvider,
   ModelRequestOptions,
-} from "../typeDefs";
+} from "@typeDefs";
 
 // TODO Rename "ModelProviderConfig"
 export interface BaseModelProviderConfig {

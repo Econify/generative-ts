@@ -1,4 +1,4 @@
-import type { HttpClient } from "../../typeDefs";
+import type { HttpClient } from "@typeDefs";
 
 import { OpenAiChatApi } from "../../apis/openai";
 

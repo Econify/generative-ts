@@ -2,7 +2,7 @@ import * as t from "io-ts";
 import type { TypeOf } from "io-ts";
 import { isLeft } from "fp-ts/Either";
 
-import type { ModelApi, ModelRequestOptions } from "../../typeDefs";
+import type { ModelApi, ModelRequestOptions } from "@typeDefs";
 
 import { EjsTemplate } from "../../utils/ejsTemplate";
 

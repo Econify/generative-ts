@@ -5,7 +5,7 @@ import type {
   ModelApi,
   ModelId,
   ModelRequestOptions,
-} from "../../typeDefs";
+} from "@typeDefs";
 
 import { BaseModelProviderConfig } from "../baseModelProvider";
 

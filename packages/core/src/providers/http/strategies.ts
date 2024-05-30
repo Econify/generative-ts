@@ -1,6 +1,6 @@
-import { AuthStrategy, EndpointStrategy, HeadersStrategy } from "./typeDefs";
+import { Body, Endpoint, Headers } from "@typeDefs";
 
-import { Body, Endpoint, Headers } from "../../typeDefs";
+import { AuthStrategy, EndpointStrategy, HeadersStrategy } from "./typeDefs";
 
 export class StaticEndpointStrategy implements EndpointStrategy {
   // eslint-disable-next-line no-empty-function, no-useless-constructor

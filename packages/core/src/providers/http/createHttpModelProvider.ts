@@ -4,7 +4,7 @@ import type {
   HttpClient,
   ModelApi,
   ModelRequestOptions,
-} from "../../typeDefs";
+} from "@typeDefs";
 
 import {
   AuthStrategy,

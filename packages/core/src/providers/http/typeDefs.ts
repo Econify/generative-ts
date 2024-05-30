@@ -1,9 +1,4 @@
-import type {
-  Body,
-  Endpoint,
-  Headers,
-  ModelRequestOptions,
-} from "../../typeDefs";
+import type { Body, Endpoint, Headers, ModelRequestOptions } from "@typeDefs";
 
 export interface EndpointStrategy<
   TRequestOptions extends ModelRequestOptions = ModelRequestOptions,

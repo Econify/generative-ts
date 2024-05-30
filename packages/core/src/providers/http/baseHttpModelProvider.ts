@@ -1,4 +1,4 @@
-import type { HttpClient, ModelApi, ModelRequestOptions } from "../../typeDefs";
+import type { HttpClient, ModelApi, ModelRequestOptions } from "@typeDefs";
 
 import { getClient } from "../../utils/httpClient";
 

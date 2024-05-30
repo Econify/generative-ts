@@ -1,4 +1,4 @@
-import type { HttpClient } from "../../typeDefs";
+import type { HttpClient } from "@typeDefs";
 
 import { HfTextGenerationTaskApi } from "../../apis/huggingface";
 

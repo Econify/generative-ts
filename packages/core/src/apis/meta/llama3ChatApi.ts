@@ -1,4 +1,4 @@
-import type { ModelApi, ModelRequestOptions } from "../../typeDefs";
+import type { ModelApi, ModelRequestOptions } from "@typeDefs";
 
 import { EjsTemplate } from "../../utils/ejsTemplate";
 

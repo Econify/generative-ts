@@ -1,6 +1,6 @@
 import { render } from "ejs";
 
-import type { Template } from "../typeDefs";
+import type { Template } from "@typeDefs";
 
 /**
  * Implementation of the Template interface using the EJS templating engine, used by built-in APIs.

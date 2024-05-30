@@ -16,11 +16,11 @@ export function createLmStudioModelProvider({
   client?: HttpClient;
   endpoint?: string;
 }) {
-  // TODO throw error if no key ("auth must be passed or GROQ_API_KEY must be set in process.env")
-
   return new HttpModelProvider({
     api: OpenAiChatApi,
-    modelId,
+    config: {
+      modelId,
+    },
     client,
     endpoint,
   });

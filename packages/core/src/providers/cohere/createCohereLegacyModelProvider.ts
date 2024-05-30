@@ -26,7 +26,9 @@ export function createCohereLegacyModelProvider({
 
   return new HttpModelProvider({
     api: CohereGenerateApi,
-    modelId,
+    config: {
+      modelId,
+    },
     client,
     endpoint: "https://api.cohere.ai/v1/generate",
     auth: new BearerTokenAuthStrategy(COHERE_API_KEY),

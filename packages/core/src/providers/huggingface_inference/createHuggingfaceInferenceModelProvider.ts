@@ -33,7 +33,9 @@ export function createHuggingfaceInferenceModelProvider<
 
   return new HttpModelProvider({
     api,
-    modelId,
+    config: {
+      modelId,
+    },
     client,
     endpoint: {
       getEndpoint({ modelId: mId }) {

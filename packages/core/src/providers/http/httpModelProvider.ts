@@ -4,7 +4,6 @@ import type {
   Headers,
   HttpClient,
   ModelApi,
-  ModelId,
   ModelRequestOptions,
 } from "@typeDefs";
 
@@ -22,19 +21,9 @@ import {
   StaticHeadersStrategy,
 } from "./strategies";
 
-import { BaseHttpModelProvider } from "./baseHttpModelProvider";
+import type { BaseModelProviderConfig } from "../baseModelProvider";
 
-interface HttpModelProviderConstructorParams<
-  TRequestOptions extends ModelRequestOptions,
-  TResponse = unknown,
-> {
-  api: ModelApi<TRequestOptions, TResponse>;
-  modelId: ModelId;
-  endpoint: Endpoint | EndpointStrategy;
-  headers?: Headers | HeadersStrategy;
-  auth?: AuthStrategy;
-  client?: HttpClient;
-}
+import { BaseHttpModelProvider } from "./baseHttpModelProvider";
 
 /**
  * @category Core Implementations
@@ -42,26 +31,37 @@ interface HttpModelProviderConstructorParams<
 export class HttpModelProvider<
   TRequestOptions extends ModelRequestOptions,
   TResponse = unknown,
-> extends BaseHttpModelProvider<TRequestOptions, TResponse> {
-  private endpoint: EndpointStrategy<TRequestOptions, typeof this.config>;
+  TModelProviderConfig extends
+    BaseModelProviderConfig = BaseModelProviderConfig,
+> extends BaseHttpModelProvider<
+  TRequestOptions,
+  TResponse,
+  TModelProviderConfig
+> {
+  private endpoint: EndpointStrategy<TRequestOptions, TModelProviderConfig>;
 
-  private headers: HeadersStrategy<TRequestOptions, typeof this.config>;
+  private headers: HeadersStrategy<TRequestOptions, TModelProviderConfig>;
 
-  private auth: AuthStrategy<TRequestOptions, typeof this.config>;
+  private auth: AuthStrategy<TRequestOptions, TModelProviderConfig>;
 
   constructor({
     api,
-    modelId,
+    config,
     endpoint,
     headers,
     auth,
     client,
-  }: HttpModelProviderConstructorParams<TRequestOptions, TResponse>) {
+  }: {
+    api: ModelApi<TRequestOptions, TResponse>;
+    config: TModelProviderConfig;
+    endpoint: Endpoint | EndpointStrategy;
+    headers?: Headers | HeadersStrategy;
+    auth?: AuthStrategy;
+    client?: HttpClient;
+  }) {
     super({
       api,
-      config: {
-        modelId,
-      },
+      config,
       client,
     });
 

@@ -26,7 +26,9 @@ export function createGroqModelProvider({
 
   return new HttpModelProvider({
     api: OpenAiChatApi,
-    modelId,
+    config: {
+      modelId,
+    },
     client,
     endpoint: "https://api.groq.com/openai/v1/chat/completions",
     auth: new BearerTokenAuthStrategy(GROQ_API_KEY),

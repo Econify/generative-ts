@@ -26,7 +26,9 @@ export function createOpenAiChatModelProvider({
 
   return new HttpModelProvider({
     api: OpenAiChatApi,
-    modelId,
+    config: {
+      modelId,
+    },
     client,
     endpoint: "https://api.openai.com/v1/chat/completions",
     auth: new BearerTokenAuthStrategy(OPENAI_API_KEY),

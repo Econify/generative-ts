@@ -36,7 +36,9 @@ describe("HttpModelProvider", () => {
       // arrange
       const provider = new HttpModelProvider({
         api: mockApi as unknown as ModelApi,
-        modelId: mockModelId,
+        config: {
+          modelId: mockModelId,
+        },
         client: mockClient,
         endpoint: mockEndpoint,
       });
@@ -56,7 +58,9 @@ describe("HttpModelProvider", () => {
       // arrange
       const provider = new HttpModelProvider({
         api: mockApi as unknown as ModelApi,
-        modelId: mockModelId,
+        config: {
+          modelId: mockModelId,
+        },
         client: mockClient,
         endpoint: mockEndpoint,
         headers: mockHeaders,
@@ -84,7 +88,9 @@ describe("HttpModelProvider", () => {
 
       const provider = new HttpModelProvider({
         api: mockApi as unknown as ModelApi,
-        modelId: mockModelId,
+        config: {
+          modelId: mockModelId,
+        },
         client: mockClient,
         endpoint: endpointStrategy,
         headers: headersStrategy,
@@ -107,7 +113,9 @@ describe("HttpModelProvider", () => {
       // arrange
       const provider = new HttpModelProvider({
         api: mockApi as unknown as ModelApi,
-        modelId: mockModelId,
+        config: {
+          modelId: mockModelId,
+        },
         client: mockClient,
         endpoint: mockEndpoint,
       });

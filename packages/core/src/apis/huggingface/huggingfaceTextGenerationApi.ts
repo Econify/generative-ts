@@ -79,6 +79,13 @@ export function isHfTextGenerationTaskResponse(
 }
 
 /**
+ *
+ * ## Reference
+ * [Huggingface Text Generation Task](https://huggingface.co/docs/api-inference/detailed_parameters?code=curl#text-generation-task)
+ *
+ * ## Providers using this API
+ * - {@link createHuggingfaceInferenceModelProvider | Huggingface Inference API}
+ *
  * @category Huggingface Text Generation Task
  * @category APIs
  */

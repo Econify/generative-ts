@@ -36,11 +36,15 @@ export const Llama3ChatTemplate = new EjsTemplate<Llama3ChatOptions>(
 );
 
 /**
- * LLama3 API (https://llama.meta.com/docs/model-cards-and-prompt-formats/meta-llama-3)
+ *
+ * ## Reference
+ * [LLama3](https://llama.meta.com/docs/model-cards-and-prompt-formats/meta-llama-3)
+ *
+ * ## Providers using this API
+ * - {@link createAwsBedrockModelProvider | AWS Bedrock}
  *
  * @category Llama3
  * @category APIs
- * @type {ModelApi<Llama3ChatOptions, LlamaResponse>}
  */
 export const Llama3ChatApi: ModelApi<Llama3ChatOptions, LlamaResponse> = {
   requestTemplate: Llama3ChatTemplate,

@@ -99,11 +99,15 @@ export function isCohereGenerateResponse(
 }
 
 /**
- * Cohere Generate (Legacy) API (https://docs.cohere.com/reference/generate)
+ *
+ * ## Reference
+ * [Cohere Generate](https://docs.cohere.com/reference/generate)
+ *
+ * ## Providers using this API
+ * - {@link createCohereLegacyModelProvider | Cohere (Legacy)}
  *
  * @category Cohere Generate
  * @category APIs
- * @type {ModelApi<CohereGenerateOptions, CohereGenerateResponse>}
  */
 export const CohereGenerateApi: ModelApi<
   CohereGenerateOptions,

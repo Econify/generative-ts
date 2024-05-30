@@ -64,12 +64,15 @@ export function isMistralBedrockResponse(
 }
 
 /**
- * Mistral on AWS Bedrock API (https://docs.aws.amazon.com/bedrock/latest/userguide/model-parameters-mistral.html)
- * This API is specific to Mistral on AWS Bedrockl. It is different than the one offered by Mistral directly.
+ *
+ * ## Reference
+ * [Mistral on AWS Bedrock](https://docs.aws.amazon.com/bedrock/latest/userguide/model-parameters-mistral.html)
+ *
+ * ## Providers using this API
+ * - {@link createAwsBedrockModelProvider | AWS Bedrock}
  *
  * @category Mistral (AWS Bedrock)
  * @category APIs
- * @type {ModelApi<MistralAiOptions, MistralAiResponse>}
  */
 export const MistralBedrockApi: ModelApi<
   MistralBedrockOptions,

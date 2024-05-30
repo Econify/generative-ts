@@ -72,11 +72,15 @@ export function isAmazonTitanTextResponse(
 }
 
 /**
- * Amazon Titan Text API (https://docs.aws.amazon.com/bedrock/latest/userguide/model-parameters-titan-text.html)
+ *
+ * ## Reference
+ * [Amazon Titan Text](https://docs.aws.amazon.com/bedrock/latest/userguide/model-parameters-titan-text.html)
+ *
+ * ## Providers using this API
+ * - {@link createAwsBedrockModelProvider | AWS Bedrock}
  *
  * @category Amazon Titan Text
  * @category APIs
- * @type {ModelApi<AmazonTitanTextOptions, AmazonTitanTextResponse>}
  */
 export const AmazonTitanTextApi: ModelApi<
   AmazonTitanTextOptions,

@@ -83,6 +83,13 @@ export function isHfConversationalTaskResponse(
 }
 
 /**
+ *
+ * ## Reference
+ * [Huggingface Conversational Task](https://huggingface.co/docs/api-inference/detailed_parameters?code=curl#conversational-task)
+ *
+ * ## Providers using this API
+ * - {@link createHuggingfaceInferenceModelProvider | Huggingface Inference API}
+ *
  * @category Huggingface Conversational Task
  * @category APIs
  */

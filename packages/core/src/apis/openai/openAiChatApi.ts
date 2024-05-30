@@ -164,7 +164,7 @@ export function isOpenAiChatResponse(
 /**
  *
  * ## Reference
- * [OpenAI Chat Completion API](https://github.com/openai/openai-openapi/)
+ * [OpenAI Chat Completion](https://github.com/openai/openai-openapi/)
  *
  * ## Providers using this API
  * - {@link createOpenAiChatModelProvider | OpenAI}

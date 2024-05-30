@@ -91,11 +91,16 @@ export function isMistralAiResponse(
 }
 
 /**
- * Mistral Chat Completion API (https://docs.mistral.ai/api/#operation/createChatCompletion)
+ *
+ * ## Reference
+ * [Mistral AI Chat Completion](https://docs.mistral.ai/api/#operation/createChatCompletion)
+ *
+ * ## Providers using this API
+ * - Mistral (Coming Soon!)
  *
  * @category Mistral
  * @category APIs
- * @type {ModelApi<MistralAiOptions, MistralAiResponse>}
+ *
  */
 export const MistralAiApi: ModelApi<MistralAiOptions, MistralAiResponse> = {
   requestTemplate: MistralAiTemplate,

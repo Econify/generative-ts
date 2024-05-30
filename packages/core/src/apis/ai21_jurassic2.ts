@@ -177,11 +177,16 @@ export function isAi21Jurassic2Response(
 }
 
 /**
- * Ai21 Jurrassic 2 (https://docs.ai21.com/reference/j2-complete-api-ref)
+ *
+ * ## Reference
+ * [Ai21 Jurrassic 2](https://docs.ai21.com/reference/j2-complete-api-ref)
+ *
+ * ## Providers using this API
+ * - {@link createAwsBedrockModelProvider | AWS Bedrock}
  *
  * @category Ai21 Jurassic 2
  * @category APIs
- * @type {ModelApi<Ai21Jurassic2Options, Ai21Jurassic2Response>}
+ *
  */
 export const Ai21Jurassic2Api: ModelApi<
   Ai21Jurassic2Options,

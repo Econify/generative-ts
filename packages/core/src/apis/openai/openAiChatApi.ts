@@ -162,12 +162,18 @@ export function isOpenAiChatResponse(
 }
 
 /**
- * OpenAI Chat Completion API (https://github.com/openai/openai-openapi/)
- * Used by OpenAI, LLamaCPP frontends, Groq, and probably others
+ *
+ * ## Reference
+ * [OpenAI Chat Completion API](https://github.com/openai/openai-openapi/)
+ *
+ * ## Providers using this API
+ * - {@link createOpenAiChatModelProvider | OpenAI}
+ * - {@link createGroqModelProvider | Groq}
+ * - {@link createLmStudioModelProvider | LMStudio}
  *
  * @category OpenAI ChatCompletion
  * @category APIs
- * @type {ModelApi<OpenAiChatOptions, OpenAiChatResponse>}
+ *
  */
 export const OpenAiChatApi: ModelApi<OpenAiChatOptions, OpenAiChatResponse> = {
   requestTemplate: OpenAiChatTemplate,

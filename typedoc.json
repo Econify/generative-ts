@@ -1,9 +1,9 @@
 {
   "entryPoints": ["packages/generative-ts/src"],
-  "out": "docs",
+  "out": "./docs/api-reference",
   "exclude": ["**/*.spec.ts"],
   "includeVersion": true,
   "categoryOrder": ["Model Providers", "APIs", "Requests", "Responses", "Templates", "Core Implementations", "Core Interfaces", "*"],
   "plugin": ["typedoc-theme-category-nav"],
-  "theme": "navigation",
+  "theme": "navigation"
 }

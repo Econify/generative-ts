@@ -2,6 +2,8 @@
 
 **a typescript utility library for building LLM applications+agents for node and the browser**
 
+[![Documentation](https://img.shields.io/badge/docs-generative--ts-blue)](https://econify.github.io/generative-ts/)
+
 generative-ts is an unopinionated, web-first utility library for LLM applications. Its core functionality revolves around providing a type-safe interface for interacting with a wide variety of LLM providers using their "native" APIs. It's *not* a heavy abstraction or wrapper around a bunch of existing SDKs. It *is* tiny, portable, and comes with some useful extra features.
 
 ## Features

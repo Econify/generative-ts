@@ -1,4 +1,4 @@
-import { Body, Endpoint, Headers } from "@typeDefs";
+import type { Body, Endpoint, Headers } from "@typeDefs";
 
 import { AuthStrategy, EndpointStrategy, HeadersStrategy } from "./typeDefs";
 

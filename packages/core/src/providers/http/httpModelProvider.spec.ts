@@ -1,4 +1,4 @@
-import { ModelApi } from "@typeDefs";
+import type { ModelApi } from "@typeDefs";
 
 import {
   BearerTokenAuthStrategy,

@@ -4,7 +4,7 @@ import { OpenAiChatApi } from "../../apis/openai";
 
 import { BearerTokenAuthStrategy } from "../http/strategies";
 
-import { createHttpModelProvider } from "../http";
+import { HttpModelProvider } from "../http";
 
 import { GroqAuthConfig, loadAuthConfig } from "./loadAuthConfig";
 
@@ -24,7 +24,7 @@ export function createGroqModelProvider({
 
   // TODO throw error if no key ("auth must be passed or GROQ_API_KEY must be set in process.env")
 
-  return createHttpModelProvider({
+  return new HttpModelProvider({
     api: OpenAiChatApi,
     modelId,
     client,

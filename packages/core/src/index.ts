@@ -71,7 +71,6 @@ export {
   createAwsBedrockModelProvider,
   createCohereLegacyModelProvider,
   createGroqModelProvider,
-  createHttpModelProvider,
   // createHuggingfaceConversationalModelProvider,
   createHuggingfaceInferenceModelProvider,
   // createHuggingfaceTextGenerationModelProvider,

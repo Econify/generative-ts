@@ -14,6 +14,14 @@ import type {
   HeadersStrategy,
 } from "./typeDefs";
 
+import { isEndpointStrategy, isHeadersStrategy } from "./typeDefs";
+
+import {
+  NoAuthStrategy,
+  StaticEndpointStrategy,
+  StaticHeadersStrategy,
+} from "./strategies";
+
 import { BaseHttpModelProvider } from "./baseHttpModelProvider";
 
 interface HttpModelProviderConstructorParams<
@@ -22,10 +30,10 @@ interface HttpModelProviderConstructorParams<
 > {
   api: ModelApi<TRequestOptions, TResponse>;
   modelId: ModelId;
+  endpoint: Endpoint | EndpointStrategy;
+  headers?: Headers | HeadersStrategy;
+  auth?: AuthStrategy;
   client?: HttpClient;
-  endpoint: EndpointStrategy;
-  headers: HeadersStrategy;
-  auth: AuthStrategy;
 }
 
 /**
@@ -44,10 +52,10 @@ export class HttpModelProvider<
   constructor({
     api,
     modelId,
-    client,
     endpoint,
     headers,
     auth,
+    client,
   }: HttpModelProviderConstructorParams<TRequestOptions, TResponse>) {
     super({
       api,
@@ -56,9 +64,20 @@ export class HttpModelProvider<
       },
       client,
     });
-    this.endpoint = endpoint;
-    this.headers = headers;
-    this.auth = auth;
+
+    this.endpoint = !isEndpointStrategy(endpoint)
+      ? new StaticEndpointStrategy(endpoint)
+      : endpoint;
+
+    this.headers = !isHeadersStrategy(headers)
+      ? new StaticHeadersStrategy(
+          headers ?? {
+            "Content-Type": "application/json",
+          },
+        )
+      : headers;
+
+    this.auth = auth ?? new NoAuthStrategy();
   }
 
   protected getEndpoint(options: TRequestOptions) {

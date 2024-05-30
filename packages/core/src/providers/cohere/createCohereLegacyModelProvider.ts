@@ -4,7 +4,7 @@ import { CohereGenerateApi } from "../../apis/cohere";
 
 import { BearerTokenAuthStrategy } from "../http/strategies";
 
-import { createHttpModelProvider } from "../http";
+import { HttpModelProvider } from "../http";
 
 import { CohereAuthConfig, loadAuthConfig } from "./loadAuthConfig";
 
@@ -24,7 +24,7 @@ export function createCohereLegacyModelProvider({
 
   // TODO throw error if no key ("auth must be passed or COHERE_API_KEY must be set in process.env")
 
-  return createHttpModelProvider({
+  return new HttpModelProvider({
     api: CohereGenerateApi,
     modelId,
     client,

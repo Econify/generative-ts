@@ -2,7 +2,7 @@ import type { HttpClient, ModelApi, ModelRequestOptions } from "@typeDefs";
 
 import { BearerTokenAuthStrategy } from "../http/strategies";
 
-import { createHttpModelProvider } from "../http";
+import { HttpModelProvider } from "../http";
 
 import { HuggingfaceAuthConfig, loadAuthConfig } from "./loadAuthConfig";
 
@@ -31,7 +31,7 @@ export function createHuggingfaceInferenceModelProvider<
     );
   }
 
-  return createHttpModelProvider({
+  return new HttpModelProvider({
     api,
     modelId,
     client,

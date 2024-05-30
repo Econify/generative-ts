@@ -1,36 +1,40 @@
 import type { ModelRequestOptions } from "../../typeDefs";
 
+export type Endpoint = string;
+export type Body = string;
+export type Headers = Record<string, string | ReadonlyArray<string>>;
+
 export interface EndpointStrategy {
   getEndpoint<TRequestOptions extends ModelRequestOptions, TConfig>(
     options: TRequestOptions,
     config: TConfig,
-  ): Promise<string> | string;
+  ): Promise<Endpoint> | Endpoint;
 }
 
 export interface HeadersStrategy {
   getHeaders<TRequestOptions extends ModelRequestOptions, TConfig>(
     options: TRequestOptions,
     config: TConfig,
-  ): Promise<Record<string, string>> | Record<string, string>;
+  ): Promise<Headers> | Headers;
 }
 
 export interface AuthStrategy {
   applyAuth<TRequestOptions extends ModelRequestOptions, TConfig>(params: {
     options: TRequestOptions;
     config: TConfig;
-    endpoint: string;
-    body: string;
-    headers: Record<string, string>;
+    endpoint: Endpoint;
+    body: Body;
+    headers: Headers;
   }):
     | Promise<{
-        endpoint: string;
-        body: string;
-        headers: Record<string, string>;
+        endpoint: Endpoint;
+        body: Body;
+        headers: Headers;
       }>
     | {
-        endpoint: string;
-        body: string;
-        headers: Record<string, string>;
+        endpoint: Endpoint;
+        body: Body;
+        headers: Headers;
       };
 }
 

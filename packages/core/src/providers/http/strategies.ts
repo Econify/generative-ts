@@ -1,4 +1,11 @@
-import { AuthStrategy, EndpointStrategy, HeadersStrategy } from "./typeDefs";
+import {
+  AuthStrategy,
+  Body,
+  Endpoint,
+  EndpointStrategy,
+  Headers,
+  HeadersStrategy,
+} from "./typeDefs";
 
 export class StaticEndpointStrategy implements EndpointStrategy {
   // eslint-disable-next-line no-empty-function, no-useless-constructor
@@ -25,9 +32,9 @@ export class NoAuthStrategy implements AuthStrategy {
     body,
     headers,
   }: {
-    endpoint: string;
-    body: string;
-    headers: Record<string, string>;
+    endpoint: Endpoint;
+    body: Body;
+    headers: Headers;
   }) {
     return { endpoint, body, headers };
   }
@@ -42,9 +49,9 @@ export class BearerTokenAuthStrategy implements AuthStrategy {
     body,
     headers,
   }: {
-    endpoint: string;
-    body: string;
-    headers: Record<string, string>;
+    endpoint: Endpoint;
+    body: Body;
+    headers: Headers;
   }) {
     return {
       endpoint,

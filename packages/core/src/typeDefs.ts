@@ -47,7 +47,7 @@ export interface HttpClient {
   post(
     endpoint: string,
     body: string,
-    headers: Record<string, string>,
+    headers: Record<string, string | ReadonlyArray<string>>,
   ): Promise<unknown>;
 }
 

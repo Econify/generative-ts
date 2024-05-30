@@ -1,6 +1,18 @@
-import type { HttpClient, ModelApi, ModelRequestOptions } from "../../typeDefs";
+import type {
+  HttpClient,
+  ModelApi,
+  ModelId,
+  ModelRequestOptions,
+} from "../../typeDefs";
 
-import { AuthStrategy, EndpointStrategy, HeadersStrategy } from "./typeDefs";
+import type {
+  AuthStrategy,
+  Body,
+  Endpoint,
+  EndpointStrategy,
+  Headers,
+  HeadersStrategy,
+} from "./typeDefs";
 
 import { BaseHttpModelProvider } from "./baseHttpModelProvider";
 
@@ -9,7 +21,7 @@ interface HttpModelProviderConstructorParams<
   TResponse = unknown,
 > {
   api: ModelApi<TRequestOptions, TResponse>;
-  modelId: string;
+  modelId: ModelId;
   client?: HttpClient;
   endpoint: EndpointStrategy;
   headers: HeadersStrategy;
@@ -80,9 +92,9 @@ export class HttpModelProvider<
 
   protected applyAuth(
     options: TRequestOptions,
-    endpoint: string,
-    body: string,
-    headers: Record<string, string>,
+    endpoint: Endpoint,
+    body: Body,
+    headers: Headers,
   ) {
     return this.auth.applyAuth({
       options,

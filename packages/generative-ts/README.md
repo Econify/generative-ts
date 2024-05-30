@@ -2,11 +2,11 @@
 
 **a typescript utility library for building LLM applications+agents for node and the browser**
 
-generative-ts seeks to be an unopinionated "web-first" utility library for LLM applications. Its core functionality is a simple interface for hitting a wide variety of LLM providers, providing type-safety (including runtime checking of responses) *without* hiding APIs under layers of abstraction. It uses native fetch (or lets you inject an http client) to give better control over the request than many SDKs allow, in addition to being tiny and portable. It also tries to provide some utility functions for common LLM use-cases... 
+generative-ts is an unopinionated, web-first utility library for LLM applications. Its core functionality revolves around providing a type-safe interface for interacting with a wide variety of LLM providers using their "native" APIs. It's *not* a heavy abstraction or wrapper around a bunch of existing SDKs. It *is* tiny, portable, and comes with some useful extra features.
 
-## Goals
+## Features
 
-- **Simple**: Provides support for [many different model providers](#supported-model-providers) out of the box, giving typesafe interfaces for the APIs as they're already defined
+- **Simple**: Provides support for many different [model providers](#model-providers), giving typesafe interfaces to the APIs as they're already defined
 - **Minimal/Portable**: Runs in node or the browser, has tiny bundles and [scoped packages](#packages) for fine-grain installs 
 - **Features**
   - Stuff
@@ -25,17 +25,12 @@ You can also do more granular installs of scoped packages if you want to optimiz
 
 ## How it Works
 
-**TODO** This should go in a guide/docs:
+generative-ts separates the "Model API" (the request and response interfaces wrapping the model) from the "Model Provider" (the service providing access to the model). This separation accommodates the many quirks of LLM hosting services. For instance, many services (such as LMStudio) rely on llama.cpp, which uses a subset of the OpenAI-ChatCompletion API for all models. Meanwhile, a single model may have different APIs depending on its hosting platform. For example, Mistral uses the Mistral-ChatCompletion API when hosted by Mistral, but it uses the LLama2 Chat API on AWS Bedrock. There are many other unique examples.
 
-* A model isn't synonymous with its API or its hosting provider. There are many quirks like:
-  * Services like Groq, LMStudio, LLamafile, and vLLM put many different open source models behind OpenAI's ChatCompletion spec
-  * But if you're using a model hosted by its own creator (mistral on mistral, cohere on cohere, etc) you'll often get that provider's unique API
-  * Some models (like LLama) arent hosted by their creators at all, and their APIs depend on where theyre hosted
-  * Some models (like GPT3.5 and above) are only hosted by their creators, and their APIs never change
-  * There are one-off situations to deal with, like mistral on AWS bedrock using llama2's chat prompt format
-  * Providers like huggingface provide thousands of models behind a set of several different APIs
+generative-ts provides `ModelApi` **TODO LINK** and `ModelProvider` **TODO LINK** to represent these concepts. Some `ModelProvider`s only use a single `ModelApi` (e.g., OpenAI always uses its own OpenAI API) while other `ModelProvider`s can use many different `ModelApi`s (e.g., AWS Bedrock uses a different API depending on which model you use). Factory functions **TODO LINK** for creating `ModelProviders` expose an `api` parameter when the API is not determined by the provider.
 
-### Supported Model Providers
+
+### Model Providers
 
 * AWS Bedrock
 * Cohere
@@ -50,7 +45,7 @@ You can also do more granular installs of scoped packages if you want to optimiz
 * Google Vertex AI (COMING SOON)
 * Microsoft Azure (COMING SOON?)
 
-### Supported Models APIs
+### Model APIs
 
 * OpenAI ChatCompletion
 * LLama2 Chat
@@ -63,7 +58,7 @@ You can also do more granular installs of scoped packages if you want to optimiz
 * Antrophic: ? (COMING SOON)
 * Google: Gemini (COMING SOON)
 
-It's also easy to add your own (**TODO** link here)
+It's also easy to add your own by using either the `BaseModelProvider` or `HttpModelProvider` class **TODO LINK**
 
 ## Usage
 

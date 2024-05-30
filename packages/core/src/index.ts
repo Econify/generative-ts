@@ -66,6 +66,7 @@ export {
  */
 export {
   BaseModelProvider,
+  // BaseModelProviderConfig,
   // BaseHttpModelProvider,
   HttpModelProvider,
   createAwsBedrockModelProvider,
@@ -76,6 +77,7 @@ export {
   // createHuggingfaceTextGenerationModelProvider,
   createLmStudioModelProvider,
   createOpenAiChatModelProvider,
+  OpenAiAuthConfig,
 } from "./providers";
 
 /*

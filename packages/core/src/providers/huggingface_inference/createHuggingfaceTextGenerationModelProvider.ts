@@ -4,7 +4,7 @@ import { HfTextGenerationTaskApi } from "../../apis/huggingface";
 
 import { createHuggingfaceInferenceModelProvider } from "./createHuggingfaceInferenceModelProvider";
 
-import { HuggingfaceAuthConfig } from "./loadAuthConfig";
+import { HuggingfaceAuthConfig } from "./authConfig";
 
 /**
  * @category Model Providers

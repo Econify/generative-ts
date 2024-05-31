@@ -1,16 +1,57 @@
-import type { HttpClient, ModelApi, ModelRequestOptions } from "@typeDefs";
+import type { HttpClient, ModelApi } from "@typeDefs";
+
+import type { HfInferenceApiOptions } from "../../apis/huggingface";
 
 import { BearerTokenAuthStrategy } from "../http/strategies";
 
 import { HttpModelProvider } from "../http";
 
-import { HuggingfaceAuthConfig, loadAuthConfig } from "./loadAuthConfig";
+import type { HuggingfaceAuthConfig } from "./authConfig";
 
 /**
+ *
+ * Creates a Huggingface Inference {@link ModelProvider} with the specified {@link ModelApi} using {@link HfInferenceApiOptions}
+ *
+ * ```ts
+ * import { createHuggingfaceInferenceModelProvider, HfTextGenerationTaskApi } from "generative-ts";
+ *
+ * const gpt2 = createHuggingfaceInferenceModelProvider({
+ *   api: HfTextGenerationTaskApi,
+ *   modelId: "gpt2",
+ * });
+ *
+ * const response = await gpt2.sendRequest({ input: "Hello," });
+ *
+ * console.log(response[0]?.generated_text);
+ * ```
+ *
  * @category Model Providers
+ * @category Huggingface
+ *
+ * @param {Object} params
+ * @param {ModelApi<HfInferenceApiOptions, TResponse>} params.api - The Huggingface Inference API (must implement {@link HfInferenceApiOptions}), eg {@link HfTextGenerationTaskApi}
+ * @param {string} params.modelId - The model ID for the Huggingface model.
+ * @param {HttpClient} [params.client] - HTTP client to use for requests. If not supplied, the built-in fetch-based implementation will be used.
+ * @param {HuggingfaceAuthConfig} [params.auth] - Authentication configuration for Huggingface. If not supplied, it will be loaded from the environment.
+ * @returns {HttpModelProvider<TRequestOptions, TResponse, BaseModelProviderConfig>} The Huggingface Model Provider with the specified {@link ModelApi}.
+ * @throws {Error} If no auth is passed and HUGGINGFACE_API_TOKEN is not found in process.env
+ *
+ * @example Usage
+ * ```ts
+ * import { createHuggingfaceInferenceModelProvider, HfTextGenerationTaskApi } from "generative-ts";
+ *
+ * const gpt2 = createHuggingfaceInferenceModelProvider({
+ *   api: HfTextGenerationTaskApi,
+ *   modelId: "gpt2",
+ * });
+ *
+ * const response = await gpt2.sendRequest({ input: "Hello," });
+ *
+ * console.log(response[0]?.generated_text);
+ * ```
  */
 export function createHuggingfaceInferenceModelProvider<
-  TRequestOptions extends ModelRequestOptions,
+  TRequestOptions extends HfInferenceApiOptions,
   TResponse = unknown,
 >({
   api,
@@ -23,11 +64,11 @@ export function createHuggingfaceInferenceModelProvider<
   client?: HttpClient;
   auth?: HuggingfaceAuthConfig;
 }) {
-  const { HUGGINGFACE_API_TOKEN } = auth ?? loadAuthConfig();
+  const { HUGGINGFACE_API_TOKEN } = auth ?? process.env;
 
   if (!HUGGINGFACE_API_TOKEN) {
     throw new Error(
-      "Error when creating Huggingface ModelProvider: Huggingface API token (HUGGINGFACE_API_TOKEN) not found in process.env. Please either pass `HUGGINGFACE_API_TOKEN` explicitly in `auth` or set it in the environment.",
+      "Error when creating Huggingface Inference ModelProvider: Huggingface API token (HUGGINGFACE_API_TOKEN) not found in process.env. Please either pass `HUGGINGFACE_API_TOKEN` explicitly in `auth` or set it in the environment.",
     );
   }
 

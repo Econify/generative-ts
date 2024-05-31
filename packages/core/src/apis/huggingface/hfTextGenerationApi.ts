@@ -2,8 +2,11 @@ import * as t from "io-ts";
 import type { TypeOf } from "io-ts";
 import { isLeft } from "fp-ts/Either";
 
-import type { ModelApi, ModelRequestOptions } from "@typeDefs";
+import type { ModelApi } from "@typeDefs";
+
 import { EjsTemplate } from "../../utils/ejsTemplate";
+
+import { HfInferenceApiOptions } from "./hfInferenceApi";
 
 const templateSource = `{
   "inputs": "<%= prompt %>"
@@ -32,9 +35,10 @@ const templateSource = `{
 
 /**
  * @category Huggingface Text Generation Task
+ * @category Huggingface
  * @category Requests
  */
-export interface HfTextGenerationTaskOptions extends ModelRequestOptions {
+export interface HfTextGenerationTaskOptions extends HfInferenceApiOptions {
   parameters?: {
     top_k?: number;
     top_p?: number;
@@ -46,14 +50,11 @@ export interface HfTextGenerationTaskOptions extends ModelRequestOptions {
     num_return_sequences?: number;
     do_sample?: boolean;
   };
-  options?: {
-    use_cache?: boolean;
-    wait_for_model?: boolean;
-  };
 }
 
 /**
  * @category Huggingface Text Generation Task
+ * @category Huggingface
  * @category Templates
  */
 export const HfTextGenerationTaskTemplate =
@@ -67,6 +68,7 @@ const HfTextGenerationTaskResponseCodec = t.array(
 
 /**
  * @category Huggingface Text Generation Task
+ * @category Huggingface
  * @category Responses
  */
 export interface HfTextGenerationTaskResponse
@@ -87,6 +89,7 @@ export function isHfTextGenerationTaskResponse(
  * - {@link createHuggingfaceInferenceModelProvider | Huggingface Inference API}
  *
  * @category Huggingface Text Generation Task
+ * @category Huggingface
  * @category APIs
  */
 export const HfTextGenerationTaskApi: ModelApi<

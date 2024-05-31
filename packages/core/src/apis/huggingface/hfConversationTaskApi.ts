@@ -2,8 +2,11 @@ import * as t from "io-ts";
 import type { TypeOf } from "io-ts";
 import { isLeft } from "fp-ts/Either";
 
-import type { ModelApi, ModelRequestOptions } from "@typeDefs";
+import type { ModelApi } from "@typeDefs";
+
 import { EjsTemplate } from "../../utils/ejsTemplate";
+
+import { HfInferenceApiOptions } from "./hfInferenceApi";
 
 const templateSource = `{
   "inputs": "<%= prompt %>"
@@ -36,9 +39,10 @@ const templateSource = `{
 
 /**
  * @category Huggingface Conversational Task
+ * @category Huggingface
  * @category Requests
  */
-export interface HfConversationalTaskOptions extends ModelRequestOptions {
+export interface HfConversationalTaskOptions extends HfInferenceApiOptions {
   past_user_inputs?: string[];
   generated_responses?: string[];
   parameters?: {
@@ -50,14 +54,11 @@ export interface HfConversationalTaskOptions extends ModelRequestOptions {
     repetition_penalty?: number;
     max_time?: number;
   };
-  options?: {
-    use_cache?: boolean;
-    wait_for_model?: boolean;
-  };
 }
 
 /**
  * @category Huggingface Conversational Task
+ * @category Huggingface
  * @category Templates
  */
 export const HfConversationalTaskTemplate =
@@ -71,6 +72,7 @@ const HfConversationalTaskResponseCodec = t.array(
 
 /**
  * @category Huggingface Conversational Task
+ * @category Huggingface
  * @category Responses
  */
 export interface HfConversationalTaskResponse
@@ -91,6 +93,7 @@ export function isHfConversationalTaskResponse(
  * - {@link createHuggingfaceInferenceModelProvider | Huggingface Inference API}
  *
  * @category Huggingface Conversational Task
+ * @category Huggingface
  * @category APIs
  */
 export const HfConversationalTaskApi: ModelApi<

@@ -5,7 +5,9 @@ import { OpenAiChatApi } from "../../apis/openai";
 import { HttpModelProvider } from "../http";
 
 /**
- * The LM Studio Model Provider with the {@link OpenAiChatApi}
+ *
+ * Creates a LMStudio {@link ModelProvider} with the {@link OpenAiChatApi}
+ *
  * ```ts
 import { createLmStudioModelProvider } from "generative-ts";
 
@@ -17,6 +19,7 @@ const response = await llama3.sendRequest({ prompt: "Brief History of NY Mets:" 
 
 console.log(response.choices[0]?.message.content);
  * ```
+ *
  * @category Model Providers
  *
  * @param {Object} params

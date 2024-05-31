@@ -6,22 +6,24 @@ import { BearerTokenAuthStrategy } from "../http/strategies";
 
 import { HttpModelProvider } from "../http";
 
-import { loadAuthConfig, OpenAiAuthConfig } from "./loadAuthConfig";
+import type { OpenAiAuthConfig } from "./authConfig";
 
 /**
  *
- * The OpenAI Model Provider with the {@link OpenAiChatApi}
+ * Creates a OpenAI {@link ModelProvider} with the {@link OpenAiChatApi}
+ *
  * ```ts
-import { createOpenAiChatModelProvider } from "generative-ts";
-
-const gpt4 = createOpenAiChatModelProvider({
-  modelId: "gpt-4-turbo",
-});
-
-const response = await gptProvider.sendRequest({ prompt: "Brief History of NY Mets:" });
-
-console.log(response.choices[0]?.message.content);
+ * import { createOpenAiChatModelProvider } from "generative-ts";
+ *
+ * const gpt4 = createOpenAiChatModelProvider({
+ *   modelId: "gpt-4-turbo",
+ * });
+ *
+ * const response = await gptProvider.sendRequest({ prompt: "Brief History of NY Mets:" });
+ *
+ * console.log(response.choices[0]?.message.content);
  * ```
+ *
  * @category Model Providers
  *
  * @param {Object} params
@@ -33,15 +35,15 @@ console.log(response.choices[0]?.message.content);
  *
  * @example Usage
  * ```ts
-import { createOpenAiChatModelProvider } from "generative-ts";
-
-const gpt4 = createOpenAiChatModelProvider({
-  modelId: "gpt-4-turbo",
-});
-
-const response = await gptProvider.sendRequest({ prompt: "Brief History of NY Mets:" });
-
-console.log(response.choices[0]?.message.content);
+ * import { createOpenAiChatModelProvider } from "generative-ts";
+ *
+ * const gpt4 = createOpenAiChatModelProvider({
+ *   modelId: "gpt-4-turbo",
+ * });
+ *
+ * const response = await gptProvider.sendRequest({ prompt: "Brief History of NY Mets:" });
+ *
+ * console.log(response.choices[0]?.message.content);
  * ```
  */
 export function createOpenAiChatModelProvider({
@@ -53,9 +55,13 @@ export function createOpenAiChatModelProvider({
   client?: HttpClient;
   auth?: OpenAiAuthConfig;
 }) {
-  const { OPENAI_API_KEY } = auth ?? loadAuthConfig();
+  const { OPENAI_API_KEY } = auth ?? process.env;
 
-  // TODO throw error if no key ("auth must be passed or OPENAI_API_KEY must be set in process.env")
+  if (!OPENAI_API_KEY) {
+    throw new Error(
+      "Error when creating OpenAI-ChatCompletion ModelProvider: OpenAI API key (OPENAI_API_KEY) not found in process.env. Please either pass `OPENAI_API_KEY` explicitly in `auth` or set it in the environment.",
+    );
+  }
 
   return new HttpModelProvider({
     api: OpenAiChatApi,

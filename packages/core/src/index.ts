@@ -24,59 +24,51 @@ export {
   HfConversationalTaskOptions,
   HfConversationalTaskResponse,
   HfConversationalTaskTemplate,
-} from "./apis/huggingface/huggingfaceConversationTaskApi";
-export {
+  HfInferenceApiOptions,
   HfTextGenerationTaskApi,
   HfTextGenerationTaskOptions,
   HfTextGenerationTaskResponse,
   HfTextGenerationTaskTemplate,
-} from "./apis/huggingface/huggingfaceTextGenerationApi";
-export { LlamaResponse } from "./apis/meta/llama";
+} from "./apis/huggingface";
 export {
+  LlamaResponse,
   Llama2ChatApi,
   Llama2ChatOptions,
   Llama2ChatTemplate,
-} from "./apis/meta/llama2ChatApi";
-export {
   Llama3ChatApi,
   Llama3ChatOptions,
   Llama3ChatTemplate,
-} from "./apis/meta/llama3ChatApi";
+} from "./apis/meta";
 export {
   MistralAiApi,
   MistralAiOptions,
   MistralAiResponse,
   MistralAiTemplate,
-} from "./apis/mistral/mistralAiApi";
-export {
   MistralBedrockApi,
   MistralBedrockOptions,
   MistralBedrockResponse,
   MistralBedrockTemplate,
-} from "./apis/mistral/mistralBedrockApi";
+} from "./apis/mistral";
 export {
   OpenAiChatApi,
   OpenAiChatOptions,
   OpenAiChatResponse,
   OpenAiChatTemplate,
-} from "./apis/openai/openAiChatApi";
+} from "./apis/openai";
 
 /*
  * Public API - Providers
  */
 export {
   BaseModelProvider,
-  // BaseModelProviderConfig,
-  // BaseHttpModelProvider,
   HttpModelProvider,
   createAwsBedrockModelProvider,
   createCohereLegacyModelProvider,
   createGroqModelProvider,
-  // createHuggingfaceConversationalModelProvider,
   createHuggingfaceInferenceModelProvider,
-  // createHuggingfaceTextGenerationModelProvider,
   createLmStudioModelProvider,
   createOpenAiChatModelProvider,
+  HuggingfaceAuthConfig,
   OpenAiAuthConfig,
 } from "./providers";
 

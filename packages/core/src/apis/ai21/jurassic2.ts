@@ -4,22 +4,19 @@ import { isLeft } from "fp-ts/Either";
 
 import type { ModelApi, ModelRequestOptions } from "@typeDefs";
 
-import { EjsTemplate } from "../utils/ejsTemplate";
+import { EjsTemplate } from "../../utils/ejsTemplate";
+
+import { nullable } from "../_utils/io-ts-nullable";
 
 const templateSource = `{
   "prompt": "<%= prompt %>"
-  <% if (typeof temperature !== 'undefined') { %>
-    , "temperature": <%= temperature %>
-  <% } %>
-  <% if (typeof topP !== 'undefined') { %>
-    , "topP": <%= topP %>
-  <% } %>
-  <% if (typeof maxTokens !== 'undefined') { %>
-    , "maxTokens": <%= maxTokens %>
-  <% } %>
-  <% if (typeof stopSequences !== 'undefined') { %>
-    , "stopSequences": [<%= stopSequences.join(', ') %>]
-  <% } %>
+  <% if (typeof numResults !== 'undefined') { %>, "numResults": <%= numResults %><% } %>
+  <% if (typeof maxTokens !== 'undefined') { %>, "maxTokens": <%= maxTokens %><% } %>
+  <% if (typeof minTokens !== 'undefined') { %>, "minTokens": <%= minTokens %><% } %>
+  <% if (typeof temperature !== 'undefined') { %>, "temperature": <%= temperature %><% } %>
+  <% if (typeof topP !== 'undefined') { %>, "topP": <%= topP %><% } %>
+  <% if (typeof topKReturn !== 'undefined') { %>, "topKReturn": <%= topKReturn %><% } %>  
+  <% if (typeof stopSequences !== 'undefined') { %>, "stopSequences": <%- JSON.stringify(stopSequences) %><% } %>
   <% if (typeof countPenalty !== 'undefined') { %>
     , "countPenalty": {
       "scale": <%= countPenalty.scale %>
@@ -96,9 +93,12 @@ interface PenaltyOptions {
  * @category Requests
  */
 export interface Ai21Jurassic2Options extends ModelRequestOptions {
+  numResults?: number;
+  maxTokens?: number;
+  minTokens?: number;
   temperature?: number;
   topP?: number;
-  maxTokens?: number;
+  topKReturn?: number;
   stopSequences?: string[];
   countPenalty?: PenaltyOptions;
   presencePenalty?: PenaltyOptions;
@@ -115,50 +115,72 @@ export const Ai21Jurassic2Template = new EjsTemplate<Ai21Jurassic2Options>(
 
 const Ai21Jurassic2ResponseCodec = t.type({
   id: t.number,
-  // prompt: t.type({
-  //   text: t.string,
-  //   tokens: t.array(
-  //     t.type({
-  //       generatedToken: t.type({
-  //         token: t.string,
-  //         logprob: t.number,
-  //         raw_logprob: t.number,
-  //       }),
-  //       topTokens: t.string,
-  //       textRange: t.type({
-  //         start: t.number,
-  //         end: t.number,
-  //       }),
-  //     }),
-  //   ),
-  //   finishReason: t.type({
-  //     reason: t.string,
-  //     length: t.number,
-  //   }),
-  // }),
+  prompt: t.type({
+    text: t.string,
+    tokens: t.array(
+      t.type({
+        generatedToken: t.type({
+          token: t.string,
+          logprob: t.number,
+          raw_logprob: t.number,
+        }),
+        topTokens: nullable(
+          t.union([
+            t.string,
+            t.array(
+              t.type({
+                token: t.string,
+                logprob: t.number,
+                raw_logprob: t.number,
+              }),
+            ),
+          ]),
+        ),
+        textRange: t.type({
+          start: t.number,
+          end: t.number,
+        }),
+      }),
+    ),
+  }),
   completions: t.array(
     t.type({
       data: t.type({
         text: t.string,
-        // tokens: t.array(
-        //   t.type({
-        //     generatedToken: t.type({
-        //       token: t.string,
-        //       logprob: t.number,
-        //       raw_logprob: t.number,
-        //     }),
-        //     topTokens: t.string,
-        //     textRange: t.type({
-        //       start: t.number,
-        //       end: t.number,
-        //     }),
-        //   }),
-        // ),
+        tokens: t.array(
+          t.type({
+            generatedToken: t.type({
+              token: t.string,
+              logprob: t.number,
+              raw_logprob: t.number,
+            }),
+            topTokens: nullable(
+              t.union([
+                t.string,
+                t.array(
+                  t.type({
+                    token: t.string,
+                    logprob: t.number,
+                    raw_logprob: t.number,
+                  }),
+                ),
+              ]),
+            ),
+            textRange: t.type({
+              start: t.number,
+              end: t.number,
+            }),
+          }),
+        ),
       }),
-      // finishReason: t.type({
-      //   reason: t.string,
-      //   length: t.number,
-      // }),
+      finishReason: t.intersection([
+        t.type({
+          reason: t.string,
+        }),
+        t.partial({
+          length: t.number,
+        }),
+      ]),
     }),
   ),
 });
@@ -179,7 +201,7 @@ export function isAi21Jurassic2Response(
 /**
  *
  * ## Reference
- * [Ai21 Jurrassic 2](https://docs.ai21.com/reference/j2-complete-api-ref)
+ * [Ai21 Jurrassic 2](https://docs.ai21.com/reference/j2-complete-ref)
  *
  * ## Providers using this API
  * - {@link createAwsBedrockModelProvider | AWS Bedrock}

@@ -6,13 +6,13 @@ export {
   Ai21Jurassic2Options,
   Ai21Jurassic2Response,
   Ai21Jurassic2Template,
-} from "./apis/ai21_jurassic2";
+} from "./apis/ai21/jurassic2";
 export {
   AmazonTitanTextApi,
   AmazonTitanTextOptions,
   AmazonTitanTextResponse,
   AmazonTitanTextTemplate,
-} from "./apis/amazon_titan_text";
+} from "./apis/amazon/titanText";
 export {
   CohereGenerateApi,
   CohereGenerateOptions,

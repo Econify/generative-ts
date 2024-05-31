@@ -4,7 +4,7 @@ import { isLeft } from "fp-ts/Either";
 
 import type { ModelApi, ModelRequestOptions } from "@typeDefs";
 
-import { EjsTemplate } from "../utils/ejsTemplate";
+import { EjsTemplate } from "../../utils/ejsTemplate";
 
 const templateSource = `{
   "inputText": "<%= prompt %>"

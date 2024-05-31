@@ -53,6 +53,8 @@ export abstract class BaseModelProvider<
     const data = await this.dispatchRequest(requestOptions);
 
     if (!this.api.responseGuard(data)) {
+      console.log(JSON.stringify(data, null, 2));
+
       // TODO get error message describing why the response was rejected:
       throw new Error("Unexpected response from model provider");
     }

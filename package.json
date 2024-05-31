@@ -31,7 +31,7 @@
     "publish:main": "cd packages/generative-ts && npm publish",
     "test": "npm run test --workspaces",
     "test:e2e:node": "npm run test:e2e:node -w generative-ts-tests",
-    "test:integration": "npm run test:int -w generative-ts-tests",
+    "test:integration": "npm run test:int:ci -w generative-ts-tests",
     "typecheck": "tsc --noEmit",
     "example": "ts-node -r tsconfig-paths/register -r dotenv/config ./examples/index.ts",
     "example:fewshot": "ts-node -r tsconfig-paths/register -r dotenv/config ./examples/few-shot-chat-models.ts",

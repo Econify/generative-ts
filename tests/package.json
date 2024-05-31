@@ -11,11 +11,13 @@
     "int:bedrock": "DOTENV_CONFIG_PATH=../.env ts-node -r tsconfig-paths/register -r dotenv/config ./integration/bedrock.ts",
     "int:hf": "DOTENV_CONFIG_PATH=../.env ts-node -r tsconfig-paths/register -r dotenv/config ./integration/hf.ts",
     "int:openai": "DOTENV_CONFIG_PATH=../.env ts-node -r tsconfig-paths/register -r dotenv/config ./integration/openai.ts",
+    "int:j2complete": "DOTENV_CONFIG_PATH=../.env ts-node -r tsconfig-paths/register -r dotenv/config ./integration/ai21jurassic2complete.ts",
     "clean": "",
     "lint": "",
     "test": "",
     "test:e2e:node": "npm-run-all e2e:node:*",
-    "test:int": "npm-run-all int:*"
+    "test:int": "npm-run-all int:*",
+    "test:int:ci": "npm run int:bedrock"
   },
   "devDependencies": {
     "browserify": "^17.0.0",

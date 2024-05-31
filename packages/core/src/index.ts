@@ -68,6 +68,7 @@ export {
   createHuggingfaceInferenceModelProvider,
   createLmStudioModelProvider,
   createOpenAiChatModelProvider,
+  AwsAuthConfig,
   CohereAuthConfig,
   GroqAuthConfig,
   HuggingfaceAuthConfig,

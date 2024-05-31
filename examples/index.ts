@@ -114,7 +114,7 @@ async function main() {
       },
     },
     {
-      name: "Llama3(Bedrock)",
+      name: "Llama3(AWS)",
       provider: llama3aws,
       params: {
         prompt,

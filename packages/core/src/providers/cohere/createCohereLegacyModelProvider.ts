@@ -58,7 +58,7 @@ export function createCohereLegacyModelProvider({
 
   if (!COHERE_API_KEY) {
     throw new Error(
-      "Error when creating Cohere-Generate ModelProvider: Cohere API key (COHERE_API_KEY) not found in process.env. Please either pass `COHERE_API_KEY` explicitly in `auth` or set it in the environment."
+      "Error when creating Cohere-Generate ModelProvider: Cohere API key (COHERE_API_KEY) not found in process.env. Please either pass `COHERE_API_KEY` explicitly in `auth` or set it in the environment.",
     );
   }
 

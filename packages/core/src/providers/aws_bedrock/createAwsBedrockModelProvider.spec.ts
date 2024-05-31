@@ -2,10 +2,8 @@ import aws4 from "aws4";
 
 import type { ModelApi } from "@typeDefs";
 
-import {
-  AwsBedrockModelProvider,
-  createAwsBedrockModelProvider,
-} from "./createAwsBedrockModelProvider";
+import { AwsBedrockModelProvider } from "./AwsBedrockModelProvider";
+import { createAwsBedrockModelProvider } from "./createAwsBedrockModelProvider";
 
 jest.mock("aws4");
 jest.mock("../../utils/httpClient");

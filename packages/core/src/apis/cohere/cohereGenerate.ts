@@ -105,6 +105,7 @@ export function isCohereGenerateResponse(
  *
  * ## Providers using this API
  * - {@link createCohereLegacyModelProvider | Cohere (Legacy)}
+ * - {@link createAwsBedrockModelProvider | AWS Bedrock}
  *
  * @category Cohere Generate
  * @category APIs

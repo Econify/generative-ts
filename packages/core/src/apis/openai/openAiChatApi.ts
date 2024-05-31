@@ -115,6 +115,10 @@ export interface OpenAiChatOptions
     description?: string;
     parameters?: object; // TODO: JsonSchema
   }[];
+
+  // LMStudio apparently has these additional options:
+  // top_k
+  // repeat_penalty
 }
 
 /**

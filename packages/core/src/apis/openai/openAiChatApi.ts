@@ -53,6 +53,7 @@ const templateSource = `{
   <% if (typeof tools !== 'undefined') { %>, "tools": <%- JSON.stringify(tools) %><% } %>
   <% if (typeof tool_choice !== 'undefined') { %>, "tool_choice": <%- JSON.stringify(tool_choice) %><% } %>
   <% if (typeof user !== 'undefined') { %>, "user": "<%= user %>"<% } %>
+  <% if (typeof function_call !== 'undefined') { %>, "function_call": "<%= function_call %>"<% } %>
 }`;
 
 /**
@@ -101,7 +102,7 @@ export interface OpenAiChatOptions
         };
       };
   user?: string;
-  // function_call
+  function_call: string;
   // functions
 }
 
@@ -126,7 +127,13 @@ const OpenAiChatResponseCodec = t.type({
         role: t.string,
         content: t.string,
         // tool_calls
-        // function_call
+        function_call: t.union([
+          t.undefined,
+          t.type({
+            name: t.string,
+            args: t.string,
+          }),
+        ]),
       }),
       // logprobs: t.type({
       //   content: t.array(

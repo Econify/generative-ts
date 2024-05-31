@@ -68,6 +68,7 @@ export {
   createHuggingfaceInferenceModelProvider,
   createLmStudioModelProvider,
   createOpenAiChatModelProvider,
+  GroqAuthConfig,
   HuggingfaceAuthConfig,
   OpenAiAuthConfig,
 } from "./providers";

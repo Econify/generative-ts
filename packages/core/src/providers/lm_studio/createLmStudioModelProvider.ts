@@ -23,7 +23,7 @@ console.log(response.choices[0]?.message.content);
  * @category Model Providers
  *
  * @param {Object} params
- * @param {string} params.modelId - The model ID for the LM Studio chat model.
+ * @param {string} params.modelId - The model ID as defined by LMStudio. You must have downloaded this within LMStudio. If no matching model exists, LMStudio will silently use the first loaded model.
  * @param {HttpClient} [params.client] - HTTP client to use for requests. If not supplied, the built-in fetch-based implementation will be used.
  * @param {string} [params.endpoint] - The endpoint URL for the LM Studio model. Defaults to "http://localhost:1234/v1/chat/completions".
  * @returns {HttpModelProvider<OpenAiChatOptions, OpenAiChatResponse, BaseModelProviderConfig>} The LM Studio Model Provider with the {@link OpenAiChatApi}

@@ -2,9 +2,7 @@ import type { HttpClient, ModelApi } from "@typeDefs";
 
 import type { HfInferenceApiOptions } from "../../apis/huggingface";
 
-import { BearerTokenAuthStrategy } from "../http/strategies";
-
-import { HttpModelProvider } from "../http";
+import { BearerTokenAuthStrategy, HttpModelProvider } from "../http";
 
 import type { HuggingfaceAuthConfig } from "./authConfig";
 
@@ -30,7 +28,7 @@ import type { HuggingfaceAuthConfig } from "./authConfig";
  *
  * @param {Object} params
  * @param {ModelApi<HfInferenceApiOptions, TResponse>} params.api - The Huggingface Inference API (must implement {@link HfInferenceApiOptions}), eg {@link HfTextGenerationTaskApi}
- * @param {string} params.modelId - The model ID for the Huggingface model.
+ * @param {string} params.modelId - The model ID as defined by Huggingface
  * @param {HttpClient} [params.client] - HTTP client to use for requests. If not supplied, the built-in fetch-based implementation will be used.
  * @param {HuggingfaceAuthConfig} [params.auth] - Authentication configuration for Huggingface. If not supplied, it will be loaded from the environment.
  * @returns {HttpModelProvider<TRequestOptions, TResponse, BaseModelProviderConfig>} The Huggingface Model Provider with the specified {@link ModelApi}.
@@ -68,7 +66,7 @@ export function createHuggingfaceInferenceModelProvider<
 
   if (!HUGGINGFACE_API_TOKEN) {
     throw new Error(
-      "Error when creating Huggingface Inference ModelProvider: Huggingface API token (HUGGINGFACE_API_TOKEN) not found in process.env. Please either pass `HUGGINGFACE_API_TOKEN` explicitly in `auth` or set it in the environment.",
+      "Error when creating Huggingface Inference ModelProvider: Huggingface Inference API token (HUGGINGFACE_API_TOKEN) not found in process.env. Please either pass `HUGGINGFACE_API_TOKEN` explicitly in `auth` or set it in the environment.",
     );
   }
 

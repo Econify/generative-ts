@@ -2,9 +2,7 @@ import type { HttpClient } from "@typeDefs";
 
 import { OpenAiChatApi } from "../../apis/openai";
 
-import { BearerTokenAuthStrategy } from "../http/strategies";
-
-import { HttpModelProvider } from "../http";
+import { BearerTokenAuthStrategy, HttpModelProvider } from "../http";
 
 import type { OpenAiAuthConfig } from "./authConfig";
 
@@ -27,7 +25,7 @@ import type { OpenAiAuthConfig } from "./authConfig";
  * @category Model Providers
  *
  * @param {Object} params
- * @param {string} params.modelId - The model ID for the OpenAI chat model.
+ * @param {string} params.modelId - The model ID as defined by OpenAI
  * @param {HttpClient} [params.client] - HTTP client to use for requests. If not supplied, the built-in fetch-based implementation will be used.
  * @param {OpenAiAuthConfig} [params.auth] - Authentication configuration for OpenAI. If not supplied, it will be loaded from the environment.
  * @returns {HttpModelProvider<OpenAiChatOptions, OpenAiChatResponse, BaseModelProviderConfig>} The OpenAI Model Provider with the {@link OpenAiChatApi}

@@ -40,7 +40,8 @@ const DEFAULT_REGION = "us-east-1";
  *
  * @see {@link https://docs.aws.amazon.com/bedrock/latest/userguide/model-ids.html | AWS Bedrock Model IDs}
  *
- * @category Model Providers
+ * @category Providers
+ * @category Provider: AWS Bedrock
  *
  * @param {Object} params
  * @param {ModelApi} params.api - The API instance to use for making requests.

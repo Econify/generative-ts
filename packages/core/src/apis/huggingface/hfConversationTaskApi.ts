@@ -38,9 +38,8 @@ const templateSource = `{
 }`;
 
 /**
- * @category Huggingface Conversational Task
- * @category Huggingface
  * @category Requests
+ * @category Huggingface Conversational Task
  */
 export interface HfConversationalTaskOptions extends HfInferenceApiOptions {
   past_user_inputs?: string[];
@@ -57,9 +56,8 @@ export interface HfConversationalTaskOptions extends HfInferenceApiOptions {
 }
 
 /**
- * @category Huggingface Conversational Task
- * @category Huggingface
  * @category Templates
+ * @category Huggingface Conversational Task
  */
 export const HfConversationalTaskTemplate =
   new EjsTemplate<HfConversationalTaskOptions>(templateSource);
@@ -71,9 +69,9 @@ const HfConversationalTaskResponseCodec = t.array(
 );
 
 /**
- * @category Huggingface Conversational Task
- * @category Huggingface
+ *
  * @category Responses
+ * @category Huggingface Conversational Task
  */
 export interface HfConversationalTaskResponse
   extends TypeOf<typeof HfConversationalTaskResponseCodec> {}
@@ -92,9 +90,9 @@ export function isHfConversationalTaskResponse(
  * ## Providers using this API
  * - {@link createHuggingfaceInferenceModelProvider | Huggingface Inference API}
  *
- * @category Huggingface Conversational Task
- * @category Huggingface
  * @category APIs
+ * @category Provider: Huggingface
+ * @category Huggingface Conversational Task
  */
 export const HfConversationalTaskApi: ModelApi<
   HfConversationalTaskOptions,

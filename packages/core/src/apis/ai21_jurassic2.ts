@@ -184,8 +184,9 @@ export function isAi21Jurassic2Response(
  * ## Providers using this API
  * - {@link createAwsBedrockModelProvider | AWS Bedrock}
  *
- * @category Ai21 Jurassic 2
  * @category APIs
+ * @category Ai21 Jurassic 2
+ * @category Provider: AWS Bedrock
  *
  */
 export const Ai21Jurassic2Api: ModelApi<

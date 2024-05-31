@@ -171,8 +171,11 @@ export function isOpenAiChatResponse(
  * - {@link createGroqModelProvider | Groq}
  * - {@link createLmStudioModelProvider | LMStudio}
  *
- * @category OpenAI ChatCompletion
  * @category APIs
+ * @category OpenAI ChatCompletion
+ * @category Provider: OpenAI
+ * @category Provider: Groq
+ * @category Provider: LMStudio
  *
  */
 export const OpenAiChatApi: ModelApi<OpenAiChatOptions, OpenAiChatResponse> = {

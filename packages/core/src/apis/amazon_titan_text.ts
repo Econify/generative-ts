@@ -79,8 +79,10 @@ export function isAmazonTitanTextResponse(
  * ## Providers using this API
  * - {@link createAwsBedrockModelProvider | AWS Bedrock}
  *
- * @category Amazon Titan Text
  * @category APIs
+ * @category Amazon Titan Text
+ * @category Provider: AWS Bedrock
+ *
  */
 export const AmazonTitanTextApi: ModelApi<
   AmazonTitanTextOptions,

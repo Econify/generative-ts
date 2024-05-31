@@ -34,9 +34,8 @@ const templateSource = `{
 }`;
 
 /**
- * @category Huggingface Text Generation Task
- * @category Huggingface
  * @category Requests
+ * @category Huggingface Text Generation Task
  */
 export interface HfTextGenerationTaskOptions extends HfInferenceApiOptions {
   parameters?: {
@@ -53,9 +52,8 @@ export interface HfTextGenerationTaskOptions extends HfInferenceApiOptions {
 }
 
 /**
- * @category Huggingface Text Generation Task
- * @category Huggingface
  * @category Templates
+ * @category Huggingface Text Generation Task
  */
 export const HfTextGenerationTaskTemplate =
   new EjsTemplate<HfTextGenerationTaskOptions>(templateSource);
@@ -67,9 +65,8 @@ const HfTextGenerationTaskResponseCodec = t.array(
 );
 
 /**
- * @category Huggingface Text Generation Task
- * @category Huggingface
  * @category Responses
+ * @category Huggingface Text Generation Task
  */
 export interface HfTextGenerationTaskResponse
   extends TypeOf<typeof HfTextGenerationTaskResponseCodec> {}
@@ -88,9 +85,9 @@ export function isHfTextGenerationTaskResponse(
  * ## Providers using this API
  * - {@link createHuggingfaceInferenceModelProvider | Huggingface Inference API}
  *
- * @category Huggingface Text Generation Task
- * @category Huggingface
  * @category APIs
+ * @category Provider: Huggingface
+ * @category Huggingface Text Generation Task
  */
 export const HfTextGenerationTaskApi: ModelApi<
   HfTextGenerationTaskOptions,

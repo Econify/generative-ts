@@ -23,8 +23,8 @@ import type { HuggingfaceAuthConfig } from "./authConfig";
  * console.log(response[0]?.generated_text);
  * ```
  *
- * @category Model Providers
- * @category Huggingface
+ * @category Providers
+ * @category Provider: Huggingface
  *
  * @param {Object} params
  * @param {ModelApi<HfInferenceApiOptions, TResponse>} params.api - The Huggingface Inference API (must implement {@link HfInferenceApiOptions}), eg {@link HfTextGenerationTaskApi}

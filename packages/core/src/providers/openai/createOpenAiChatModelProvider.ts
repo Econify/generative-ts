@@ -22,7 +22,8 @@ import type { OpenAiAuthConfig } from "./authConfig";
  * console.log(response.choices[0]?.message.content);
  * ```
  *
- * @category Model Providers
+ * @category Providers
+ * @category Provider: OpenAI
  *
  * @param {Object} params
  * @param {string} params.modelId - The model ID as defined by OpenAI.

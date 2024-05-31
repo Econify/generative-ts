@@ -23,7 +23,8 @@ import type { CohereAuthConfig } from "./authConfig";
  * console.log(response.generations[0]?.text);
  * ```
  *
- * @category Model Providers
+ * @category Providers
+ * @category Provider: Cohere
  *
  * @param {Object} params
  * @param {string} params.modelId - The model ID as defined by Cohere.

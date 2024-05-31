@@ -41,8 +41,8 @@ const templateSource = `{
 }`;
 
 /**
- * @category Cohere Generate
  * @category Requests
+ * @category Cohere Generate
  */
 export interface CohereGenerateOptions extends ModelRequestOptions {
   num_generations?: number;
@@ -63,8 +63,8 @@ export interface CohereGenerateOptions extends ModelRequestOptions {
 }
 
 /**
- * @category Cohere Generate
  * @category Templates
+ * @category Cohere Generate
  */
 export const CohereGenerateTemplate = new EjsTemplate<CohereGenerateOptions>(
   templateSource,
@@ -86,8 +86,8 @@ const CohereGenerateResponseCodec = t.type({
 });
 
 /**
- * @category Cohere Generate
  * @category Responses
+ * @category Cohere Generate
  */
 export interface CohereGenerateResponse
   extends TypeOf<typeof CohereGenerateResponseCodec> {}
@@ -107,8 +107,11 @@ export function isCohereGenerateResponse(
  * - {@link createCohereLegacyModelProvider | Cohere (Legacy)}
  * - {@link createAwsBedrockModelProvider | AWS Bedrock}
  *
- * @category Cohere Generate
  * @category APIs
+ * @category Cohere Generate
+ * @category Provider: AWS Bedrock
+ * @category Provider: Cohere
+ *
  */
 export const CohereGenerateApi: ModelApi<
   CohereGenerateOptions,

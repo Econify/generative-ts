@@ -20,7 +20,8 @@ const response = await llama3.sendRequest({ prompt: "Brief History of NY Mets:" 
 console.log(response.choices[0]?.message.content);
  * ```
  *
- * @category Model Providers
+ * @category Providers
+ * @category Provider: LMStudio
  *
  * @param {Object} params
  * @param {string} params.modelId - The model ID as defined by LMStudio. You must have downloaded this within LMStudio. If no matching model exists, LMStudio will silently use the first loaded model.

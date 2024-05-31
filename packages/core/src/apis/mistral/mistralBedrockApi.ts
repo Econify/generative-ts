@@ -20,8 +20,8 @@ const templateSource = `{
 }`;
 
 /**
- * @category Mistral (AWS Bedrock)
  * @category Requests
+ * @category Mistral Bedrock
  */
 export interface MistralBedrockOptions
   extends FewShotRequestOptions,
@@ -34,8 +34,8 @@ export interface MistralBedrockOptions
 }
 
 /**
- * @category Mistral (AWS Bedrock)
  * @category Templates
+ * @category Mistral Bedrock
  */
 export const MistralBedrockTemplate = new EjsTemplate<MistralBedrockOptions>(
   templateSource,
@@ -51,8 +51,8 @@ const MistralBedrockResponseCodec = t.type({
 });
 
 /**
- * @category Mistral (AWS Bedrock)
  * @category Responses
+ * @category Mistral Bedrock
  */
 export interface MistralBedrockResponse
   extends TypeOf<typeof MistralBedrockResponseCodec> {}
@@ -71,8 +71,10 @@ export function isMistralBedrockResponse(
  * ## Providers using this API
  * - {@link createAwsBedrockModelProvider | AWS Bedrock}
  *
- * @category Mistral (AWS Bedrock)
  * @category APIs
+ * @category Mistral Bedrock
+ * @category Provider: AWS Bedrock
+ *
  */
 export const MistralBedrockApi: ModelApi<
   MistralBedrockOptions,

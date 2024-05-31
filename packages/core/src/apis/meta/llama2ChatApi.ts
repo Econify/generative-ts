@@ -16,8 +16,8 @@ const templateSource = `{
 }`;
 
 /**
- * @category Llama2
  * @category Requests
+ * @category Llama2
  */
 export interface Llama2ChatOptions
   extends FewShotRequestOptions,
@@ -28,8 +28,9 @@ export interface Llama2ChatOptions
 }
 
 /**
- * @category Llama2
  * @category Templates
+ * @category Llama2
+ *
  */
 export const Llama2ChatTemplate = new EjsTemplate<Llama2ChatOptions>(
   templateSource,
@@ -43,8 +44,10 @@ export const Llama2ChatTemplate = new EjsTemplate<Llama2ChatOptions>(
  * ## Providers using this API
  * - {@link createAwsBedrockModelProvider | AWS Bedrock}
  *
- * @category Llama2
  * @category APIs
+ * @category Llama2
+ * @category Provider: AWS Bedrock
+ *
  */
 export const Llama2ChatApi: ModelApi<Llama2ChatOptions, LlamaResponse> = {
   requestTemplate: Llama2ChatTemplate,

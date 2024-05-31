@@ -47,8 +47,8 @@ const templateSource = `{
 }`;
 
 /**
- * @category Mistral
  * @category Requests
+ * @category Mistral ChatCompletion
  */
 export interface MistralAiOptions
   extends FewShotRequestOptions,
@@ -66,8 +66,8 @@ export interface MistralAiOptions
 }
 
 /**
- * @category Mistral
  * @category Templates
+ * @category Mistral ChatCompletion
  */
 export const MistralAiTemplate = new EjsTemplate<MistralAiOptions>(
   templateSource,
@@ -78,8 +78,8 @@ const MistralAiApiResponseCodec = t.type({
 });
 
 /**
- * @category Mistral
  * @category Responses
+ * @category Mistral ChatCompletion
  */
 export interface MistralAiResponse
   extends TypeOf<typeof MistralAiApiResponseCodec> {}
@@ -98,8 +98,9 @@ export function isMistralAiResponse(
  * ## Providers using this API
  * - Mistral (Coming Soon!)
  *
- * @category Mistral
  * @category APIs
+ * @category Mistral ChatCompletion
+ * @category Provider: Mistral (Coming Soon!)
  *
  */
 export const MistralAiApi: ModelApi<MistralAiOptions, MistralAiResponse> = {

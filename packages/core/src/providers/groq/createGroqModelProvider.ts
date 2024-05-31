@@ -24,7 +24,8 @@ import type { GroqAuthConfig } from "./authConfig";
  * console.log(response.choices[0]?.message.content);
  * ```
  *
- * @category Model Providers
+ * @category Providers
+ * @category Provider: Groq
  *
  * @param {Object} params
  * @param {string} params.modelId - The model ID as defined by Groq

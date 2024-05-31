@@ -4,16 +4,17 @@
   "description": "integration/e2e tests",
   "scripts": {
     "browserify:cjs": "browserify ./e2e/cjs-bundle.test.js -o ./e2e/cjs-bundle.test.browserified.js",
-    "e2e:cjs:node": "node ./e2e/cjs-bundle.test.js",
-    "e2e:cjs:browser": "open http://localhost:3001/tests/e2e/cjs-bundle.test.html && python3 -m http.server 3001 --directory ../",
-    "e2e:esm:node": "node ./e2e/esm-bundle.test.mjs",
-    "e2e:esm:browser": "open http://localhost:3001/tests/e2e/esm-bundle.test.html && python3 -m http.server 3001 --directory ../",
+    "e2e:browser:cjs": "open http://localhost:3001/tests/e2e/cjs-bundle.test.html && python3 -m http.server 3001 --directory ../",
+    "e2e:browser:esm": "open http://localhost:3001/tests/e2e/esm-bundle.test.html && python3 -m http.server 3001 --directory ../",
+    "e2e:node:cjs": "node ./e2e/cjs-bundle.test.js",
+    "e2e:node:esm": "node ./e2e/esm-bundle.test.mjs",
     "int:bedrock": "DOTENV_CONFIG_PATH=../.env ts-node -r tsconfig-paths/register -r dotenv/config ./integration/bedrock.ts",
     "int:hf": "DOTENV_CONFIG_PATH=../.env ts-node -r tsconfig-paths/register -r dotenv/config ./integration/hf.ts",
+    "int:openai": "DOTENV_CONFIG_PATH=../.env ts-node -r tsconfig-paths/register -r dotenv/config ./integration/openai.ts",
     "clean": "",
     "lint": "",
     "test": "",
-    "test:e2e": "npm-run-all e2e:*",
+    "test:e2e:node": "npm-run-all e2e:node:*",
     "test:int": "npm-run-all int:*"
   },
   "devDependencies": {

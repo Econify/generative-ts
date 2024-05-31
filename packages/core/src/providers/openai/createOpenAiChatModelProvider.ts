@@ -17,7 +17,7 @@ import type { OpenAiAuthConfig } from "./authConfig";
  *   modelId: "gpt-4-turbo",
  * });
  *
- * const response = await gptProvider.sendRequest({ prompt: "Brief History of NY Mets:" });
+ * const response = await gpt4.sendRequest({ prompt: "Brief History of NY Mets:" });
  *
  * console.log(response.choices[0]?.message.content);
  * ```
@@ -40,7 +40,7 @@ import type { OpenAiAuthConfig } from "./authConfig";
  *   modelId: "gpt-4-turbo",
  * });
  *
- * const response = await gptProvider.sendRequest({ prompt: "Brief History of NY Mets:" });
+ * const response = await gpt4.sendRequest({ prompt: "Brief History of NY Mets:" });
  *
  * console.log(response.choices[0]?.message.content);
  * ```

@@ -6,7 +6,7 @@ import type { ModelApi, ModelRequestOptions } from "@typeDefs";
 
 import { EjsTemplate } from "../../utils/ejsTemplate";
 
-import type { FewShotRequestOptions } from "../_shared_interfaces/fewShot";
+import type { FewShotRequestOptions } from "../shared/fewShot";
 
 const templateSource = `{
   "model": "<%= modelId %>",

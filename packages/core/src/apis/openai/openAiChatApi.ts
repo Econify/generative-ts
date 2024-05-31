@@ -6,7 +6,9 @@ import type { ModelApi, ModelRequestOptions } from "@typeDefs";
 
 import { EjsTemplate } from "../../utils/ejsTemplate";
 
-import type { FewShotRequestOptions } from "../_shared_interfaces/fewShot";
+import { nullable } from "../_utils/io-ts-nullable";
+
+import type { FewShotRequestOptions } from "../shared/fewShot";
 
 const templateSource = `{
   "model": "<%= modelId %>",
@@ -38,22 +40,25 @@ const templateSource = `{
       "content": "<%= prompt %>"
     }
   ]
-  <% if (typeof temperature !== 'undefined') { %>, "temperature": <%= temperature %><% } %>
-  <% if (typeof max_tokens !== 'undefined') { %>, "max_tokens": <%= max_tokens %><% } %>
   <% if (typeof frequency_penalty !== 'undefined') { %>, "frequency_penalty": <%= frequency_penalty %><% } %>
   <% if (typeof logit_bias !== 'undefined') { %>, "logit_bias": <%- JSON.stringify(logit_bias) %><% } %>
   <% if (typeof logprobs !== 'undefined') { %>, "logprobs": <%= logprobs %><% } %>
   <% if (typeof top_logprobs !== 'undefined') { %>, "top_logprobs": <%= top_logprobs %><% } %>
+  <% if (typeof max_tokens !== 'undefined') { %>, "max_tokens": <%= max_tokens %><% } %>
   <% if (typeof n !== 'undefined') { %>, "n": <%= n %><% } %>
   <% if (typeof presence_penalty !== 'undefined') { %>, "presence_penalty": <%= presence_penalty %><% } %>
   <% if (typeof response_format !== 'undefined') { %>, "response_format": <%- JSON.stringify(response_format) %><% } %>
   <% if (typeof seed !== 'undefined') { %>, "seed": <%= seed %><% } %>
   <% if (typeof stop !== 'undefined') { %>, "stop": <%- JSON.stringify(stop) %><% } %>
+  <% if (typeof stream !== 'undefined') { %>, "stream": <%= stream %><% } %>
+  <% if (typeof stream_options !== 'undefined') { %>, "stream_options": <%- JSON.stringify(stream_options) %><% } %>
+  <% if (typeof temperature !== 'undefined') { %>, "temperature": <%= temperature %><% } %>
   <% if (typeof top_p !== 'undefined') { %>, "top_p": <%= top_p %><% } %>
+  <% if (typeof user !== 'undefined') { %>, "user": "<%= user %>"<% } %>
   <% if (typeof tools !== 'undefined') { %>, "tools": <%- JSON.stringify(tools) %><% } %>
   <% if (typeof tool_choice !== 'undefined') { %>, "tool_choice": <%- JSON.stringify(tool_choice) %><% } %>
-  <% if (typeof user !== 'undefined') { %>, "user": "<%= user %>"<% } %>
-  <% if (typeof function_call !== 'undefined') { %>, "function_call": "<%= function_call %>"<% } %>
+  <% if (typeof function_call !== 'undefined') { %>, "function_call": <%= function_call %><% } %>
+  <% if (typeof functions !== 'undefined') { %>, "functions": <%- JSON.stringify(functions) %><% } %>
 }`;
 
 /**
@@ -67,12 +72,11 @@ export interface OpenAiChatOptions
     role: "user" | "assistant" | "system";
     content: string;
   }[];
-  temperature?: number;
-  max_tokens?: number;
   frequency_penalty?: number;
   logit_bias?: Record<string, number>;
   logprobs?: boolean;
   top_logprobs?: number;
+  max_tokens?: number;
   n?: number;
   presence_penalty?: number;
   response_format?: {
@@ -80,9 +84,13 @@ export interface OpenAiChatOptions
   };
   seed?: number;
   stop?: string | string[];
-  // stream
-  // stream_options
+  stream?: boolean;
+  stream_options?: {
+    include_usage: boolean;
+  };
+  temperature?: number;
   top_p?: number;
+  user?: string;
   tools?: {
     type: "function";
     function: {
@@ -101,9 +109,12 @@ export interface OpenAiChatOptions
           name: string;
         };
       };
-  user?: string;
-  function_call: string;
-  // functions
+  function_call?: string; // "none" | "auto"
+  functions?: {
+    name: string;
+    description?: string;
+    parameters?: object; // TODO: JsonSchema
+  }[];
 }
 
 /**
@@ -114,46 +125,72 @@ export const OpenAiChatTemplate = new EjsTemplate<OpenAiChatOptions>(
   templateSource,
 );
 
-const OpenAiChatResponseCodec = t.type({
-  id: t.string,
-  object: t.string,
-  created: t.number,
-  model: t.string,
-  choices: t.array(
-    t.type({
-      index: t.number,
-      finish_reason: t.string,
-      message: t.type({
-        role: t.string,
-        content: t.string,
-        // tool_calls
-        function_call: t.union([
-          t.undefined,
-          t.type({
-            name: t.string,
-            args: t.string,
-          }),
-        ]),
-      }),
-      // logprobs: t.type({
-      //   content: t.array(
-      //     t.type({
-      //       token: t.string,
-      //       logprob: t.number,
-      //       // bytes
-      //       // top_logprobs
-      //     }),
-      //   ),
-      // }),
-    }),
-  ),
-  usage: t.type({
-    prompt_tokens: t.number,
-    completion_tokens: t.number,
-    total_tokens: t.number,
+const ChatCompletionResponseMessage = t.intersection([
+  t.type({
+    role: t.string,
+    content: t.string, // TODO nullable(t.string) ??
   }),
-  // system_fingerprint: t.string,
-});
+  t.partial({
+    tool_calls: t.array(
+      t.type({
+        id: t.string,
+        type: t.string, // will always be "function"
+        function: t.type({
+          name: t.string,
+          arguments: t.string,
+        }),
+      }),
+    ),
+    function_call: t.type({
+      name: t.string,
+      arguments: t.string,
+    }),
+  }),
+]);
+
+const OpenAiChatResponseCodec = t.intersection([
+  t.type({
+    id: t.string,
+    model: t.string,
+    object: t.string,
+    created: t.number,
+    choices: t.array(
+      t.type({
+        finish_reason: t.string,
+        index: t.number,
+        message: ChatCompletionResponseMessage,
+        logprobs: nullable(
+          t.type({
+            content: nullable(
+              t.array(
+                t.type({
+                  token: t.string,
+                  logprob: t.number,
+                  bytes: nullable(t.array(t.number)),
+                  top_logprobs: t.array(
+                    t.type({
+                      token: t.string,
+                      logprob: t.number,
+                      bytes: nullable(t.array(t.number)),
+                    }),
+                  ),
+                }),
+              ),
+            ),
+          }),
+        ),
+      }),
+    ),
+  }),
+  t.partial({
+    system_fingerprint: t.string,
+    usage: t.type({
+      completion_tokens: t.number,
+      prompt_tokens: t.number,
+      total_tokens: t.number,
+    }),
+  }),
+]);
 
 /**
  * @category OpenAI ChatCompletion

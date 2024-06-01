@@ -73,6 +73,7 @@ export {
   CohereAuthConfig,
   GroqAuthConfig,
   HuggingfaceAuthConfig,
+  MistralAuthConfig,
   OpenAiAuthConfig,
 } from "./providers";
 

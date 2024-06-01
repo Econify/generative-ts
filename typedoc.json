@@ -14,7 +14,8 @@
   "Provider: Cohere", 
   "Provider: Groq", 
   "Provider: Huggingface", 
-  "Provider: LMStudio", 
+  "Provider: LMStudio",
+  "Provider: Mistral", 
   "Provider: OpenAI", 
   "*"
   ],

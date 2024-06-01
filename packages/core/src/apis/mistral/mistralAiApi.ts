@@ -118,7 +118,7 @@ export function isMistralAiResponse(
  *
  * @category APIs
  * @category Mistral ChatCompletion
- * @category Provider: Mistral (Coming Soon!)
+ * @category Provider: Mistral
  *
  */
 export const MistralAiApi: ModelApi<MistralAiOptions, MistralAiResponse> = {

@@ -9,7 +9,7 @@ async function main() {
     modelId: "ai21.j2-mid-v1",
   });
 
-  const r = await j2.sendRequest({
+  await j2.sendRequest({
     prompt: "Brief history of NY Mets:",
     numResults: 1,
     maxTokens: 50,

@@ -19,29 +19,30 @@
 <p>generative-ts provides <code>ModelApi</code> <strong>TODO LINK</strong> and <code>ModelProvider</code> <strong>TODO LINK</strong> to represent these concepts. Some <code>ModelProvider</code>s only use a single <code>ModelApi</code> (e.g., OpenAI always uses its own OpenAI API) while other <code>ModelProvider</code>s can use many different <code>ModelApi</code>s (e.g., AWS Bedrock uses a different API depending on which model you use). Factory functions <strong>TODO LINK</strong> for creating <code>ModelProviders</code> expose an <code>api</code> parameter when the API is not determined by the provider.</p>
 <a id="md:model-providers" class="tsd-anchor"></a><h3><a href="#md:model-providers">Model Providers</a></h3><ul>
 <li>AWS Bedrock</li>
+<li>OpenAI</li>
+<li>LMStudio</li>
 <li>Cohere</li>
 <li>Groq</li>
 <li>Huggingface Inference</li>
-<li>OpenAI</li>
-<li>Replicate (TODO!)</li>
 <li>Mistral</li>
-<li>LMStudio</li>
-<li>LLamafile (TODO!)</li>
-<li>vLLM (TODO!)</li>
+<li>Microsoft Azure (COMING SOON)</li>
 <li>Google Vertex AI (COMING SOON)</li>
-<li>Microsoft Azure (COMING SOON?)</li>
+<li>Replicate (COMING SOON)</li>
+<li>Anthropic (COMING SOON)</li>
+<li>LLamafile (COMING SOON)</li>
+<li>vLLM (COMING SOON)</li>
+<li>Ai21 (COMING SOON)</li>
 </ul>
 <a id="md:model-apis" class="tsd-anchor"></a><h3><a href="#md:model-apis">Model APIs</a></h3><ul>
 <li>OpenAI ChatCompletion</li>
-<li>LLama2 Chat</li>
-<li>LLama3 Instruct</li>
-<li>Cohere Chat and Generate</li>
-<li>Mistral AI API ChatCompletion; Bedrock-specific Mistral API</li>
-<li>AI21 Jurrassic</li>
-<li>Amazon Titan Text</li>
+<li>Meta LLama2 and LLama3</li>
+<li>Cohere Generate (Chat COMING SOON)</li>
+<li>Mistral ChatCompletion; Bedrock-specific Mistral API</li>
+<li>Ai21 Jurassic2 Complete (Chat COMING SOON)</li>
+<li>Amazon TitanText</li>
 <li>Huggingface Inference Text Generation and Conversational tasks</li>
-<li>Antrophic: ? (COMING SOON)</li>
-<li>Google: Gemini (COMING SOON)</li>
+<li>Antrophic (COMING SOON)</li>
+<li>Google Gemini (COMING SOON)</li>
 </ul>
 <p>It&#39;s also easy to add your own by using either the <code>BaseModelProvider</code> or <code>HttpModelProvider</code> class <strong>TODO LINK</strong></p>
 <a id="md:usage" class="tsd-anchor"></a><h2><a href="#md:usage">Usage</a></h2><a id="md:hello-gpt" class="tsd-anchor"></a><h3><a href="#md:hello-gpt">Hello gpt</a></h3><pre><code class="language-ts"><span class="hl-3">import</span><span class="hl-1"> { </span><span class="hl-4">createOpenAiChatModelProvider</span><span class="hl-1"> } </span><span class="hl-3">from</span><span class="hl-1"> </span><span class="hl-2">&quot;generative-ts&quot;</span><span class="hl-1">;</span><br/><br/><span class="hl-5">const</span><span class="hl-1"> </span><span class="hl-6">gpt</span><span class="hl-1"> = </span><span class="hl-0">createOpenAiChatModelProvider</span><span class="hl-1">({</span><br/><span class="hl-1">  </span><span class="hl-4">modelId:</span><span class="hl-1"> </span><span class="hl-2">&quot;gpt-3.5-turbo&quot;</span><span class="hl-1">,</span><br/><span class="hl-1">  </span><span class="hl-7">// you can explicitly pass auth here, otherwise by default it is read from process.env</span><br/><span class="hl-1">});</span><br/><br/><span class="hl-5">const</span><span class="hl-1"> </span><span class="hl-6">response</span><span class="hl-1"> = </span><span class="hl-3">await</span><span class="hl-1"> </span><span class="hl-4">gpt</span><span class="hl-1">.</span><span class="hl-0">sendRequest</span><span class="hl-1">({</span><br/><span class="hl-1">  </span><span class="hl-4">prompt:</span><span class="hl-1"> </span><span class="hl-2">&quot;Brief History of NY Mets:&quot;</span><span class="hl-1">,</span><br/><span class="hl-1">  </span><span class="hl-4">temperature:</span><span class="hl-1"> </span><span class="hl-8">1.0</span><span class="hl-1">,</span><br/><span class="hl-1">  </span><span class="hl-7">// all other OpenAI Chat Completion options are available here</span><br/><span class="hl-1">});</span><br/><br/><span class="hl-4">console</span><span class="hl-1">.</span><span class="hl-0">log</span><span class="hl-1">(</span><span class="hl-4">response</span><span class="hl-1">.</span><span class="hl-4">choices</span><span class="hl-1">[</span><span class="hl-8">0</span><span class="hl-1">]?.</span><span class="hl-4">message</span><span class="hl-1">); </span><span class="hl-7">// the response has been runtime validated within a typeguard, so this is also typesafe</span>

@@ -35,30 +35,31 @@ generative-ts provides `ModelApi` **TODO LINK** and `ModelProvider` **TODO LINK*
 ### Model Providers
 
 * AWS Bedrock
+* OpenAI
+* LMStudio
 * Cohere
 * Groq
 * Huggingface Inference
-* OpenAI
-* Replicate (TODO!)
 * Mistral
-* LMStudio
-* LLamafile (TODO!)
-* vLLM (TODO!)
+* Microsoft Azure (COMING SOON)
 * Google Vertex AI (COMING SOON)
-* Microsoft Azure (COMING SOON?)
+* Replicate (COMING SOON)
+* Anthropic (COMING SOON)
+* LLamafile (COMING SOON)
+* vLLM (COMING SOON)
+* Ai21 (COMING SOON)
 
 ### Model APIs
 
 * OpenAI ChatCompletion
-* LLama2 Chat
-* LLama3 Instruct
-* Cohere Chat and Generate
-* Mistral AI API ChatCompletion; Bedrock-specific Mistral API
-* AI21 Jurrassic
-* Amazon Titan Text
+* Meta LLama2 and LLama3
+* Cohere Generate (Chat COMING SOON)
+* Mistral ChatCompletion; Bedrock-specific Mistral API
+* Ai21 Jurassic2 Complete (Chat COMING SOON)
+* Amazon TitanText
 * Huggingface Inference Text Generation and Conversational tasks
-* Antrophic: ? (COMING SOON)
-* Google: Gemini (COMING SOON)
+* Antrophic (COMING SOON)
+* Google Gemini (COMING SOON)
 
 It's also easy to add your own by using either the `BaseModelProvider` or `HttpModelProvider` class **TODO LINK**
 

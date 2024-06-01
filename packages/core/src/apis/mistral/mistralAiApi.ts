@@ -114,7 +114,7 @@ export function isMistralAiResponse(
  * [Mistral AI Chat Completion](https://docs.mistral.ai/api/#operation/createChatCompletion)
  *
  * ## Providers using this API
- * - Mistral (Coming Soon!)
+ * - {@link createMistralModelProvider | Mistral}
  *
  * @category APIs
  * @category Mistral ChatCompletion

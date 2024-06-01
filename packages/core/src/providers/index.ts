@@ -6,3 +6,4 @@ export * from "./http";
 export * from "./groq";
 export * from "./cohere";
 export * from "./aws_bedrock";
+export * from "./mistral";

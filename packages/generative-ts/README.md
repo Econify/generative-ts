@@ -40,7 +40,7 @@ generative-ts provides `ModelApi` **TODO LINK** and `ModelProvider` **TODO LINK*
 * Huggingface Inference
 * OpenAI
 * Replicate (TODO!)
-* Mistral (TODO!)
+* Mistral
 * LMStudio
 * LLamafile (TODO!)
 * vLLM (TODO!)

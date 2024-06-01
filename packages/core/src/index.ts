@@ -67,6 +67,7 @@ export {
   createGroqModelProvider,
   createHuggingfaceInferenceModelProvider,
   createLmStudioModelProvider,
+  createMistralModelProvider,
   createOpenAiChatModelProvider,
   AwsAuthConfig,
   CohereAuthConfig,

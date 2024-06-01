@@ -75,6 +75,24 @@ export const MistralAiTemplate = new EjsTemplate<MistralAiOptions>(
 
 const MistralAiApiResponseCodec = t.type({
   id: t.string,
+  object: t.string,
+  created: t.number,
+  model: t.string,
+  choices: t.array(
+    t.type({
+      index: t.number,
+      message: t.type({
+        role: t.string,
+        content: t.string,
+      }),
+      finish_reason: t.string,
+    }),
+  ),
+  usage: t.type({
+    prompt_tokens: t.number,
+    completion_tokens: t.number,
+    total_tokens: t.number,
+  }),
 });
 
 /**

@@ -47,13 +47,13 @@ async function main() {
     }),
   );
 
-  console.log("All tests pass");
+  console.log("OpenAI ChatCompletion Tests pass");
   process.exit(0);
 }
 
 main().catch((e) => {
   console.error(e);
 
-  console.log("Test fail");
+  console.log("OpenAI ChatCompletion Tests fail");
   process.exit(1);
 });

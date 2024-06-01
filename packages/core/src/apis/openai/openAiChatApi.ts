@@ -33,6 +33,10 @@ const templateSource = `{
     {
       "role": "<%= message.role %>",
       "content": "<%= message.content %>"
+      <% if (typeof message.name !== 'undefined') { %>, "name": "<%= message.name %>"<% } %>
+      <% if (typeof message.tool_call_id !== 'undefined') { %>, "tool_call_id": "<%= message.tool_call_id %>"<% } %>
+      <% if (typeof message.tool_calls !== 'undefined') { %>, "tool_calls": <%- JSON.stringify(message.tool_calls) %><% } %>
+      <% if (typeof message.function_call !== 'undefined') { %>, "function_call": <%- JSON.stringify(message.function_call) %><% } %>
     },
     <% }) %>
     {
@@ -61,6 +65,25 @@ const templateSource = `{
   <% if (typeof functions !== 'undefined') { %>, "functions": <%- JSON.stringify(functions) %><% } %>
 }`;
 
+interface ChatCompletionRequestMessage {
+  role: "user" | "assistant" | "system" | "tool" | "function";
+  content: string;
+  name?: string;
+  tool_call_id?: string;
+  tool_calls?: {
+    id: string;
+    type: "function";
+    function: {
+      name: string;
+      arguments: string;
+    };
+  }[];
+  function_call?: {
+    arguments: string;
+    name: string;
+  };
+}
+
 /**
  * @category OpenAI ChatCompletion
  * @category Requests
@@ -68,10 +91,7 @@ const templateSource = `{
 export interface OpenAiChatOptions
   extends ModelRequestOptions,
     FewShotRequestOptions {
-  messages?: {
-    role: "user" | "assistant" | "system";
-    content: string;
-  }[];
+  messages?: ChatCompletionRequestMessage[];
   frequency_penalty?: number;
   logit_bias?: Record<string, number>;
   logprobs?: boolean;
@@ -96,7 +116,7 @@ export interface OpenAiChatOptions
     function: {
       name: string;
       description?: string;
-      parameters?: object; // TODO: JsonSchema
+      parameters?: object; // TODO JsonSchema
     };
   }[];
   tool_choice?:
@@ -113,7 +133,7 @@ export interface OpenAiChatOptions
   functions?: {
     name: string;
     description?: string;
-    parameters?: object; // TODO: JsonSchema
+    parameters?: object; // TODO JsonSchema
   }[];
 
   // LMStudio apparently has these additional options:
@@ -129,29 +149,6 @@ export const OpenAiChatTemplate = new EjsTemplate<OpenAiChatOptions>(
   templateSource,
 );
 
-const ChatCompletionResponseMessage = t.intersection([
-  t.type({
-    role: t.string,
-    content: t.string, // TODO nullable(t.string) ??
-  }),
-  t.partial({
-    tool_calls: t.array(
-      t.type({
-        id: t.string,
-        type: t.string, // will always be "function"
-        function: t.type({
-          name: t.string,
-          arguments: t.string,
-        }),
-      }),
-    ),
-    function_call: t.type({
-      name: t.string,
-      arguments: t.string,
-    }),
-  }),
-]);
-
 const OpenAiChatResponseCodec = t.intersection([
   t.type({
     id: t.string,
@@ -162,7 +159,28 @@ const OpenAiChatResponseCodec = t.intersection([
       t.type({
         finish_reason: t.string,
         index: t.number,
-        message: ChatCompletionResponseMessage,
+        message: t.intersection([
+          t.type({
+            role: t.string,
+            content: t.string, // TODO nullable(t.string) ??
+          }),
+          t.partial({
+            tool_calls: t.array(
+              t.type({
+                id: t.string,
+                type: t.string,
+                function: t.type({
+                  name: t.string,
+                  arguments: t.string,
+                }),
+              }),
+            ),
+            function_call: t.type({
+              name: t.string,
+              arguments: t.string,
+            }),
+          }),
+        ]),
         logprobs: nullable(
           t.type({
             content: nullable(

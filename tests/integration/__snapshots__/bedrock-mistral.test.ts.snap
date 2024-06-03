@@ -1,0 +1,12 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Bedrock - Mistral (Bedrock specific) 1`] = `
+{
+  "outputs": [
+    {
+      "stop_reason": "string",
+      "text": "string",
+    },
+  ],
+}
+`;

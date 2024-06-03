@@ -3,13 +3,15 @@ import {
   createAwsBedrockModelProvider,
 } from "@packages/core";
 
-async function main() {
+test("Bedrock - AI21 J2 Complete", async () => {
+  // arrange
   const j2 = createAwsBedrockModelProvider({
     api: Ai21Jurassic2Api,
     modelId: "ai21.j2-mid-v1",
   });
 
-  await j2.sendRequest({
+  // act
+  const response = await j2.sendRequest({
     prompt: "Brief history of NY Mets:",
     numResults: 1,
     maxTokens: 50,
@@ -20,15 +22,6 @@ async function main() {
     stopSequences: ["."],
   });
 
-  // console.log(JSON.stringify(r, null, 2));
-
-  console.log("All tests pass");
-  process.exit(0);
-}
-
-main().catch((e) => {
-  console.error(e);
-
-  console.log("Test fail");
-  process.exit(1);
+  // assert
+  expect(response).toMatchApiSnapshot();
 });

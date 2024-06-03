@@ -1,0 +1,15 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Bedrock - Cohere Generate 1`] = `
+{
+  "generations": [
+    {
+      "finish_reason": "string",
+      "id": "string",
+      "text": "string",
+    },
+  ],
+  "id": "string",
+  "prompt": "string",
+}
+`;

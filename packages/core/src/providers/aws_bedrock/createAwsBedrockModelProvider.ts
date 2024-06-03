@@ -34,6 +34,7 @@ const DEFAULT_REGION = "us-east-1";
  * ### Known Compatible APIs:
  * - {@link AmazonTitanTextApi}
  * - {@link CohereGenerateApi}
+ * - {@link Llama2ChatApi}
  * - {@link Llama3ChatApi}
  * - {@link MistralBedrockApi}
  * - {@link Ai21Jurassic2Api}

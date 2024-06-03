@@ -8,36 +8,21 @@ import { EjsTemplate } from "../../utils/ejsTemplate";
 
 const templateSource = `{
   "prompt": "<%= prompt %>"
-  <% if (typeof temperature !== 'undefined') { %>
-    , "temperature": <%= temperature %>
-  <% } %>
-  <% if (typeof p !== 'undefined') { %>
-    , "p": <%= p %>
-  <% } %>
-  <% if (typeof k !== 'undefined') { %>
-    , "k": <%= k %>
-  <% } %>
-  <% if (typeof max_tokens !== 'undefined') { %>
-    , "max_tokens": <%= max_tokens %>
-  <% } %>
-  <% if (typeof stop_sequences !== 'undefined') { %>
-    , "stop_sequences": [<%= stop_sequences.join(', ') %>]
-  <% } %>
-  <% if (typeof return_likelihoods !== 'undefined') { %>
-    , "return_likelihoods": "<%= return_likelihoods %>"
-  <% } %>
-  <% if (typeof stream !== 'undefined') { %>
-    , "stream": <%= stream %>
-  <% } %>
-  <% if (typeof num_generations !== 'undefined') { %>
-    , "num_generations": <%= num_generations %>
-  <% } %>
-  <% if (typeof logit_bias !== 'undefined') { %>
-    , "logit_bias": <%- JSON.stringify(logit_bias) %>
-  <% } %>
-  <% if (typeof truncate !== 'undefined') { %>
-    , "truncate": "<%= truncate %>"
-  <% } %>
+  <% if (typeof num_generations !== 'undefined') { %>, "num_generations": <%= num_generations %><% } %>
+  <% if (typeof stream !== 'undefined') { %>, "stream": <%= stream %><% } %>
+  <% if (typeof max_tokens !== 'undefined') { %>, "max_tokens": <%= max_tokens %><% } %>
+  <% if (typeof truncate !== 'undefined') { %>, "truncate": "<%= truncate %>"<% } %>
+  <% if (typeof temperature !== 'undefined') { %>, "temperature": <%= temperature %><% } %>
+  <% if (typeof seed !== 'undefined') { %>, "seed": <%= seed %><% } %>
+  <% if (typeof preset !== 'undefined') { %>, "preset": "<%= preset %>"<% } %>
+  <% if (typeof end_sequences !== 'undefined') { %>, "end_sequences": <%- JSON.stringify(end_sequences) %><% } %>
+  <% if (typeof stop_sequences !== 'undefined') { %>, "stop_sequences": <%- JSON.stringify(stop_sequences) %><% } %>
+  <% if (typeof k !== 'undefined') { %>, "k": <%= k %><% } %>
+  <% if (typeof p !== 'undefined') { %>, "p": <%= p %><% } %>
+  <% if (typeof frequency_penalty !== 'undefined') { %>, "frequency_penalty": <%= frequency_penalty %><% } %>
+  <% if (typeof presence_penalty !== 'undefined') { %>, "presence_penalty": <%= presence_penalty %><% } %>
+  <% if (typeof return_likelihoods !== 'undefined') { %>, "return_likelihoods": "<%= return_likelihoods %>"<% } %>
+  <% if (typeof logit_bias !== 'undefined') { %>, "logit_bias": <%- JSON.stringify(logit_bias) %><% } %>
 }`;
 
 /**
@@ -50,14 +35,14 @@ export interface CohereGenerateOptions extends ModelRequestOptions {
   max_tokens?: number;
   truncate?: "NONE" | "START" | "END";
   temperature?: number;
-  // seed ?
-  // preset ?
-  // end_sequences ?
+  seed?: number;
+  preset?: string;
+  end_sequences?: string[];
   stop_sequences?: string[];
   k?: number;
   p?: number;
-  // frequency_penalty ?
-  // presence_penalty ?
+  frequency_penalty?: number;
+  presence_penalty?: number;
   return_likelihoods?: "GENERATION" | "ALL" | "NONE";
   logit_bias?: { [token_id: number]: number }; // on bedrock but not cohere /generate?
 }
@@ -70,20 +55,30 @@ export const CohereGenerateTemplate = new EjsTemplate<CohereGenerateOptions>(
   templateSource,
 );
 
-const CohereGenerateResponseCodec = t.type({
-  id: t.string,
-  prompt: t.string,
-  generations: t.array(
-    t.type({
-      id: t.string,
-      text: t.string,
-      finish_reason: t.string, // COMPLETE | MAX_TOKENS | ERROR | ERROR_TOXIC
-      // index ?
-      // likelihood ?
-      // token_likelihoods ?
+const CohereGenerateResponseCodec = t.intersection([
+  t.type({
+    id: t.string,
+    prompt: t.string,
+    generations: t.array(
+      t.type({
+        id: t.string,
+        text: t.string,
+        finish_reason: t.string,
+      }),
+    ),
+  }),
+  t.partial({
+    meta: t.type({
+      api_version: t.type({
+        version: t.string,
+      }),
+      billed_units: t.type({
+        input_tokens: t.number,
+        output_tokens: t.number,
+      }),
     }),
-  ),
-});
+  }),
+]);
 
 /**
  * @category Responses

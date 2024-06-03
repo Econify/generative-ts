@@ -1,0 +1,61 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Bedrock - AI21 J2 Complete 1`] = `
+{
+  "completions": [
+    {
+      "data": {
+        "text": "string",
+        "tokens": [
+          {
+            "generatedToken": {
+              "logprob": "number",
+              "raw_logprob": "number",
+              "token": "string",
+            },
+            "textRange": {
+              "end": "number",
+              "start": "number",
+            },
+            "topTokens": [
+              {
+                "logprob": "number",
+                "raw_logprob": "number",
+                "token": "string",
+              },
+            ],
+          },
+        ],
+      },
+      "finishReason": {
+        "reason": "string",
+        "sequence": "string",
+      },
+    },
+  ],
+  "id": "number",
+  "prompt": {
+    "text": "string",
+    "tokens": [
+      {
+        "generatedToken": {
+          "logprob": "number",
+          "raw_logprob": "number",
+          "token": "string",
+        },
+        "textRange": {
+          "end": "number",
+          "start": "number",
+        },
+        "topTokens": [
+          {
+            "logprob": "number",
+            "raw_logprob": "number",
+            "token": "string",
+          },
+        ],
+      },
+    ],
+  },
+}
+`;

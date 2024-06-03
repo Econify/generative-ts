@@ -1,23 +1,17 @@
 import { createMistralModelProvider } from "@packages/core";
 
-async function main() {
+test("Mistral - Mistral AI ChatCompletion", async () => {
+  // arrange
   const mistralLarge = createMistralModelProvider({
     modelId: "mistral-large-latest",
   });
 
+  // act
   const response = await mistralLarge.sendRequest({
     prompt: "Brief History of NY Mets:",
+    max_tokens: 100,
   });
 
-  console.log(response.choices[0]?.message.content);
-
-  console.log("Mistral Test pass");
-  process.exit(0);
-}
-
-main().catch((e) => {
-  console.error(e);
-
-  console.log("Mistral Test fail");
-  process.exit(1);
+  // assert
+  expect(response).toMatchApiSnapshot();
 });

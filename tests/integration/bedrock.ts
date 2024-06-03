@@ -5,6 +5,10 @@ import {
   MistralBedrockApi,
 } from "@packages/core";
 
+/*
+ *  test of llama chat ML based apis (all on bedrock)
+ */
+
 const payload = {
   system: `
     Talk like Jafar from Aladdin.

@@ -22,7 +22,7 @@ jobs:
           command: npm run test
       - run:
           name: Integration Test
-          command: npm run test:integration
+          command: npm run test:integration:ci
   publish:
     executor:
       name: node/default

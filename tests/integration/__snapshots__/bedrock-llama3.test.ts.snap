@@ -1,0 +1,10 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Bedrock - Llama3 Chat 1`] = `
+{
+  "generation": "string",
+  "generation_token_count": "number",
+  "prompt_token_count": "number",
+  "stop_reason": "string",
+}
+`;

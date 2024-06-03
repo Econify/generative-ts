@@ -2,9 +2,11 @@ const { pathsToModuleNameMapper } = require('ts-jest');
 const { compilerOptions } = require('./tsconfig.base.json');
 
 module.exports = {
+  testEnvironment: 'node',
   projects: [
     '<rootDir>/packages/generative-ts',
-    '<rootDir>/packages/core'
+    '<rootDir>/packages/core',
+    '<rootDir>/tests',
   ],
   testPathIgnorePatterns: [
     '/node_modules/',

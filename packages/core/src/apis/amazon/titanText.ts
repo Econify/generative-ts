@@ -50,10 +50,12 @@ export const AmazonTitanTextTemplate = new EjsTemplate<AmazonTitanTextOptions>(
 );
 
 const AmazonTitanTextResponseCodec = t.type({
+  inputTextTokenCount: t.number,
   results: t.array(
     t.type({
       outputText: t.string,
-      // TODO...
+      completionReason: t.string,
+      tokenCount: t.number,
     }),
   ),
 });

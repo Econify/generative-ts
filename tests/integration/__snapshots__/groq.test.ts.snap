@@ -1,0 +1,33 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Groq - OpenAI ChatCompletion 1`] = `
+{
+  "choices": [
+    {
+      "finish_reason": "string",
+      "index": "number",
+      "logprobs": "null",
+      "message": {
+        "content": "string",
+        "role": "string",
+      },
+    },
+  ],
+  "created": "number",
+  "id": "string",
+  "model": "string",
+  "object": "string",
+  "system_fingerprint": "string",
+  "usage": {
+    "completion_time": "number",
+    "completion_tokens": "number",
+    "prompt_time": "number",
+    "prompt_tokens": "number",
+    "total_time": "number",
+    "total_tokens": "number",
+  },
+  "x_groq": {
+    "id": "string",
+  },
+}
+`;

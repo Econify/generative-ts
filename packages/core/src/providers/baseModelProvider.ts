@@ -24,6 +24,11 @@ export abstract class BaseModelProvider<
 
   public readonly config: TModelProviderConfig;
 
+  public readonly history: {
+    request: TRequestOptions;
+    response: TResponse | undefined;
+  }[] = [];
+
   constructor({
     api,
     config,
@@ -52,9 +57,19 @@ export abstract class BaseModelProvider<
     const data = await this.dispatchRequest(requestOptions);
 
     if (!this.api.responseGuard(data)) {
+      this.history.push({
+        request: requestOptions,
+        response: undefined,
+      });
+
       // TODO get error message describing why the response was rejected:
       throw new Error("Unexpected response from model provider");
     }
+
+    this.history.push({
+      request: requestOptions,
+      response: data,
+    });
 
     return data;
   }

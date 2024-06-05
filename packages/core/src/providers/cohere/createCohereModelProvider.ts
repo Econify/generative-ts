@@ -5,7 +5,7 @@ import type {
   ModelApi,
 } from "@typeDefs";
 
-import { CohereChatApi, CohereGenerateApi } from "../../apis/cohere";
+import { CohereChatApi, CohereGenerateApi } from "../../apis";
 
 import { BearerTokenAuthStrategy, HttpModelProvider } from "../http";
 
@@ -40,7 +40,7 @@ type CohereApi = CohereGenerateApi | CohereChatApi;
  * @category Provider: Cohere
  *
  * @param {Object} params
- * @param {CohereGenerateApi | CohereChatApi} [params.api] - The API to use for the provider. Defaults to {@link CohereChatApi}.
+ * @param {CohereApi} [params.api] - The API to use for the provider. Defaults to {@link CohereChatApi}.
  * @param {string} params.modelId - The model ID as defined by Cohere.
  * @param {HttpClient} [params.client] - HTTP client to use for requests. If not supplied, the built-in fetch-based implementation will be used.
  * @param {CohereAuthConfig} [params.auth] - Authentication configuration for Cohere. If not supplied, it will be loaded from the environment.

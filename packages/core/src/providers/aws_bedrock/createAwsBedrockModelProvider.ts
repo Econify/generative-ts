@@ -1,15 +1,33 @@
 import type {
   HttpClient,
+  InferRequestOptions,
+  InferResponse,
   ModelApi,
   ModelId,
-  ModelRequestOptions,
 } from "@typeDefs";
+
+import {
+  Ai21Jurassic2Api,
+  AmazonTitanTextApi,
+  CohereGenerateApi,
+  Llama2ChatApi,
+  Llama3ChatApi,
+  MistralBedrockApi,
+} from "../../apis";
 
 import { AwsBedrockModelProvider } from "./AwsBedrockModelProvider";
 
 import { AwsAuthConfig } from "./authConfig";
 
 const DEFAULT_REGION = "us-east-1";
+
+type AwsBedrockApi =
+  | Ai21Jurassic2Api
+  | AmazonTitanTextApi
+  | CohereGenerateApi
+  | Llama2ChatApi
+  | Llama3ChatApi
+  | MistralBedrockApi;
 
 /**
  *
@@ -31,7 +49,7 @@ const DEFAULT_REGION = "us-east-1";
  * console.log(response.results[0]?.outputText);
  * ```
  *
- * ### Known Compatible APIs:
+ * ### Compatible APIs
  * - {@link AmazonTitanTextApi}
  * - {@link CohereGenerateApi}
  * - {@link Llama2ChatApi}
@@ -45,12 +63,12 @@ const DEFAULT_REGION = "us-east-1";
  * @category Provider: AWS Bedrock
  *
  * @param {Object} params
- * @param {ModelApi} params.api - The API instance to use for making requests.
+ * @param {AwsBedrockApi} params.api - The API instance to use for making requests.
  * @param {string} params.modelId - The model ID as defined by AWS Bedrock.
  * @param {HttpClient} [params.client] - HTTP client to use for requests. If not supplied, the built-in fetch-based implementation will be used.
  * @param {AwsAuthConfig} [params.auth] - Authentication configuration for AWS. If not supplied, credentials will be loaded from the environment.
  * @param {string} [params.region=us-east-1] - AWS region where the Bedrock model is deployed. Defaults to "us-east-1".
- * @returns {AwsBedrockModelProvider<TRequestOptions, TResponse>} The AWS Bedrock Model Provider with the specified {@link ModelApi}.
+ * @returns {AwsBedrockModelProvider} The AWS Bedrock Model Provider with the specified {@link ModelApi}.
  *
  * @example Multiple APIs
  * ```ts
@@ -100,8 +118,7 @@ const DEFAULT_REGION = "us-east-1";
  * ```
  */
 export function createAwsBedrockModelProvider<
-  TRequestOptions extends ModelRequestOptions,
-  TResponse = unknown,
+  TAwsBedrockApi extends AwsBedrockApi,
 >({
   api,
   modelId,
@@ -109,14 +126,17 @@ export function createAwsBedrockModelProvider<
   auth,
   region = DEFAULT_REGION,
 }: {
-  api: ModelApi<TRequestOptions, TResponse>;
+  api: TAwsBedrockApi;
   modelId: ModelId;
   client?: HttpClient;
   auth?: AwsAuthConfig;
   region?: string;
 }) {
   return new AwsBedrockModelProvider({
-    api,
+    api: api as ModelApi<
+      InferRequestOptions<TAwsBedrockApi>,
+      InferResponse<TAwsBedrockApi>
+    >,
     modelId,
     client,
     auth,

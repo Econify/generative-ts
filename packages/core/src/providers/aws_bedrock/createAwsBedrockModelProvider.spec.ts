@@ -1,7 +1,5 @@
 import aws4 from "aws4";
 
-import type { ModelApi } from "@typeDefs";
-
 import { AwsBedrockModelProvider } from "./AwsBedrockModelProvider";
 import { createAwsBedrockModelProvider } from "./createAwsBedrockModelProvider";
 
@@ -14,7 +12,7 @@ describe("AwsBedrockModelProvider", () => {
       render: jest.fn().mockReturnValue("dummy-request-template-output"),
     },
     responseGuard: jest.fn().mockReturnValue(true),
-  } as unknown as ModelApi;
+  } as unknown as any;
 
   const mockAuthConfig = {
     AWS_ACCESS_KEY_ID: "dummy-access-key-id",

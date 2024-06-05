@@ -198,6 +198,9 @@ export function isAi21Jurassic2Response(
   return !isLeft(Ai21Jurassic2ResponseCodec.decode(response));
 }
 
+export interface Ai21Jurassic2Api
+  extends ModelApi<Ai21Jurassic2Options, Ai21Jurassic2Response> {}
+
 /**
  *
  * ## Reference
@@ -211,10 +214,7 @@ export function isAi21Jurassic2Response(
  * @category Provider: AWS Bedrock
  *
  */
-export const Ai21Jurassic2Api: ModelApi<
-  Ai21Jurassic2Options,
-  Ai21Jurassic2Response
-> = {
+export const Ai21Jurassic2Api: Ai21Jurassic2Api = {
   requestTemplate: Ai21Jurassic2Template,
   responseGuard: isAi21Jurassic2Response,
 };

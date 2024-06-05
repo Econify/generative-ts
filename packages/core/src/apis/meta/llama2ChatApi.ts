@@ -36,6 +36,9 @@ export const Llama2ChatTemplate = new EjsTemplate<Llama2ChatOptions>(
   templateSource,
 );
 
+export interface Llama2ChatApi
+  extends ModelApi<Llama2ChatOptions, LlamaResponse> {}
+
 /**
  *
  * ## Reference
@@ -49,7 +52,7 @@ export const Llama2ChatTemplate = new EjsTemplate<Llama2ChatOptions>(
  * @category Provider: AWS Bedrock
  *
  */
-export const Llama2ChatApi: ModelApi<Llama2ChatOptions, LlamaResponse> = {
+export const Llama2ChatApi: Llama2ChatApi = {
   requestTemplate: Llama2ChatTemplate,
   responseGuard: isLlamaResponse,
 };

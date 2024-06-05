@@ -63,6 +63,9 @@ export function isMistralBedrockResponse(
   return !isLeft(MistralBedrockResponseCodec.decode(response));
 }
 
+export interface MistralBedrockApi
+  extends ModelApi<MistralBedrockOptions, MistralBedrockResponse> {}
+
 /**
  *
  * ## Reference
@@ -76,10 +79,7 @@ export function isMistralBedrockResponse(
  * @category Provider: AWS Bedrock
  *
  */
-export const MistralBedrockApi: ModelApi<
-  MistralBedrockOptions,
-  MistralBedrockResponse
-> = {
+export const MistralBedrockApi: MistralBedrockApi = {
   requestTemplate: MistralBedrockTemplate,
   responseGuard: isMistralBedrockResponse,
 };

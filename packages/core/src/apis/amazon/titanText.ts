@@ -73,6 +73,9 @@ export function isAmazonTitanTextResponse(
   return !isLeft(AmazonTitanTextResponseCodec.decode(response));
 }
 
+export interface AmazonTitanTextApi
+  extends ModelApi<AmazonTitanTextOptions, AmazonTitanTextResponse> {}
+
 /**
  *
  * ## Reference
@@ -86,10 +89,7 @@ export function isAmazonTitanTextResponse(
  * @category Provider: AWS Bedrock
  *
  */
-export const AmazonTitanTextApi: ModelApi<
-  AmazonTitanTextOptions,
-  AmazonTitanTextResponse
-> = {
+export const AmazonTitanTextApi: AmazonTitanTextApi = {
   requestTemplate: AmazonTitanTextTemplate,
   responseGuard: isAmazonTitanTextResponse,
 };

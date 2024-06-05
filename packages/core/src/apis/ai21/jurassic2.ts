@@ -6,7 +6,7 @@ import type { ModelApi, ModelRequestOptions } from "@typeDefs";
 
 import { EjsTemplate } from "../../utils/ejsTemplate";
 
-import { nullable } from "../_utils/io-ts-nullable";
+import { nullable } from "../_utils/ioTsHelpers";
 
 const templateSource = `{
   "prompt": "<%= prompt %>"

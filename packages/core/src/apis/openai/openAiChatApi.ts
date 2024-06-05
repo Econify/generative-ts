@@ -1,4 +1,4 @@
-import * as t from "io-ts";
+import { array, number, string, type } from "io-ts";
 import type { TypeOf } from "io-ts";
 import { isLeft } from "fp-ts/Either";
 
@@ -6,7 +6,7 @@ import type { ModelApi, ModelRequestOptions } from "@typeDefs";
 
 import { EjsTemplate } from "../../utils/ejsTemplate";
 
-import { nullable } from "../_utils/io-ts-nullable";
+import { composite, nullable } from "../_utils/ioTsHelpers";
 
 import type { FewShotRequestOptions } from "../shared/fewShot";
 
@@ -149,51 +149,51 @@ export const OpenAiChatTemplate = new EjsTemplate<OpenAiChatOptions>(
   templateSource,
 );
 
-const OpenAiChatResponseCodec = t.intersection([
-  t.type({
-    id: t.string,
-    model: t.string,
-    object: t.string,
-    created: t.number,
-    choices: t.array(
-      t.type({
-        finish_reason: t.string,
-        index: t.number,
-        message: t.intersection([
-          t.type({
-            role: t.string,
-            content: t.string, // TODO nullable(t.string) ??
-          }),
-          t.partial({
-            tool_calls: t.array(
-              t.type({
-                id: t.string,
-                type: t.string,
-                function: t.type({
-                  name: t.string,
-                  arguments: t.string,
+const OpenAiChatResponseCodec = composite({
+  required: {
+    id: string,
+    model: string,
+    object: string,
+    created: number,
+    choices: array(
+      type({
+        finish_reason: string,
+        index: number,
+        message: composite({
+          required: {
+            role: string,
+            content: string, // TODO nullable(string) ??
+          },
+          partial: {
+            tool_calls: array(
+              type({
+                id: string,
+                type: string,
+                function: type({
+                  name: string,
+                  arguments: string,
                 }),
               }),
             ),
-            function_call: t.type({
-              name: t.string,
-              arguments: t.string,
+            function_call: type({
+              name: string,
+              arguments: string,
             }),
-          }),
-        ]),
+          },
+        }),
         logprobs: nullable(
-          t.type({
+          type({
             content: nullable(
-              t.array(
-                t.type({
-                  token: t.string,
-                  logprob: t.number,
-                  bytes: nullable(t.array(t.number)),
-                  top_logprobs: t.array(
-                    t.type({
-                      token: t.string,
-                      logprob: t.number,
-                      bytes: nullable(t.array(t.number)),
+              array(
+                type({
+                  token: string,
+                  logprob: number,
+                  bytes: nullable(array(number)),
+                  top_logprobs: array(
+                    type({
+                      token: string,
+                      logprob: number,
+                      bytes: nullable(array(number)),
                     }),
                   ),
                 }),
@@ -203,16 +203,16 @@ const OpenAiChatResponseCodec = t.intersection([
         ),
       }),
     ),
-  }),
-  t.partial({
-    system_fingerprint: t.string,
-    usage: t.type({
-      completion_tokens: t.number,
-      prompt_tokens: t.number,
-      total_tokens: t.number,
+  },
+  partial: {
+    system_fingerprint: string,
+    usage: type({
+      completion_tokens: number,
+      prompt_tokens: number,
+      total_tokens: number,
     }),
-  }),
-]);
+  },
+});
 
 /**
  * @category OpenAI ChatCompletion

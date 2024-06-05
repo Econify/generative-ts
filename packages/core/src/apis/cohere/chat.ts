@@ -1,10 +1,21 @@
-import * as t from "io-ts";
+import {
+  array,
+  boolean,
+  number,
+  record,
+  string,
+  type,
+  union,
+  unknown,
+} from "io-ts";
 import type { TypeOf } from "io-ts";
 import { isLeft } from "fp-ts/Either";
 
 import type { ModelApi, ModelRequestOptions } from "@typeDefs";
 
 import { EjsTemplate } from "../../utils/ejsTemplate";
+
+import { composite } from "../_utils/ioTsHelpers";
 
 const templateSource = `{
   "model": "<%= modelId %>",
@@ -58,7 +69,7 @@ export interface CohereChatOptions extends ModelRequestOptions {
       string,
       {
         type: string;
-        description?: string;
+        description?: string; // "any python data type, such as 'str', 'bool'" - ???
         required?: boolean;
       }
     >;
@@ -81,95 +92,115 @@ export const CohereChatTemplate = new EjsTemplate<CohereChatOptions>(
   templateSource,
 );
 
-const CohereChatResponseCodec = t.type({
-  text: t.string,
-  generation_id: t.string,
-  // citations: t.array(
-  //   t.type({
-  //     start: t.number,
-  //     end: t.number,
-  //     text: t.string,
-  //     document_ids: t.array(t.string),
-  //   }),
-  // ),
-  // documents: t.array(
-  //   t.type({
-  //     id: t.string,
-  //     additionalProp: t.string,
-  //   }),
-  // ),
-  // is_search_required: t.boolean,
-  // search_queries: t.array(
-  //   t.type({
-  //     text: t.string,
-  //     generation_id: t.string,
-  //   }),
-  // ),
-  // search_results: t.array(
-  //   t.type({
-  //     search_query: t.type({
-  //       text: t.string,
-  //       generation_id: t.string,
-  //     }),
-  //     connector: t.type({
-  //       id: t.string,
-  //     }),
-  //     document_ids: t.array(t.string),
-  //     error_message: t.string,
-  //     continue_on_failure: t.boolean,
-  //   }),
-  // ),
-  // finish_reason: t.string,
-  // tool_calls: t.array(
-  //   t.type({
-  //     name: t.string,
-  //     parameters: t.record(t.string, t.unknown),
-  //   }),
-  // ),
-  // chat_history: t.array(
-  //   t.union([
-  //     t.type({
-  //       role: t.string,
-  //       message: t.string,
-  //       tool_calls: t.array(
-  //         t.type({
-  //           name: t.string,
-  //           parameters: t.record(t.string, t.unknown),
-  //         }),
-  //       ),
-  //     }),
-  //     t.type({
-  //       role: t.string,
-  //       tool_results: t.array(
-  //         t.type({
-  //           call: t.type({
-  //             name: t.string,
-  //             parameters: t.record(t.string, t.unknown),
-  //           }),
-  //           outputs: t.array(t.record(t.string, t.unknown)),
-  //         }),
-  //       ),
-  //     }),
-  //   ]),
-  // ),
-  // meta: t.type({
-  //   api_version: t.type({
-  //     version: t.string,
-  //     is_deprecated: t.boolean,
-  //     is_experimental: t.boolean,
-  //   }),
-  //   billed_units: t.type({
-  //     input_tokens: t.number,
-  //     output_tokens: t.number,
-  //     search_units: t.number,
-  //     classifications: t.number,
-  //   }),
-  //   tokens: t.type({
-  //     input_tokens: t.number,
-  //     output_tokens: t.number,
-  //   }),
-  //   warnings: t.array(t.string),
-  // }),
+const CohereChatResponseCodec = composite({
+  required: {
+    text: string,
+    generation_id: string,
+    finish_reason: string,
+    chat_history: array(
+      union([
+        composite({
+          required: {
+            role: string, // probably "SYSTEM" | "CHATBOT" | "USER"
+            message: string,
+          },
+          partial: {
+            tool_calls: array(
+              type({
+                name: string,
+                parameters: record(string, unknown),
+              }),
+            ),
+          },
+        }),
+        type({
+          role: string, // probably "TOOL" ?
+          tool_results: array(
+            type({
+              call: type({
+                name: string,
+                parameters: record(string, unknown),
+              }),
+              outputs: array(record(string, unknown)),
+            }),
+          ),
+        }),
+      ]),
+    ),
+    meta: composite({
+      required: {
+        api_version: composite({
+          required: {
+            version: string,
+          },
+          partial: {
+            is_deprecated: boolean,
+            is_experimental: boolean,
+          },
+        }),
+        billed_units: composite({
+          required: {
+            input_tokens: number,
+            output_tokens: number,
+          },
+          partial: {
+            search_units: number,
+            classifications: number,
+          },
+        }),
+        tokens: type({
+          input_tokens: number,
+          output_tokens: number,
+        }),
+      },
+      partial: {
+        warnings: array(string),
+      },
+    }),
+  },
+  partial: {
+    tool_calls: array(
+      type({
+        name: string,
+        parameters: record(string, unknown),
+      }),
+    ),
+    citations: array(
+      type({
+        start: number,
+        end: number,
+        text: string,
+        document_ids: array(string),
+      }),
+    ),
+    documents: array(
+      type({
+        id: string,
+        additionalProp: string,
+      }),
+    ),
+    is_search_required: boolean,
+    search_queries: array(
+      type({
+        text: string,
+        generation_id: string,
+      }),
+    ),
+    search_results: array(
+      type({
+        search_query: type({
+          text: string,
+          generation_id: string,
+        }),
+        connector: type({
+          id: string,
+        }),
+        document_ids: array(string),
+        error_message: string,
+        continue_on_failure: boolean,
+      }),
+    ),
+  },
 });
 
 /**

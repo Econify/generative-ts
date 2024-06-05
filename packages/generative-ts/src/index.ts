@@ -1,1 +1,1 @@
-export * from "@packages/core";
+export * from "@generative-ts/core";

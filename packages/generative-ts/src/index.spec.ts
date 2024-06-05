@@ -1,7 +1,13 @@
 import * as index from "./index";
 
 describe("index", () => {
-  it("exports stuff", () => {
-    expect(index).toBeDefined();
+  it("exports factory functions", () => {
+    expect(index.createAwsBedrockModelProvider).toBeDefined();
+    expect(index.createCohereModelProvider).toBeDefined();
+    expect(index.createGroqModelProvider).toBeDefined();
+    expect(index.createHuggingfaceInferenceModelProvider).toBeDefined();
+    expect(index.createLmStudioModelProvider).toBeDefined();
+    expect(index.createMistralModelProvider).toBeDefined();
+    expect(index.createOpenAiChatModelProvider).toBeDefined();
   });
 });

@@ -6,19 +6,23 @@ export {
   Ai21Jurassic2Options,
   Ai21Jurassic2Response,
   Ai21Jurassic2Template,
-} from "./apis/ai21/jurassic2";
+} from "./apis/ai21";
 export {
   AmazonTitanTextApi,
   AmazonTitanTextOptions,
   AmazonTitanTextResponse,
   AmazonTitanTextTemplate,
-} from "./apis/amazon/titanText";
+} from "./apis/amazon";
 export {
+  CohereChatApi,
+  CohereChatOptions,
+  CohereChatResponse,
+  CohereChatTemplate,
   CohereGenerateApi,
   CohereGenerateOptions,
   CohereGenerateResponse,
   CohereGenerateTemplate,
-} from "./apis/cohere/cohereGenerate";
+} from "./apis/cohere";
 export {
   HfConversationalTaskApi,
   HfConversationalTaskOptions,
@@ -63,7 +67,7 @@ export {
   BaseModelProvider,
   HttpModelProvider,
   createAwsBedrockModelProvider,
-  createCohereLegacyModelProvider,
+  createCohereModelProvider,
   createGroqModelProvider,
   createHuggingfaceInferenceModelProvider,
   createLmStudioModelProvider,

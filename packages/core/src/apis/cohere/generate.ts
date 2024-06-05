@@ -93,13 +93,16 @@ export function isCohereGenerateResponse(
   return !isLeft(CohereGenerateResponseCodec.decode(response));
 }
 
+export interface CohereGenerateApi
+  extends ModelApi<CohereGenerateOptions, CohereGenerateResponse> {}
+
 /**
  *
  * ## Reference
  * [Cohere Generate](https://docs.cohere.com/reference/generate)
  *
  * ## Providers using this API
- * - {@link createCohereLegacyModelProvider | Cohere (Legacy)}
+ * - {@link createCohereModelProvider | Cohere}
  * - {@link createAwsBedrockModelProvider | AWS Bedrock}
  *
  * @category APIs
@@ -108,10 +111,8 @@ export function isCohereGenerateResponse(
  * @category Provider: Cohere
  *
  */
-export const CohereGenerateApi: ModelApi<
-  CohereGenerateOptions,
-  CohereGenerateResponse
-> = {
+export const CohereGenerateApi: CohereGenerateApi = {
   requestTemplate: CohereGenerateTemplate,
   responseGuard: isCohereGenerateResponse,
+  name: "COHERE-GENERATE",
 };

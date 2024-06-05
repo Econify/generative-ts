@@ -3,7 +3,7 @@ import {
   AmazonTitanTextApi,
   CohereGenerateApi,
   createAwsBedrockModelProvider,
-  createCohereLegacyModelProvider,
+  createCohereModelProvider,
   createGroqModelProvider,
   createHuggingfaceInferenceModelProvider,
   createLmStudioModelProvider,
@@ -65,7 +65,8 @@ async function main() {
     modelId: "llama3-70b-8192",
   });
 
-  const cohereProvider = createCohereLegacyModelProvider({
+  const cohereProvider = createCohereModelProvider({
+    api: CohereGenerateApi,
     modelId: "command",
   });
 

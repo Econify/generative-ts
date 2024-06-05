@@ -51,7 +51,6 @@ const DEFAULT_REGION = "us-east-1";
  * @param {AwsAuthConfig} [params.auth] - Authentication configuration for AWS. If not supplied, credentials will be loaded from the environment.
  * @param {string} [params.region=us-east-1] - AWS region where the Bedrock model is deployed. Defaults to "us-east-1".
  * @returns {AwsBedrockModelProvider<TRequestOptions, TResponse>} The AWS Bedrock Model Provider with the specified {@link ModelApi}.
- * @throws {Error} If no auth is passed and AWS credentials are not found in process.env.
  *
  * @example Multiple APIs
  * ```ts

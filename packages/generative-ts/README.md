@@ -53,7 +53,7 @@ generative-ts provides `ModelApi` **TODO LINK** and `ModelProvider` **TODO LINK*
 
 * OpenAI ChatCompletion
 * Meta LLama2 and LLama3
-* Cohere Generate (Chat COMING SOON)
+* Cohere Chat and Generate
 * Mistral ChatCompletion; Bedrock-specific Mistral API
 * Ai21 Jurassic2 Complete (Chat COMING SOON)
 * Amazon TitanText

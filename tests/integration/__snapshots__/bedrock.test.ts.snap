@@ -59,3 +59,59 @@ exports[`Bedrock - AI21 J2 Complete 1`] = `
   },
 }
 `;
+
+exports[`Bedrock - Amazon TitanText 1`] = `
+{
+  "inputTextTokenCount": "number",
+  "results": [
+    {
+      "completionReason": "string",
+      "outputText": "string",
+      "tokenCount": "number",
+    },
+  ],
+}
+`;
+
+exports[`Bedrock - Cohere Generate 1`] = `
+{
+  "generations": [
+    {
+      "finish_reason": "string",
+      "id": "string",
+      "text": "string",
+    },
+  ],
+  "id": "string",
+  "prompt": "string",
+}
+`;
+
+exports[`Bedrock - Llama2 Chat 1`] = `
+{
+  "generation": "string",
+  "generation_token_count": "number",
+  "prompt_token_count": "number",
+  "stop_reason": "string",
+}
+`;
+
+exports[`Bedrock - Llama3 Chat 1`] = `
+{
+  "generation": "string",
+  "generation_token_count": "number",
+  "prompt_token_count": "number",
+  "stop_reason": "string",
+}
+`;
+
+exports[`Bedrock - Mistral (Bedrock specific) 1`] = `
+{
+  "outputs": [
+    {
+      "stop_reason": "string",
+      "text": "string",
+    },
+  ],
+}
+`;

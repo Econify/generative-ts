@@ -1,5 +1,13 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`Huggingface - Conversational Task 1`] = `
+[
+  {
+    "generated_text": "string",
+  },
+]
+`;
+
 exports[`Huggingface - TextGeneration Task 1`] = `
 [
   {

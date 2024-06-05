@@ -1,6 +1,7 @@
 import {
   createHuggingfaceInferenceModelProvider,
   HfConversationalTaskApi,
+  HfTextGenerationTaskApi,
 } from "@packages/core";
 
 test("Huggingface - Conversational Task", async () => {
@@ -19,6 +20,22 @@ test("Huggingface - Conversational Task", async () => {
     generated_responses: [
       "{'answer': 'The capital of Mexico is Mexico City.'}",
     ],
+  });
+
+  // assert
+  expect(response).toMatchApiSnapshot();
+});
+
+test("Huggingface - TextGeneration Task", async () => {
+  // arrange
+  const gpt2 = createHuggingfaceInferenceModelProvider({
+    api: HfTextGenerationTaskApi,
+    modelId: "gpt2",
+  });
+
+  // act
+  const response = await gpt2.sendRequest({
+    prompt: "Brief History of NY Mets:",
   });
 
   // assert

@@ -26,6 +26,7 @@ export interface ModelApi<
   TRequestOptions extends ModelRequestOptions = ModelRequestOptions,
   TResponse = unknown,
 > {
+  name?: string;
   requestTemplate: Template<TRequestOptions>;
   responseGuard: (response: unknown) => response is TResponse;
 }
@@ -55,3 +56,9 @@ export interface HttpClient {
 // The resulting type is "looser," so does NOT satisfy T, but if you add all props from K to an object of the resulting type, you logically satisfy T
 export type MakeOptional<T, K extends keyof T> = Omit<T, K> &
   Partial<Pick<T, K>>;
+
+// Used by ModelProvider factory functions:
+export type InferRequestOptions<T> =
+  T extends ModelApi<infer U, unknown> ? U : never;
+export type InferResponse<T> =
+  T extends ModelApi<ModelRequestOptions, infer V> ? V : never;

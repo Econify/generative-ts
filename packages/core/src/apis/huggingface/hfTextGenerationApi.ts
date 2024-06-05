@@ -77,6 +77,9 @@ export function isHfTextGenerationTaskResponse(
   return !isLeft(HfTextGenerationTaskResponseCodec.decode(response));
 }
 
+export interface HfTextGenerationTaskApi
+  extends ModelApi<HfTextGenerationTaskOptions, HfTextGenerationTaskResponse> {}
+
 /**
  *
  * ## Reference
@@ -89,10 +92,7 @@ export function isHfTextGenerationTaskResponse(
  * @category Provider: Huggingface
  * @category Huggingface Text Generation Task
  */
-export const HfTextGenerationTaskApi: ModelApi<
-  HfTextGenerationTaskOptions,
-  HfTextGenerationTaskResponse
-> = {
+export const HfTextGenerationTaskApi: HfTextGenerationTaskApi = {
   requestTemplate: HfTextGenerationTaskTemplate,
   responseGuard: isHfTextGenerationTaskResponse,
 };

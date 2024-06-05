@@ -1,14 +1,24 @@
-import type { HttpClient, ModelApi } from "@typeDefs";
+import type {
+  HttpClient,
+  InferRequestOptions,
+  InferResponse,
+  ModelApi,
+} from "@typeDefs";
 
-import type { HfInferenceApiOptions } from "../../apis/huggingface";
+import type {
+  HfConversationalTaskApi,
+  HfTextGenerationTaskApi,
+} from "../../apis";
 
 import { BearerTokenAuthStrategy, HttpModelProvider } from "../http";
 
 import type { HuggingfaceAuthConfig } from "./authConfig";
 
+type HfApi = HfConversationalTaskApi | HfTextGenerationTaskApi;
+
 /**
  *
- * Creates a Huggingface Inference {@link ModelProvider} with the specified {@link ModelApi} using {@link HfInferenceApiOptions}
+ * Creates a Huggingface Inference {@link ModelProvider} with the specified {@link ModelApi}
  *
  * ```ts
  * import { createHuggingfaceInferenceModelProvider, HfTextGenerationTaskApi } from "generative-ts";
@@ -23,11 +33,17 @@ import type { HuggingfaceAuthConfig } from "./authConfig";
  * console.log(response[0]?.generated_text);
  * ```
  *
+ * ### Compatible APIs
+ * - {@link HfConversationalTaskApi}
+ * - {@link HfTextGenerationTaskApi}
+ *
+ * @see {@link https://huggingface.co/docs/api-inference/index | Huggingface Inference}
+ *
  * @category Providers
  * @category Provider: Huggingface
  *
  * @param {Object} params
- * @param {ModelApi<HfInferenceApiOptions, TResponse>} params.api - The Huggingface Inference API (must implement {@link HfInferenceApiOptions}), eg {@link HfTextGenerationTaskApi}
+ * @param {HfApi} params.api - The API instance to use for making requests.
  * @param {string} params.modelId - The model ID as defined by Huggingface
  * @param {HttpClient} [params.client] - HTTP client to use for requests. If not supplied, the built-in fetch-based implementation will be used.
  * @param {HuggingfaceAuthConfig} [params.auth] - Authentication configuration for Huggingface. If not supplied, it will be loaded from the environment.
@@ -48,16 +64,13 @@ import type { HuggingfaceAuthConfig } from "./authConfig";
  * console.log(response[0]?.generated_text);
  * ```
  */
-export function createHuggingfaceInferenceModelProvider<
-  TRequestOptions extends HfInferenceApiOptions,
-  TResponse = unknown,
->({
+export function createHuggingfaceInferenceModelProvider<THfApi extends HfApi>({
   api,
   modelId,
   client,
   auth,
 }: {
-  api: ModelApi<TRequestOptions, TResponse>;
+  api: THfApi;
   modelId: string;
   client?: HttpClient;
   auth?: HuggingfaceAuthConfig;
@@ -71,7 +84,7 @@ export function createHuggingfaceInferenceModelProvider<
   }
 
   return new HttpModelProvider({
-    api,
+    api: api as ModelApi<InferRequestOptions<THfApi>, InferResponse<THfApi>>,
     config: {
       modelId,
     },

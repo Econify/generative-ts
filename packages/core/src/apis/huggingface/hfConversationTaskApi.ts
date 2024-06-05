@@ -82,6 +82,9 @@ export function isHfConversationalTaskResponse(
   return !isLeft(HfConversationalTaskResponseCodec.decode(response));
 }
 
+export interface HfConversationalTaskApi
+  extends ModelApi<HfConversationalTaskOptions, HfConversationalTaskResponse> {}
+
 /**
  *
  * ## Reference
@@ -94,10 +97,7 @@ export function isHfConversationalTaskResponse(
  * @category Provider: Huggingface
  * @category Huggingface Conversational Task
  */
-export const HfConversationalTaskApi: ModelApi<
-  HfConversationalTaskOptions,
-  HfConversationalTaskResponse
-> = {
+export const HfConversationalTaskApi: HfConversationalTaskApi = {
   requestTemplate: HfConversationalTaskTemplate,
   responseGuard: isHfConversationalTaskResponse,
 };

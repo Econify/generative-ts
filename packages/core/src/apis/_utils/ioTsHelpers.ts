@@ -27,12 +27,12 @@ export function nullable(x: Mixed) {
  * @param {Props} params.partial - The optional properties.
  * @returns {Mixed} An intersection type with required and optional properties.
  */
-export function composite({
+export function composite<T extends Props, P extends Props>({
   required,
   partial: optional,
 }: {
-  required: Props;
-  partial: Props;
+  required: T;
+  partial: P;
 }) {
   return intersection([type(required), partial(optional)]);
 }

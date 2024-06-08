@@ -10,7 +10,7 @@ export const FewShotPromptTemplateSource = `<% if (typeof system !== 'undefined'
   <%= pair.user %>
   Assistant:
   <%= pair.assistant %>
-  }) %>heh
+  }) %>
 
   User:
   <%= prompt %>

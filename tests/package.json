@@ -13,6 +13,7 @@
     "test:integration": "jest ./integration",
     "test:integration:bedrock": "jest ./integration/bedrock*",
     "test:integration:cohere": "jest ./integration/cohere*",
+    "test:integration:cohere-tools": "jest ./integration/cohere-tools",
     "test:integration:groq": "jest ./integration/groq*",
     "test:integration:hf": "jest ./integration/hf*",
     "test:integration:lmstudio": "jest ./integration/lmstudio*",

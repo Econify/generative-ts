@@ -6,8 +6,6 @@
     "rootDir": "./src",
 
     "declaration": true,
-    //"declarationMap": true,
-    //"emitDeclarationOnly": true,
   },
   "include": ["src/**/*.ts"],
   "exclude": ["src/**/*.spec.ts"],

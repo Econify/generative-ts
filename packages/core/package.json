@@ -51,8 +51,15 @@
   },
   "keywords": [
     "llm",
+    "openai",
     "gpt",
+    "meta",
     "llama",
+    "mistral",
+    "cohere",
+    "bedrock",
+    "groq",
+    "huggingface",
     "ts",
     "generative",
     "typescript"

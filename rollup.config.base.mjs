@@ -7,8 +7,8 @@ import json from '@rollup/plugin-json';
 
 export const baseConfig = {
   plugins: [
-    typescript(),
     resolve(),
+    typescript(),
     commonjs(),
     json({
       include: '**/ejs/package.json',
@@ -21,5 +21,5 @@ export const baseConfig = {
       brotliSize: true
     })
   ],
-  external: ['process']
+  external: ['@generative-ts/core', 'process']
 };

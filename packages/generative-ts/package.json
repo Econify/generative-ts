@@ -21,7 +21,8 @@
     "clean": "rm -rf dist && rm -rf .rollup.cache && rm -f *.tsbuildinfo",
     "lint": "eslint src/",
     "lint:fix": "eslint --fix src/",
-    "prepublishOnly": "npm run check && npm run build",
+    "prepare": "npm run build",
+    "prepublishOnly": "npm run check",
     "test": "jest",
     "test:cov": "jest --coverage",
     "typecheck": "tsc --noEmit"

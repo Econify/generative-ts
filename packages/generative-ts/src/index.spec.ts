@@ -1,7 +1,7 @@
 import * as index from "./index";
 
 describe("index", () => {
-  it("exports factory functions", () => {
+  it("exports public API", () => {
     expect(index.createAwsBedrockModelProvider).toBeDefined();
     expect(index.createCohereModelProvider).toBeDefined();
     expect(index.createGroqModelProvider).toBeDefined();

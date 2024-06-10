@@ -53,7 +53,7 @@ const templateSource = `{
   <% if (typeof presence_penalty !== 'undefined') { %>, "presence_penalty": <%= presence_penalty %><% } %>
   <% if (typeof response_format !== 'undefined') { %>, "response_format": <%- JSON.stringify(response_format) %><% } %>
   <% if (typeof seed !== 'undefined') { %>, "seed": <%= seed %><% } %>
-  <% if (typeof stop !== 'undefined') { %>, "stop": <%- JSON.stringify(stop) %><% } %>
+  <% if (typeof stop !== 'undefined' && (typeof stop === 'string' || Array.isArray(stop))) { %>, "stop": "<%= stop %>"<% } %>
   <% if (typeof stream !== 'undefined') { %>, "stream": <%= stream %><% } %>
   <% if (typeof stream_options !== 'undefined') { %>, "stream_options": <%- JSON.stringify(stream_options) %><% } %>
   <% if (typeof temperature !== 'undefined') { %>, "temperature": <%= temperature %><% } %>

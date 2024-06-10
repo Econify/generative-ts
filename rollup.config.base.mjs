@@ -16,7 +16,7 @@ export const baseConfig = {
     terser(),
     visualizer({
       filename: './stats.html',
-      open: true,
+      open: false,
       gzipSize: true,
       brotliSize: true
     })

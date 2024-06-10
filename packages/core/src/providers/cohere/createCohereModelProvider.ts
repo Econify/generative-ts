@@ -20,21 +20,44 @@ type CohereApi = CohereGenerateApi | CohereChatApi;
  * import { createCohereModelProvider } from "generative-ts";
  *
  * const commandR = createCohereModelProvider({
- *   modelId: "command-r-plus",
+ *   modelId: "command-r-plus", // Cohere defined model ID
+ *   // you can explicitly pass auth here, otherwise by default it is read from process.env
  * });
  *
  * const response = await commandR.sendRequest({
  *   prompt: "Brief History of NY Mets:",
  *   preamble: "Talk like Jafar from Aladdin",
+ *   // all other Cohere /generate options available here
  * });
+ *
+ * console.log(response.text);
  * ```
  *
  * ### Compatible APIs
  * - {@link CohereChatApi} (default)
  * - {@link CohereGenerateApi}
  *
- * @see {@link https://docs.cohere.com/reference/chat | Cohere Chat}
- * @see {@link https://docs.cohere.com/reference/generate | Cohere Generate}
+ * ### Provider Setup and Notes
+ *
+ * Create an API account at {@link https://cohere.com | Cohere}
+ *
+ * Obtain a {@link https://dashboard.cohere.com/api-keys | Cohere API key} and either pass them explicitly in `auth` or set them in the environment as `COHERE_API_KEY`
+ *
+ * By default, this will use the {@link https://docs.cohere.com/reference/chat | Cohere /chat API}. To use the {@link https://docs.cohere.com/reference/generate | Legacy Cohere /generate API} instead, pass {@link CohereGenerateApi} as the `api` parameter.
+ *
+ * ### Model Parameters
+ *
+ * - {@link https://docs.cohere.com/reference/chat | Cohere /chat API}
+ * - {@link https://docs.cohere.com/reference/generate | Cohere /generate API}
+ *
+ * ### Model IDs
+ *
+ * - {@link https://docs.cohere.com/docs/models | Cohere Models}
+ *
+ * @see {@link https://dashboard.cohere.com/api-keys | Cohere API keys}
+ * @see {@link https://docs.cohere.com/reference/chat | Cohere /chat API}
+ * @see {@link https://docs.cohere.com/reference/generate | Cohere /generate API}
+ * @see {@link https://docs.cohere.com/docs/models | Cohere Models}
  *
  * @category Providers
  * @category Provider: Cohere
@@ -52,13 +75,17 @@ type CohereApi = CohereGenerateApi | CohereChatApi;
  * import { createCohereModelProvider } from "generative-ts";
  *
  * const commandR = createCohereModelProvider({
- *   modelId: "command-r-plus",
+ *   modelId: "command-r-plus", // Cohere defined model ID
+ *   // you can explicitly pass auth here, otherwise by default it is read from process.env
  * });
  *
  * const response = await commandR.sendRequest({
  *   prompt: "Brief History of NY Mets:",
  *   preamble: "Talk like Jafar from Aladdin",
+ *   // all other Cohere /generate options available here
  * });
+ *
+ * console.log(response.text);
  * ```
  *
  * @example Generate API

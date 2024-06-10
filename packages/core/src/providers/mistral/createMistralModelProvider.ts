@@ -15,15 +15,35 @@ import type { MistralAuthConfig } from "./authConfig";
  * import { createMistralModelProvider } from "generative-ts";
  *
  * const mistralLarge = createMistralModelProvider({
- *   modelId: "mistral-large-latest",
+ *   modelId: "mistral-large-latest", // Mistral defined model ID
+ *   // you can explicitly pass auth here, otherwise by default it is read from process.env
  * });
  *
- * const response = await mistralLarge.sendRequest({ prompt: "Tell me about quantum computing:" });
+ * const response = await mistralLarge.sendRequest({
+ *   prompt: "Brief History of NY Mets:"
+ *   // all other Mistral ChatCompletion API options available here
+ * });
  *
  * console.log(response.choices[0]?.message.content);
  * ```
  *
- * @see {@link https://docs.mistral.ai/getting-started/models/ | Mistral Model IDs}
+ * ### Provider Setup and Notes
+ *
+ * Create an API account at {@link https://mistral.ai | Mistral}
+ *
+ * Obtain a {@link https://console.mistral.ai/api-keys/ | Mistral API key} and either pass them explicitly in `auth` or set them in the environment as `MISTRAL_API_KEY`
+ *
+ * ### Model Parameters
+ *
+ * - {@link https://docs.mistral.ai/api/#operation/createChatCompletion | Mistral ChatCompletion API}
+ *
+ * ### Model IDs
+ *
+ * - {@link https://docs.mistral.ai/getting-started/models/ | Mistral Models}
+ *
+ * @see {@link https://console.mistral.ai/api-keys/ | Mistral API keys}
+ * @see {@link https://docs.mistral.ai/api/#operation/createChatCompletion | Mistral ChatCompletion API}
+ * @see {@link https://docs.mistral.ai/getting-started/models/ | Mistral Models}
  *
  * @category Providers
  * @category Provider: Mistral
@@ -40,10 +60,14 @@ import type { MistralAuthConfig } from "./authConfig";
  * import { createMistralModelProvider } from "generative-ts";
  *
  * const mistralLarge = createMistralModelProvider({
- *   modelId: "mistral-large-latest",
+ *   modelId: "mistral-large-latest", // Mistral defined model ID
+ *   // you can explicitly pass auth here, otherwise by default it is read from process.env
  * });
  *
- * const response = await mistralLarge.sendRequest({ prompt: "Tell me about quantum computing:" });
+ * const response = await mistralLarge.sendRequest({
+ *   prompt: "Brief History of NY Mets:"
+ *   // all other Mistral ChatCompletion API options available here
+ * });
  *
  * console.log(response.choices[0]?.message.content);
  * ```

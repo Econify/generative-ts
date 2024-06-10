@@ -21,14 +21,22 @@ type HfApi = HfConversationalTaskApi | HfTextGenerationTaskApi;
  * Creates a Huggingface Inference {@link ModelProvider} with the specified {@link ModelApi}
  *
  * ```ts
- * import { createHuggingfaceInferenceModelProvider, HfTextGenerationTaskApi } from "generative-ts";
+ * import {
+ *   createHuggingfaceInferenceModelProvider,
+ *   HfTextGenerationTaskApi
+ * } from "generative-ts";
  *
+ * // Huggingface Inference supports many different APIs and models. See below for full list.
  * const gpt2 = createHuggingfaceInferenceModelProvider({
  *   api: HfTextGenerationTaskApi,
  *   modelId: "gpt2",
+ *   // you can explicitly pass auth here, otherwise by default it is read from process.env
  * });
  *
- * const response = await gpt2.sendRequest({ input: "Hello," });
+ * const response = await gpt2.sendRequest({
+ *   prompt: "Hello,"
+ *   // all other options for the specified `api` available here
+ * });
  *
  * console.log(response[0]?.generated_text);
  * ```
@@ -37,7 +45,28 @@ type HfApi = HfConversationalTaskApi | HfTextGenerationTaskApi;
  * - {@link HfConversationalTaskApi}
  * - {@link HfTextGenerationTaskApi}
  *
- * @see {@link https://huggingface.co/docs/api-inference/index | Huggingface Inference}
+ * ### Provider Setup and Notes
+ *
+ * Create a Huggingface Inference API account at {@link https://huggingface.co/ | Huggingface}
+ *
+ * Obtain a {@link https://huggingface.co/settings/tokens | Huggingface User Access Token} and either pass it explicitly in `auth` or set it in the environment as `HUGGINGFACE_API_TOKEN`
+ *
+ * The Huggingface Inference API supports thousands of different models, grouped into "tasks". {@link https://huggingface.co/docs/api-inference/detailed_parameters | See the official documentation}.
+ *
+ * Currently we only ship API classes for {@link https://huggingface.co/docs/api-inference/detailed_parameters#conversational-task | Conversational Task} and {@link https://huggingface.co/docs/api-inference/detailed_parameters#text-generation-task | Text Generation Task}. If you need another task, you can create a new API and pass it as the `api` parameter.
+ *
+ * ### Model Parameters
+ *
+ * - {@link https://huggingface.co/docs/api-inference/detailed_parameters#conversational-task | Conversational Task}
+ * - {@link https://huggingface.co/docs/api-inference/detailed_parameters#text-generation-task | Text Generation Task}
+ *
+ * ### Model IDs
+ *
+ * - {@link https://huggingface.co/models | Huggingface Models}
+ *
+ * @see {@link https://huggingface.co/settings/tokens | Huggingface User Access Token}
+ * @see {@link https://huggingface.co/docs/api-inference/detailed_parameters | Huggingface Inference API}
+ * @see {@link https://huggingface.co/models | Huggingface Models}
  *
  * @category Providers
  * @category Provider: Huggingface
@@ -52,14 +81,22 @@ type HfApi = HfConversationalTaskApi | HfTextGenerationTaskApi;
  *
  * @example Usage
  * ```ts
- * import { createHuggingfaceInferenceModelProvider, HfTextGenerationTaskApi } from "generative-ts";
+ * import {
+ *   createHuggingfaceInferenceModelProvider,
+ *   HfTextGenerationTaskApi
+ * } from "generative-ts";
  *
+ * // Huggingface Inference supports many different APIs and models. See below for full list.
  * const gpt2 = createHuggingfaceInferenceModelProvider({
  *   api: HfTextGenerationTaskApi,
  *   modelId: "gpt2",
+ *   // you can explicitly pass auth here, otherwise by default it is read from process.env
  * });
  *
- * const response = await gpt2.sendRequest({ input: "Hello," });
+ * const response = await gpt2.sendRequest({
+ *   prompt: "Hello,"
+ *   // all other options for the specified `api` available here
+ * });
  *
  * console.log(response[0]?.generated_text);
  * ```

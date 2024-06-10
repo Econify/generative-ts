@@ -13,14 +13,37 @@ import type { OpenAiAuthConfig } from "./authConfig";
  * ```ts
  * import { createOpenAiChatModelProvider } from "generative-ts";
  *
- * const gpt4 = createOpenAiChatModelProvider({
- *   modelId: "gpt-4-turbo",
+ * const gpt = createOpenAiChatModelProvider({
+ *   modelId: "gpt-4-turbo", // OpenAI defined model ID
+ *   // you can explicitly pass auth here, otherwise by default it is read from process.env
  * });
  *
- * const response = await gpt4.sendRequest({ prompt: "Brief History of NY Mets:" });
+ * const response = await gpt.sendRequest({
+ *   prompt: "Brief History of NY Mets:",
+ *   max_tokens: 100,
+ *   // all other OpenAI ChatCompletion options available here
+ * });
  *
  * console.log(response.choices[0]?.message.content);
  * ```
+ *
+ * ### Provider Setup and Notes
+ *
+ * Create an API account at {@link https://openai.com/ | OpenAI}
+ *
+ * Obtain a {@link https://platform.openai.com/api-keys | OpenAI API key} and either pass it explicitly in `auth` or set it in the environment as `OPENAI_API_KEY`
+ *
+ * ### Model Parameters
+ *
+ * - {@link https://platform.openai.com/docs/api-reference/chat/create | OpenAI ChatCompletion API}
+ *
+ * ### Model IDs
+ *
+ * - {@link https://platform.openai.com/docs/models | OpenAI Models}
+ *
+ * @see {@link https://platform.openai.com/api-keys | OpenAI API keys}
+ * @see {@link https://platform.openai.com/docs/api-reference/chat/create | OpenAI ChatCompletion API}
+ * @see {@link https://platform.openai.com/docs/models | OpenAI Models}
  *
  * @category Providers
  * @category Provider: OpenAI
@@ -36,11 +59,16 @@ import type { OpenAiAuthConfig } from "./authConfig";
  * ```ts
  * import { createOpenAiChatModelProvider } from "generative-ts";
  *
- * const gpt4 = createOpenAiChatModelProvider({
- *   modelId: "gpt-4-turbo",
+ * const gpt = createOpenAiChatModelProvider({
+ *   modelId: "gpt-4-turbo", // OpenAI defined model ID
+ *   // you can explicitly pass auth here, otherwise by default it is read from process.env
  * });
  *
- * const response = await gpt4.sendRequest({ prompt: "Brief History of NY Mets:" });
+ * const response = await gpt.sendRequest({
+ *   prompt: "Brief History of NY Mets:",
+ *   max_tokens: 100,
+ *   // all other OpenAI ChatCompletion options available here
+ * });
  *
  * console.log(response.choices[0]?.message.content);
  * ```

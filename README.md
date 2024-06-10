@@ -1,19 +1,18 @@
 # generative-ts
 
-**a typescript utility library for building LLM applications+agents for node and the browser**
+**a typescript library for building LLM applications+agents**
 
 [![Documentation](https://img.shields.io/badge/docs-generative--ts-blue)](https://econify.github.io/generative-ts/)
 
-generative-ts is an unopinionated, web-first utility library for LLM applications. Its core functionality revolves around providing a type-safe interface for interacting with a wide variety of LLM providers using their "native" APIs. It's *not* a heavy abstraction or wrapper around a bunch of existing SDKs. It *is* tiny, portable, and comes with some useful extra features.
+generative-ts is a web-first library for programming LLM applications. Its core feature is allowing you to easily use a wide variety of different [model providers](#model-providers) with minimal code and dependencies, while still exposing their native APIs so as to not get in your way. We provide some useful features on top of that for common applications like Chatbots, Tool Use, RAG, and Agents.
 
 ## Features
 
-- **Simple**: Provides support for many different [model providers](#model-providers), giving typesafe interfaces to the APIs as they're already defined
-- **Minimal/Portable**: Runs in node or the browser, has tiny bundles and [scoped packages](#packages) for fine-grain installs 
-- **Features**
-  - Stuff
-  - Goes
-  - Here
+- **Simple**: *NOT* a heavy duty abstraction or framework. The library is easy to understand and model APIs are exposed 1:1.
+- **Minimal**: *NOT* a wrapper of a bunch of different SDKs. It uses a small number of dependencies and also provide [scoped packages](#packages) for fine-grained installs.
+- **Portable**: Can run in node or entirely in the browser
+- **Just HTTP**: It uses native fetch out of the box, giving you universal control of timeout, retries, and proxies. You can also [inject your own HTTP client](#custom-http-client) as an alternative.
+- **Versatile**: Provides utilities for things like Chatbots, Tool Use, RAG, and Agents (mostly coming in beta)
 
 ## Install
 
@@ -25,63 +24,164 @@ npm i generative-ts
 
 You can also do more granular installs of scoped packages if you want to optimize your builds further (see [packages](#packages))
 
-## How it Works
-
-generative-ts separates the "Model API" (the request and response interfaces wrapping the model) from the "Model Provider" (the service providing access to the model). This separation accommodates the many quirks of LLM hosting services. For instance, many services (such as LMStudio) rely on llama.cpp, which uses a subset of the OpenAI-ChatCompletion API for all models. Meanwhile, a single model may have different APIs depending on its hosting platform. For example, Mistral uses the Mistral-ChatCompletion API when hosted by Mistral, but it uses the LLama2 Chat API on AWS Bedrock. There are many other unique examples.
-
-generative-ts provides `ModelApi` **TODO LINK** and `ModelProvider` **TODO LINK** to represent these concepts. Some `ModelProvider`s only use a single `ModelApi` (e.g., OpenAI always uses its own OpenAI API) while other `ModelProvider`s can use many different `ModelApi`s (e.g., AWS Bedrock uses a different API depending on which model you use). Factory functions **TODO LINK** for creating `ModelProviders` expose an `api` parameter when the API is not determined by the provider.
-
-
-### Model Providers
-
-* AWS Bedrock
-* OpenAI
-* LMStudio
-* Cohere
-* Groq
-* Huggingface Inference
-* Mistral
-* Microsoft Azure (COMING SOON)
-* Google Vertex AI (COMING SOON)
-* Replicate (COMING SOON)
-* Anthropic (COMING SOON)
-* LLamafile (COMING SOON)
-* vLLM (COMING SOON)
-* Ai21 (COMING SOON)
-
-### Model APIs
-
-* OpenAI ChatCompletion
-* Meta LLama2 and LLama3
-* Cohere Chat and Generate
-* Mistral ChatCompletion; Bedrock-specific Mistral API
-* Ai21 Jurassic2 Complete (Chat COMING SOON)
-* Amazon TitanText
-* Huggingface Inference Text Generation and Conversational tasks
-* Antrophic (COMING SOON)
-* Google Gemini (COMING SOON)
-
-It's also easy to add your own by using either the `BaseModelProvider` or `HttpModelProvider` class **TODO LINK**
-
 ## Usage
 
-### Hello gpt
+### AWS Bedrock
 
+**[API docs: `createAwsBedrockModelProvider` ](https://econify.github.io/generative-ts/functions/createAwsBedrockModelProvider.html)**
+
+<!-- TEST [Bedrock] -->
+```ts
+import {
+  AmazonTitanTextApi,
+  createAwsBedrockModelProvider
+} from "generative-ts";
+
+// Bedrock supports many different APIs and models. See API docs (above) for full list.
+const titanText = createAwsBedrockModelProvider({
+  api: AmazonTitanTextApi,
+  modelId: "amazon.titan-text-express-v1",
+  // auth will be read from process.env and properly handled for the AWS environment on which the code is running
+});
+
+const response = await titanText.sendRequest({ 
+  prompt: "Brief history of NY Mets:" 
+  // all other options for the specified `api` available here
+});
+
+console.log(response.results[0]?.outputText);
+```
+
+### Cohere
+
+**[API docs: `createCohereModelProvider` ](https://econify.github.io/generative-ts/functions/createCohereModelProvider.html)**
+
+<!-- TEST [Cohere] -->
+```ts
+import { createCohereModelProvider } from "generative-ts";
+
+const commandR = createCohereModelProvider({
+  modelId: "command-r-plus", // Cohere defined model ID
+  // you can explicitly pass auth here, otherwise by default it is read from process.env
+});
+
+const response = await commandR.sendRequest({
+  prompt: "Brief History of NY Mets:",
+  preamble: "Talk like Jafar from Aladdin",
+  // all other Cohere /generate options available here
+});
+
+console.log(response.text);
+```
+
+### Groq
+
+**[API docs: `createGroqModelProvider` ](https://econify.github.io/generative-ts/functions/createGroqModelProvider.html)**
+
+<!-- TEST [Groq] -->
+```ts
+import { createGroqModelProvider } from "generative-ts";
+
+const llama3 = createGroqModelProvider({
+  modelId: "llama3-70b-8192", // Groq defined model ID
+  // you can explicitly pass auth here, otherwise by default it is read from process.env
+});
+
+const response = await llama3.sendRequest({ 
+  prompt: "Brief History of NY Mets:" 
+  // all other OpenAI ChatCompletion options available here (Groq uses the OpenAI ChatCompletion API for all the models it hosts)
+});
+
+console.log(response.choices[0]?.message.content);
+```
+
+### Huggingface Inference
+
+**[API docs: `createHuggingfaceInferenceModelProvider` ](https://econify.github.io/generative-ts/functions/createHuggingfaceInferenceModelProvider.html)**
+
+<!-- TEST [Huggingface] -->
+```ts
+import { 
+  createHuggingfaceInferenceModelProvider, 
+  HfTextGenerationTaskApi 
+} from "generative-ts";
+
+// Huggingface Inference supports many different APIs and models. See API docs (above) for full list.
+const gpt2 = createHuggingfaceInferenceModelProvider({
+  api: HfTextGenerationTaskApi,
+  modelId: "gpt2",
+  // you can explicitly pass auth here, otherwise by default it is read from process.env
+});
+
+const response = await gpt2.sendRequest({ 
+  prompt: "Hello," 
+  // all other options for the specified `api` available here
+});
+
+console.log(response[0]?.generated_text);
+```
+
+### LMStudio
+
+**[API docs: `createLmStudioModelProvider` ](https://econify.github.io/generative-ts/functions/createLmStudioModelProvider.html)**
+
+<!-- TEST [LMStudio] -->
+```ts
+import { createLmStudioModelProvider } from "generative-ts";
+
+const llama3 = createLmStudioModelProvider({
+  modelId: "lmstudio-community/Meta-Llama-3-70B-Instruct-GGUF", // a ID of a model you have downloaded in LMStudio
+});
+
+const response = await llama3.sendRequest({ 
+  prompt: "Brief History of NY Mets:" 
+  // all other OpenAI ChatCompletion options available here (LMStudio uses the OpenAI ChatCompletion API for all the models it hosts)
+});
+
+console.log(response.choices[0]?.message.content);
+```
+
+### Mistral
+
+**[API docs: `createMistralModelProvider` ](https://econify.github.io/generative-ts/functions/createMistralModelProvider.html)**
+
+<!-- TEST [Mistral] -->
+```ts
+import { createMistralModelProvider } from "generative-ts";
+
+const mistralLarge = createMistralModelProvider({
+  modelId: "mistral-large-latest", // Mistral defined model ID
+  // you can explicitly pass auth here, otherwise by default it is read from process.env
+});
+
+const response = await mistralLarge.sendRequest({ 
+  prompt: "Brief History of NY Mets:" 
+  // all other Mistral ChatCompletion API options available here
+});
+
+console.log(response.choices[0]?.message.content);
+```
+
+### OpenAI
+
+**[API docs: `createOpenAiChatModelProvider` ](https://econify.github.io/generative-ts/functions/createOpenAiChatModelProvider.html)**
+
+<!-- TEST [OpenAI] -->
 ```ts
 import { createOpenAiChatModelProvider } from "generative-ts";
 
 const gpt = createOpenAiChatModelProvider({
-  modelId: "gpt-3.5-turbo",
+  modelId: "gpt-4-turbo", // OpenAI defined model ID
   // you can explicitly pass auth here, otherwise by default it is read from process.env
 });
 
 const response = await gpt.sendRequest({
   prompt: "Brief History of NY Mets:",
-  temperature: 1.0,
-  // all other OpenAI Chat Completion options are available here
+  max_tokens: 100,
+  // all other OpenAI ChatCompletion options available here
 });
 
-console.log(response.choices[0]?.message); // the response has been runtime validated within a typeguard, so this is also typesafe
+console.log(response.choices[0]?.message.content);
 ```
 
 ### Custom HTTP Client
@@ -93,6 +193,27 @@ todo;
 ### Additional Examples
 
 For more examples, please refer to the /examples folder in the repository.
+
+## Supported Providers and Models
+
+See [Usage](#usage) for how to use each provider.
+
+|Provider|Models|Model APIs|
+|-|-|-|
+|AWS Bedrock|[Multiple hosted models](https://docs.aws.amazon.com/bedrock/latest/userguide/model-ids.html#model-ids-arns)|[Native model APIs](https://docs.aws.amazon.com/bedrock/latest/userguide/model-parameters.html)|
+|Cohere|Command / Command R+|Cohere /generate and /chat|
+|Groq|[Multiple hosted models](https://console.groq.com/docs/models)|OpenAI ChatCompletion|
+|Huggingface Inference|Open-source|[Huggingface Inference APIs](https://huggingface.co/docs/api-inference/detailed_parameters)|
+|LMStudio (localhost)|Open-source (must be downloaded)|OpenAI ChatCompletion|
+|Mistral|Mistral x.y|Mistral ChatCompletion|
+|OpenAI|GPT x.y|OpenAI ChatCompletion|
+|Azure (coming soon)||
+|Google Vertex AI (coming soon)||
+|Replicate (coming soon)||
+|Anthropic (coming soon)||
+|Fireworks (coming soon)||
+
+It's also easy to add your own **TODO LINK**
 
 ## Packages
 
@@ -106,28 +227,25 @@ If you're using a modern bundler, just install generative-ts to get everything. 
 | `@generative-ts/provider-bedrock` | AWS Bedrock provider                    | This is its own package because it uses the `aws4` dependency to properly authenticate when running in AWS environments        |
 | `@generative-ts/apis`        | Model APIs                             | `ModelAPI` implementations. These use some internal dependencies (like `ejs` for templating) which arent strictly necessary because you can implement your own (see docs of `ModelAPI` for full details -- **TODO**) |
 
+## Report Bugs / Submit Feature Requests
+
+Please submit all issues here: https://github.com/Econify/generative-ts/issues
 
 ## Contributing
 
-We welcome contributions! To get started developing, clone the repository and run:
+To get started developing, optionally fork and then clone the repository and run:
 
 ```sh
 nvm use
-npm install
+npm ci
 ```
 
-From there you can run the examples (`npm run example`) or the "e2e tests" in `tests/`
+To run examples and integration/e2e tests you'll need to create an .env file by running `cp .env.example .env` and then add values where necessary. This section needs a lot more work :)
 
-## Report Bugs / Submit Feature Requests
+## Publishing
 
-Encountered a bug or have a feature request? Please submit issues here: https://github.com/Econify/generative-ts/issues
+The "main" `generative-ts` package and the scoped `@generative-ts` packages both are controlled by the generative-ts npm organization. Releases are published via circleci job upon pushes of tags that have a name starting with `release/`. The job requires an NPM token that has publishing permissions to both `generative-ts` and `@generative-ts`. Currently this is a "granular" token set to expire every 30 days, created by @jnaglick, set in a circleci context.
 
 ## License
 
-**TODO**: License details will be added here.
-
-## Package publishing and ownership
-
-Both the "main" `generative-ts` package and the scoped `@generative-ts` packages are controlled by the generative-ts npm organization. Currently the 'developer' team in the org only has read permissions. The only way the packages can be published is via ci/cd.
-
-Releases are published via circleci job upon pushes to branches that have a name starting with `release/`. The job requires an NPM token that has publishing permissions to both `generative-ts` and `@generative-ts`. Currently this is a "granular" token set to expire every 30 days, created by @jnaglick, set in a circleci context.
+**TODO**

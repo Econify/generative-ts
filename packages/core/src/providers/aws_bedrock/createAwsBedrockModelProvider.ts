@@ -36,15 +36,20 @@ type AwsBedrockApi =
  * ```ts
  * import {
  *   AmazonTitanTextApi,
- *   createAwsBedrockModelProvider,
+ *   createAwsBedrockModelProvider
  * } from "generative-ts";
  *
+ * // Bedrock supports many different APIs and models. See below for full list.
  * const titanText = createAwsBedrockModelProvider({
  *   api: AmazonTitanTextApi,
  *   modelId: "amazon.titan-text-express-v1",
+ *   // auth will be read from process.env and properly handled for the AWS environment on which the code is running
  * });
  *
- * const response = await titanText.sendRequest({ prompt: "Brief history of NY Mets:" });
+ * const response = await titanText.sendRequest({
+ *   prompt: "Brief history of NY Mets:"
+ *   // all other options for the specified `api` available here
+ * });
  *
  * console.log(response.results[0]?.outputText);
  * ```
@@ -57,7 +62,22 @@ type AwsBedrockApi =
  * - {@link MistralBedrockApi}
  * - {@link Ai21Jurassic2Api}
  *
- * @see {@link https://docs.aws.amazon.com/bedrock/latest/userguide/model-ids.html | AWS Bedrock Model IDs}
+ * ### Provider Setup and Notes
+ *
+ * In the Bedrock service in the AWS Console, use "Request Model Access" to enable access to Bedrock models.
+ *
+ * If your code is running in an AWS Environment (eg, Lambda) authorization should happen automatically. Otherwise, you can explicitly pass in an {@link AwsAuthConfig} object to `auth`.
+ *
+ * ### Model Parameters
+ *
+ * - {@link https://docs.aws.amazon.com/bedrock/latest/userguide/model-parameters.html | AWS Bedrock Model Parameters}
+ *
+ * ### Model IDs
+ *
+ * - {@link https://docs.aws.amazon.com/bedrock/latest/userguide/model-ids.html | AWS Bedrock Models}
+ *
+ * @see {@link https://docs.aws.amazon.com/bedrock/latest/userguide/model-parameters.html | AWS Bedrock Model Parameters}
+ * @see {@link https://docs.aws.amazon.com/bedrock/latest/userguide/model-ids.html | AWS Bedrock Models}
  *
  * @category Providers
  * @category Provider: AWS Bedrock

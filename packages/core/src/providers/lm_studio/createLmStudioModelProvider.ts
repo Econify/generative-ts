@@ -9,16 +9,36 @@ import { HttpModelProvider } from "../http";
  * Creates a LMStudio {@link ModelProvider} with the {@link OpenAiChatApi}
  *
  * ```ts
-import { createLmStudioModelProvider } from "generative-ts";
-
-const llama3 = createLmStudioModelProvider({
-  modelId: "lmstudio-community/Meta-Llama-3-70B-Instruct-GGUF",
-});
-
-const response = await llama3.sendRequest({ prompt: "Brief History of NY Mets:" });
-
-console.log(response.choices[0]?.message.content);
+ * import { createLmStudioModelProvider } from "generative-ts";
+ *
+ * const llama3 = createLmStudioModelProvider({
+ *   modelId: "lmstudio-community/Meta-Llama-3-70B-Instruct-GGUF", // a ID of a model you have downloaded in LMStudio
+ * });
+ *
+ * const response = await llama3.sendRequest({
+ *   prompt: "Brief History of NY Mets:"
+ *   // all other OpenAI ChatCompletion options available here (LMStudio uses the OpenAI ChatCompletion API for all the models it hosts)
+ * });
+ *
+ * console.log(response.choices[0]?.message.content);
  * ```
+ *
+ * ### Provider Setup and Notes
+ *
+ * Follow {@link https://lmstudio.ai/docs/local-server#using-the-local-server | LMStudio's instructions} to set up the LMStudio local server.
+ *
+ * LMStudio uses the {@link https://platform.openai.com/docs/api-reference/chat/create | OpenAI ChatCompletion API} for all the models it hosts.
+ *
+ * ### Model Parameters
+ *
+ * - {@link https://platform.openai.com/docs/api-reference/chat/create | OpenAI ChatCompletion API}
+ *
+ * ### Model IDs
+ *
+ * - The model ID can be found in LMStudio, listed as the "name" of the model.
+ *
+ * @see {@link https://lmstudio.ai/docs | LMStudio Documentation}
+ * @see {@link https://platform.openai.com/docs/api-reference/chat/create | OpenAI ChatCompletion API}
  *
  * @category Providers
  * @category Provider: LMStudio
@@ -31,15 +51,18 @@ console.log(response.choices[0]?.message.content);
  *
  * @example Usage
  * ```ts
-import { createLmStudioModelProvider } from "generative-ts";
-
-const llama3 = createLmStudioModelProvider({
-  modelId: "lmstudio-community/Meta-Llama-3-70B-Instruct-GGUF",
-});
-
-const response = await llama3.sendRequest({ prompt: "Brief History of NY Mets:" });
-
-console.log(response.choices[0]?.message.content);
+ * import { createLmStudioModelProvider } from "generative-ts";
+ *
+ * const llama3 = createLmStudioModelProvider({
+ *   modelId: "lmstudio-community/Meta-Llama-3-70B-Instruct-GGUF", // a ID of a model you have downloaded in LMStudio
+ * });
+ *
+ * const response = await llama3.sendRequest({
+ *   prompt: "Brief History of NY Mets:"
+ *   // all other OpenAI ChatCompletion options available here (LMStudio uses the OpenAI ChatCompletion API for all the models it hosts)
+ * });
+ *
+ * console.log(response.choices[0]?.message.content);
  * ```
  */
 export function createLmStudioModelProvider({

@@ -16,13 +16,37 @@ import type { GroqAuthConfig } from "./authConfig";
  * import { createGroqModelProvider } from "generative-ts";
  *
  * const llama3 = createGroqModelProvider({
- *   modelId: "llama3-70b-8192",
+ *   modelId: "llama3-70b-8192", // Groq defined model ID
+ *   // you can explicitly pass auth here, otherwise by default it is read from process.env
  * });
  *
- * const response = await llama3.sendRequest({ prompt: "Brief History of NY Mets:" });
+ * const response = await llama3.sendRequest({
+ *   prompt: "Brief History of NY Mets:"
+ *   // all other OpenAI ChatCompletion options available here (Groq uses the OpenAI ChatCompletion API for all the models it hosts)
+ * });
  *
  * console.log(response.choices[0]?.message.content);
  * ```
+ *
+ * ### Provider Setup and Notes
+ *
+ * Create an API account at {@link https://groq.com/ | Groq}
+ *
+ * Obtain a {@link https://console.groq.com/keys | Groq API key} and either pass them explicitly in `auth` or set them in the environment as `GROQ_API_KEY`
+ *
+ * Groq uses the {@link https://platform.openai.com/docs/api-reference/chat/create | OpenAI ChatCompletion API} for all the models it hosts.
+ *
+ * ### Model Parameters
+ *
+ * - {@link https://platform.openai.com/docs/api-reference/chat/create | OpenAI ChatCompletion API}
+ *
+ * ### Model IDs
+ *
+ * - {@link https://console.groq.com/docs/models | Groq Models}
+ *
+ * @see {@link https://console.groq.com/keys | Groq API keys}
+ * @see {@link https://platform.openai.com/docs/api-reference/chat/create | OpenAI ChatCompletion API}
+ * @see {@link https://console.groq.com/docs/models | Groq Models}
  *
  * @category Providers
  * @category Provider: Groq

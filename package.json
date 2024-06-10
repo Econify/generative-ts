@@ -36,8 +36,7 @@
     "test:integration:ci": "npm run test:integration:ci -w generative-ts-tests",
     "typecheck": "tsc --noEmit",
     "example": "ts-node -r tsconfig-paths/register -r dotenv/config ./examples/index.ts",
-    "example:fewshot": "ts-node -r tsconfig-paths/register -r dotenv/config ./examples/few-shot-chat-models.ts",
-    "example:hf": "ts-node -r tsconfig-paths/register -r dotenv/config ./examples/hf.ts"
+    "example:fewshot": "ts-node -r tsconfig-paths/register -r dotenv/config ./examples/few-shot-chat-models.ts"
   },
   "devDependencies": {
     "@rollup/plugin-commonjs": "^25.0.7",

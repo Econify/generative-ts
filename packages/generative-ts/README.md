@@ -4,7 +4,7 @@
 
 [![Documentation](https://img.shields.io/badge/docs-generative--ts-blue)](https://econify.github.io/generative-ts/)
 
-generative-ts is a web-first library for programming LLM applications. Its core feature is allowing you to easily use a wide variety of different [model providers](#model-providers) with minimal code and dependencies, while still exposing their native APIs so as to not get in your way. We provide some useful features on top of that for common applications like Chatbots, Tool Use, RAG, and Agents.
+generative-ts is a web-first library for programming LLM applications. Its core feature is allowing you to easily use a wide variety of different model providers with minimal code and dependencies, while still exposing their native APIs so as to not get in your way. We provide some useful features on top of that for common applications like Chatbots, Tool Use, RAG, and Agents.
 
 ## Features
 

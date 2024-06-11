@@ -3,14 +3,16 @@ import {
   AmazonTitanTextApi,
   CohereGenerateApi,
   createAwsBedrockModelProvider,
-  createCohereLegacyModelProvider,
+  createCohereModelProvider,
   createGroqModelProvider,
-  createHuggingfaceTextGenerationModelProvider,
+  createHuggingfaceInferenceModelProvider,
   createLmStudioModelProvider,
   createOpenAiChatModelProvider,
+  HfConversationalTaskApi,
+  HfTextGenerationTaskApi,
   Llama3ChatApi,
   MistralBedrockApi,
-} from "packages/generative-ts/src";
+} from "@packages/core";
 
 async function main() {
   const prompt = "Brief History of NY Mets:";
@@ -44,7 +46,13 @@ async function main() {
     modelId: "ai21.j2-mid-v1",
   });
 
-  const huggingfaceProvider2 = createHuggingfaceTextGenerationModelProvider({
+  const hfConvoProvider = createHuggingfaceInferenceModelProvider({
+    api: HfConversationalTaskApi,
+    modelId: "microsoft/DialoGPT-large",
+  });
+
+  const hfTextgenProvider = createHuggingfaceInferenceModelProvider({
+    api: HfTextGenerationTaskApi,
     modelId: "gpt2",
   });
 
@@ -57,7 +65,8 @@ async function main() {
     modelId: "llama3-70b-8192",
   });
 
-  const cohereProvider = createCohereLegacyModelProvider({
+  const cohereProvider = createCohereModelProvider({
+    api: CohereGenerateApi,
     modelId: "command",
   });
 
@@ -83,8 +92,16 @@ async function main() {
       params: { prompt, max_tokens: 50, temperature: 1.0 },
     },
     {
+      name: "DialoGPT(HF)",
+      provider: hfConvoProvider,
+      params: {
+        prompt,
+        parameters: { max_new_tokens: 50, temperature: 1.0 },
+      },
+    },
+    {
       name: "GPT2(HF)",
-      provider: huggingfaceProvider2,
+      provider: hfTextgenProvider,
       params: { prompt, parameters: { max_new_tokens: 50, temperature: 1.0 } },
     },
     {
@@ -98,7 +115,7 @@ async function main() {
       },
     },
     {
-      name: "Llama3(Bedrock)",
+      name: "Llama3(AWS)",
       provider: llama3aws,
       params: {
         prompt,
@@ -138,6 +155,7 @@ async function main() {
         const response = await query.provider.sendRequest(query.params);
         return { name: query.name, status: "Success", response };
       } catch (error) {
+        console.error(error);
         return { name: query.name, status: "Failed", error };
       }
     }),

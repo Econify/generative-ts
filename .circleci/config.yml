@@ -20,6 +20,9 @@ jobs:
       - run:
           name: Test
           command: npm run test
+      - run:
+          name: Integration Test
+          command: npm run test:integration:ci
   publish:
     executor:
       name: node/default
@@ -43,7 +46,7 @@ jobs:
           name: Publish
           command: |
             npm set //registry.npmjs.org/:_authToken=$GENERATIVE_TS_NPM_TOKEN
-            npm publish
+            npm run publish
 
 workflows:
   version: 2
@@ -57,7 +60,10 @@ workflows:
               pattern: '^release\/.*$'
               value: << pipeline.git.branch >>
     jobs:
-      - test
+      - test:
+          context:
+            - econify-aws
+            - generative-ts-hf-token
   push_release_branch:
     jobs:
       - publish:

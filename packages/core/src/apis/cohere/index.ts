@@ -1,1 +1,2 @@
-export * from "./cohere_generate";
+export * from "./chat";
+export * from "./generate";

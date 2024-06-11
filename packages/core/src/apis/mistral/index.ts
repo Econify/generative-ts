@@ -1,2 +1,2 @@
-export * from "./mistralBedrock";
+export * from "./mistralBedrockApi";
 export * from "./mistralAiApi";

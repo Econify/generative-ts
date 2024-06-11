@@ -1,1 +1,2 @@
-export * from "./createCohereLegacyModelProvider";
+export * from "./authConfig";
+export * from "./createCohereModelProvider";

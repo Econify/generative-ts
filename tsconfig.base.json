@@ -1,4 +1,5 @@
 {
+  "exclude": ["node_modules", "dist"],
   "compilerOptions": {
     "target": "es6",
     "module": "esnext",
@@ -16,8 +17,8 @@
     "moduleResolution": "node",
 
     "paths": {
-      "generative-ts": ["packages/generative-ts/src"],
-      "@generative-ts/core": ["packages/core/src"]
+      "@typeDefs": ["packages/core/src/typeDefs"],
+      "@packages/*": ["packages/*/src"]
     },
 
     "strict": true ,

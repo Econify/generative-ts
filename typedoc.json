@@ -1,0 +1,24 @@
+{
+  "entryPoints": ["packages/generative-ts/src"],
+  "out": "./docs",
+  "exclude": ["**/*.spec.ts"],
+  "includeVersion": true,
+  "categoryOrder": ["Providers", 
+  "APIs", 
+  "Requests", 
+  "Responses", 
+  "Templates", 
+  "Core Implementations", 
+  "Core Interfaces", 
+  "Provider: AWS Bedrock", 
+  "Provider: Cohere", 
+  "Provider: Groq", 
+  "Provider: Huggingface", 
+  "Provider: LMStudio",
+  "Provider: Mistral", 
+  "Provider: OpenAI", 
+  "*"
+  ],
+  "plugin": ["typedoc-theme-category-nav"],
+  "theme": "navigation"
+}

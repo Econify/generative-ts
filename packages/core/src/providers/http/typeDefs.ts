@@ -1,36 +1,45 @@
-import type { ModelRequestOptions } from "../../typeDefs";
+import type { Body, Endpoint, Headers, ModelRequestOptions } from "@typeDefs";
 
-export interface EndpointStrategy {
-  getEndpoint<TRequestOptions extends ModelRequestOptions, TConfig>(
+export interface EndpointStrategy<
+  TRequestOptions extends ModelRequestOptions = ModelRequestOptions,
+  TModelProviderConfig = unknown,
+> {
+  getEndpoint(
     options: TRequestOptions,
-    config: TConfig,
-  ): Promise<string> | string;
+    config: TModelProviderConfig,
+  ): Promise<Endpoint> | Endpoint;
 }
 
-export interface HeadersStrategy {
-  getHeaders<TRequestOptions extends ModelRequestOptions, TConfig>(
+export interface HeadersStrategy<
+  TRequestOptions extends ModelRequestOptions = ModelRequestOptions,
+  TModelProviderConfig = unknown,
+> {
+  getHeaders(
     options: TRequestOptions,
-    config: TConfig,
-  ): Promise<Record<string, string>> | Record<string, string>;
+    config: TModelProviderConfig,
+  ): Promise<Headers> | Headers;
 }
 
-export interface AuthStrategy {
-  applyAuth<TRequestOptions extends ModelRequestOptions, TConfig>(params: {
+export interface AuthStrategy<
+  TRequestOptions extends ModelRequestOptions = ModelRequestOptions,
+  TModelProviderConfig = unknown,
+> {
+  applyAuth(params: {
     options: TRequestOptions;
-    config: TConfig;
-    endpoint: string;
-    body: string;
-    headers: Record<string, string>;
+    config: TModelProviderConfig;
+    endpoint: Endpoint;
+    body: Body;
+    headers: Headers;
   }):
     | Promise<{
-        endpoint: string;
-        body: string;
-        headers: Record<string, string>;
+        endpoint: Endpoint;
+        body: Body;
+        headers: Headers;
       }>
     | {
-        endpoint: string;
-        body: string;
-        headers: Record<string, string>;
+        endpoint: Endpoint;
+        body: Body;
+        headers: Headers;
       };
 }
 

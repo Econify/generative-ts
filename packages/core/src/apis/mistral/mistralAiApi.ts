@@ -2,11 +2,11 @@ import * as t from "io-ts";
 import type { TypeOf } from "io-ts";
 import { isLeft } from "fp-ts/Either";
 
-import type { ModelApi, ModelRequestOptions } from "../../typeDefs";
+import type { ModelApi, ModelRequestOptions } from "@typeDefs";
 
-import { Template } from "../../utils/template";
+import { EjsTemplate } from "../../utils/ejsTemplate";
 
-import type { FewShotRequestOptions } from "../_shared_interfaces/fewShot";
+import type { FewShotRequestOptions } from "../shared/fewShot";
 
 const templateSource = `{
   "model": "<%= modelId %>",
@@ -46,7 +46,11 @@ const templateSource = `{
   <% if (typeof random_seed !== 'undefined') { %>, "seed": <%= seed %><% } %>
 }`;
 
-export interface MistralAiApiOptions
+/**
+ * @category Requests
+ * @category Mistral ChatCompletion
+ */
+export interface MistralAiOptions
   extends FewShotRequestOptions,
     ModelRequestOptions {
   messages?: {
@@ -61,24 +65,63 @@ export interface MistralAiApiOptions
   random_seed?: number;
 }
 
-export const MistralAiApiTemplate = new Template<MistralAiApiOptions>(
+/**
+ * @category Templates
+ * @category Mistral ChatCompletion
+ */
+export const MistralAiTemplate = new EjsTemplate<MistralAiOptions>(
   templateSource,
 );
 
 const MistralAiApiResponseCodec = t.type({
   id: t.string,
+  object: t.string,
+  created: t.number,
+  model: t.string,
+  choices: t.array(
+    t.type({
+      index: t.number,
+      message: t.type({
+        role: t.string,
+        content: t.string,
+      }),
+      finish_reason: t.string,
+    }),
+  ),
+  usage: t.type({
+    prompt_tokens: t.number,
+    completion_tokens: t.number,
+    total_tokens: t.number,
+  }),
 });
 
-export type MistralAiApiResponse = TypeOf<typeof MistralAiApiResponseCodec>;
+/**
+ * @category Responses
+ * @category Mistral ChatCompletion
+ */
+export interface MistralAiResponse
+  extends TypeOf<typeof MistralAiApiResponseCodec> {}
 
-export function isMistralAiApiResponse(
+export function isMistralAiResponse(
   response: unknown,
-): response is MistralAiApiResponse {
+): response is MistralAiResponse {
   return !isLeft(MistralAiApiResponseCodec.decode(response));
 }
 
-export const MistralAiApi: ModelApi<MistralAiApiOptions, MistralAiApiResponse> =
-  {
-    requestTemplate: MistralAiApiTemplate,
-    responseGuard: isMistralAiApiResponse,
-  };
+/**
+ *
+ * ## Reference
+ * [Mistral AI Chat Completion](https://docs.mistral.ai/api/#operation/createChatCompletion)
+ *
+ * ## Providers using this API
+ * - {@link createMistralModelProvider | Mistral}
+ *
+ * @category APIs
+ * @category Mistral ChatCompletion
+ * @category Provider: Mistral
+ *
+ */
+export const MistralAiApi: ModelApi<MistralAiOptions, MistralAiResponse> = {
+  requestTemplate: MistralAiTemplate,
+  responseGuard: isMistralAiResponse,
+};

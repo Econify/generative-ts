@@ -1,6 +1,6 @@
 {
   "name": "@generative-ts/core",
-  "version": "0.1.0-alpha.4",
+  "version": "0.1.0-alpha.5",
   "description": "Core functionalities for generative-ts",
   "main": "dist/index.cjs",
   "module": "dist/index.mjs",
@@ -17,13 +17,15 @@
   "scripts": {
     "build": "npm run clean && npm run build:rollup",
     "build:rollup": "rollup -c",
-    "check": "npm run lint && npm run test",
+    "check": "npm run typecheck && npm run lint && npm run test",
     "clean": "rm -rf dist && rm -rf .rollup.cache && rm -f *.tsbuildinfo",
     "lint": "eslint src/",
     "lint:fix": "eslint --fix src/",
-    "prepublishOnly": "npm run check && npm run build",
+    "prepare": "npm run build",
+    "prepublishOnly": "npm run check",
     "test": "jest",
-    "test:cov": "jest --coverage"
+    "test:cov": "jest --coverage",
+    "typecheck": "tsc --noEmit"
   },
   "dependencies": {
     "aws4": "^1.12.0",
@@ -50,8 +52,15 @@
   },
   "keywords": [
     "llm",
+    "openai",
     "gpt",
+    "meta",
     "llama",
+    "mistral",
+    "cohere",
+    "bedrock",
+    "groq",
+    "huggingface",
     "ts",
     "generative",
     "typescript"

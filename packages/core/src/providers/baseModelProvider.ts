@@ -4,28 +4,37 @@ import type {
   ModelId,
   ModelProvider,
   ModelRequestOptions,
-} from "../typeDefs";
+} from "@typeDefs";
 
 export interface BaseModelProviderConfig {
   modelId: ModelId;
 }
 
+/**
+ * @category Core Implementations
+ */
 export abstract class BaseModelProvider<
   TRequestOptions extends ModelRequestOptions,
   TResponse = unknown,
-  TConfig extends BaseModelProviderConfig = BaseModelProviderConfig,
+  TModelProviderConfig extends
+    BaseModelProviderConfig = BaseModelProviderConfig,
 > implements ModelProvider<TRequestOptions, TResponse>
 {
   public readonly api: ModelApi<TRequestOptions, TResponse>;
 
-  public readonly config: TConfig;
+  public readonly config: TModelProviderConfig;
+
+  public readonly history: {
+    request: TRequestOptions;
+    response: TResponse | undefined;
+  }[] = [];
 
   constructor({
     api,
     config,
   }: {
     api: ModelApi<TRequestOptions, TResponse>;
-    config: TConfig;
+    config: TModelProviderConfig;
   }) {
     this.api = api;
     this.config = config;
@@ -48,9 +57,19 @@ export abstract class BaseModelProvider<
     const data = await this.dispatchRequest(requestOptions);
 
     if (!this.api.responseGuard(data)) {
+      this.history.push({
+        request: requestOptions,
+        response: undefined,
+      });
+
       // TODO get error message describing why the response was rejected:
       throw new Error("Unexpected response from model provider");
     }
+
+    this.history.push({
+      request: requestOptions,
+      response: data,
+    });
 
     return data;
   }

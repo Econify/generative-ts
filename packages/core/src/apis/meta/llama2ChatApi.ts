@@ -1,8 +1,8 @@
-import type { ModelApi, ModelRequestOptions } from "../../typeDefs";
+import type { ModelApi, ModelRequestOptions } from "@typeDefs";
 
-import { Template } from "../../utils/template";
+import { EjsTemplate } from "../../utils/ejsTemplate";
 
-import type { FewShotRequestOptions } from "../_shared_interfaces/fewShot";
+import type { FewShotRequestOptions } from "../shared/fewShot";
 
 import { isLlamaResponse, LlamaResponse } from "./llama";
 
@@ -15,6 +15,10 @@ const templateSource = `{
   <% if (typeof max_gen_len !== 'undefined') { %>, "max_gen_len": <%= max_gen_len %><% } %>
 }`;
 
+/**
+ * @category Requests
+ * @category Llama2
+ */
 export interface Llama2ChatOptions
   extends FewShotRequestOptions,
     ModelRequestOptions {
@@ -23,9 +27,32 @@ export interface Llama2ChatOptions
   max_gen_len?: number;
 }
 
-export const Llama2Template = new Template<Llama2ChatOptions>(templateSource);
+/**
+ * @category Templates
+ * @category Llama2
+ *
+ */
+export const Llama2ChatTemplate = new EjsTemplate<Llama2ChatOptions>(
+  templateSource,
+);
 
-export const Llama2ChatApi: ModelApi<Llama2ChatOptions, LlamaResponse> = {
-  requestTemplate: Llama2Template,
+export interface Llama2ChatApi
+  extends ModelApi<Llama2ChatOptions, LlamaResponse> {}
+
+/**
+ *
+ * ## Reference
+ * [LLama2](https://llama.meta.com/docs/model-cards-and-prompt-formats/meta-llama-2/)
+ *
+ * ## Providers using this API
+ * - {@link createAwsBedrockModelProvider | AWS Bedrock}
+ *
+ * @category APIs
+ * @category Llama2
+ * @category Provider: AWS Bedrock
+ *
+ */
+export const Llama2ChatApi: Llama2ChatApi = {
+  requestTemplate: Llama2ChatTemplate,
   responseGuard: isLlamaResponse,
 };

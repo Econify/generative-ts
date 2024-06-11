@@ -1,5 +1,4 @@
 {
-  /* this is for examples/, scripts/, and tests/ */
   "extends": "./tsconfig.base.json",
   "ts-node": {
     "compilerOptions": {

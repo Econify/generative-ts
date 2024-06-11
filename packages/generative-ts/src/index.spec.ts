@@ -9,5 +9,6 @@ describe("index", () => {
     expect(index.createLmStudioModelProvider).toBeDefined();
     expect(index.createMistralModelProvider).toBeDefined();
     expect(index.createOpenAiChatModelProvider).toBeDefined();
+    expect(index.createVertexAiModelProvider).toBeDefined();
   });
 });

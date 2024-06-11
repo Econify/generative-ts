@@ -1,6 +1,6 @@
 import * as t from "io-ts";
 import type { TypeOf } from "io-ts";
-import { isLeft } from "fp-ts/Either";
+import { isLeft } from "fp-ts/lib/Either.js";
 
 import type { ModelApi, ModelRequestOptions } from "@typeDefs";
 

@@ -8,7 +8,9 @@ import json from '@rollup/plugin-json';
 export const baseConfig = {
   plugins: [
     resolve(),
-    typescript(),
+    typescript({
+      outputToFilesystem: true,
+    }),
     commonjs(),
     json({
       include: '**/ejs/package.json',
@@ -21,5 +23,10 @@ export const baseConfig = {
       brotliSize: true
     })
   ],
-  external: ['@generative-ts/core', 'process']
+  external: [
+    '@generative-ts/core', 
+    '@generative-ts/google-vertex-ai',
+    'tslib',
+    'process',
+  ],
 };

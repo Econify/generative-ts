@@ -79,6 +79,7 @@ export {
   HuggingfaceAuthConfig,
   MistralAuthConfig,
   OpenAiAuthConfig,
+  BearerTokenAuthStrategy,
 } from "./providers";
 
 /*

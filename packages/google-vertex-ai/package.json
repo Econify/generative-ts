@@ -1,7 +1,7 @@
 {
-  "name": "generative-ts",
+  "name": "@generative-ts/google-vertex-ai",
   "version": "0.1.0-alpha.6",
-  "description": "simple, type-safe, isomorphic LLM interactions (with power)",
+  "description": "Google VertexAI support for for generative-ts",
   "main": "dist/index.cjs",
   "module": "dist/index.mjs",
   "types": "dist/index.d.ts",
@@ -28,9 +28,10 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@generative-ts/core": "^0.1.0-alpha.6",
-    "@generative-ts/google-vertex-ai": "^0.1.0-alpha.6",
     "tslib": "^2.6.2"
+  },
+  "peerDependencies": {
+    "@generative-ts/core": "^0.1.0-alpha.6"
   },
   "publishConfig": {
     "access": "public"
@@ -38,7 +39,7 @@
   "license": "ISC",
   "repository": {
     "url": "Econify/generative-ts",
-    "directory": "packages/generative-ts"
+    "directory": "packages/google-vertex-ai"
   },
   "author": "John M Naglick",
   "homepage": "https://github.com/Econify/generative-ts#readme",
@@ -47,15 +48,7 @@
   },
   "keywords": [
     "llm",
-    "openai",
-    "gpt",
-    "meta",
-    "llama",
-    "mistral",
-    "cohere",
-    "bedrock",
-    "groq",
-    "huggingface",
+    "vertexai",
     "ts",
     "generative",
     "typescript"

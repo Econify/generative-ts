@@ -18,7 +18,7 @@
     "tests/"
   ],
   "scripts": {
-    "build": "ts-node -r tsconfig-paths/register -r dotenv/config ./scripts/build.ts",
+    "build": "ts-node ./scripts/build.ts",
     "build:core": "npm run build -w @generative-ts/core",
     "build:main": "npm run build -w generative-ts",
     "build:vertexai": "npm run build -w @generative-ts/google-vertex-ai",
@@ -28,7 +28,7 @@
     "docs:server": "echo Launching server on localhost:8000... && python3 -m http.server --directory ./docs",
     "install:clean": "npm run clean && npm ci",
     "lint": "npm run lint --workspaces",
-    "publish": "ts-node -r tsconfig-paths/register -r dotenv/config ./scripts/publish.ts",
+    "publish": "ts-node ./scripts/publish.ts",
     "publish:core": "npm publish -w @generative-ts/core",
     "publish:main": "npm publish -w generative-ts",
     "publish:vertexai": "npm publish -w @generative-ts/google-vertex-ai",

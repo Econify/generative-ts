@@ -1,6 +1,6 @@
-import type { HttpClient } from "@generative-ts/core";
-
 import { GoogleGeminiApi, HttpModelProvider } from "@generative-ts/core";
+
+import type { HttpClient } from "@generative-ts/core";
 
 import type { VertexAiAuthConfig } from "./VertexAiAuthConfig";
 import { getCustomClient } from "./getCustomClient";

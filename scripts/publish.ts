@@ -1,5 +1,7 @@
 import { execSync } from "child_process";
 
+const { log } = console;
+
 function runCommand(command: string) {
   try {
     execSync(command, { stdio: "inherit" });
@@ -9,19 +11,21 @@ function runCommand(command: string) {
   }
 }
 
-function header(pkg: string) {
-  console.log(`\n🖋️ \x1b[32mPublishing \x1b[1m${pkg}\x1b[0m`);
-}
+const BOLD = "\x1b[1m";
+const GREEN = "\x1b[32m";
+const RESET = "\x1b[0m";
 
 function main() {
-  header("@generative-ts/core");
+  log(`\n🚀 ${GREEN}Publishing ${BOLD}@generative-ts/core${RESET}`);
   runCommand("npm run publish:core");
 
-  header("@generative-ts/google-vertex-ai");
+  log(`\n🚀 ${GREEN}Publishing ${BOLD}@generative-ts/google-vertex-ai${RESET}`);
   runCommand("npm run publish:vertexai");
 
-  header("generative-ts");
+  log(`\n🚀 ${GREEN}Publishing ${BOLD}generative-ts${RESET}`);
   runCommand("npm run publish:main");
+
+  log(`\n🎉 ${GREEN}Done${RESET}`);
 }
 
 main();

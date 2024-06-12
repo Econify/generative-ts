@@ -21,6 +21,7 @@
     "test:integration:mistral": "jest ./integration/mistral",
     "test:integration:openai": "jest ./integration/openai",
     "test:integration:vertexai": "jest ./integration/vertexai",
+    "test:integration:vertexai-tools": "jest ./integration/vertexai-tools",
     "test:integration:ci": "jest ./integration/bedrock",
     "clean": "",
     "lint": "",

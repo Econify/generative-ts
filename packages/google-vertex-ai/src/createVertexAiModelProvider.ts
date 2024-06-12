@@ -40,6 +40,7 @@ import { getCustomClient } from "./getCustomClient";
  * ### Model Parameters
  *
  * - {@link https://cloud.google.com/vertex-ai/generative-ai/docs/model-reference/inference | Gemini Inference API}
+ * - {@link https://cloud.google.com/vertex-ai/generative-ai/docs/model-reference/function-calling | Gemini Function Calling API}
  *
  * ### Model IDs
  *
@@ -47,6 +48,7 @@ import { getCustomClient } from "./getCustomClient";
  *
  * @see {@link https://cloud.google.com/docs/authentication/provide-credentials-adc#how-to | "Set up Application Default Credentials"}
  * @see {@link https://cloud.google.com/vertex-ai/generative-ai/docs/model-reference/inference | Gemini Inference API}
+ * @see {@link https://cloud.google.com/vertex-ai/generative-ai/docs/model-reference/function-calling | Gemini Function Calling API}
  * @see {@link https://cloud.google.com/vertex-ai/generative-ai/docs/learn/model-versioning#gemini-model-versions | Gemini Models}
  *
  * @category Providers

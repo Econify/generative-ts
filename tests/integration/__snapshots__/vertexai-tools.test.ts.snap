@@ -1,0 +1,141 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`VertexAI - Google Gemini (Tools with Responses) 1`] = `
+{
+  "config": {
+    "body": "string",
+    "errorRedactor": "function",
+    "headers": {
+      "Authorization": "string",
+      "Content-Type": "string",
+      "User-Agent": "string",
+      "x-goog-api-client": "string",
+    },
+    "method": "string",
+    "paramsSerializer": "function",
+    "responseType": "string",
+    "url": "string",
+    "validateStatus": "function",
+  },
+  "data": {
+    "candidates": [
+      {
+        "content": {
+          "parts": [
+            {
+              "text": "string",
+            },
+          ],
+          "role": "string",
+        },
+        "finishReason": "string",
+        "safetyRatings": [
+          {
+            "category": "string",
+            "probability": "string",
+            "probabilityScore": "number",
+            "severity": "string",
+            "severityScore": "number",
+          },
+        ],
+      },
+    ],
+    "usageMetadata": {
+      "candidatesTokenCount": "number",
+      "promptTokenCount": "number",
+      "totalTokenCount": "number",
+    },
+  },
+  "headers": {
+    "alt-svc": "string",
+    "cache-control": "string",
+    "content-encoding": "string",
+    "content-type": "string",
+    "date": "string",
+    "server": "string",
+    "transfer-encoding": "string",
+    "vary": "string",
+    "x-content-type-options": "string",
+    "x-frame-options": "string",
+    "x-xss-protection": "string",
+  },
+  "request": {
+    "responseURL": "string",
+  },
+  "status": "number",
+  "statusText": "string",
+}
+`;
+
+exports[`VertexAI - Google Gemini (Tools) 1`] = `
+{
+  "config": {
+    "body": "string",
+    "errorRedactor": "function",
+    "headers": {
+      "Authorization": "string",
+      "Content-Type": "string",
+      "User-Agent": "string",
+      "x-goog-api-client": "string",
+    },
+    "method": "string",
+    "paramsSerializer": "function",
+    "responseType": "string",
+    "url": "string",
+    "validateStatus": "function",
+  },
+  "data": {
+    "candidates": [
+      {
+        "content": {
+          "parts": [
+            {
+              "functionCall": {
+                "args": {
+                  "city": "string",
+                  "state": "string",
+                },
+                "name": "string",
+              },
+            },
+          ],
+          "role": "string",
+        },
+        "finishReason": "string",
+        "safetyRatings": [
+          {
+            "category": "string",
+            "probability": "string",
+            "probabilityScore": "number",
+            "severity": "string",
+            "severityScore": "number",
+          },
+        ],
+      },
+    ],
+    "usageMetadata": {
+      "candidatesTokenCount": "number",
+      "promptTokenCount": "number",
+      "totalTokenCount": "number",
+    },
+  },
+  "headers": {
+    "alt-svc": "string",
+    "cache-control": "string",
+    "content-encoding": "string",
+    "content-type": "string",
+    "date": "string",
+    "server": "string",
+    "transfer-encoding": "string",
+    "vary": "string",
+    "x-content-type-options": "string",
+    "x-frame-options": "string",
+    "x-xss-protection": "string",
+  },
+  "request": {
+    "responseURL": "string",
+  },
+  "status": "number",
+  "statusText": "string",
+}
+`;

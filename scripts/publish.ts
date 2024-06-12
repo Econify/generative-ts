@@ -16,14 +16,17 @@ const GREEN = "\x1b[32m";
 const RESET = "\x1b[0m";
 
 function main() {
+  log(`\n🧹 ${GREEN}Cleaning${RESET}`);
+  runCommand("npm run clean");
+
   log(`\n🚀 ${GREEN}Publishing ${BOLD}@generative-ts/core${RESET}`);
-  runCommand("npm run publish:core");
+  runCommand("npm publish -w @generative-ts/core");
 
   log(`\n🚀 ${GREEN}Publishing ${BOLD}@generative-ts/google-vertex-ai${RESET}`);
-  runCommand("npm run publish:vertexai");
+  runCommand("npm publish -w @generative-ts/google-vertex-ai");
 
   log(`\n🚀 ${GREEN}Publishing ${BOLD}generative-ts${RESET}`);
-  runCommand("npm run publish:main");
+  runCommand("npm publish -w generative-ts");
 
   log(`\n🎉 ${GREEN}Done${RESET}`);
 }

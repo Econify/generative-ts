@@ -49,7 +49,6 @@ exports[`VertexAI - Google Gemini 1`] = `
   "headers": {
     "alt-svc": "string",
     "cache-control": "string",
-    "connection": "string",
     "content-encoding": "string",
     "content-type": "string",
     "date": "string",

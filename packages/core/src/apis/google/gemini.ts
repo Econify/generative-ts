@@ -64,24 +64,63 @@ const templateSource = `{
     }
   <% } %>
   <% if (typeof safety_settings !== 'undefined') { %>
+    <% let comma = false; %>
     , "safety_settings": {
-      <% if (typeof safety_settings.category !== 'undefined') { %>"category": "<%= safety_settings.category %>"<% } %>
-      <% if (typeof safety_settings.threshold !== 'undefined') { %>, "threshold": "<%= safety_settings.threshold %>"<% } %>
-      <% if (typeof safety_settings.max_influential_terms !== 'undefined') { %>, "max_influential_terms": <%= safety_settings.max_influential_terms %><% } %>
-      <% if (typeof safety_settings.method !== 'undefined') { %>, "method": "<%= safety_settings.method %>"<% } %>
+      <% if (typeof safety_settings.category !== 'undefined') { %>
+        "category": "<%= safety_settings.category %>"
+        <% comma = true; %>
+      <% } %>
+      <% if (typeof safety_settings.threshold !== 'undefined') { %>
+        <% if (comma) { %>,<% } %>"threshold": "<%= safety_settings.threshold %>"
+        <% comma = true; %>
+      <% } %>
+      <% if (typeof safety_settings.max_influential_terms !== 'undefined') { %>
+        <% if (comma) { %>,<% } %>"max_influential_terms": <%= safety_settings.max_influential_terms %>
+        <% comma = true; %>
+      <% } %>
+      <% if (typeof safety_settings.method !== 'undefined') { %>
+        <% if (comma) { %>,<% } %>"method": "<%= safety_settings.method %>"
+      <% } %>
     }
   <% } %>
   <% if (typeof generation_config !== 'undefined') { %>
+    <% let gcomma = false; %>
     , "generation_config": {
-      <% if (typeof generation_config.temperature !== 'undefined') { %>"temperature": <%= generation_config.temperature %><% } %>
-      <% if (typeof generation_config.top_p !== 'undefined') { %>, "top_p": <%= generation_config.top_p %><% } %>
-      <% if (typeof generation_config.top_k !== 'undefined') { %>, "top_k": <%= generation_config.top_k %><% } %>
-      <% if (typeof generation_config.candidate_count !== 'undefined') { %>, "candidate_count": <%= generation_config.candidate_count %><% } %>
-      <% if (typeof generation_config.max_output_tokens !== 'undefined') { %>, "max_output_tokens": <%= generation_config.max_output_tokens %><% } %>
-      <% if (typeof generation_config.stop_sequences !== 'undefined') { %>, "stop_sequences": <%- JSON.stringify(generation_config.stop_sequences) %><% } %>
-      <% if (typeof generation_config.presence_penalty !== 'undefined') { %>, "presence_penalty": <%= generation_config.presence_penalty %><% } %>
-      <% if (typeof generation_config.frequency_penalty !== 'undefined') { %>, "frequency_penalty": <%= generation_config.frequency_penalty %><% } %>
-      <% if (typeof generation_config.response_mime_type !== 'undefined') { %>, "response_mime_type": "<%= generation_config.response_mime_type %>"<% } %>
+      <% if (typeof generation_config.temperature !== 'undefined') { %>
+        "temperature": <%= generation_config.temperature %>
+        <% gcomma = true; %>
+      <% } %>
+      <% if (typeof generation_config.top_p !== 'undefined') { %>
+        <% if (gcomma) { %>,<% } %> "top_p": <%= generation_config.top_p %>
+        <% gcomma = true; %>
+      <% } %>
+      <% if (typeof generation_config.top_k !== 'undefined') { %>
+        <% if (gcomma) { %>,<% } %> "top_k": <%= generation_config.top_k %>
+        <% gcomma = true; %>
+      <% } %>
+      <% if (typeof generation_config.candidate_count !== 'undefined') { %>
+        <% if (gcomma) { %>,<% } %> "candidate_count": <%= generation_config.candidate_count %>
+        <% gcomma = true; %>
+      <% } %>
+      <% if (typeof generation_config.max_output_tokens !== 'undefined') { %>
+        <% if (gcomma) { %>,<% } %> "max_output_tokens": <%= generation_config.max_output_tokens %>
+        <% gcomma = true; %>
+      <% } %>
+      <% if (typeof generation_config.stop_sequences !== 'undefined') { %>
+        <% if (gcomma) { %>,<% } %> "stop_sequences": <%- JSON.stringify(generation_config.stop_sequences) %>
+        <% gcomma = true; %>
+      <% } %>
+      <% if (typeof generation_config.presence_penalty !== 'undefined') { %>
+        <% if (gcomma) { %>,<% } %> "presence_penalty": <%= generation_config.presence_penalty %>
+        <% gcomma = true; %>
+      <% } %>
+      <% if (typeof generation_config.frequency_penalty !== 'undefined') { %>
+        <% if (gcomma) { %>,<% } %> "frequency_penalty": <%= generation_config.frequency_penalty %>
+        <% gcomma = true; %>
+      <% } %>
+      <% if (typeof generation_config.response_mime_type !== 'undefined') { %>
+        <% if (gcomma) { %>,<% } %> "response_mime_type": "<%= generation_config.response_mime_type %>"
+      <% } %>
     }
   <% } %>
 }`;
@@ -90,10 +129,10 @@ interface Content {
   role?: "user" | "model";
   parts: {
     text?: string;
+    // TODO function_call
+    // TODO function_response
     // inline_data
     // file_data
-    // function_call
-    // function_response
     // video_metadata
   }[];
 }
@@ -107,8 +146,8 @@ export interface GoogleGeminiOptions
     ModelRequestOptions {
   contents?: Content | Content[];
   system_instruction?: Content;
-  // tools
-  // tool_config
+  // TODO tools
+  // TODO tool_config
   safety_settings?: {
     category?: string;
     threshold?: string;
@@ -169,13 +208,17 @@ const GoogleGeminiResponseCodec = t.type({
         },
       }),
     ),
-    // usageMetadata
+    usageMetadata: t.type({
+      candidatesTokenCount: t.number,
+      promptTokenCount: t.number,
+      totalTokenCount: t.number,
+    }),
   }),
+  headers: t.record(t.string, t.unknown),
+  status: t.number,
+  statusText: t.string,
   // config
-  // headers
   // request
-  // status
-  // statusText
 });
 
 /**

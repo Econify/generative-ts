@@ -28,6 +28,9 @@ test("VertexAI - Google Gemini", async () => {
         },
       ],
     },
+    generation_config: {
+      max_output_tokens: 100,
+    },
   });
 
   // assert

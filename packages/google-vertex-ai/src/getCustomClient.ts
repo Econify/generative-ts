@@ -4,7 +4,8 @@ import type { HttpClient } from "@generative-ts/core";
 
 export async function getCustomClient(): Promise<HttpClient> {
   const googleAuthClient = new GoogleAuth({
-    scopes: "https://www.googleapis.com/auth/cloud-platform", // TODO more specific? use `endpoint`?
+    scopes: "https://www.googleapis.com/auth/cloud-platform", // TODO is this correct?
+    // TODO project_id ?
   });
 
   // client with GCloud Application Default Credentials (ADC):

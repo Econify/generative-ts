@@ -24,6 +24,12 @@ export {
   CohereGenerateTemplate,
 } from "./apis/cohere";
 export {
+  GoogleGeminiApi,
+  GoogleGeminiOptions,
+  GoogleGeminiResponse,
+  GoogleGeminiTemplate,
+} from "./apis/google";
+export {
   HfConversationalTaskApi,
   HfConversationalTaskOptions,
   HfConversationalTaskResponse,
@@ -79,7 +85,6 @@ export {
   HuggingfaceAuthConfig,
   MistralAuthConfig,
   OpenAiAuthConfig,
-  BearerTokenAuthStrategy,
 } from "./providers";
 
 /*

@@ -33,7 +33,7 @@ export default [
     ],
     external: [
       ...baseConfig.external,
-      // TODO gcloud stuffz
+      'google-auth-library'
     ]
   }
 ];

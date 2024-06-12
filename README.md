@@ -74,6 +74,27 @@ const response = await commandR.sendRequest({
 console.log(response.text);
 ```
 
+### Google Cloud VertexAI
+
+**[API docs: `createVertexAiModelProvider` ](https://econify.github.io/generative-ts/functions/createVertexAiModelProvider.html)**
+
+<!-- TEST [VertexAI] -->
+```ts
+import { createVertexAiModelProvider } from "@packages/google-vertex-ai";
+
+const gemini = await createVertexAiModelProvider({
+  modelId: "gemini-1.0-pro", // VertexAI defined model ID
+  // you can explicitly pass auth here, otherwise by default it is read from process.env
+});
+
+const response = await gemini.sendRequest({
+  prompt: "Brief History of NY Mets:",
+  // all other Gemini options available here
+});
+
+console.log(response.data.candidates[0]);
+```
+
 ### Groq
 
 **[API docs: `createGroqModelProvider` ](https://econify.github.io/generative-ts/functions/createGroqModelProvider.html)**
@@ -202,13 +223,13 @@ See [Usage](#usage) for how to use each provider.
 |-|-|-|
 |AWS Bedrock|[Multiple hosted models](https://docs.aws.amazon.com/bedrock/latest/userguide/model-ids.html#model-ids-arns)|[Native model APIs](https://docs.aws.amazon.com/bedrock/latest/userguide/model-parameters.html)|
 |Cohere|Command / Command R+|Cohere /generate and /chat|
+|Google Vertex AI|Gemini x.y|Gemini Inference and Functions|
 |Groq|[Multiple hosted models](https://console.groq.com/docs/models)|OpenAI ChatCompletion|
 |Huggingface Inference|Open-source|[Huggingface Inference APIs](https://huggingface.co/docs/api-inference/detailed_parameters)|
 |LMStudio (localhost)|Open-source (must be downloaded)|OpenAI ChatCompletion|
 |Mistral|Mistral x.y|Mistral ChatCompletion|
 |OpenAI|GPT x.y|OpenAI ChatCompletion|
 |Azure (coming soon)||
-|Google Vertex AI (coming soon)||
 |Replicate (coming soon)||
 |Anthropic (coming soon)||
 |Fireworks (coming soon)||

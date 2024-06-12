@@ -1,7 +1,7 @@
 {
   "name": "@generative-ts/google-vertex-ai",
   "version": "0.1.0-alpha.6",
-  "description": "Google VertexAI support for for generative-ts",
+  "description": "Google Cloud VertexAI support for for generative-ts",
   "main": "dist/index.cjs",
   "module": "dist/index.mjs",
   "types": "dist/index.d.ts",
@@ -28,6 +28,7 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
+    "google-auth-library": "^9.10.0",
     "tslib": "^2.6.2"
   },
   "peerDependencies": {

@@ -118,6 +118,6 @@ export class AwsBedrockModelProvider<
       "X-Amz-Date": signedHeaders["X-Amz-Date"] as string,
     };
 
-    return this.client.post(endpoint, body, headers);
+    return this.client.fetch(endpoint, { method: "POST", body, headers });
   }
 }

@@ -102,4 +102,5 @@ export {
   ModelApi,
   ModelProvider,
   HttpClient,
+  HttpClientRequest,
 } from "./typeDefs";

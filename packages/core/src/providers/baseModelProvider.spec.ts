@@ -50,15 +50,10 @@ describe("BaseModelProvider", () => {
       });
 
       // act
-      await provider.sendRequest(
-        {
-          modelId: "dummy-request-model-id",
-          prompt: "the ny mets are:",
-        },
-        {
-          metaProp: "dummy-meta",
-        },
-      );
+      await provider.sendRequest({
+        modelId: "dummy-request-model-id",
+        prompt: "the ny mets are:",
+      });
 
       // assert
       expect(provider.dispatchRequest).toHaveBeenCalledWith(
@@ -66,9 +61,7 @@ describe("BaseModelProvider", () => {
           modelId: "dummy-request-model-id",
           prompt: "the ny mets are:",
         },
-        {
-          metaProp: "dummy-meta",
-        },
+        undefined,
       );
     });
 

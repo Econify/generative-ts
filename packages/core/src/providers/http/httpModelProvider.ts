@@ -7,13 +7,19 @@ import type {
   ModelRequestOptions,
 } from "@typeDefs";
 
+import { BuiltinHttpClientOptions, getClient } from "../../utils/httpClient";
+
+import { BaseModelProvider } from "../baseModelProvider";
+
+import type { BaseModelProviderConfig } from "../baseModelProvider";
+
+import { isEndpointStrategy, isHeadersStrategy } from "./typeDefs";
+
 import type {
   AuthStrategy,
   EndpointStrategy,
   HeadersStrategy,
 } from "./typeDefs";
-
-import { isEndpointStrategy, isHeadersStrategy } from "./typeDefs";
 
 import {
   NoAuthStrategy,
@@ -21,23 +27,23 @@ import {
   StaticHeadersStrategy,
 } from "./strategies";
 
-import type { BaseModelProviderConfig } from "../baseModelProvider";
-
-import { BaseHttpModelProvider } from "./baseHttpModelProvider";
-
 /**
  * @category Core Implementations
  */
 export class HttpModelProvider<
-  TRequestOptions extends ModelRequestOptions,
+  TRequestOptions extends ModelRequestOptions = ModelRequestOptions,
   TResponse = unknown,
+  THttpClientOptions = BuiltinHttpClientOptions,
   TModelProviderConfig extends
     BaseModelProviderConfig = BaseModelProviderConfig,
-> extends BaseHttpModelProvider<
+> extends BaseModelProvider<
   TRequestOptions,
   TResponse,
-  TModelProviderConfig
+  TModelProviderConfig,
+  THttpClientOptions
 > {
+  public readonly client: HttpClient<THttpClientOptions>;
+
   private endpoint: EndpointStrategy<TRequestOptions, TModelProviderConfig>;
 
   private headers: HeadersStrategy<TRequestOptions, TModelProviderConfig>;
@@ -57,13 +63,25 @@ export class HttpModelProvider<
     endpoint: Endpoint | EndpointStrategy;
     headers?: Headers | HeadersStrategy;
     auth?: AuthStrategy;
-    client?: HttpClient;
+    client?: HttpClient<THttpClientOptions>;
   }) {
     super({
       api,
       config,
-      client,
     });
+
+    try {
+      this.client = client ?? (getClient() as HttpClient<THttpClientOptions>);
+    } catch (_e: unknown) {
+      const e = _e as Error;
+      throw new Error(
+        [
+          "Error initializing HttpModelProvider when attempting to load built-in HttpClient:",
+          e.message,
+          "To avoid loading built-in client, pass a custom HttpClient implementation as `client` to the HttpModelProvider constructor.",
+        ].join(" "),
+      );
+    }
 
     this.endpoint = !isEndpointStrategy(endpoint)
       ? new StaticEndpointStrategy(endpoint)
@@ -124,7 +142,10 @@ export class HttpModelProvider<
     });
   }
 
-  protected async dispatchRequest(options: TRequestOptions) {
+  protected async dispatchRequest(
+    options: TRequestOptions,
+    clientOptions: THttpClientOptions,
+  ) {
     const [endpoint, body, headers] = await Promise.all([
       this.getEndpoint(options),
       this.getBody(options),
@@ -137,8 +158,17 @@ export class HttpModelProvider<
       headers: finalHeaders,
     } = await this.applyAuth(options, endpoint, body, headers);
 
-    // TODO HTTP Method...
-
-    return this.client.post(finalEndpoint, finalBody, finalHeaders);
+    return this.client.fetch(finalEndpoint, {
+      method: "POST",
+      body: finalBody,
+      headers: finalHeaders,
+      ...clientOptions,
+    });
   }
 }
+
+// utility type used by factory functions to infer the THttpClientOptions type
+export type InferHttpClientOptions<T> =
+  T extends HttpModelProvider<ModelRequestOptions, unknown, infer U>
+    ? U
+    : never;

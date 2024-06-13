@@ -9,6 +9,8 @@ import { CohereChatApi, CohereGenerateApi } from "../../apis";
 
 import { BearerTokenAuthStrategy, HttpModelProvider } from "../http";
 
+import type { InferHttpClientOptions } from "../http";
+
 import type { CohereAuthConfig } from "./authConfig";
 
 type CohereApi = CohereGenerateApi | CohereChatApi;
@@ -104,6 +106,7 @@ type CohereApi = CohereGenerateApi | CohereChatApi;
  */
 export function createCohereModelProvider<
   TCohereApi extends CohereApi = CohereChatApi,
+  THttpClientOptions = InferHttpClientOptions<HttpModelProvider>,
 >({
   api = CohereChatApi as TCohereApi,
   modelId,
@@ -112,7 +115,7 @@ export function createCohereModelProvider<
 }: {
   api?: TCohereApi;
   modelId: string;
-  client?: HttpClient;
+  client?: HttpClient<THttpClientOptions>;
   auth?: CohereAuthConfig;
 }) {
   const { COHERE_API_KEY } = auth ?? process.env;
@@ -136,7 +139,8 @@ export function createCohereModelProvider<
 
   return new HttpModelProvider<
     InferRequestOptions<TCohereApi>,
-    InferResponse<TCohereApi>
+    InferResponse<TCohereApi>,
+    THttpClientOptions
   >({
     api: api as ModelApi<
       InferRequestOptions<TCohereApi>,

@@ -1,30 +1,25 @@
 import type { HttpClient } from "@typeDefs";
 
-interface CustomOptions {
-  timeout?: number;
-}
-
-type BuiltinHttpClientOptions = Omit<
+export type BuiltinHttpClientOptions = Omit<
   RequestInit,
-  "method" | "headers" | "body"
-> &
-  CustomOptions;
+  "method" | "body" | "headers" // get keys of HttpClientRequest:
+> & {
+  timeout?: number;
+};
 
+/**
+ *
+ * Built-in HttpClient implementation, wraps fetch()
+ *
+ */
 const httpClient: HttpClient<BuiltinHttpClientOptions> = {
-  async post(
-    endpoint: string,
-    body: string,
-    headers: Record<string, string>,
-    options?: BuiltinHttpClientOptions,
-  ) {
-    // TODO: if options.timeout && !options.signal, impl timeout
+  async fetch(endpoint: string, request: BuiltinHttpClientOptions) {
+    if (!request.signal && request.timeout) {
+      // TODO
+      console.warn("Custom timeout not implemented yet!");
+    }
 
-    const response = await fetch(endpoint, {
-      method: "POST",
-      headers,
-      body,
-      ...options,
-    });
+    const response = await fetch(endpoint, request);
 
     if (!response.ok) {
       const text = await response.text();
@@ -42,10 +37,10 @@ const httpClient: HttpClient<BuiltinHttpClientOptions> = {
   },
 };
 
-export const getClient = () => {
+export const getClient = (): HttpClient<BuiltinHttpClientOptions> => {
   if (typeof fetch !== "function") {
     throw new Error(
-      "Built-in HttpClient uses native fetch, but native fetch is not available in this environment! Please either polyfill `window.fetch`, use node 18+ (if server), or provide a custom HttpClient implementation.",
+      "Built-in HttpClient uses native fetch, but native fetch is not available in this environment! Please either polyfill `window.fetch`, provide a custom HttpClient implementation, or use node 18+",
     );
   }
 

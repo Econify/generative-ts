@@ -6,6 +6,8 @@ import { BearerTokenAuthStrategy } from "../http/strategies";
 
 import { HttpModelProvider } from "../http";
 
+import type { InferHttpClientOptions } from "../http";
+
 import type { GroqAuthConfig } from "./authConfig";
 
 /**
@@ -71,13 +73,15 @@ import type { GroqAuthConfig } from "./authConfig";
  * console.log(response.choices[0]?.message.content);
  * ```
  */
-export function createGroqModelProvider({
+export function createGroqModelProvider<
+  THttpClientOptions = InferHttpClientOptions<HttpModelProvider>,
+>({
   modelId,
   client,
   auth,
 }: {
   modelId: string;
-  client?: HttpClient;
+  client?: HttpClient<THttpClientOptions>;
   auth?: GroqAuthConfig;
 }) {
   const { GROQ_API_KEY } = auth ?? process.env;

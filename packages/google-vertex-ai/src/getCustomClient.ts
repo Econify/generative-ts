@@ -1,6 +1,6 @@
 import { GoogleAuth } from "google-auth-library";
 
-import type { HttpClient } from "@generative-ts/core";
+import type { HttpClient, HttpClientRequest } from "@generative-ts/core";
 
 export async function getCustomClient(): Promise<HttpClient> {
   const googleAuthClient = new GoogleAuth({
@@ -12,16 +12,12 @@ export async function getCustomClient(): Promise<HttpClient> {
   const adcClient = await googleAuthClient.getClient();
 
   return {
-    async post(
-      url: string,
-      body: string,
-      headers: Record<string, string | ReadonlyArray<string>>,
-    ) {
+    async fetch(url: string, request: HttpClientRequest) {
       return adcClient.request({
         method: "POST",
         url,
-        body,
-        headers,
+        body: request.body,
+        headers: request.headers,
       });
     },
   };

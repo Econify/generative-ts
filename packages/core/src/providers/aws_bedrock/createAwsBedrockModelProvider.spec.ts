@@ -20,7 +20,7 @@ describe("AwsBedrockModelProvider", () => {
   };
 
   const mockClient = {
-    post: jest.fn().mockResolvedValue({
+    fetch: jest.fn().mockResolvedValue({
       dummyClientResponseKey: "dummy-client-response-value",
     }),
   };
@@ -68,13 +68,18 @@ describe("AwsBedrockModelProvider", () => {
         }),
       );
 
-      expect(mockClient.post).toHaveBeenCalledWith(
+      expect(mockClient.fetch).toHaveBeenCalledWith(
         `https://bedrock-runtime.mock-aws-region.amazonaws.com/model/dummy-request-model-id/invoke`,
-        "dummy-request-template-output",
-        expect.objectContaining({
-          Authorization: "signedAuth",
-          "X-Amz-Date": "signedDate",
-        }),
+        {
+          method: "POST",
+          body: "dummy-request-template-output",
+          headers: {
+            Authorization: "signedAuth",
+            "X-Amz-Date": "signedDate",
+            Accept: "application/json",
+            "Content-Type": "application/json",
+          },
+        },
       );
 
       expect(result).toEqual({
@@ -116,13 +121,18 @@ describe("AwsBedrockModelProvider", () => {
         undefined, // credentials omitted
       );
 
-      expect(mockClient.post).toHaveBeenCalledWith(
+      expect(mockClient.fetch).toHaveBeenCalledWith(
         `https://bedrock-runtime.mock-aws-region.amazonaws.com/model/dummy-request-model-id/invoke`,
-        "dummy-request-template-output",
-        expect.objectContaining({
-          Authorization: "signedAuth",
-          "X-Amz-Date": "signedDate",
-        }),
+        {
+          method: "POST",
+          body: "dummy-request-template-output",
+          headers: {
+            Authorization: "signedAuth",
+            "X-Amz-Date": "signedDate",
+            Accept: "application/json",
+            "Content-Type": "application/json",
+          },
+        },
       );
 
       expect(result).toEqual({
@@ -133,7 +143,7 @@ describe("AwsBedrockModelProvider", () => {
     it("throws error when signing fails", async () => {
       // arrange
       const badMockClient = {
-        post: jest.fn().mockRejectedValue(new Error("Signing failed")),
+        fetch: jest.fn().mockRejectedValue(new Error("Signing failed")),
       };
 
       const provider = new AwsBedrockModelProvider({

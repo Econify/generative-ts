@@ -19,7 +19,7 @@ describe("HttpModelProvider", () => {
   };
 
   const mockClient = {
-    post: jest.fn(),
+    fetch: jest.fn(),
   };
 
   const mockModelId = "mock-model-id";
@@ -49,8 +49,12 @@ describe("HttpModelProvider", () => {
       await provider.sendRequest({ prompt: "Hello, world!" });
 
       // assert
-      expect(mockClient.post).toHaveBeenCalledWith(mockEndpoint, mockBody, {
-        "Content-Type": "application/json",
+      expect(mockClient.fetch).toHaveBeenCalledWith(mockEndpoint, {
+        method: "POST",
+        body: mockBody,
+        headers: {
+          "Content-Type": "application/json",
+        },
       });
     });
 
@@ -72,11 +76,11 @@ describe("HttpModelProvider", () => {
       await provider.sendRequest({ prompt: "Hello, world!" });
 
       // assert
-      expect(mockClient.post).toHaveBeenCalledWith(
-        mockEndpoint,
-        mockBody,
-        mockHeaders,
-      );
+      expect(mockClient.fetch).toHaveBeenCalledWith(mockEndpoint, {
+        method: "POST",
+        body: mockBody,
+        headers: mockHeaders,
+      });
     });
 
     it("should correctly process the request with strategies", async () => {
@@ -103,9 +107,13 @@ describe("HttpModelProvider", () => {
       await provider.sendRequest({ prompt: "Hello, world!" });
 
       // assert
-      expect(mockClient.post).toHaveBeenCalledWith(mockEndpoint, mockBody, {
-        ...mockHeaders,
-        Authorization: "Bearer mock-bearer-token",
+      expect(mockClient.fetch).toHaveBeenCalledWith(mockEndpoint, {
+        method: "POST",
+        body: mockBody,
+        headers: {
+          ...mockHeaders,
+          Authorization: "Bearer mock-bearer-token",
+        },
       });
     });
 
@@ -121,7 +129,7 @@ describe("HttpModelProvider", () => {
       });
 
       mockApi.requestTemplate.render.mockReturnValue(mockBody);
-      mockClient.post.mockRejectedValue(new Error("Network error"));
+      mockClient.fetch.mockRejectedValue(new Error("Network error"));
 
       // act & assert
       await expect(

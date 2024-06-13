@@ -15,7 +15,7 @@ describe("BaseHttpModelProvider", () => {
   };
 
   const mockClient = {
-    post: jest.fn(),
+    fetch: jest.fn(),
   };
 
   class MockHttpModelProvider extends BaseHttpModelProvider<ModelRequestOptions> {

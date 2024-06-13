@@ -36,7 +36,7 @@ test("VertexAI - Google Gemini (Tools)", async () => {
     ],
   });
 
-  console.log(JSON.stringify(response.data.candidates, null, 2));
+  // console.log(JSON.stringify(response.data.candidates, null, 2));
 
   // assert
   expect(response).toMatchApiSnapshot();
@@ -153,7 +153,7 @@ test("VertexAI - Google Gemini (Tools with Responses)", async () => {
     ],
   });
 
-  console.log(JSON.stringify(response.data.candidates, null, 2));
+  // console.log(JSON.stringify(response.data.candidates, null, 2));
 
   // assert
   expect(response).toMatchApiSnapshot();

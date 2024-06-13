@@ -1,11 +1,29 @@
 import type { HttpClient } from "@typeDefs";
 
-const httpClient: HttpClient = {
-  async post(endpoint: string, body: string, headers: Record<string, string>) {
+interface CustomOptions {
+  timeout?: number;
+}
+
+type BuiltinHttpClientOptions = Omit<
+  RequestInit,
+  "method" | "headers" | "body"
+> &
+  CustomOptions;
+
+const httpClient: HttpClient<BuiltinHttpClientOptions> = {
+  async post(
+    endpoint: string,
+    body: string,
+    headers: Record<string, string>,
+    options?: BuiltinHttpClientOptions,
+  ) {
+    // TODO: if options.timeout && !options.signal, impl timeout
+
     const response = await fetch(endpoint, {
       method: "POST",
       headers,
       body,
+      ...options,
     });
 
     if (!response.ok) {

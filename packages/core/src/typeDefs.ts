@@ -37,8 +37,12 @@ export interface ModelApi<
 export interface ModelProvider<
   TRequestOptions extends ModelRequestOptions = ModelRequestOptions,
   TResponse = unknown,
+  TRequestMeta = object,
 > {
-  sendRequest(options: TRequestOptions): Promise<TResponse>;
+  sendRequest(
+    options: TRequestOptions,
+    meta?: TRequestMeta,
+  ): Promise<TResponse>;
 }
 
 export type Endpoint = string;
@@ -48,8 +52,13 @@ export type Headers = Record<string, string | ReadonlyArray<string>>;
 /**
  * @category Core Interfaces
  */
-export interface HttpClient {
-  post(endpoint: Endpoint, body: Body, headers: Headers): Promise<unknown>;
+export interface HttpClient<TOptions = void> {
+  post(
+    endpoint: Endpoint,
+    body: Body,
+    headers: Headers,
+    options?: TOptions,
+  ): Promise<unknown>;
 }
 
 // Makes props in K optional in T.
@@ -62,3 +71,5 @@ export type InferRequestOptions<T> =
   T extends ModelApi<infer U, unknown> ? U : never;
 export type InferResponse<T> =
   T extends ModelApi<ModelRequestOptions, infer V> ? V : never;
+export type InferHttpClientOptions<T> =
+  T extends HttpClient<infer U> ? U : never;

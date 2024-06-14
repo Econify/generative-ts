@@ -27,6 +27,8 @@ import {
   StaticHeadersStrategy,
 } from "./strategies";
 
+import { escape } from "./utils";
+
 /**
  * @category Core Implementations
  */
@@ -103,22 +105,7 @@ export class HttpModelProvider<
   }
 
   protected getBody(options: TRequestOptions) {
-    // TODO move this to "JsonBodyStrategy" (or something like that)
-    const escapedOptions = Object.entries(options).reduce(
-      (acc, [key, value]) => {
-        if (typeof value === "string") {
-          return {
-            ...acc,
-            [key]: value.replace(/\n/g, "\\n"),
-          };
-        }
-        return {
-          ...acc,
-          [key]: value as unknown,
-        };
-      },
-      {} as TRequestOptions,
-    );
+    const escapedOptions = escape<TRequestOptions>(options);
 
     return this.api.requestTemplate.render(escapedOptions);
   }

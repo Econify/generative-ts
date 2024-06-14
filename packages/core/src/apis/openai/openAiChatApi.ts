@@ -53,7 +53,8 @@ const templateSource = `{
   <% if (typeof presence_penalty !== 'undefined') { %>, "presence_penalty": <%= presence_penalty %><% } %>
   <% if (typeof response_format !== 'undefined') { %>, "response_format": <%- JSON.stringify(response_format) %><% } %>
   <% if (typeof seed !== 'undefined') { %>, "seed": <%= seed %><% } %>
-  <% if (typeof stop !== 'undefined' && (typeof stop === 'string' || Array.isArray(stop))) { %>, "stop": "<%= stop %>"<% } %>
+  <% if (typeof stop !== 'undefined' && typeof stop === 'string') { %>, "stop": "<%= stop %>"<% } %>
+  <% if (typeof stop !== 'undefined' && Array.isArray(stop)) { %>, "stop": <%- JSON.stringify(stop) %><% } %>
   <% if (typeof stream !== 'undefined') { %>, "stream": <%= stream %><% } %>
   <% if (typeof stream_options !== 'undefined') { %>, "stream_options": <%- JSON.stringify(stream_options) %><% } %>
   <% if (typeof temperature !== 'undefined') { %>, "temperature": <%= temperature %><% } %>
@@ -61,7 +62,7 @@ const templateSource = `{
   <% if (typeof user !== 'undefined') { %>, "user": "<%= user %>"<% } %>
   <% if (typeof tools !== 'undefined') { %>, "tools": <%- JSON.stringify(tools) %><% } %>
   <% if (typeof tool_choice !== 'undefined') { %>, "tool_choice": <%- JSON.stringify(tool_choice) %><% } %>
-  <% if (typeof function_call !== 'undefined') { %>, "function_call": <%= function_call %><% } %>
+  <% if (typeof function_call !== 'undefined') { %>, "function_call": "<%= function_call %>"<% } %>
   <% if (typeof functions !== 'undefined') { %>, "functions": <%- JSON.stringify(functions) %><% } %>
 }`;
 

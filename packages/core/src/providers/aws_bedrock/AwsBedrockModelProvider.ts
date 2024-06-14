@@ -20,6 +20,7 @@ interface AwsBedrockModelProviderConfig extends BaseModelProviderConfig {
   region: string;
 }
 
+// TODO eliminate this class and just use a custom auth strategy with HttpModelProvider
 export class AwsBedrockModelProvider<
   TRequestOptions extends ModelRequestOptions,
   TResponse = unknown,
@@ -51,30 +52,19 @@ export class AwsBedrockModelProvider<
         auth,
         region,
       },
-      endpoint: "temporary-unused-hack",
-    });
-  }
-
-  // TODO AwsBedrockModelProvider should inherit from HttpModelProvider
-  protected getBody(options: TRequestOptions) {
-    // TODO move this to "JsonBodyStrategy" (or something like that)
-    const escapedOptions = Object.entries(options).reduce(
-      (acc, [key, value]) => {
-        if (typeof value === "string") {
-          return {
-            ...acc,
-            [key]: value.replace(/\n/g, "\\n"),
-          };
-        }
-        return {
-          ...acc,
-          [key]: value as unknown,
-        };
+      endpoint: {
+        getEndpoint(
+          options: TRequestOptions,
+          config: AwsBedrockModelProviderConfig,
+        ) {
+          return [
+            `https://bedrock-runtime.${config.region}.amazonaws.com`,
+            `/model/${options.modelId}`,
+            "/invoke",
+          ].join("");
+        },
       },
-      {} as TRequestOptions,
-    );
-
-    return this.api.requestTemplate.render(escapedOptions);
+    });
   }
 
   async dispatchRequest(
@@ -85,7 +75,6 @@ export class AwsBedrockModelProvider<
     const { modelId } = options;
 
     const host = `bedrock-runtime.${region}.amazonaws.com`;
-    const endpoint = `https://${host}/model/${modelId}/invoke`;
 
     const credentials = auth
       ? {
@@ -125,6 +114,8 @@ export class AwsBedrockModelProvider<
       Authorization: signedHeaders.Authorization as string,
       "X-Amz-Date": signedHeaders["X-Amz-Date"] as string,
     };
+
+    const endpoint = await this.getEndpoint(options);
 
     return this.client.fetch(endpoint, {
       method: "POST",

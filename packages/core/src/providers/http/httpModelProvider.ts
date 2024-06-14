@@ -7,7 +7,7 @@ import type {
   ModelRequestOptions,
 } from "@typeDefs";
 
-import { BuiltinHttpClientOptions, getClient } from "../../utils/httpClient";
+import { getClient, HttpClientOptions } from "../../utils/httpClient";
 
 import { BaseModelProvider } from "../baseModelProvider";
 
@@ -33,7 +33,7 @@ import {
 export class HttpModelProvider<
   TRequestOptions extends ModelRequestOptions = ModelRequestOptions,
   TResponse = unknown,
-  THttpClientOptions = BuiltinHttpClientOptions,
+  THttpClientOptions = HttpClientOptions,
   TModelProviderConfig extends
     BaseModelProviderConfig = BaseModelProviderConfig,
 > extends BaseModelProvider<

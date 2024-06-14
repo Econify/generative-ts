@@ -53,8 +53,6 @@ export interface HttpClientRequest {
 }
 
 /**
- * HttpClient client interface, basically a simplified fetch()
- *
  * @category Core Interfaces
  */
 export interface HttpClient<TCustomHttpClientRequestOptions = unknown> {
@@ -63,15 +61,6 @@ export interface HttpClient<TCustomHttpClientRequestOptions = unknown> {
     request: HttpClientRequest & TCustomHttpClientRequestOptions,
   ): Promise<unknown>;
 }
-
-// export interface HttpClient<TOptions = unknown> {
-//   post(
-//     endpoint: Endpoint,
-//     body: Body,
-//     headers: Headers,
-//     options?: TOptions,
-//   ): Promise<unknown>;
-// }
 
 // Makes props in K optional in T.
 // The resulting type is "looser," so does NOT satisfy T, but if you add all props from K to an object of the resulting type, you logically satisfy T
@@ -83,5 +72,3 @@ export type InferRequestOptions<T> =
   T extends ModelApi<infer U, unknown> ? U : never;
 export type InferResponse<T> =
   T extends ModelApi<ModelRequestOptions, infer V> ? V : never;
-export type InferHttpClientOptions<T> =
-  T extends HttpClient<infer U> ? U : never;

@@ -21,7 +21,7 @@
     "build": "ts-node ./scripts/build.ts",
     "build:core": "npm run build -w @generative-ts/core",
     "build:main": "npm run build -w generative-ts",
-    "build:vertexai": "npm run build -w @generative-ts/google-vertex-ai",
+    "build:vertexai": "npm run build -w @generative-ts/gcloud-vertex-ai",
     "clean": "rm -f *.tsbuildinfo && npm run clean --workspaces",
     "check": "npm run typecheck && npm run lint && npm run test",
     "docs:gen": "typedoc",

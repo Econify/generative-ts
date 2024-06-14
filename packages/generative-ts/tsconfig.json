@@ -11,6 +11,6 @@
   "exclude": ["src/**/*.spec.ts"],
   "references": [
     { "path": "../core" },
-    { "path": "../google-vertex-ai" }
+    { "path": "../gcloud-vertex-ai" }
   ]
 }

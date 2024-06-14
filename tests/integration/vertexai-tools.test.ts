@@ -1,4 +1,4 @@
-import { createVertexAiModelProvider } from "@packages/google-vertex-ai";
+import { createVertexAiModelProvider } from "@packages/gcloud-vertex-ai";
 
 test("VertexAI - Google Gemini (Tools)", async () => {
   // arrange

@@ -1,5 +1,5 @@
 {
-  "name": "@generative-ts/google-vertex-ai",
+  "name": "@generative-ts/gcloud-vertex-ai",
   "version": "0.1.0-alpha.6",
   "description": "Google Cloud VertexAI support for for generative-ts",
   "main": "dist/index.cjs",
@@ -40,7 +40,7 @@
   "license": "ISC",
   "repository": {
     "url": "Econify/generative-ts",
-    "directory": "packages/google-vertex-ai"
+    "directory": "packages/gcloud-vertex-ai"
   },
   "author": "John M Naglick",
   "homepage": "https://github.com/Econify/generative-ts#readme",

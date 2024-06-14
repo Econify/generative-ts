@@ -24,8 +24,8 @@ function main() {
   log(`\n🔧 ${GREEN}Building ${BOLD}@generative-ts/core${RESET}`);
   runCommand("npm run build:rollup -w @generative-ts/core");
 
-  log(`\n🔧 ${GREEN}Building ${BOLD}@generative-ts/google-vertex-ai${RESET}`);
-  runCommand("npm run build:rollup -w @generative-ts/google-vertex-ai");
+  log(`\n🔧 ${GREEN}Building ${BOLD}@generative-ts/gcloud-vertex-ai${RESET}`);
+  runCommand("npm run build:rollup -w @generative-ts/gcloud-vertex-ai");
 
   log(`\n🔧 ${GREEN}Building ${BOLD}generative-ts${RESET}`);
   runCommand("npm run build:rollup -w generative-ts");

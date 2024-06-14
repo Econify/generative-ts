@@ -1,7 +1,7 @@
 import { baseConfig } from '../../rollup.config.base.mjs';
 
 // import pkg from './package.json' assert { type: 'json' };
-const pkg = { name: '@generative-ts/google-vertex-ai' };
+const pkg = { name: '@generative-ts/gcloud-vertex-ai' };
 
 export default [
   {

@@ -29,7 +29,7 @@
   },
   "dependencies": {
     "@generative-ts/core": "^0.1.0-alpha.6",
-    "@generative-ts/google-vertex-ai": "^0.1.0-alpha.6",
+    "@generative-ts/gcloud-vertex-ai": "^0.1.0-alpha.6",
     "tslib": "^2.6.2"
   },
   "publishConfig": {

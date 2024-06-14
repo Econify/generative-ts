@@ -22,8 +22,8 @@ function main() {
   log(`\n🚀 ${GREEN}Publishing ${BOLD}@generative-ts/core${RESET}`);
   runCommand("npm publish -w @generative-ts/core");
 
-  log(`\n🚀 ${GREEN}Publishing ${BOLD}@generative-ts/google-vertex-ai${RESET}`);
-  runCommand("npm publish -w @generative-ts/google-vertex-ai");
+  log(`\n🚀 ${GREEN}Publishing ${BOLD}@generative-ts/gcloud-vertex-ai${RESET}`);
+  runCommand("npm publish -w @generative-ts/gcloud-vertex-ai");
 
   log(`\n🚀 ${GREEN}Publishing ${BOLD}generative-ts${RESET}`);
   runCommand("npm publish -w generative-ts");

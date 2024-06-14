@@ -25,7 +25,7 @@ export const baseConfig = {
   ],
   external: [
     '@generative-ts/core', 
-    '@generative-ts/google-vertex-ai',
+    '@generative-ts/gcloud-vertex-ai',
     'tslib',
     'process',
   ],

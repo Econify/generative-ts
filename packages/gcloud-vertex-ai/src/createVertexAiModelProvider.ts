@@ -16,7 +16,7 @@ export type InferHttpClientOptions<T> =
  * Creates a Google Cloud VertexAI {@link ModelProvider} with the {@link GoogleGeminiApi}.
  *
  * ```ts
- * import { createVertexAiModelProvider } from "@packages/google-vertex-ai";
+ * import { createVertexAiModelProvider } from "@packages/gcloud-vertex-ai";
  *
  * const gemini = await createVertexAiModelProvider({
  *   modelId: "gemini-1.0-pro", // VertexAI defined model ID
@@ -69,7 +69,7 @@ export type InferHttpClientOptions<T> =
  *
  * @example Usage
  * ```ts
- * import { createVertexAiModelProvider } from "@packages/google-vertex-ai";
+ * import { createVertexAiModelProvider } from "@packages/gcloud-vertex-ai";
  *
  * const gemini = await createVertexAiModelProvider({
  *   modelId: "gemini-1.0-pro", // VertexAI defined model ID

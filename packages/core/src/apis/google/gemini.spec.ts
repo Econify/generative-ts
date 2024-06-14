@@ -1,10 +1,11 @@
 import { GoogleGeminiApi, GoogleGeminiOptions } from "./gemini";
 
-function render(context: unknown) {
+function render(context: Omit<GoogleGeminiOptions, "modelId">) {
   try {
-    const rendered = GoogleGeminiApi.requestTemplate.render(
-      context as GoogleGeminiOptions,
-    );
+    const rendered = GoogleGeminiApi.requestTemplate.render({
+      modelId: "mock-model-id",
+      ...context,
+    });
     return JSON.parse(rendered);
   } catch (error) {
     throw new Error("Invalid JSON output");
@@ -12,6 +13,10 @@ function render(context: unknown) {
 }
 
 describe("GoogleGeminiApi.requestTemplate", () => {
+  /**
+   * FewShotRequestOptions (prompt, examplePairs, system):
+   */
+
   test("prompt", () => {
     const rendered = render({
       prompt: "mock-prompt",
@@ -24,85 +29,6 @@ describe("GoogleGeminiApi.requestTemplate", () => {
           parts: [{ text: "mock-prompt" }],
         },
       ],
-    });
-  });
-
-  test("prompt, system", () => {
-    const rendered = render({
-      prompt: "mock-prompt",
-      system: "mock-system-text",
-    });
-
-    expect(rendered).toEqual({
-      contents: [
-        {
-          role: "user",
-          parts: [{ text: "mock-prompt" }],
-        },
-      ],
-      system_instruction: {
-        parts: [
-          {
-            text: "mock-system-text",
-          },
-        ],
-      },
-    });
-  });
-
-  test("prompt, system_instruction", () => {
-    const rendered = render({
-      prompt: "mock-prompt",
-      system_instruction: {
-        parts: [{ text: "mock-system-text" }],
-      },
-    });
-
-    expect(rendered).toEqual({
-      contents: [
-        {
-          role: "user",
-          parts: [{ text: "mock-prompt" }],
-        },
-      ],
-      system_instruction: {
-        parts: [{ text: "mock-system-text" }],
-      },
-    });
-  });
-
-  test("prompt, system and system_instruction", () => {
-    const rendered = render({
-      prompt: "mock-prompt",
-      system: "mock-system-text",
-      system_instruction: {
-        parts: [
-          { text: "mock-additional-instruction" },
-          { text: "mock-additional-instruction-2" },
-        ],
-      },
-    });
-
-    expect(rendered).toEqual({
-      contents: [
-        {
-          role: "user",
-          parts: [{ text: "mock-prompt" }],
-        },
-      ],
-      system_instruction: {
-        parts: [
-          {
-            text: "mock-system-text",
-          },
-          {
-            text: "mock-additional-instruction",
-          },
-          {
-            text: "mock-additional-instruction-2",
-          },
-        ],
-      },
     });
   });
 
@@ -140,6 +66,67 @@ describe("GoogleGeminiApi.requestTemplate", () => {
       ],
     });
   });
+
+  test("prompt, system", () => {
+    const rendered = render({
+      prompt: "mock-prompt",
+      system: "mock-system-text",
+    });
+
+    expect(rendered).toEqual({
+      contents: [
+        {
+          role: "user",
+          parts: [{ text: "mock-prompt" }],
+        },
+      ],
+      system_instruction: {
+        parts: [
+          {
+            text: "mock-system-text",
+          },
+        ],
+      },
+    });
+  });
+
+  test("prompt, examplePairs, system", () => {
+    const rendered = render({
+      prompt: "mock-prompt",
+      examplePairs: [
+        { user: "mock-user-msg-1", assistant: "mock-assistant-msg-1" },
+      ],
+      system: "mock-system-text",
+    });
+
+    expect(rendered).toEqual({
+      contents: [
+        {
+          role: "user",
+          parts: [{ text: "mock-user-msg-1" }],
+        },
+        {
+          role: "model",
+          parts: [{ text: "mock-assistant-msg-1" }],
+        },
+        {
+          role: "user",
+          parts: [{ text: "mock-prompt" }],
+        },
+      ],
+      system_instruction: {
+        parts: [
+          {
+            text: "mock-system-text",
+          },
+        ],
+      },
+    });
+  });
+
+  /**
+   * "Native" few shot options (prompt, contents, system_instruction):
+   */
 
   test("prompt, contents", () => {
     const rendered = render({
@@ -182,6 +169,77 @@ describe("GoogleGeminiApi.requestTemplate", () => {
     });
   });
 
+  test("prompt, system_instruction", () => {
+    const rendered = render({
+      prompt: "mock-prompt",
+      system_instruction: {
+        parts: [{ text: "mock-system-text" }],
+      },
+    });
+
+    expect(rendered).toEqual({
+      contents: [
+        {
+          role: "user",
+          parts: [{ text: "mock-prompt" }],
+        },
+      ],
+      system_instruction: {
+        parts: [{ text: "mock-system-text" }],
+      },
+    });
+  });
+
+  test("prompt, contents, system_instruction", () => {
+    const rendered = render({
+      prompt: "mock-prompt",
+      contents: [
+        {
+          role: "model",
+          parts: [{ text: "mock-model-text" }],
+        },
+        {
+          role: "user",
+          parts: [{ text: "mock-user-text" }],
+        },
+        {
+          role: "model",
+          parts: [{ text: "mock-model-text-2" }],
+        },
+      ],
+      system_instruction: {
+        parts: [{ text: "mock-system-text" }],
+      },
+    });
+
+    expect(rendered).toEqual({
+      contents: [
+        {
+          role: "model",
+          parts: [{ text: "mock-model-text" }],
+        },
+        {
+          role: "user",
+          parts: [{ text: "mock-user-text" }],
+        },
+        {
+          role: "model",
+          parts: [{ text: "mock-model-text-2" }],
+        },
+        {
+          role: "user",
+          parts: [{ text: "mock-prompt" }],
+        },
+      ],
+      system_instruction: {
+        parts: [{ text: "mock-system-text" }],
+      },
+    });
+  });
+  /**
+   * Combinations of FewShotRequestOptions and "native" options:
+   */
+
   test("prompt, examplePairs, contents", () => {
     const rendered = render({
       prompt: "mock-prompt",
@@ -218,13 +276,46 @@ describe("GoogleGeminiApi.requestTemplate", () => {
     });
   });
 
-  test("doesnt include prompt if contents end with a user role", () => {
+  test("prompt, examplePairs, system_instruction", () => {
     const rendered = render({
       prompt: "mock-prompt",
+      examplePairs: [
+        { user: "mock-user-msg-1", assistant: "mock-assistant-msg-1" },
+      ],
+      system_instruction: {
+        parts: [{ text: "mock-system-text" }],
+      },
+    });
+
+    expect(rendered).toEqual({
       contents: [
         {
           role: "user",
-          parts: [{ text: "mock-user-text" }],
+          parts: [{ text: "mock-user-msg-1" }],
+        },
+        {
+          role: "model",
+          parts: [{ text: "mock-assistant-msg-1" }],
+        },
+        {
+          role: "user",
+          parts: [{ text: "mock-prompt" }],
+        },
+      ],
+      system_instruction: {
+        parts: [{ text: "mock-system-text" }],
+      },
+    });
+  });
+
+  test("prompt, system, contents", () => {
+    const rendered = render({
+      prompt: "mock-prompt",
+      system: "mock-system-text",
+      contents: [
+        {
+          role: "model",
+          parts: [{ text: "mock-model-text" }],
         },
       ],
     });
@@ -232,12 +323,99 @@ describe("GoogleGeminiApi.requestTemplate", () => {
     expect(rendered).toEqual({
       contents: [
         {
+          role: "model",
+          parts: [{ text: "mock-model-text" }],
+        },
+        {
           role: "user",
-          parts: [{ text: "mock-user-text" }],
+          parts: [{ text: "mock-prompt" }],
         },
       ],
+      system_instruction: {
+        parts: [{ text: "mock-system-text" }],
+      },
     });
   });
+
+  test("prompt, system, system_instruction", () => {
+    const rendered = render({
+      prompt: "mock-prompt",
+      system: "mock-system-text",
+      system_instruction: {
+        parts: [
+          { text: "mock-additional-instruction" },
+          { text: "mock-additional-instruction-2" },
+        ],
+      },
+    });
+
+    expect(rendered).toEqual({
+      contents: [
+        {
+          role: "user",
+          parts: [{ text: "mock-prompt" }],
+        },
+      ],
+      system_instruction: {
+        parts: [
+          {
+            text: "mock-system-text",
+          },
+          {
+            text: "mock-additional-instruction",
+          },
+          {
+            text: "mock-additional-instruction-2",
+          },
+        ],
+      },
+    });
+  });
+
+  test("prompt, examplePairs, contents, system_instruction", () => {
+    const rendered = render({
+      prompt: "mock-prompt",
+      examplePairs: [
+        { user: "mock-user-msg-1", assistant: "mock-assistant-msg-1" },
+      ],
+      contents: [
+        {
+          role: "model",
+          parts: [{ text: "mock-model-text" }],
+        },
+      ],
+      system_instruction: {
+        parts: [{ text: "mock-system-text" }],
+      },
+    });
+
+    expect(rendered).toEqual({
+      contents: [
+        {
+          role: "user",
+          parts: [{ text: "mock-user-msg-1" }],
+        },
+        {
+          role: "model",
+          parts: [{ text: "mock-assistant-msg-1" }],
+        },
+        {
+          role: "model",
+          parts: [{ text: "mock-model-text" }],
+        },
+        {
+          role: "user",
+          parts: [{ text: "mock-prompt" }],
+        },
+      ],
+      system_instruction: {
+        parts: [{ text: "mock-system-text" }],
+      },
+    });
+  });
+  /**
+   * Tool-related:
+   */
 
   test("prompt, contents with function_call", () => {
     const rendered = render({
@@ -383,6 +561,9 @@ describe("GoogleGeminiApi.requestTemplate", () => {
     });
   });
 
+  /**
+   * "Native" options:
+   */
   test("prompt, safety_settings", () => {
     const rendered = render({
       prompt: "mock-prompt",
@@ -497,6 +678,30 @@ describe("GoogleGeminiApi.requestTemplate", () => {
         top_p: 0.7,
         max_output_tokens: 100,
       },
+    });
+  });
+
+  /**
+   * Custom 1-off logic:
+   */
+  test("doesnt include prompt if contents end with a user role", () => {
+    const rendered = render({
+      prompt: "mock-prompt",
+      contents: [
+        {
+          role: "user",
+          parts: [{ text: "mock-user-text" }],
+        },
+      ],
+    });
+
+    expect(rendered).toEqual({
+      contents: [
+        {
+          role: "user",
+          parts: [{ text: "mock-user-text" }],
+        },
+      ],
     });
   });
 });

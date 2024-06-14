@@ -13,14 +13,13 @@ import { BaseModelProviderConfig } from "../baseModelProvider";
 
 import { HttpModelProvider } from "../http";
 
-import { AwsAuthConfig } from "./authConfig";
+import { AwsBedrockAuthConfig } from "./AwsBedrockAuthConfig";
 
-interface AwsBedrockModelProviderConfig extends BaseModelProviderConfig {
-  auth?: AwsAuthConfig;
-  region: string;
-}
+type AwsBedrockModelProviderConfig = BaseModelProviderConfig & {
+  auth: AwsBedrockAuthConfig;
+};
 
-// TODO eliminate this class and just use a custom auth strategy with HttpModelProvider
+// Could use custom auth strategy with HttpModelProvider instead of this class...
 export class AwsBedrockModelProvider<
   TRequestOptions extends ModelRequestOptions,
   TResponse = unknown,
@@ -34,31 +33,28 @@ export class AwsBedrockModelProvider<
   constructor({
     api,
     modelId,
-    client,
     auth,
-    region,
+    client,
   }: {
     api: ModelApi<TRequestOptions, TResponse>;
     modelId: ModelId;
     client?: HttpClient<THttpClientOptions>;
-    auth?: AwsAuthConfig;
-    region: string;
+    auth: AwsBedrockAuthConfig;
   }) {
     super({
       api,
-      client: client as HttpClient<THttpClientOptions>,
       config: {
         modelId,
         auth,
-        region,
       },
+      client: client as HttpClient<THttpClientOptions>,
       endpoint: {
         getEndpoint(
           options: TRequestOptions,
           config: AwsBedrockModelProviderConfig,
         ) {
           return [
-            `https://bedrock-runtime.${config.region}.amazonaws.com`,
+            `https://bedrock-runtime.${config.auth.AWS_REGION}.amazonaws.com`,
             `/model/${options.modelId}`,
             "/invoke",
           ].join("");
@@ -71,17 +67,25 @@ export class AwsBedrockModelProvider<
     options: TRequestOptions,
     clientOptions: THttpClientOptions,
   ) {
-    const { auth, region } = this.config;
     const { modelId } = options;
+
+    const {
+      auth: {
+        AWS_ACCESS_KEY_ID: accessKeyId,
+        AWS_SECRET_ACCESS_KEY: secretAccessKey,
+        AWS_REGION: region,
+      },
+    } = this.config;
 
     const host = `bedrock-runtime.${region}.amazonaws.com`;
 
-    const credentials = auth
-      ? {
-          accessKeyId: auth.AWS_ACCESS_KEY_ID,
-          secretAccessKey: auth.AWS_SECRET_ACCESS_KEY,
-        }
-      : undefined;
+    const credentials =
+      accessKeyId && secretAccessKey
+        ? {
+            accessKeyId,
+            secretAccessKey,
+          }
+        : undefined;
 
     const body = this.getBody(options);
 

@@ -41,7 +41,7 @@ import {
 const titanText = createAwsBedrockModelProvider({
   api: AmazonTitanTextApi,
   modelId: "amazon.titan-text-express-v1",
-  // auth will be read from process.env and properly handled for the AWS environment on which the code is running
+  // If your code is running in an AWS Environment (eg, Lambda) authorization will happen automatically. Otherwise, explicitly pass in `auth`
 });
 
 const response = await titanText.sendRequest({ 

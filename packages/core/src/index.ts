@@ -79,7 +79,7 @@ export {
   createLmStudioModelProvider,
   createMistralModelProvider,
   createOpenAiChatModelProvider,
-  AwsAuthConfig,
+  AwsBedrockAuthConfig as AwsAuthConfig,
   CohereAuthConfig,
   GroqAuthConfig,
   HuggingfaceAuthConfig,

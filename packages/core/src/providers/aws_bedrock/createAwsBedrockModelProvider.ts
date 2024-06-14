@@ -19,9 +19,7 @@ import type { HttpModelProvider, InferHttpClientOptions } from "../http";
 
 import { AwsBedrockModelProvider } from "./AwsBedrockModelProvider";
 
-import { AwsAuthConfig } from "./authConfig";
-
-const DEFAULT_REGION = "us-east-1";
+import { AwsBedrockAuthConfig } from "./AwsBedrockAuthConfig";
 
 type AwsBedrockApi =
   | Ai21Jurassic2Api
@@ -45,7 +43,7 @@ type AwsBedrockApi =
  * const titanText = createAwsBedrockModelProvider({
  *   api: AmazonTitanTextApi,
  *   modelId: "amazon.titan-text-express-v1",
- *   // auth will be read from process.env and properly handled for the AWS environment on which the code is running
+ *   // If your code is running in an AWS Environment (eg, Lambda) authorization will happen automatically. Otherwise, explicitly pass in `auth`
  * });
  *
  * const response = await titanText.sendRequest({
@@ -68,7 +66,11 @@ type AwsBedrockApi =
  *
  * In the Bedrock service in the AWS Console, use "Request Model Access" to enable access to Bedrock models.
  *
- * If your code is running in an AWS Environment (eg, Lambda) authorization should happen automatically. Otherwise, you can explicitly pass in an {@link AwsAuthConfig} object to `auth`.
+ * ### Authorization
+ *
+ * If your code is running in an AWS Environment (eg, Lambda) authorization should happen automatically. Otherwise, explicitly pass in `AWS_ACCESS_KEY_ID` and `AWS_SECRET_ACCESS_KEY` to `auth`.
+ *
+ * Region is also specified in `auth` as `AWS_REGION`. If not passed, it will be read from process.env.
  *
  * ### Model Parameters
  *
@@ -88,8 +90,7 @@ type AwsBedrockApi =
  * @param {AwsBedrockApi} params.api - The API instance to use for making requests.
  * @param {string} params.modelId - The model ID as defined by AWS Bedrock.
  * @param {HttpClient} [params.client] - HTTP client to use for requests. If not supplied, the built-in fetch-based implementation will be used.
- * @param {AwsAuthConfig} [params.auth] - Authentication configuration for AWS. If not supplied, credentials will be loaded from the environment.
- * @param {string} [params.region=us-east-1] - AWS region where the Bedrock model is deployed. Defaults to "us-east-1".
+ * @param {AwsBedrockAuthConfig} [params.auth] - Authentication configuration for AWS. Pass `AWS_ACCESS_KEY_ID` and `AWS_SECRET_ACCESS_KEY` here if not running in an AWS environment. Pass `AWS_REGION` here if not set in process.env.
  * @returns {AwsBedrockModelProvider} The AWS Bedrock Model Provider with the specified {@link ModelApi}.
  *
  * @example Multiple APIs
@@ -147,14 +148,20 @@ export function createAwsBedrockModelProvider<
   modelId,
   client,
   auth,
-  region = DEFAULT_REGION,
 }: {
   api: TAwsBedrockApi;
   modelId: ModelId;
   client?: HttpClient<THttpClientOptions>;
-  auth?: AwsAuthConfig;
-  region?: string;
+  auth?: AwsBedrockAuthConfig;
 }) {
+  const { AWS_REGION } = auth ?? process.env;
+
+  if (!AWS_REGION) {
+    throw new Error(
+      "Error in createAwsBedrockModelProvider: AWS_REGION must either be passed in the `auth` object or set in the local process.env",
+    );
+  }
+
   return new AwsBedrockModelProvider({
     api: api as ModelApi<
       InferRequestOptions<TAwsBedrockApi>,
@@ -162,7 +169,9 @@ export function createAwsBedrockModelProvider<
     >,
     modelId,
     client,
-    auth,
-    region,
+    auth: {
+      ...auth,
+      AWS_REGION,
+    },
   });
 }

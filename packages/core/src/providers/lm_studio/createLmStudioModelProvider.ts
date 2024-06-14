@@ -2,7 +2,7 @@ import type { HttpClient } from "@typeDefs";
 
 import { OpenAiChatApi } from "../../apis/openai";
 
-import { HttpModelProvider } from "../http";
+import { HttpModelProvider, InferHttpClientOptions } from "../http";
 
 /**
  *
@@ -65,13 +65,15 @@ import { HttpModelProvider } from "../http";
  * console.log(response.choices[0]?.message.content);
  * ```
  */
-export function createLmStudioModelProvider({
+export function createLmStudioModelProvider<
+  THttpClientOptions = InferHttpClientOptions<HttpModelProvider>,
+>({
   modelId,
   client,
   endpoint = "http://localhost:1234/v1/chat/completions",
 }: {
   modelId: string;
-  client?: HttpClient;
+  client?: HttpClient<THttpClientOptions>;
   endpoint?: string;
 }) {
   return new HttpModelProvider({

@@ -1,9 +1,15 @@
 import { GoogleGeminiApi, HttpModelProvider } from "@generative-ts/core";
 
-import type { HttpClient } from "@generative-ts/core";
+import type { HttpClient, ModelRequestOptions } from "@generative-ts/core";
 
 import type { VertexAiAuthConfig } from "./VertexAiAuthConfig";
 import { getCustomClient } from "./getCustomClient";
+
+// TODO: put this in shared place where we dont have to export it from @generative-ts/core...
+export type InferHttpClientOptions<T> =
+  T extends HttpModelProvider<ModelRequestOptions, unknown, infer U>
+    ? U
+    : never;
 
 /**
  *
@@ -78,13 +84,15 @@ import { getCustomClient } from "./getCustomClient";
  * console.log(response.data.candidates[0]);
  * ```
  */
-export async function createVertexAiModelProvider({
+export async function createVertexAiModelProvider<
+  THttpClientOptions = InferHttpClientOptions<HttpModelProvider>,
+>({
   modelId,
   client: _client,
   auth,
 }: {
   modelId: string;
-  client?: HttpClient;
+  client?: HttpClient<THttpClientOptions>;
   auth?: VertexAiAuthConfig;
 }) {
   const { GCLOUD_LOCATION, GCLOUD_PROJECT_ID } = auth ?? process.env;

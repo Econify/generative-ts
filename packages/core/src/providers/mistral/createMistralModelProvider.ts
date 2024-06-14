@@ -4,7 +4,7 @@ import { MistralAiApi } from "../../apis/mistral";
 
 import { BearerTokenAuthStrategy } from "../http/strategies";
 
-import { HttpModelProvider } from "../http";
+import { HttpModelProvider, InferHttpClientOptions } from "../http";
 
 import type { MistralAuthConfig } from "./authConfig";
 
@@ -72,13 +72,15 @@ import type { MistralAuthConfig } from "./authConfig";
  * console.log(response.choices[0]?.message.content);
  * ```
  */
-export function createMistralModelProvider({
+export function createMistralModelProvider<
+  THttpClientOptions = InferHttpClientOptions<HttpModelProvider>,
+>({
   modelId,
   client,
   auth,
 }: {
   modelId: string;
-  client?: HttpClient;
+  client?: HttpClient<THttpClientOptions>;
   auth?: MistralAuthConfig;
 }) {
   const { MISTRAL_API_KEY } = auth ?? process.env;

@@ -15,6 +15,8 @@ import {
   MistralBedrockApi,
 } from "../../apis";
 
+import type { HttpModelProvider, InferHttpClientOptions } from "../http";
+
 import { AwsBedrockModelProvider } from "./AwsBedrockModelProvider";
 
 import { AwsAuthConfig } from "./authConfig";
@@ -139,6 +141,7 @@ type AwsBedrockApi =
  */
 export function createAwsBedrockModelProvider<
   TAwsBedrockApi extends AwsBedrockApi,
+  THttpClientOptions = InferHttpClientOptions<HttpModelProvider>,
 >({
   api,
   modelId,
@@ -148,7 +151,7 @@ export function createAwsBedrockModelProvider<
 }: {
   api: TAwsBedrockApi;
   modelId: ModelId;
-  client?: HttpClient;
+  client?: HttpClient<THttpClientOptions>;
   auth?: AwsAuthConfig;
   region?: string;
 }) {

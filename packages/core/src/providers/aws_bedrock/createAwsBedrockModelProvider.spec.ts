@@ -50,7 +50,7 @@ describe("AwsBedrockModelProvider", () => {
       });
 
       // act
-      const result = await provider.dispatchRequest({
+      const result = await provider.sendRequest({
         modelId: "dummy-request-model-id",
         prompt: "explain aws bedrock:",
       });
@@ -106,7 +106,7 @@ describe("AwsBedrockModelProvider", () => {
       });
 
       // act
-      const result = await provider.dispatchRequest({
+      const result = await provider.sendRequest({
         modelId: "dummy-request-model-id",
         prompt: "explain aws bedrock:",
       });
@@ -160,7 +160,7 @@ describe("AwsBedrockModelProvider", () => {
 
       // act & assert
       await expect(
-        provider.dispatchRequest({
+        provider.sendRequest({
           modelId: "dummy-request-model-id",
           prompt: "explain aws bedrock:",
         }),

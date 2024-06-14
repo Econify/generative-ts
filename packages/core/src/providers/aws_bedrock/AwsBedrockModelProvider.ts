@@ -7,9 +7,11 @@ import type {
   ModelRequestOptions,
 } from "@typeDefs";
 
+import { HttpClientOptions } from "../../utils/httpClient";
+
 import { BaseModelProviderConfig } from "../baseModelProvider";
 
-import { BaseHttpModelProvider } from "../http";
+import { HttpModelProvider } from "../http";
 
 import { AwsAuthConfig } from "./authConfig";
 
@@ -21,9 +23,11 @@ interface AwsBedrockModelProviderConfig extends BaseModelProviderConfig {
 export class AwsBedrockModelProvider<
   TRequestOptions extends ModelRequestOptions,
   TResponse = unknown,
-> extends BaseHttpModelProvider<
+  THttpClientOptions = HttpClientOptions,
+> extends HttpModelProvider<
   TRequestOptions,
   TResponse,
+  THttpClientOptions,
   AwsBedrockModelProviderConfig
 > {
   constructor({
@@ -35,18 +39,19 @@ export class AwsBedrockModelProvider<
   }: {
     api: ModelApi<TRequestOptions, TResponse>;
     modelId: ModelId;
-    client?: HttpClient;
+    client?: HttpClient<THttpClientOptions>;
     auth?: AwsAuthConfig;
     region: string;
   }) {
     super({
       api,
-      client,
+      client: client as HttpClient<THttpClientOptions>,
       config: {
         modelId,
         auth,
         region,
       },
+      endpoint: "temporary-unused-hack",
     });
   }
 
@@ -72,7 +77,10 @@ export class AwsBedrockModelProvider<
     return this.api.requestTemplate.render(escapedOptions);
   }
 
-  async dispatchRequest(options: TRequestOptions) {
+  async dispatchRequest(
+    options: TRequestOptions,
+    clientOptions: THttpClientOptions,
+  ) {
     const { auth, region } = this.config;
     const { modelId } = options;
 
@@ -118,6 +126,11 @@ export class AwsBedrockModelProvider<
       "X-Amz-Date": signedHeaders["X-Amz-Date"] as string,
     };
 
-    return this.client.fetch(endpoint, { method: "POST", body, headers });
+    return this.client.fetch(endpoint, {
+      method: "POST",
+      body,
+      headers,
+      ...clientOptions,
+    });
   }
 }

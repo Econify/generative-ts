@@ -33,6 +33,7 @@
     "test:e2e:node": "npm run test:e2e:node -w generative-ts-tests",
     "test:integration": "npm run test:integration -w generative-ts-tests",
     "test:integration:ci": "npm run test:integration:ci -w generative-ts-tests",
+    "test:pattern": "jest --testPathPattern \"$npm_config_pattern\"",
     "typecheck": "tsc --noEmit"
   },
   "devDependencies": {

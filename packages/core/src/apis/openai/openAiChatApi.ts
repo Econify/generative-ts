@@ -8,7 +8,7 @@ import { EjsTemplate } from "../../utils/ejsTemplate";
 
 import { composite, nullable } from "../_utils/ioTsHelpers";
 
-import type { FewShotRequestOptions } from "../shared/fewShot";
+import type { FewShotRequestOptions } from "../shared";
 
 const templateSource = `{
   "model": "<%= modelId %>",

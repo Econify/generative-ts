@@ -2,7 +2,7 @@ import type { ModelApi, ModelRequestOptions } from "@typeDefs";
 
 import { EjsTemplate } from "../../utils/ejsTemplate";
 
-import type { FewShotRequestOptions } from "../shared/fewShot";
+import type { FewShotRequestOptions } from "../shared";
 
 import { isLlamaResponse, LlamaResponse } from "./llama";
 

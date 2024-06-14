@@ -8,7 +8,7 @@ import { EjsTemplate } from "../../utils/ejsTemplate";
 
 import { composite } from "../_utils/ioTsHelpers";
 
-import type { FewShotRequestOptions } from "../shared/fewShot";
+import type { FewShotRequestOptions } from "../shared";
 
 const templateSource = `{
   <% let comma = false; %>
@@ -225,41 +225,14 @@ interface Content {
 }
 
 interface Schema {
-  /**
-   * The type of the schema.
-   */
   type: "STRING" | "INTEGER" | "BOOLEAN" | "NUMBER" | "ARRAY" | "OBJECT";
-
-  /**
-   * An optional description of the schema.
-   */
   description?: string;
-
-  /**
-   * An optional list of possible values for the element of type STRING.
-   */
   enum?: string[];
-
-  /**
-   * An optional schema definition for elements of type ARRAY.
-   */
   items?: Schema[];
-
-  /**
-   * An optional schema definition for the properties of type OBJECT.
-   */
   properties?: {
     [key: string]: Schema;
   };
-
-  /**
-   * An optional list of required properties for type OBJECT.
-   */
   required?: string[];
-
-  /**
-   * An optional flag indicating whether the property is nullable.
-   */
   nullable?: boolean;
 }
 

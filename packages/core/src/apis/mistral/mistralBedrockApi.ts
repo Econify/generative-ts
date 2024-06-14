@@ -6,7 +6,7 @@ import type { ModelApi, ModelRequestOptions } from "@typeDefs";
 
 import { EjsTemplate } from "../../utils/ejsTemplate";
 
-import type { FewShotRequestOptions } from "../shared/fewShot";
+import type { FewShotRequestOptions } from "../shared";
 
 import { Llama2ChatMlTemplateSource } from "../meta/llama2ChatApi";
 

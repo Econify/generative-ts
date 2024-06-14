@@ -1,0 +1,22 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`AmazonTitanTextApi: all options 1`] = `
+{
+  "inputText": "mock-prompt",
+  "textGenerationConfig": {
+    "maxTokenCount": 100,
+    "stopSequences": [
+      "mock-stop-1",
+      "mock-stop-2",
+    ],
+    "temperature": 0.7,
+    "topP": 0.9,
+  },
+}
+`;
+
+exports[`AmazonTitanTextApi: prompt 1`] = `
+{
+  "inputText": "mock-prompt",
+}
+`;

@@ -24,7 +24,7 @@ const templateSource = `{
       <% comma = true; %>
     <% } %>
     <% if (typeof stopSequences !== 'undefined') { %>
-      <% if (comma) { %>, <% } %> "stopSequences": [<%= stopSequences.join(', ') %>]
+      <% if (comma) { %>, <% } %> "stopSequences": <%- JSON.stringify(stopSequences) %>
     <% } %>
   }
   <% } %>

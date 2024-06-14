@@ -1,0 +1,388 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`CohereChatApi: all options 1`] = `
+{
+  "chat_history": [
+    {
+      "message": "mock-user-msg-1",
+      "role": "USER",
+    },
+    {
+      "message": "mock-assistant-msg-1",
+      "role": "CHATBOT",
+    },
+    {
+      "message": "mock-user-msg",
+      "role": "USER",
+    },
+    {
+      "role": "CHATBOT",
+      "tool_calls": [
+        {
+          "name": "mock-tool",
+          "parameters": {
+            "key": "value",
+          },
+        },
+      ],
+    },
+    {
+      "role": "TOOL",
+      "tool_results": [
+        {
+          "call": {
+            "name": "mock-tool",
+            "parameters": {
+              "key": "value",
+            },
+          },
+          "outputs": [
+            {
+              "key": "output-value",
+            },
+          ],
+        },
+      ],
+    },
+  ],
+  "citation_quality": "high",
+  "conversation_id": "mock-conversation-id",
+  "documents": [
+    {
+      "key": "doc-value",
+    },
+  ],
+  "force_single_step": true,
+  "frequency_penalty": 0.5,
+  "k": 10,
+  "max_input_tokens": 1500,
+  "max_tokens": 1000,
+  "message": "mock-prompt",
+  "model": "mock-model-id",
+  "p": 0.9,
+  "preamble": "mock-system-textmock-preamble",
+  "presence_penalty": 0.3,
+  "prompt_truncation": "mock-prompt-truncation",
+  "search_queries_only": true,
+  "seed": 1234,
+  "stop_sequences": [
+    "mock-stop",
+  ],
+  "stream": true,
+  "temperature": 0.7,
+  "tool_results": [
+    {
+      "call": {
+        "name": "mock-tool",
+        "parameters": {
+          "key": "value",
+        },
+      },
+      "outputs": [
+        {
+          "key": "output-value",
+        },
+      ],
+    },
+  ],
+  "tools": [
+    {
+      "description": "mock-description",
+      "name": "mock-tool",
+      "parameter_definitions": {
+        "param1": {
+          "description": "mock-param-desc",
+          "required": true,
+          "type": "string",
+        },
+      },
+    },
+  ],
+}
+`;
+
+exports[`CohereChatApi: combination of system and preamble 1`] = `
+{
+  "message": "mock-prompt",
+  "model": "mock-model-id",
+  "preamble": "mock-system-textmock-preamble",
+}
+`;
+
+exports[`CohereChatApi: optional message in CohereChatHistoryToolCall 1`] = `
+{
+  "chat_history": [
+    {
+      "role": "CHATBOT",
+      "tool_calls": [
+        {
+          "name": "mock-tool",
+          "parameters": {
+            "key": "value",
+          },
+        },
+      ],
+    },
+  ],
+  "message": "mock-prompt",
+  "model": "mock-model-id",
+}
+`;
+
+exports[`CohereChatApi: optional message in CohereChatHistoryToolResults 1`] = `
+{
+  "chat_history": [
+    {
+      "role": "TOOL",
+      "tool_results": [
+        {
+          "call": {
+            "name": "mock-tool",
+            "parameters": {
+              "key": "value",
+            },
+          },
+          "outputs": [
+            {
+              "key": "output-value",
+            },
+          ],
+        },
+      ],
+    },
+  ],
+  "message": "mock-prompt",
+  "model": "mock-model-id",
+}
+`;
+
+exports[`CohereChatApi: prompt 1`] = `
+{
+  "message": "mock-prompt",
+  "model": "mock-model-id",
+}
+`;
+
+exports[`CohereChatApi: prompt, chat_history 1`] = `
+{
+  "chat_history": [
+    {
+      "message": "mock-user-msg",
+      "role": "USER",
+    },
+    {
+      "message": "mock-chatbot-msg",
+      "role": "CHATBOT",
+    },
+  ],
+  "message": "mock-prompt",
+  "model": "mock-model-id",
+}
+`;
+
+exports[`CohereChatApi: prompt, chat_history with tool_calls 1`] = `
+{
+  "chat_history": [
+    {
+      "message": "mock-user-msg",
+      "role": "USER",
+      "tool_calls": [
+        {
+          "name": "mock-tool",
+          "parameters": {
+            "key": "value",
+          },
+        },
+      ],
+    },
+  ],
+  "message": "mock-prompt",
+  "model": "mock-model-id",
+}
+`;
+
+exports[`CohereChatApi: prompt, examplePairs 1`] = `
+{
+  "chat_history": [
+    {
+      "message": "mock-user-msg-1",
+      "role": "USER",
+    },
+    {
+      "message": "mock-assistant-msg-1",
+      "role": "CHATBOT",
+    },
+    {
+      "message": "mock-user-msg-2",
+      "role": "USER",
+    },
+    {
+      "message": "mock-assistant-msg-2",
+      "role": "CHATBOT",
+    },
+  ],
+  "message": "mock-prompt",
+  "model": "mock-model-id",
+}
+`;
+
+exports[`CohereChatApi: prompt, examplePairs, chat_history 1`] = `
+{
+  "chat_history": [
+    {
+      "message": "mock-user-msg-1",
+      "role": "USER",
+    },
+    {
+      "message": "mock-assistant-msg-1",
+      "role": "CHATBOT",
+    },
+    {
+      "message": "mock-user-msg",
+      "role": "USER",
+    },
+    {
+      "message": "mock-chatbot-msg",
+      "role": "CHATBOT",
+    },
+  ],
+  "message": "mock-prompt",
+  "model": "mock-model-id",
+}
+`;
+
+exports[`CohereChatApi: prompt, examplePairs, chat_history 2`] = `
+{
+  "chat_history": [
+    {
+      "message": "mock-user-msg-1",
+      "role": "USER",
+    },
+    {
+      "message": "mock-assistant-msg-1",
+      "role": "CHATBOT",
+    },
+    {
+      "message": "mock-chatbot-msg",
+      "role": "CHATBOT",
+    },
+  ],
+  "message": "mock-prompt",
+  "model": "mock-model-id",
+}
+`;
+
+exports[`CohereChatApi: prompt, examplePairs, system 1`] = `
+{
+  "chat_history": [
+    {
+      "message": "mock-user-msg-1",
+      "role": "USER",
+    },
+    {
+      "message": "mock-assistant-msg-1",
+      "role": "CHATBOT",
+    },
+  ],
+  "message": "mock-prompt",
+  "model": "mock-model-id",
+  "preamble": "mock-system-text",
+}
+`;
+
+exports[`CohereChatApi: prompt, examplePairs, system, chat_history 1`] = `
+{
+  "chat_history": [
+    {
+      "message": "mock-user-msg-1",
+      "role": "USER",
+    },
+    {
+      "message": "mock-assistant-msg-1",
+      "role": "CHATBOT",
+    },
+    {
+      "message": "mock-chatbot-msg",
+      "role": "CHATBOT",
+    },
+  ],
+  "message": "mock-prompt",
+  "model": "mock-model-id",
+  "preamble": "mock-system-text",
+}
+`;
+
+exports[`CohereChatApi: prompt, system 1`] = `
+{
+  "message": "mock-prompt",
+  "model": "mock-model-id",
+  "preamble": "mock-system-text",
+}
+`;
+
+exports[`CohereChatApi: prompt, system, chat_history 1`] = `
+{
+  "chat_history": [
+    {
+      "message": "mock-user-msg",
+      "role": "USER",
+    },
+    {
+      "message": "mock-chatbot-msg",
+      "role": "CHATBOT",
+    },
+  ],
+  "message": "mock-prompt",
+  "model": "mock-model-id",
+  "preamble": "mock-system-text",
+}
+`;
+
+exports[`CohereChatApi: prompt, tool_results 1`] = `
+{
+  "message": "mock-prompt",
+  "model": "mock-model-id",
+  "tool_results": [
+    {
+      "call": {
+        "name": "mock-tool",
+        "parameters": {
+          "key": "value",
+        },
+      },
+      "outputs": [
+        {
+          "key": "output-value",
+        },
+      ],
+    },
+  ],
+}
+`;
+
+exports[`CohereChatApi: prompt, tools 1`] = `
+{
+  "message": "mock-prompt",
+  "model": "mock-model-id",
+  "tools": [
+    {
+      "description": "mock-description",
+      "name": "mock-tool",
+      "parameter_definitions": {
+        "param1": {
+          "description": "mock-param-desc",
+          "required": true,
+          "type": "string",
+        },
+      },
+    },
+  ],
+}
+`;
+
+exports[`CohereChatApi: undefined examplePairs and chat_history 1`] = `
+{
+  "message": "mock-prompt",
+  "model": "mock-model-id",
+}
+`;

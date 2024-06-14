@@ -1,0 +1,68 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`CohereGenerateApi: all options 1`] = `
+{
+  "end_sequences": [
+    "mock-end-seq",
+  ],
+  "frequency_penalty": 0.5,
+  "k": 5,
+  "logit_bias": {
+    "50256": -100,
+  },
+  "max_tokens": 1000,
+  "num_generations": 3,
+  "p": 0.9,
+  "presence_penalty": 0.3,
+  "prompt": "mock-prompt",
+  "return_likelihoods": "ALL",
+  "seed": 1234,
+  "stop_sequences": [
+    "mock-stop-seq",
+  ],
+  "temperature": 0.7,
+  "truncate": "END",
+}
+`;
+
+exports[`CohereGenerateApi: prompt 1`] = `
+{
+  "prompt": "mock-prompt",
+}
+`;
+
+exports[`CohereGenerateApi: prompt, logit_bias with multiple values 1`] = `
+{
+  "logit_bias": {
+    "50256": -100,
+    "50257": 50,
+  },
+  "prompt": "mock-prompt",
+}
+`;
+
+exports[`CohereGenerateApi: prompt, return_likelihoods as NONE 1`] = `
+{
+  "prompt": "mock-prompt",
+  "return_likelihoods": "NONE",
+}
+`;
+
+exports[`CohereGenerateApi: prompt, stop_sequences and end_sequences 1`] = `
+{
+  "end_sequences": [
+    "mock-end-seq",
+  ],
+  "prompt": "mock-prompt",
+  "stop_sequences": [
+    "mock-stop-seq",
+  ],
+}
+`;
+
+exports[`CohereGenerateApi: prompt, truncate as NONE 1`] = `
+{
+  "prompt": "mock-prompt",
+  "truncate": "NONE",
+}
+`;

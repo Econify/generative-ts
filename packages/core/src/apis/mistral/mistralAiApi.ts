@@ -43,7 +43,7 @@ const templateSource = `{
   <% if (typeof max_tokens !== 'undefined') { %>, "max_tokens": <%= max_tokens %><% } %>
   <% if (typeof stream !== 'undefined') { %>, "stream": <%= stream %><% } %>
   <% if (typeof safe_prompt !== 'undefined') { %>, "safe_prompt": <%= safe_prompt %><% } %>
-  <% if (typeof random_seed !== 'undefined') { %>, "seed": <%= seed %><% } %>
+  <% if (typeof random_seed !== 'undefined') { %>, "random_seed": <%= random_seed %><% } %>
 }`;
 
 /**

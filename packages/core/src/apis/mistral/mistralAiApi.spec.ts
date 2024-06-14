@@ -1,8 +1,8 @@
-import { OpenAiChatApi, OpenAiChatOptions } from "./openAiChatApi";
+import { MistralAiApi, MistralAiOptions } from "./mistralAiApi";
 
-function render(context: Omit<OpenAiChatOptions, "modelId">) {
+function render(context: Omit<MistralAiOptions, "modelId">) {
   try {
-    const rendered = OpenAiChatApi.requestTemplate.render({
+    const rendered = MistralAiApi.requestTemplate.render({
       modelId: "mock-model-id",
       ...context,
     });
@@ -12,7 +12,7 @@ function render(context: Omit<OpenAiChatOptions, "modelId">) {
   }
 }
 
-describe("OpenAiChatApi:", () => {
+describe("MistralAiApi:", () => {
   /**
    * FewShotRequestOptions (prompt, examplePairs, system):
    */
@@ -21,6 +21,8 @@ describe("OpenAiChatApi:", () => {
     const rendered = render({
       prompt: "mock-prompt",
     });
+
+    expect(rendered).toMatchSnapshot();
 
     expect(rendered).toMatchSnapshot();
   });
@@ -143,85 +145,6 @@ describe("OpenAiChatApi:", () => {
   });
 
   /**
-   * Tool-related:
-   */
-
-  test("prompt, messages with function_call", () => {
-    const rendered = render({
-      prompt: "mock-prompt",
-      messages: [
-        {
-          role: "assistant",
-          content: "mock-assistant-text",
-          function_call: {
-            name: "mock-function",
-            arguments: '{ "key": "value" }',
-          },
-        },
-      ],
-    });
-
-    expect(rendered).toMatchSnapshot();
-  });
-
-  test("prompt, tools", () => {
-    const rendered = render({
-      prompt: "mock-prompt",
-      tools: [
-        {
-          type: "function",
-          function: {
-            name: "mock-function",
-            description: "mock-description",
-            parameters: {
-              type: "object",
-              properties: {
-                key: { type: "string" },
-              },
-            },
-          },
-        },
-      ],
-    });
-
-    expect(rendered).toMatchSnapshot();
-  });
-
-  test("prompt, tool_choice", () => {
-    const rendered = render({
-      prompt: "mock-prompt",
-      tool_choice: {
-        type: "function",
-        function: {
-          name: "mock-function",
-        },
-      },
-    });
-
-    expect(rendered).toMatchSnapshot();
-  });
-
-  test("prompt, functions", () => {
-    const rendered = render({
-      prompt: "mock-prompt",
-      functions: [
-        {
-          name: "mock-function",
-          description: "mock-description",
-          parameters: {
-            type: "object",
-            properties: {
-              key: { type: "string" },
-            },
-          },
-        },
-      ],
-    });
-
-    expect(rendered).toMatchSnapshot();
-  });
-
-  /**
    * All options:
    */
 
@@ -235,68 +158,15 @@ describe("OpenAiChatApi:", () => {
         {
           role: "assistant",
           content: "mock-assistant-text",
-          function_call: {
-            name: "mock-function",
-            arguments: '{ "key": "value" }',
-          },
         },
       ],
       system: "mock-system-text",
-      frequency_penalty: 0.5,
-      logit_bias: {
-        "50256": -100,
-      },
-      logprobs: true,
-      top_logprobs: 5,
-      max_tokens: 1000,
-      n: 3,
-      presence_penalty: 0.3,
-      response_format: {
-        type: "json_object",
-      },
-      seed: 1234,
-      stop: ["mock-stop"],
-      stream: true,
-      stream_options: {
-        include_usage: true,
-      },
       temperature: 0.7,
       top_p: 0.9,
-      user: "mock-user",
-      tools: [
-        {
-          type: "function",
-          function: {
-            name: "mock-tool-function",
-            description: "mock-description",
-            parameters: {
-              type: "object",
-              properties: {
-                key: { type: "string" },
-              },
-            },
-          },
-        },
-      ],
-      tool_choice: {
-        type: "function",
-        function: {
-          name: "mock-tool-choice-function",
-        },
-      },
-      function_call: "auto",
-      functions: [
-        {
-          name: "mock-function",
-          description: "mock-description",
-          parameters: {
-            type: "object",
-            properties: {
-              key: { type: "string" },
-            },
-          },
-        },
-      ],
+      max_tokens: 1000,
+      stream: true,
+      safe_prompt: true,
+      random_seed: 1234,
     });
 
     expect(rendered).toMatchSnapshot();

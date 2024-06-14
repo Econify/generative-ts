@@ -13,7 +13,7 @@ import { Llama2ChatMlTemplateSource } from "../meta/llama2ChatApi";
 const templateSource = `{
   "prompt": "${Llama2ChatMlTemplateSource}"
   <% if (typeof max_tokens !== 'undefined') { %>, "max_tokens": <%= max_tokens %><% } %>
-  <% if (typeof stop !== 'undefined') { %>, "stop": [<%= stop.join(', ') %>]<% } %>
+  <% if (typeof stop !== 'undefined') { %>, "stop": <%- JSON.stringify(stop) %><% } %>
   <% if (typeof temperature !== 'undefined') { %>, "temperature": <%= temperature %><% } %>
   <% if (typeof top_p !== 'undefined') { %>, "top_p": <%= top_p %><% } %>
   <% if (typeof top_k !== 'undefined') { %>, "top_k": <%= top_k %><% } %>  

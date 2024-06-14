@@ -13,9 +13,9 @@ import type { FewShotRequestOptions } from "../shared";
 const templateSource = `{
   "model": "<%= modelId %>",
   "message": "<%= prompt %>"
-  <% if (typeof chat_history !== 'undefined' || typeof examplePairs !== 'undefined') { %> 
+  <% if (typeof chat_history !== 'undefined' || typeof examplePairs !== 'undefined') { %>
   , "chat_history": [
-    <% (typeof examplePairs !== 'undefined' ? examplePairs : []).forEach((pair, index) => { %>
+    <% (typeof examplePairs !== 'undefined' ? examplePairs : []).forEach((pair, index, arr) => { %>
     {
       "role": "USER",
       "message": "<%= pair.user %>"
@@ -23,15 +23,15 @@ const templateSource = `{
     {
       "role": "CHATBOT",
       "message": "<%= pair.assistant %>"
-    }<% if (index < chat_history.length - 1 || typeof chat_history !== 'undefined') { %>,<% } %>
+    }<% if (index < arr.length - 1 || typeof chat_history !== 'undefined') { %>,<% } %>
     <% }) %>
-    <% (typeof chat_history !== 'undefined' ? chat_history : []).forEach((item, index) => { %>
+    <% (typeof chat_history !== 'undefined' ? chat_history : []).forEach((item, index, arr) => { %>
     {
       "role": "<%= item.role %>"
       <% if (typeof item.message !== 'undefined') { %>, "message": "<%= item.message %>"<% } %>
       <% if (typeof item.tool_calls !== 'undefined') { %>, "tool_calls": <%- JSON.stringify(item.tool_calls) %><% } %>
       <% if (typeof item.tool_results !== 'undefined') { %>, "tool_results": <%- JSON.stringify(item.tool_results) %><% } %>
-    }<% if (index < chat_history.length - 1) { %>,<% } %>
+    }<% if (index < arr.length - 1) { %>,<% } %>
     <% }) %>
   ]
   <% } %>

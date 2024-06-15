@@ -1,70 +1,15 @@
+/* eslint-disable camelcase */
 import { array, number, string, type } from "io-ts";
 import type { TypeOf } from "io-ts";
 import { isLeft } from "fp-ts/lib/Either.js";
 
 import type { ModelApi, ModelRequestOptions } from "@typeDefs";
 
-import { EjsTemplate } from "../../utils/ejsTemplate";
+import { FnTemplate } from "../../utils/Template";
 
 import { composite, nullable } from "../_utils/ioTsHelpers";
 
 import type { FewShotRequestOptions } from "../shared";
-
-const templateSource = `{
-  "model": "<%= modelId %>",
-  "messages": [
-    <% if (typeof system !== 'undefined') { %>
-    {
-      "role": "system",
-      "content": "<%= system %>"
-    },
-    <% } %>
-    <% (typeof examplePairs !== 'undefined' ? examplePairs : []).forEach(pair => { %>
-    {
-      "role": "user",
-      "content": "<%= pair.user %>"
-    },
-    {
-      "role": "assistant",
-      "content": "<%= pair.assistant %>"
-    },
-    <% }) %>
-    <% (typeof messages !== 'undefined' ? messages : []).forEach(message => { %>
-    {
-      "role": "<%= message.role %>",
-      "content": "<%= message.content %>"
-      <% if (typeof message.name !== 'undefined') { %>, "name": "<%= message.name %>"<% } %>
-      <% if (typeof message.tool_call_id !== 'undefined') { %>, "tool_call_id": "<%= message.tool_call_id %>"<% } %>
-      <% if (typeof message.tool_calls !== 'undefined') { %>, "tool_calls": <%- JSON.stringify(message.tool_calls) %><% } %>
-      <% if (typeof message.function_call !== 'undefined') { %>, "function_call": <%- JSON.stringify(message.function_call) %><% } %>
-    },
-    <% }) %>
-    {
-      "role": "user",
-      "content": "<%= prompt %>"
-    }
-  ]
-  <% if (typeof frequency_penalty !== 'undefined') { %>, "frequency_penalty": <%= frequency_penalty %><% } %>
-  <% if (typeof logit_bias !== 'undefined') { %>, "logit_bias": <%- JSON.stringify(logit_bias) %><% } %>
-  <% if (typeof logprobs !== 'undefined') { %>, "logprobs": <%= logprobs %><% } %>
-  <% if (typeof top_logprobs !== 'undefined') { %>, "top_logprobs": <%= top_logprobs %><% } %>
-  <% if (typeof max_tokens !== 'undefined') { %>, "max_tokens": <%= max_tokens %><% } %>
-  <% if (typeof n !== 'undefined') { %>, "n": <%= n %><% } %>
-  <% if (typeof presence_penalty !== 'undefined') { %>, "presence_penalty": <%= presence_penalty %><% } %>
-  <% if (typeof response_format !== 'undefined') { %>, "response_format": <%- JSON.stringify(response_format) %><% } %>
-  <% if (typeof seed !== 'undefined') { %>, "seed": <%= seed %><% } %>
-  <% if (typeof stop !== 'undefined' && typeof stop === 'string') { %>, "stop": "<%= stop %>"<% } %>
-  <% if (typeof stop !== 'undefined' && Array.isArray(stop)) { %>, "stop": <%- JSON.stringify(stop) %><% } %>
-  <% if (typeof stream !== 'undefined') { %>, "stream": <%= stream %><% } %>
-  <% if (typeof stream_options !== 'undefined') { %>, "stream_options": <%- JSON.stringify(stream_options) %><% } %>
-  <% if (typeof temperature !== 'undefined') { %>, "temperature": <%= temperature %><% } %>
-  <% if (typeof top_p !== 'undefined') { %>, "top_p": <%= top_p %><% } %>
-  <% if (typeof user !== 'undefined') { %>, "user": "<%= user %>"<% } %>
-  <% if (typeof tools !== 'undefined') { %>, "tools": <%- JSON.stringify(tools) %><% } %>
-  <% if (typeof tool_choice !== 'undefined') { %>, "tool_choice": <%- JSON.stringify(tool_choice) %><% } %>
-  <% if (typeof function_call !== 'undefined') { %>, "function_call": "<%= function_call %>"<% } %>
-  <% if (typeof functions !== 'undefined') { %>, "functions": <%- JSON.stringify(functions) %><% } %>
-}`;
 
 interface ChatCompletionRequestMessage {
   role: "user" | "assistant" | "system" | "tool" | "function";
@@ -136,18 +81,92 @@ export interface OpenAiChatOptions
     description?: string;
     parameters?: object; // TODO JsonSchema
   }[];
-
-  // LMStudio apparently has these additional options:
-  // top_k
-  // repeat_penalty
 }
 
 /**
  * @category OpenAI ChatCompletion
  * @category Templates
  */
-export const OpenAiChatTemplate = new EjsTemplate<OpenAiChatOptions>(
-  templateSource,
+export const OpenAiChatTemplate = new FnTemplate(
+  ({
+    modelId,
+    prompt,
+    system,
+    examplePairs,
+    messages,
+    frequency_penalty,
+    logit_bias,
+    logprobs,
+    top_logprobs,
+    max_tokens,
+    n,
+    presence_penalty,
+    response_format,
+    seed,
+    stop,
+    stream,
+    stream_options,
+    temperature,
+    top_p,
+    user,
+    tools,
+    tool_choice,
+    function_call,
+    functions,
+  }: OpenAiChatOptions) => {
+    const rewritten = {
+      model: modelId,
+      messages: [
+        ...(system ? [{ role: "system", content: system }] : []),
+        ...(examplePairs
+          ? examplePairs.flatMap((pair) => [
+              { role: "user", content: pair.user },
+              { role: "assistant", content: pair.assistant },
+            ])
+          : []),
+        ...(messages
+          ? messages.map((message) => ({
+              role: message.role,
+              content: message.content,
+              ...(message.name ? { name: message.name } : {}),
+              ...(message.tool_call_id
+                ? { tool_call_id: message.tool_call_id }
+                : {}),
+              ...(message.tool_calls ? { tool_calls: message.tool_calls } : {}),
+              ...(message.function_call
+                ? { function_call: message.function_call }
+                : {}),
+            }))
+          : []),
+        { role: "user", content: prompt },
+      ],
+    };
+
+    const result = {
+      ...rewritten,
+      frequency_penalty,
+      logit_bias,
+      logprobs,
+      top_logprobs,
+      max_tokens,
+      n,
+      presence_penalty,
+      response_format,
+      seed,
+      stop,
+      stream,
+      stream_options,
+      temperature,
+      top_p,
+      user,
+      tools,
+      tool_choice,
+      function_call,
+      functions,
+    };
+
+    return JSON.stringify(result, null, 2);
+  },
 );
 
 const OpenAiChatResponseCodec = composite({

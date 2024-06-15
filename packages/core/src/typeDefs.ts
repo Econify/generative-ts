@@ -2,7 +2,6 @@
  * @category Core Interfaces
  */
 export interface Template<TVars> {
-  source: string;
   render(context: TVars): string;
 }
 

@@ -10,6 +10,8 @@ import type { FewShotRequestOptions } from "../shared";
 
 import { Llama2ChatMlTemplateSource } from "../meta/llama2ChatApi";
 
+export const Llama2ChatMlTemplateSource = `<s>[INST] <% if (typeof system !== 'undefined') { %><<SYS>>\\n<%= system %>\\n<</SYS>>\\n\\n<% } %><% (typeof examplePairs !== 'undefined' ? examplePairs : []).forEach(pair => { %><%= pair.user %> [/INST] <%= pair.assistant %> </s><s>[INST] <% }) %><%= prompt %> [/INST]`;
+
 const templateSource = `{
   "prompt": "${Llama2ChatMlTemplateSource}"
   <% if (typeof max_tokens !== 'undefined') { %>, "max_tokens": <%= max_tokens %><% } %>

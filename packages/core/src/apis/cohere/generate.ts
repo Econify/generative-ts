@@ -1,29 +1,11 @@
+/* eslint-disable camelcase */
 import * as t from "io-ts";
 import type { TypeOf } from "io-ts";
 import { isLeft } from "fp-ts/lib/Either.js";
 
 import type { ModelApi, ModelRequestOptions } from "@typeDefs";
 
-import { EjsTemplate } from "../../utils/ejsTemplate";
-
-const templateSource = `{
-  "prompt": "<%= prompt %>"
-  <% if (typeof num_generations !== 'undefined') { %>, "num_generations": <%= num_generations %><% } %>
-  <% if (typeof stream !== 'undefined') { %>, "stream": <%= stream %><% } %>
-  <% if (typeof max_tokens !== 'undefined') { %>, "max_tokens": <%= max_tokens %><% } %>
-  <% if (typeof truncate !== 'undefined') { %>, "truncate": "<%= truncate %>"<% } %>
-  <% if (typeof temperature !== 'undefined') { %>, "temperature": <%= temperature %><% } %>
-  <% if (typeof seed !== 'undefined') { %>, "seed": <%= seed %><% } %>
-  <% if (typeof preset !== 'undefined') { %>, "preset": "<%= preset %>"<% } %>
-  <% if (typeof end_sequences !== 'undefined') { %>, "end_sequences": <%- JSON.stringify(end_sequences) %><% } %>
-  <% if (typeof stop_sequences !== 'undefined') { %>, "stop_sequences": <%- JSON.stringify(stop_sequences) %><% } %>
-  <% if (typeof k !== 'undefined') { %>, "k": <%= k %><% } %>
-  <% if (typeof p !== 'undefined') { %>, "p": <%= p %><% } %>
-  <% if (typeof frequency_penalty !== 'undefined') { %>, "frequency_penalty": <%= frequency_penalty %><% } %>
-  <% if (typeof presence_penalty !== 'undefined') { %>, "presence_penalty": <%= presence_penalty %><% } %>
-  <% if (typeof return_likelihoods !== 'undefined') { %>, "return_likelihoods": "<%= return_likelihoods %>"<% } %>
-  <% if (typeof logit_bias !== 'undefined') { %>, "logit_bias": <%- JSON.stringify(logit_bias) %><% } %>
-}`;
+import { FnTemplate } from "../../utils/Template";
 
 /**
  * @category Requests
@@ -51,8 +33,48 @@ export interface CohereGenerateOptions extends ModelRequestOptions {
  * @category Templates
  * @category Cohere Generate
  */
-export const CohereGenerateTemplate = new EjsTemplate<CohereGenerateOptions>(
-  templateSource,
+export const CohereGenerateTemplate = new FnTemplate(
+  ({
+    prompt,
+    num_generations,
+    stream,
+    max_tokens,
+    truncate,
+    temperature,
+    seed,
+    preset,
+    end_sequences,
+    stop_sequences,
+    k,
+    p,
+    frequency_penalty,
+    presence_penalty,
+    return_likelihoods,
+    logit_bias,
+  }: CohereGenerateOptions) => {
+    return JSON.stringify(
+      {
+        prompt,
+        num_generations,
+        stream,
+        max_tokens,
+        truncate,
+        temperature,
+        seed,
+        preset,
+        end_sequences,
+        stop_sequences,
+        k,
+        p,
+        frequency_penalty,
+        presence_penalty,
+        return_likelihoods,
+        logit_bias,
+      },
+      null,
+      2,
+    );
+  },
 );
 
 const CohereGenerateResponseCodec = t.intersection([

@@ -1,210 +1,15 @@
+/* eslint-disable camelcase */
 import * as t from "io-ts";
 import type { TypeOf } from "io-ts";
 import { isLeft } from "fp-ts/lib/Either.js";
 
 import type { ModelApi, ModelRequestOptions } from "@typeDefs";
 
-import { EjsTemplate } from "../../utils/ejsTemplate";
+import { FnTemplate } from "../../utils/Template";
 
 import { composite } from "../_utils/ioTsHelpers";
 
 import type { FewShotRequestOptions } from "../shared";
-
-const templateSource = `{
-  <% let comma = false; %>
-  "contents": [
-    <% (typeof examplePairs !== 'undefined' ? examplePairs : []).forEach((pair, index) => { %>
-      <%- comma ? ',' : '' %>
-      <% comma = true; %>
-      {
-        "role": "user",
-        "parts": [
-          { "text": "<%= pair.user %>" }
-        ]
-      },
-      {
-        "role": "model",
-        "parts": [
-          { "text": "<%= pair.assistant %>" }
-        ]
-      }
-    <% }) %>
-    <% (typeof contents !== 'undefined' ? contents : []).forEach((contentItem, index) => { %>
-      <%- comma ? ',' : '' %>
-      <% comma = true; %>
-      {
-        "parts": [
-          <% contentItem.parts.forEach((part, index) => { %>
-            {
-              <% let part_comma = false; %>
-              <% if (typeof part.text !== 'undefined') { %>
-                "text": "<%= part.text %>"
-                <% part_comma = true; %>
-              <% } %>
-              <% if (typeof part.function_call !== 'undefined') { %>
-                <%- part_comma ? ',' : '' %>
-                "function_call": { 
-                  "name": "<%= part.function_call.name %>", 
-                  "args": <%- JSON.stringify(part.function_call.args) %> 
-                }
-                <% part_comma = true; %>
-              <% } %>
-              <% if (typeof part.function_response !== 'undefined') { %>
-                <%- part_comma ? ',' : '' %>
-                "function_response": { 
-                  "name": "<%= part.function_response.name %>", 
-                  "response": <%- JSON.stringify(part.function_response.response) %> 
-                }
-                <% part_comma = true; %>
-              <% } %>
-            }
-            <%- index < contentItem.parts.length - 1 ? ',' : '' %>
-          <% }) %>
-        ]
-        <% if (typeof contentItem.role !== 'undefined') { %>
-          , "role": "<%= contentItem.role %>"
-        <% } %>
-      }
-    <% }) %>
-    <% if (typeof contents == 'undefined' || contents.length == 0 || contents[contents.length - 1].role !== 'user') { %>
-      <%- comma ? ',' : '' %>
-      {
-        "role": "user",
-        "parts": [
-          { "text": "<%= prompt %>" }
-        ]
-      }
-    <% } %>
-  ]
-  <% if (typeof tools !== 'undefined') { %>
-    , "tools": [
-      <% tools.forEach((tool, index) => { %>
-        {
-          "function_declarations": [
-            <% tool.function_declarations.forEach((declaration, dindex) => { %>
-              {
-                "name": "<%= declaration.name %>"
-                <% if (typeof declaration.description !== 'undefined') { %>
-                  , "description": "<%= declaration.description %>"
-                <% } %>
-                <% if (typeof declaration.parameters !== 'undefined') { %>
-                  , "parameters": <%- JSON.stringify(declaration.parameters) %>
-                <% } %>
-                <% if (typeof declaration.response !== 'undefined') { %>
-                  , "response": <%- JSON.stringify(declaration.response) %>
-                <% } %>
-              }
-              <%- dindex < tool.function_declarations.length - 1 ? ',' : '' %>
-            <% }) %>
-          ]
-        }
-      <% }) %>
-    ]
-  <% } %>
-  <% if (typeof tools_config !== 'undefined') { %>
-    , "tools_config": {
-      <% if (typeof tools_config.mode !== 'undefined') { %>
-        "mode": "<%= tools_config.mode %>"
-      <% } %>
-      <% if (typeof tools_config.allowed_function_names !== 'undefined') { %>
-        , "allowed_function_names": <%- JSON.stringify(tools_config.allowed_function_names) %>
-      <% } %>
-    }
-  <% } %>
-  <% if (typeof system_instruction !== 'undefined' || typeof system !== 'undefined') { %>
-    , "system_instruction": {
-      "parts": [
-        <% if (typeof system !== 'undefined') { %>
-          {
-            "text": "<%= system %>"
-          }
-          <%- typeof system_instruction !== 'undefined' ? ',' : '' %>
-        <% } %>
-        <% (typeof system_instruction !== 'undefined' ? system_instruction.parts : []).forEach((part, index) => { %>
-          {
-            <% if (typeof part.text !== 'undefined') { %>
-            "text": "<%= part.text %>"
-            <% } %>
-          }
-          <%- index < system_instruction.parts.length - 1 ? ',' : '' %>
-        <% }) %>
-      ]
-    }
-  <% } %>
-  <% if (typeof safety_settings !== 'undefined') { %>
-    <% comma = false; %>
-    , "safety_settings": {
-      <% if (typeof safety_settings.category !== 'undefined') { %>
-        "category": "<%= safety_settings.category %>"
-        <% comma = true; %>
-      <% } %>
-      <% if (typeof safety_settings.threshold !== 'undefined') { %>
-        <%- comma ? ',' : '' %>
-        "threshold": "<%= safety_settings.threshold %>"
-        <% comma = true; %>
-      <% } %>
-      <% if (typeof safety_settings.max_influential_terms !== 'undefined') { %>
-        <%- comma ? ',' : '' %>
-        "max_influential_terms": <%= safety_settings.max_influential_terms %>
-        <% comma = true; %>
-      <% } %>
-      <% if (typeof safety_settings.method !== 'undefined') { %>
-        <%- comma ? ',' : '' %>
-        "method": "<%= safety_settings.method %>"
-        <% comma = true; %>
-      <% } %>
-    }
-  <% } %>
-  <% if (typeof generation_config !== 'undefined') { %>
-    <% comma = false; %>
-    , "generation_config": {
-      <% if (typeof generation_config.temperature !== 'undefined') { %>
-        "temperature": <%= generation_config.temperature %>
-        <% comma = true; %>
-      <% } %>
-      <% if (typeof generation_config.top_p !== 'undefined') { %>
-        <%- comma ? ',' : '' %>
-        "top_p": <%= generation_config.top_p %>
-        <% comma = true; %>
-      <% } %>
-      <% if (typeof generation_config.top_k !== 'undefined') { %>
-        <%- comma ? ',' : '' %>
-        "top_k": <%= generation_config.top_k %>
-        <% comma = true; %>
-      <% } %>
-      <% if (typeof generation_config.candidate_count !== 'undefined') { %>
-        <%- comma ? ',' : '' %>
-        "candidate_count": <%= generation_config.candidate_count %>
-        <% comma = true; %>
-      <% } %>
-      <% if (typeof generation_config.max_output_tokens !== 'undefined') { %>
-        <%- comma ? ',' : '' %>
-        "max_output_tokens": <%= generation_config.max_output_tokens %>
-        <% comma = true; %>
-      <% } %>
-      <% if (typeof generation_config.stop_sequences !== 'undefined') { %>
-        <%- comma ? ',' : '' %>
-        "stop_sequences": <%- JSON.stringify(generation_config.stop_sequences) %>
-        <% comma = true; %>
-      <% } %>
-      <% if (typeof generation_config.presence_penalty !== 'undefined') { %>
-        <%- comma ? ',' : '' %>
-        "presence_penalty": <%= generation_config.presence_penalty %>
-        <% comma = true; %>
-      <% } %>
-      <% if (typeof generation_config.frequency_penalty !== 'undefined') { %>
-        <%- comma ? ',' : '' %>
-        "frequency_penalty": <%= generation_config.frequency_penalty %>
-        <% comma = true; %>
-      <% } %>
-      <% if (typeof generation_config.response_mime_type !== 'undefined') { %>
-        <%- comma ? ',' : '' %>
-        "response_mime_type": "<%= generation_config.response_mime_type %>"
-        <% comma = true; %>
-      <% } %>
-    }
-  <% } %>
-}`;
 
 interface Content {
   role?: "user" | "model";
@@ -280,8 +85,175 @@ export interface GoogleGeminiOptions
  * @category Google Gemini
  * @category Templates
  */
-export const GoogleGeminiTemplate = new EjsTemplate<GoogleGeminiOptions>(
-  templateSource,
+export const GoogleGeminiTemplate = new FnTemplate(
+  ({
+    prompt,
+    examplePairs,
+    contents,
+    system,
+    tools,
+    tools_config,
+    system_instruction,
+    safety_settings,
+    generation_config,
+  }: GoogleGeminiOptions) => {
+    const rewritten = {
+      contents: [
+        ...(examplePairs
+          ? examplePairs.flatMap((pair) => [
+              {
+                role: "user",
+                parts: [{ text: pair.user }],
+              },
+              {
+                role: "model",
+                parts: [{ text: pair.assistant }],
+              },
+            ])
+          : []),
+        ...(contents
+          ? (Array.isArray(contents) ? contents : [contents]).map(
+              (contentItem) => ({
+                parts: contentItem.parts.map((part) => ({
+                  ...(part.text ? { text: part.text } : {}),
+                  ...(part.function_call
+                    ? {
+                        function_call: {
+                          name: part.function_call.name,
+                          args: part.function_call.args,
+                        },
+                      }
+                    : {}),
+                  ...(part.function_response
+                    ? {
+                        function_response: {
+                          name: part.function_response.name,
+                          response: part.function_response.response,
+                        },
+                      }
+                    : {}),
+                })),
+                ...(contentItem.role ? { role: contentItem.role } : {}),
+              }),
+            )
+          : []),
+        // Only insert a user prompt if the last item in contents is NOT user
+        // TODO: revisit this logic. it's basically a hack caused by the facts (1) tool results in gemini are specified via user messages (2) our interface requires 'prompt' (3) gemini errors if two user messages are consecutive so, in the case tool results are given, our interface still requires 'prompt' but CANNOT insert it
+        ...(!contents ||
+        (Array.isArray(contents) &&
+          (!contents.length || contents[contents.length - 1]?.role !== "user"))
+          ? [
+              {
+                role: "user",
+                parts: [{ text: prompt }],
+              },
+            ]
+          : []),
+      ],
+      ...(tools
+        ? {
+            tools: tools.map((tool) => ({
+              function_declarations: tool.function_declarations.map(
+                (declaration) => ({
+                  name: declaration.name,
+                  ...(declaration.description
+                    ? { description: declaration.description }
+                    : {}),
+                  ...(declaration.parameters
+                    ? { parameters: declaration.parameters }
+                    : {}),
+                  ...(declaration.response
+                    ? { response: declaration.response }
+                    : {}),
+                }),
+              ),
+            })),
+          }
+        : {}),
+      ...(tools_config
+        ? {
+            tools_config: {
+              ...(tools_config.mode ? { mode: tools_config.mode } : {}),
+              ...(tools_config.allowed_function_names
+                ? {
+                    allowed_function_names: tools_config.allowed_function_names,
+                  }
+                : {}),
+            },
+          }
+        : {}),
+      ...(system_instruction || system
+        ? {
+            system_instruction: {
+              parts: [
+                ...(system ? [{ text: system }] : []),
+                ...(system_instruction
+                  ? system_instruction.parts.map((part) => ({
+                      ...(part.text ? { text: part.text } : {}),
+                    }))
+                  : []),
+              ],
+            },
+          }
+        : {}),
+      ...(safety_settings
+        ? {
+            safety_settings: {
+              ...(safety_settings.category
+                ? { category: safety_settings.category }
+                : {}),
+              ...(safety_settings.threshold
+                ? { threshold: safety_settings.threshold }
+                : {}),
+              ...(safety_settings.max_influential_terms
+                ? {
+                    max_influential_terms:
+                      safety_settings.max_influential_terms,
+                  }
+                : {}),
+              ...(safety_settings.method
+                ? { method: safety_settings.method }
+                : {}),
+            },
+          }
+        : {}),
+      ...(generation_config
+        ? {
+            generation_config: {
+              ...(generation_config.temperature
+                ? { temperature: generation_config.temperature }
+                : {}),
+              ...(generation_config.top_p
+                ? { top_p: generation_config.top_p }
+                : {}),
+              ...(generation_config.top_k
+                ? { top_k: generation_config.top_k }
+                : {}),
+              ...(generation_config.candidate_count
+                ? { candidate_count: generation_config.candidate_count }
+                : {}),
+              ...(generation_config.max_output_tokens
+                ? { max_output_tokens: generation_config.max_output_tokens }
+                : {}),
+              ...(generation_config.stop_sequences
+                ? { stop_sequences: generation_config.stop_sequences }
+                : {}),
+              ...(generation_config.presence_penalty
+                ? { presence_penalty: generation_config.presence_penalty }
+                : {}),
+              ...(generation_config.frequency_penalty
+                ? { frequency_penalty: generation_config.frequency_penalty }
+                : {}),
+              ...(generation_config.response_mime_type
+                ? { response_mime_type: generation_config.response_mime_type }
+                : {}),
+            },
+          }
+        : {}),
+    };
+
+    return JSON.stringify(rewritten, null, 2);
+  },
 );
 
 const GoogleGeminiResponseCodec = t.type({

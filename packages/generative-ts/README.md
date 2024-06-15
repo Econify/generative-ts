@@ -245,9 +245,7 @@ If you're using a modern bundler, just install generative-ts to get everything. 
 | `generative-ts`              | Everything                             | Includes all scoped packages listed below                                                                                                  |
 | `@generative-ts/core`        | Core functionality (zero dependencies)                      | Interfaces, classes, utilities, etc                                                                                           |
 | `@generative-ts/gcloud-vertex-ai` | Google Cloud VertexAI `ModelProvider`                   | Uses Application Default Credentials (ADC) to properly authenticate in GCloud environments        |
-| `@generative-ts/provider-bedrock` | AWS Bedrock `ModelProvider`                   | Uses aws4 to properly authenticate when running in AWS environments        |
-| `@generative-ts/apis`        | Model APIs                             | `ModelAPI` implementations. These use some internal dependencies (like `ejs` for templating) which arent strictly necessary because you can implement your own (see docs of `ModelAPI` for full details -- **TODO**) |
-| `@generative-ts/providers`   | All Model Providers                    | All `ModelProvider` implementations that aren't in their own packages. Most providers don't require any special dependencies so are here                         |
+| `@generative-ts/aws-bedrock` | AWS Bedrock `ModelProvider`                   | Uses aws4 to properly authenticate when running in AWS environments        |
 
 ## Report Bugs / Submit Feature Requests
 

@@ -4,31 +4,7 @@ import { isLeft } from "fp-ts/lib/Either.js";
 
 import type { ModelApi, ModelRequestOptions } from "@typeDefs";
 
-import { EjsTemplate } from "../../utils/ejsTemplate";
-
-const templateSource = `{
-  "inputText": "<%= prompt %>"
-  <% if (typeof temperature !== 'undefined' || typeof topP !== 'undefined' || typeof maxTokenCount !== 'undefined' || typeof stopSequences !== 'undefined') { %>
-  , "textGenerationConfig": {
-    <% let comma = false; %>
-    <% if (typeof temperature !== 'undefined') { %>
-      "temperature": <%= temperature %>
-      <% comma = true; %>
-    <% } %>
-    <% if (typeof topP !== 'undefined') { %>
-      <% if (comma) { %>, <% } %> "topP": <%= topP %>
-      <% comma = true; %>
-    <% } %>
-    <% if (typeof maxTokenCount !== 'undefined') { %>
-      <% if (comma) { %>, <% } %> "maxTokenCount": <%= maxTokenCount %>
-      <% comma = true; %>
-    <% } %>
-    <% if (typeof stopSequences !== 'undefined') { %>
-      <% if (comma) { %>, <% } %> "stopSequences": <%- JSON.stringify(stopSequences) %>
-    <% } %>
-  }
-  <% } %>
-}`;
+import { FnTemplate } from "../../utils/Template";
 
 /**
  * @category Amazon Titan Text
@@ -45,8 +21,34 @@ export interface AmazonTitanTextOptions extends ModelRequestOptions {
  * @category Amazon Titan Text
  * @category Templates
  */
-export const AmazonTitanTextTemplate = new EjsTemplate<AmazonTitanTextOptions>(
-  templateSource,
+export const AmazonTitanTextTemplate = new FnTemplate(
+  ({
+    prompt,
+    temperature,
+    topP,
+    maxTokenCount,
+    stopSequences,
+  }: AmazonTitanTextOptions) => {
+    const rewritten = {
+      inputText: prompt,
+    };
+
+    const textGenerationConfig = {
+      ...(temperature !== undefined ? { temperature } : {}),
+      ...(topP !== undefined ? { topP } : {}),
+      ...(maxTokenCount !== undefined ? { maxTokenCount } : {}),
+      ...(stopSequences !== undefined ? { stopSequences } : {}),
+    };
+
+    const result = {
+      ...rewritten,
+      ...(Object.keys(textGenerationConfig).length > 0
+        ? { textGenerationConfig }
+        : {}),
+    };
+
+    return JSON.stringify(result, null, 2);
+  },
 );
 
 const AmazonTitanTextResponseCodec = t.type({

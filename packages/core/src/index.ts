@@ -90,7 +90,7 @@ export {
 /*
  * Public API - Utils
  */
-export { EjsTemplate } from "./utils";
+export { FnTemplate } from "./utils";
 
 /*
  * Public API - TypeDefs

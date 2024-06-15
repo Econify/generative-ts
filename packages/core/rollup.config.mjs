@@ -34,7 +34,6 @@ export default [
     external: [
       ...baseConfig.external,
       'aws4',
-      'ejs',
       'fp-ts/lib/Either.js',
       'io-ts',
     ]

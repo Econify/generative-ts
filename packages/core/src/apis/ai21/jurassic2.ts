@@ -4,80 +4,9 @@ import { isLeft } from "fp-ts/lib/Either.js";
 
 import type { ModelApi, ModelRequestOptions } from "@typeDefs";
 
-import { EjsTemplate } from "../../utils/ejsTemplate";
+import { FnTemplate } from "../../utils/Template";
 
 import { nullable } from "../_utils/ioTsHelpers";
-
-const templateSource = `{
-  "prompt": "<%= prompt %>"
-  <% if (typeof numResults !== 'undefined') { %>, "numResults": <%= numResults %><% } %>
-  <% if (typeof maxTokens !== 'undefined') { %>, "maxTokens": <%= maxTokens %><% } %>
-  <% if (typeof minTokens !== 'undefined') { %>, "minTokens": <%= minTokens %><% } %>
-  <% if (typeof temperature !== 'undefined') { %>, "temperature": <%= temperature %><% } %>
-  <% if (typeof topP !== 'undefined') { %>, "topP": <%= topP %><% } %>
-  <% if (typeof topKReturn !== 'undefined') { %>, "topKReturn": <%= topKReturn %><% } %>  
-  <% if (typeof stopSequences !== 'undefined') { %>, "stopSequences": <%- JSON.stringify(stopSequences) %><% } %>
-  <% if (typeof countPenalty !== 'undefined') { %>
-    , "countPenalty": {
-      "scale": <%= countPenalty.scale %>
-      <% if (typeof countPenalty.applyToWhitespaces !== 'undefined') { %>
-        , "applyToWhitespaces": <%= countPenalty.applyToWhitespaces %>
-      <% } %>
-      <% if (typeof countPenalty.applyToPunctuations !== 'undefined') { %>
-        , "applyToPunctuations": <%= countPenalty.applyToPunctuations %>
-      <% } %>
-      <% if (typeof countPenalty.applyToNumbers !== 'undefined') { %>
-        , "applyToNumbers": <%= countPenalty.applyToNumbers %>
-      <% } %>
-      <% if (typeof countPenalty.applyToStopwords !== 'undefined') { %>
-        , "applyToStopwords": <%= countPenalty.applyToStopwords %>
-      <% } %>
-      <% if (typeof countPenalty.applyToEmojis !== 'undefined') { %>
-        , "applyToEmojis": <%= countPenalty.applyToEmojis %>
-      <% } %>
-    }
-  <% } %>
-  <% if (typeof presencePenalty !== 'undefined') { %>
-    , "presencePenalty": {
-      "scale": <%= presencePenalty.scale %>
-      <% if (typeof presencePenalty.applyToWhitespaces !== 'undefined') { %>
-        , "applyToWhitespaces": <%= presencePenalty.applyToWhitespaces %>
-      <% } %>
-      <% if (typeof presencePenalty.applyToPunctuations !== 'undefined') { %>
-        , "applyToPunctuations": <%= presencePenalty.applyToPunctuations %>
-      <% } %>
-      <% if (typeof presencePenalty.applyToNumbers !== 'undefined') { %>
-        , "applyToNumbers": <%= presencePenalty.applyToNumbers %>
-      <% } %>
-      <% if (typeof presencePenalty.applyToStopwords !== 'undefined') { %>
-        , "applyToStopwords": <%= presencePenalty.applyToStopwords %>
-      <% } %>
-      <% if (typeof presencePenalty.applyToEmojis !== 'undefined') { %>
-        , "applyToEmojis": <%= presencePenalty.applyToEmojis %>
-      <% } %>
-    }
-  <% } %>
-  <% if (typeof frequencyPenalty !== 'undefined') { %>
-    , "frequencyPenalty": {
-      "scale": <%= frequencyPenalty.scale %>
-      <% if (typeof frequencyPenalty.applyToWhitespaces !== 'undefined') { %>
-        , "applyToWhitespaces": <%= frequencyPenalty.applyToWhitespaces %>
-      <% } %>
-      <% if (typeof frequencyPenalty.applyToPunctuations !== 'undefined') { %>
-        , "applyToPunctuations": <%= frequencyPenalty.applyToPunctuations %>
-      <% } %>
-      <% if (typeof frequencyPenalty.applyToNumbers !== 'undefined') { %>
-        , "applyToNumbers": <%= frequencyPenalty.applyToNumbers %>
-      <% } %>
-      <% if (typeof frequencyPenalty.applyToStopwords !== 'undefined') { %>
-        , "applyToStopwords": <%= frequencyPenalty.applyToStopwords %>
-      <% } %>
-      <% if (typeof frequencyPenalty.applyToEmojis !== 'undefined') { %>
-        , "applyToEmojis": <%= frequencyPenalty.applyToEmojis %>
-      <% } %>
-    }
-  <% } %>
-}`;
 
 interface PenaltyOptions {
   scale: number;
@@ -109,8 +38,38 @@ export interface Ai21Jurassic2Options extends ModelRequestOptions {
  * @category Ai21 Jurassic 2
  * @category Templates
  */
-export const Ai21Jurassic2Template = new EjsTemplate<Ai21Jurassic2Options>(
-  templateSource,
+export const Ai21Jurassic2Template = new FnTemplate(
+  ({
+    prompt,
+    numResults,
+    maxTokens,
+    minTokens,
+    temperature,
+    topP,
+    topKReturn,
+    stopSequences,
+    countPenalty,
+    presencePenalty,
+    frequencyPenalty,
+  }: Ai21Jurassic2Options) => {
+    return JSON.stringify(
+      {
+        prompt,
+        numResults,
+        maxTokens,
+        minTokens,
+        temperature,
+        topP,
+        topKReturn,
+        stopSequences,
+        countPenalty,
+        presencePenalty,
+        frequencyPenalty,
+      },
+      null,
+      2,
+    );
+  },
 );
 
 const Ai21Jurassic2ResponseCodec = t.type({

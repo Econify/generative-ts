@@ -6,7 +6,7 @@ import * as path from "path";
   It's kind of weird and meant to be used as a one-off manual verification step when snippets are changed in the README.
 */
 
-const readmePath = path.join(__dirname, "../../README.md");
+const readmePath = path.join(__dirname, "../README.md");
 
 const readmeContent = fs.readFileSync(readmePath, "utf-8");
 

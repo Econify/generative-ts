@@ -1,0 +1,126 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`@generative-ts/core esm bundle api snapshot 1`] = `
+{
+  "Ai21Jurassic2Api": {
+    "requestTemplate": h {
+      "source": [Function],
+    },
+    "responseGuard": [Function],
+  },
+  "Ai21Jurassic2Template": h {
+    "source": [Function],
+  },
+  "AmazonTitanTextApi": {
+    "requestTemplate": h {
+      "source": [Function],
+    },
+    "responseGuard": [Function],
+  },
+  "AmazonTitanTextTemplate": h {
+    "source": [Function],
+  },
+  "BaseModelProvider": [Function],
+  "CohereChatApi": {
+    "name": "COHERE-CHAT",
+    "requestTemplate": h {
+      "source": [Function],
+    },
+    "responseGuard": [Function],
+  },
+  "CohereChatTemplate": h {
+    "source": [Function],
+  },
+  "CohereGenerateApi": {
+    "name": "COHERE-GENERATE",
+    "requestTemplate": h {
+      "source": [Function],
+    },
+    "responseGuard": [Function],
+  },
+  "CohereGenerateTemplate": h {
+    "source": [Function],
+  },
+  "FnTemplate": [Function],
+  "GoogleGeminiApi": {
+    "requestTemplate": h {
+      "source": [Function],
+    },
+    "responseGuard": [Function],
+  },
+  "GoogleGeminiTemplate": h {
+    "source": [Function],
+  },
+  "HfConversationalTaskApi": {
+    "requestTemplate": h {
+      "source": [Function],
+    },
+    "responseGuard": [Function],
+  },
+  "HfConversationalTaskTemplate": h {
+    "source": [Function],
+  },
+  "HfTextGenerationTaskApi": {
+    "requestTemplate": h {
+      "source": [Function],
+    },
+    "responseGuard": [Function],
+  },
+  "HfTextGenerationTaskTemplate": h {
+    "source": [Function],
+  },
+  "HttpModelProvider": [Function],
+  "Llama2ChatApi": {
+    "requestTemplate": h {
+      "source": [Function],
+    },
+    "responseGuard": [Function],
+  },
+  "Llama2ChatTemplate": h {
+    "source": [Function],
+  },
+  "Llama3ChatApi": {
+    "requestTemplate": h {
+      "source": [Function],
+    },
+    "responseGuard": [Function],
+  },
+  "Llama3ChatTemplate": h {
+    "source": [Function],
+  },
+  "MistralAiApi": {
+    "requestTemplate": h {
+      "source": [Function],
+    },
+    "responseGuard": [Function],
+  },
+  "MistralAiTemplate": h {
+    "source": [Function],
+  },
+  "MistralBedrockApi": {
+    "requestTemplate": h {
+      "source": [Function],
+    },
+    "responseGuard": [Function],
+  },
+  "MistralBedrockTemplate": h {
+    "source": [Function],
+  },
+  "OpenAiChatApi": {
+    "requestTemplate": h {
+      "source": [Function],
+    },
+    "responseGuard": [Function],
+  },
+  "OpenAiChatTemplate": h {
+    "source": [Function],
+  },
+  "createAwsBedrockModelProvider": [Function],
+  "createCohereModelProvider": [Function],
+  "createGroqModelProvider": [Function],
+  "createHuggingfaceInferenceModelProvider": [Function],
+  "createLmStudioModelProvider": [Function],
+  "createMistralModelProvider": [Function],
+  "createOpenAiChatModelProvider": [Function],
+}
+`;

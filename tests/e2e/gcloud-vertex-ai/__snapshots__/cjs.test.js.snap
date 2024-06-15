@@ -1,0 +1,7 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`@generative-ts/gcloud-vertex-ai cjs bundle api snapshot 1`] = `
+{
+  "createVertexAiModelProvider": [Function],
+}
+`;

@@ -4,6 +4,16 @@ import typescript from '@rollup/plugin-typescript';
 import terser from '@rollup/plugin-terser';
 import { visualizer } from 'rollup-plugin-visualizer';
 
+export const finishedPlugin = ({ name }) => ({
+  name: 'finished',
+  buildStart() {
+    console.log(`\x1b[32mBundling ${name}...\x1b[0m`);
+  },
+  writeBundle({ format }) {
+    console.log(`\x1b[32mFinished \x1b[1m${name}\x1b[0m (${format})`);
+  }
+});
+
 export const baseConfig = {
   plugins: [
     resolve(),
@@ -17,12 +27,6 @@ export const baseConfig = {
       open: false,
       gzipSize: true,
       brotliSize: true
-    })
-  ],
-  external: [
-    '@generative-ts/core', 
-    '@generative-ts/gcloud-vertex-ai',
-    'tslib',
-    'process',
+    }),
   ],
 };

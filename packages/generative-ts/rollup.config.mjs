@@ -1,4 +1,4 @@
-import { baseConfig } from '../../rollup.config.base.mjs';
+import { baseConfig, finishedPlugin } from '../../rollup.config.base.mjs';
 
 // import pkg from './package.json' assert { type: 'json' };
 const pkg = { name: 'generative-ts' };
@@ -17,19 +17,24 @@ export default [
         file: 'dist/index.mjs',
         format: 'esm',
         sourcemap: true
+      },
+      {
+        file: 'dist/index.umd.js',
+        format: 'umd',
+        name: 'GenerativeTs',
+        globals: {
+        }
       }
     ],
     plugins: [
       ...baseConfig.plugins,
-      {
-        name: 'finished',
-        buildStart() {
-          console.log(`\x1b[32mBundling ${pkg.name}...\x1b[0m`);
-        },
-        writeBundle({ format }) {
-          console.log(`\x1b[32mFinished \x1b[1m${pkg.name}\x1b[0m (${format})`);
-        }
-      }
+      finishedPlugin(pkg),
     ],
+    external: [
+      '@generative-ts/core', 
+      '@generative-ts/gcloud-vertex-ai',
+      'tslib',
+      'process',
+    ]
   }
 ];

@@ -1,4 +1,4 @@
-import { baseConfig } from '../../rollup.config.base.mjs';
+import { baseConfig, finishedPlugin } from '../../rollup.config.base.mjs';
 
 // import pkg from './package.json' assert { type: 'json' };
 const pkg = { name: '@generative-ts/core' };
@@ -21,21 +21,15 @@ export default [
     ],
     plugins: [
       ...baseConfig.plugins,
-      {
-        name: 'finished',
-        buildStart() {
-          console.log(`\x1b[32mBundling ${pkg.name}...\x1b[0m`);
-        },
-        writeBundle({ format }) {
-          console.log(`\x1b[32mFinished \x1b[1m${pkg.name}\x1b[0m (${format})`);
-        }
-      }
+      finishedPlugin(pkg),
     ],
     external: [
-      ...baseConfig.external,
+      // ...baseConfig.external,
       'aws4',
       'fp-ts/lib/Either.js',
       'io-ts',
+      'tslib',
+      'process',
     ]
   }
 ];

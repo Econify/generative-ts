@@ -1,4 +1,4 @@
-import { baseConfig } from '../../rollup.config.base.mjs';
+import { baseConfig, finishedPlugin } from '../../rollup.config.base.mjs';
 
 // import pkg from './package.json' assert { type: 'json' };
 const pkg = { name: '@generative-ts/gcloud-vertex-ai' };
@@ -21,19 +21,14 @@ export default [
     ],
     plugins: [
       ...baseConfig.plugins,
-      {
-        name: 'finished',
-        buildStart() {
-          console.log(`\x1b[32mBundling ${pkg.name}...\x1b[0m`);
-        },
-        writeBundle({ format }) {
-          console.log(`\x1b[32mFinished \x1b[1m${pkg.name}\x1b[0m (${format})`);
-        }
-      }
+      finishedPlugin(pkg),
     ],
     external: [
-      ...baseConfig.external,
-      'google-auth-library'
+      // ...baseConfig.external,
+      '@generative-ts/core',
+      'google-auth-library',
+      'tslib',
+      'process',
     ]
   }
 ];

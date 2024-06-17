@@ -21,15 +21,7 @@ describe("GoogleGeminiApi.requestTemplate", () => {
     const rendered = render({
       prompt: "mock-prompt",
     });
-
-    expect(rendered).toEqual({
-      contents: [
-        {
-          role: "user",
-          parts: [{ text: "mock-prompt" }],
-        },
-      ],
-    });
+    expect(rendered).toMatchSnapshot();
   });
 
   test("prompt, examplePairs", () => {
@@ -40,31 +32,7 @@ describe("GoogleGeminiApi.requestTemplate", () => {
         { user: "mock-user-msg-2", assistant: "mock-assistant-msg-2" },
       ],
     });
-
-    expect(rendered).toEqual({
-      contents: [
-        {
-          role: "user",
-          parts: [{ text: "mock-user-msg-1" }],
-        },
-        {
-          role: "model",
-          parts: [{ text: "mock-assistant-msg-1" }],
-        },
-        {
-          role: "user",
-          parts: [{ text: "mock-user-msg-2" }],
-        },
-        {
-          role: "model",
-          parts: [{ text: "mock-assistant-msg-2" }],
-        },
-        {
-          role: "user",
-          parts: [{ text: "mock-prompt" }],
-        },
-      ],
-    });
+    expect(rendered).toMatchSnapshot();
   });
 
   test("prompt, system", () => {
@@ -72,22 +40,7 @@ describe("GoogleGeminiApi.requestTemplate", () => {
       prompt: "mock-prompt",
       system: "mock-system-text",
     });
-
-    expect(rendered).toEqual({
-      contents: [
-        {
-          role: "user",
-          parts: [{ text: "mock-prompt" }],
-        },
-      ],
-      system_instruction: {
-        parts: [
-          {
-            text: "mock-system-text",
-          },
-        ],
-      },
-    });
+    expect(rendered).toMatchSnapshot();
   });
 
   test("prompt, examplePairs, system", () => {
@@ -98,30 +51,7 @@ describe("GoogleGeminiApi.requestTemplate", () => {
       ],
       system: "mock-system-text",
     });
-
-    expect(rendered).toEqual({
-      contents: [
-        {
-          role: "user",
-          parts: [{ text: "mock-user-msg-1" }],
-        },
-        {
-          role: "model",
-          parts: [{ text: "mock-assistant-msg-1" }],
-        },
-        {
-          role: "user",
-          parts: [{ text: "mock-prompt" }],
-        },
-      ],
-      system_instruction: {
-        parts: [
-          {
-            text: "mock-system-text",
-          },
-        ],
-      },
-    });
+    expect(rendered).toMatchSnapshot();
   });
 
   /**
@@ -146,27 +76,7 @@ describe("GoogleGeminiApi.requestTemplate", () => {
         },
       ],
     });
-
-    expect(rendered).toEqual({
-      contents: [
-        {
-          role: "model",
-          parts: [{ text: "mock-model-text" }],
-        },
-        {
-          role: "user",
-          parts: [{ text: "mock-user-text" }],
-        },
-        {
-          role: "model",
-          parts: [{ text: "mock-model-text-2" }],
-        },
-        {
-          role: "user",
-          parts: [{ text: "mock-prompt" }],
-        },
-      ],
-    });
+    expect(rendered).toMatchSnapshot();
   });
 
   test("prompt, system_instruction", () => {
@@ -176,18 +86,7 @@ describe("GoogleGeminiApi.requestTemplate", () => {
         parts: [{ text: "mock-system-text" }],
       },
     });
-
-    expect(rendered).toEqual({
-      contents: [
-        {
-          role: "user",
-          parts: [{ text: "mock-prompt" }],
-        },
-      ],
-      system_instruction: {
-        parts: [{ text: "mock-system-text" }],
-      },
-    });
+    expect(rendered).toMatchSnapshot();
   });
 
   test("prompt, contents, system_instruction", () => {
@@ -211,30 +110,7 @@ describe("GoogleGeminiApi.requestTemplate", () => {
         parts: [{ text: "mock-system-text" }],
       },
     });
-
-    expect(rendered).toEqual({
-      contents: [
-        {
-          role: "model",
-          parts: [{ text: "mock-model-text" }],
-        },
-        {
-          role: "user",
-          parts: [{ text: "mock-user-text" }],
-        },
-        {
-          role: "model",
-          parts: [{ text: "mock-model-text-2" }],
-        },
-        {
-          role: "user",
-          parts: [{ text: "mock-prompt" }],
-        },
-      ],
-      system_instruction: {
-        parts: [{ text: "mock-system-text" }],
-      },
-    });
+    expect(rendered).toMatchSnapshot();
   });
   /**
    * Combinations of FewShotRequestOptions and "native" options:
@@ -253,27 +129,7 @@ describe("GoogleGeminiApi.requestTemplate", () => {
         },
       ],
     });
-
-    expect(rendered).toEqual({
-      contents: [
-        {
-          role: "user",
-          parts: [{ text: "mock-user-msg-1" }],
-        },
-        {
-          role: "model",
-          parts: [{ text: "mock-assistant-msg-1" }],
-        },
-        {
-          role: "model",
-          parts: [{ text: "mock-model-text" }],
-        },
-        {
-          role: "user",
-          parts: [{ text: "mock-prompt" }],
-        },
-      ],
-    });
+    expect(rendered).toMatchSnapshot();
   });
 
   test("prompt, examplePairs, system_instruction", () => {
@@ -286,26 +142,7 @@ describe("GoogleGeminiApi.requestTemplate", () => {
         parts: [{ text: "mock-system-text" }],
       },
     });
-
-    expect(rendered).toEqual({
-      contents: [
-        {
-          role: "user",
-          parts: [{ text: "mock-user-msg-1" }],
-        },
-        {
-          role: "model",
-          parts: [{ text: "mock-assistant-msg-1" }],
-        },
-        {
-          role: "user",
-          parts: [{ text: "mock-prompt" }],
-        },
-      ],
-      system_instruction: {
-        parts: [{ text: "mock-system-text" }],
-      },
-    });
+    expect(rendered).toMatchSnapshot();
   });
 
   test("prompt, system, contents", () => {
@@ -319,22 +156,7 @@ describe("GoogleGeminiApi.requestTemplate", () => {
         },
       ],
     });
-
-    expect(rendered).toEqual({
-      contents: [
-        {
-          role: "model",
-          parts: [{ text: "mock-model-text" }],
-        },
-        {
-          role: "user",
-          parts: [{ text: "mock-prompt" }],
-        },
-      ],
-      system_instruction: {
-        parts: [{ text: "mock-system-text" }],
-      },
-    });
+    expect(rendered).toMatchSnapshot();
   });
 
   test("prompt, system, system_instruction", () => {
@@ -348,28 +170,7 @@ describe("GoogleGeminiApi.requestTemplate", () => {
         ],
       },
     });
-
-    expect(rendered).toEqual({
-      contents: [
-        {
-          role: "user",
-          parts: [{ text: "mock-prompt" }],
-        },
-      ],
-      system_instruction: {
-        parts: [
-          {
-            text: "mock-system-text",
-          },
-          {
-            text: "mock-additional-instruction",
-          },
-          {
-            text: "mock-additional-instruction-2",
-          },
-        ],
-      },
-    });
+    expect(rendered).toMatchSnapshot();
   });
 
   test("prompt, examplePairs, contents, system_instruction", () => {
@@ -388,30 +189,7 @@ describe("GoogleGeminiApi.requestTemplate", () => {
         parts: [{ text: "mock-system-text" }],
       },
     });
-
-    expect(rendered).toEqual({
-      contents: [
-        {
-          role: "user",
-          parts: [{ text: "mock-user-msg-1" }],
-        },
-        {
-          role: "model",
-          parts: [{ text: "mock-assistant-msg-1" }],
-        },
-        {
-          role: "model",
-          parts: [{ text: "mock-model-text" }],
-        },
-        {
-          role: "user",
-          parts: [{ text: "mock-prompt" }],
-        },
-      ],
-      system_instruction: {
-        parts: [{ text: "mock-system-text" }],
-      },
-    });
+    expect(rendered).toMatchSnapshot();
   });
   /**
    * Tool-related:
@@ -433,25 +211,7 @@ describe("GoogleGeminiApi.requestTemplate", () => {
         },
       ],
     });
-
-    expect(rendered).toEqual({
-      contents: [
-        {
-          parts: [
-            {
-              function_call: {
-                name: "mock-function",
-                args: { key: "value" },
-              },
-            },
-          ],
-        },
-        {
-          role: "user",
-          parts: [{ text: "mock-prompt" }],
-        },
-      ],
-    });
+    expect(rendered).toMatchSnapshot();
   });
 
   test("prompt, contents with function_response", () => {
@@ -470,25 +230,7 @@ describe("GoogleGeminiApi.requestTemplate", () => {
         },
       ],
     });
-
-    expect(rendered).toEqual({
-      contents: [
-        {
-          parts: [
-            {
-              function_response: {
-                name: "mock-function",
-                response: { key: "value" },
-              },
-            },
-          ],
-        },
-        {
-          role: "user",
-          parts: [{ text: "mock-prompt" }],
-        },
-      ],
-    });
+    expect(rendered).toMatchSnapshot();
   });
 
   test("prompt, tools", () => {
@@ -511,31 +253,7 @@ describe("GoogleGeminiApi.requestTemplate", () => {
         },
       ],
     });
-
-    expect(rendered).toEqual({
-      contents: [
-        {
-          role: "user",
-          parts: [{ text: "mock-prompt" }],
-        },
-      ],
-      tools: [
-        {
-          function_declarations: [
-            {
-              name: "mock-function",
-              description: "mock-description",
-              parameters: {
-                type: "OBJECT",
-                properties: {
-                  key: { type: "STRING" },
-                },
-              },
-            },
-          ],
-        },
-      ],
-    });
+    expect(rendered).toMatchSnapshot();
   });
 
   test("prompt, tools_config", () => {
@@ -546,19 +264,7 @@ describe("GoogleGeminiApi.requestTemplate", () => {
         allowed_function_names: ["mock-function"],
       },
     });
-
-    expect(rendered).toEqual({
-      contents: [
-        {
-          role: "user",
-          parts: [{ text: "mock-prompt" }],
-        },
-      ],
-      tools_config: {
-        mode: "AUTO",
-        allowed_function_names: ["mock-function"],
-      },
-    });
+    expect(rendered).toMatchSnapshot();
   });
 
   /**
@@ -572,19 +278,7 @@ describe("GoogleGeminiApi.requestTemplate", () => {
         threshold: "mock-threshold",
       },
     });
-
-    expect(rendered).toEqual({
-      contents: [
-        {
-          role: "user",
-          parts: [{ text: "mock-prompt" }],
-        },
-      ],
-      safety_settings: {
-        category: "mock-category",
-        threshold: "mock-threshold",
-      },
-    });
+    expect(rendered).toMatchSnapshot();
   });
 
   test("prompt, generation_config", () => {
@@ -595,19 +289,7 @@ describe("GoogleGeminiApi.requestTemplate", () => {
         top_p: 0.9,
       },
     });
-
-    expect(rendered).toEqual({
-      contents: [
-        {
-          role: "user",
-          parts: [{ text: "mock-prompt" }],
-        },
-      ],
-      generation_config: {
-        temperature: 0.7,
-        top_p: 0.9,
-      },
-    });
+    expect(rendered).toMatchSnapshot();
   });
 
   test("prompt, tool, tools_config, system_instruction, safety_settings, generation_config", () => {
@@ -643,42 +325,7 @@ describe("GoogleGeminiApi.requestTemplate", () => {
         max_output_tokens: 100,
       },
     });
-
-    expect(rendered).toEqual({
-      contents: [
-        {
-          role: "model",
-          parts: [{ text: "mock-model-text" }],
-        },
-        {
-          role: "user",
-          parts: [{ text: "mock-prompt" }],
-        },
-      ],
-      tools: [
-        {
-          function_declarations: [
-            {
-              name: "mock-function",
-            },
-          ],
-        },
-      ],
-      tools_config: {
-        mode: "ANY",
-      },
-      system_instruction: {
-        parts: [{ text: "mock-system-text" }],
-      },
-      safety_settings: {
-        threshold: "mock-threshold",
-        method: "mock-method",
-      },
-      generation_config: {
-        top_p: 0.7,
-        max_output_tokens: 100,
-      },
-    });
+    expect(rendered).toMatchSnapshot();
   });
 
   /**
@@ -694,14 +341,6 @@ describe("GoogleGeminiApi.requestTemplate", () => {
         },
       ],
     });
-
-    expect(rendered).toEqual({
-      contents: [
-        {
-          role: "user",
-          parts: [{ text: "mock-user-text" }],
-        },
-      ],
-    });
+    expect(rendered).toMatchSnapshot();
   });
 });

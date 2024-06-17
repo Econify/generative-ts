@@ -24,10 +24,9 @@ export default [
       finishedPlugin(pkg),
     ],
     external: [
+      ...baseConfig.external,
       '@generative-ts/core', 
       '@generative-ts/gcloud-vertex-ai',
-      'tslib',
-      'process',
     ],
   },
 ];

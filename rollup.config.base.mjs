@@ -19,6 +19,7 @@ export const baseConfig = {
     resolve(),
     typescript({
       outputToFilesystem: true,
+      tslib: 'tslib',
     }),
     commonjs(),
     terser(),
@@ -29,4 +30,8 @@ export const baseConfig = {
       brotliSize: true
     }),
   ],
+  external: [
+    'tslib',
+    'process',
+  ]
 };

@@ -29,6 +29,7 @@ export default [
       finishedPlugin(pkg),
     ],
     external: [
+      ...baseConfig.external,
       'fetch'
     ],
   },

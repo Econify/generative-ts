@@ -85,6 +85,7 @@ export type InferHttpClientOptions<T> =
  * ```
  */
 export async function createVertexAiModelProvider<
+  // TODO this is incorrect, this provider uses a custom client:
   THttpClientOptions = InferHttpClientOptions<HttpModelProvider>,
 >({
   modelId,

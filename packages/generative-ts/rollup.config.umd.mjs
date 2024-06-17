@@ -1,8 +1,13 @@
 import json from '@rollup/plugin-json';
 import polyfills from 'rollup-plugin-polyfill-node';
 import replace from '@rollup/plugin-replace';
+import resolve from '@rollup/plugin-node-resolve';
+import commonjs from '@rollup/plugin-commonjs';
+import typescript from '@rollup/plugin-typescript';
+import terser from '@rollup/plugin-terser';
+import { visualizer } from 'rollup-plugin-visualizer';
 
-import { baseConfig, finishedPlugin } from '../../rollup.config.base.mjs';
+import { finishedPlugin } from '../../rollup.config.base.mjs';
 
 // import pkg from './package.json' assert { type: 'json' };
 const pkg = { name: 'generative-ts' };
@@ -25,12 +30,22 @@ export default [
       replace({
         'node-fetch': 'fetch',
       }),
-      ...baseConfig.plugins,
+      resolve(),
+      typescript({
+        outputToFilesystem: true,
+      }),
+      commonjs(),
+      terser(),
+      visualizer({
+        filename: './stats.html',
+        open: false,
+        gzipSize: true,
+        brotliSize: true
+      }),
       finishedPlugin(pkg),
     ],
     external: [
-      ...baseConfig.external,
-      'fetch'
+      'fetch',
     ],
   },
 ];

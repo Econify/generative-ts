@@ -3,10 +3,11 @@
   "private": true,
   "description": "integration/e2e tests",
   "scripts": {
-    "browserify:cjs": "browserify ./e2e/cjs-bundle.test.js -o ./e2e/cjs-bundle.test.browserified.js",
-    "test:e2e:browser": "npm-run-all test:e2e:browser:*",
-    "test:e2e:browser:cjs": "open http://localhost:3001/tests/e2e/cjs-bundle.test.html && python3 -m http.server 3001 --directory ../",
-    "test:e2e:browser:esm": "open http://localhost:3001/tests/e2e/esm-bundle.test.html && python3 -m http.server 3001 --directory ../",
+    "browserify:cjs": "browserify ./e2e/cjs-bundle-test.js -o ./e2e/cjs-bundle-test.browserified.js",
+    "browserify:esm": "browserify ./e2e/esm-bundle-test.js -t [ babelify --presets [ @babel/preset-env ] ] -o ./e2e/esm-bundle-test.browserified.js",
+    "test:e2e:browser:cjs": "npm run browserify:cjs && open http://localhost:3001/tests/e2e/cjs-bundle-test.html && python3 -m http.server 3001 --directory ../",
+    "test:e2e:browser:esm": "npm run browserify:esm && open http://localhost:3001/tests/e2e/esm-bundle-test.html && python3 -m http.server 3001 --directory ../",
+    "test:e2e:browser:umd": "open http://localhost:3001/tests/e2e/umd-bundle-test.html && python3 -m http.server 3001 --directory ../",
     "test:e2e": "jest ./e2e",
     "test:e2e:core": "jest --displayName='core e2e' ./e2e/core/",
     "test:e2e:main": "jest --displayName='main e2e' ./e2e/generative-ts/",
@@ -29,7 +30,6 @@
     "test": ""
   },
   "devDependencies": {
-    "browserify": "^17.0.0",
-    "npm-run-all": "^4.1.5"
+    "browserify": "^17.0.0"
   }
 }

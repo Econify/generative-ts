@@ -17,6 +17,7 @@
   "scripts": {
     "build": "npm run clean && npm run build:rollup",
     "build:rollup": "rollup -c",
+    "build:rollup:umd": "rollup -c rollup.config.umd.mjs",
     "check": "npm run typecheck && npm run lint && npm run test",
     "clean": "rm -rf dist && rm -rf .rollup.cache && rm -f *.tsbuildinfo",
     "lint": "eslint src/",

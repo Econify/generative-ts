@@ -24,7 +24,6 @@ export default [
       finishedPlugin(pkg),
     ],
     external: [
-      // ...baseConfig.external,
       'aws4',
       'fp-ts/lib/Either.js',
       'io-ts',

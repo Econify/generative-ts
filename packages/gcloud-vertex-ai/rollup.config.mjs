@@ -24,7 +24,6 @@ export default [
       finishedPlugin(pkg),
     ],
     external: [
-      // ...baseConfig.external,
       '@generative-ts/core',
       'google-auth-library',
       'tslib',

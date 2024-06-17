@@ -18,13 +18,6 @@ export default [
         format: 'esm',
         sourcemap: true
       },
-      {
-        file: 'dist/index.umd.js',
-        format: 'umd',
-        name: 'GenerativeTs',
-        globals: {
-        }
-      }
     ],
     plugins: [
       ...baseConfig.plugins,
@@ -35,6 +28,6 @@ export default [
       '@generative-ts/gcloud-vertex-ai',
       'tslib',
       'process',
-    ]
-  }
+    ],
+  },
 ];

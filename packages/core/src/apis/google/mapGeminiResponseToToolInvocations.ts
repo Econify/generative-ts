@@ -1,4 +1,4 @@
-import { ConvertParamMapToArgs, Tool, ToolParamMap } from "../shared";
+import { ConvertParamMapToArgs, Tool, ToolParamMap } from "../../utils/Tool";
 
 import type { GoogleGeminiResponse } from "./gemini";
 

@@ -71,3 +71,24 @@ export type InferRequestOptions<T> =
   T extends ModelApi<infer U, unknown> ? U : never;
 export type InferResponse<T> =
   T extends ModelApi<ModelRequestOptions, infer V> ? V : never;
+
+export type ToolParameterTypes = "STR" | "NUM" | "BOOL";
+
+export interface ToolParam {
+  name: string;
+  description: string;
+  type: ToolParameterTypes;
+  required: boolean;
+}
+
+export interface ToolInvocation<TArgs> {
+  arguments: TArgs;
+  returned?: unknown;
+}
+
+export interface ToolDescriptor {
+  name: string;
+  description: string;
+  parameters: ToolParam[];
+  invocations: ToolInvocation<any>[];
+}

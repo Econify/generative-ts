@@ -91,6 +91,7 @@ export {
  * Public API - Utils
  */
 export { FnTemplate } from "./utils";
+// TODO export Tool
 
 /*
  * Public API - TypeDefs

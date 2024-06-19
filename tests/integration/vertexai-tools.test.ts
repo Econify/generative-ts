@@ -1,7 +1,8 @@
 /* eslint-disable import/no-relative-packages */
 import { createVertexAiModelProvider } from "@packages/gcloud-vertex-ai";
+// TODO decide on these import/exports as part of public API
 import { mapGeminiResponseToToolInvocations } from "../../packages/core/src/apis/google/mapGeminiResponseToToolInvocations";
-import { Tool } from "../../packages/core/src/apis/shared/ToolUseRequestOptions";
+import { Tool } from "../../packages/core/src/utils/Tool";
 
 xtest("VertexAI - Google Gemini (Tools)", async () => {
   // arrange

@@ -1,3 +1,6 @@
+/**
+ * @category Core Interfaces
+ */
 export interface FewShotRequestOptions {
   prompt: string;
   system?: string;

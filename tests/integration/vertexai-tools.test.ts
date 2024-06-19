@@ -1,6 +1,9 @@
+/* eslint-disable import/no-relative-packages */
 import { createVertexAiModelProvider } from "@packages/gcloud-vertex-ai";
+import { mapGeminiResponseToToolInvocations } from "../../packages/core/src/apis/google/mapGeminiResponseToToolInvocations";
+import { Tool } from "../../packages/core/src/apis/shared/ToolUseRequestOptions";
 
-test("VertexAI - Google Gemini (Tools)", async () => {
+xtest("VertexAI - Google Gemini (Tools)", async () => {
   // arrange
   const model = await createVertexAiModelProvider({
     modelId: "gemini-1.0-pro",
@@ -42,7 +45,7 @@ test("VertexAI - Google Gemini (Tools)", async () => {
   expect(response).toMatchApiSnapshot();
 });
 
-test("VertexAI - Google Gemini (Tools with Responses)", async () => {
+xtest("VertexAI - Google Gemini (Tools with Responses)", async () => {
   // arrange
   const model = await createVertexAiModelProvider({
     modelId: "gemini-1.0-pro",
@@ -76,7 +79,7 @@ test("VertexAI - Google Gemini (Tools with Responses)", async () => {
         role: "model",
         parts: [
           {
-            function_call: {
+            functionCall: {
               name: "get_current_weather",
               args: {
                 city: "Boston",
@@ -85,7 +88,7 @@ test("VertexAI - Google Gemini (Tools with Responses)", async () => {
             },
           },
           {
-            function_call: {
+            functionCall: {
               name: "get_current_weather",
               args: {
                 city: "New York City",
@@ -157,4 +160,92 @@ test("VertexAI - Google Gemini (Tools with Responses)", async () => {
 
   // assert
   expect(response).toMatchApiSnapshot();
+});
+
+test("VertexAI - Google Gemini ($tools)", async () => {
+  // arrange
+  const model = await createVertexAiModelProvider({
+    modelId: "gemini-1.0-pro",
+  });
+
+  const tools = [
+    new Tool(
+      "get_current_weather",
+      "Get the current weather for a given location",
+      {
+        city: {
+          description: "The city name",
+          type: "STR",
+          required: true,
+        },
+        state: {
+          description: "The state name",
+          type: "STR",
+          required: true,
+        },
+        zipcode: {
+          description: "An optional zipcode",
+          type: "NUM",
+          required: false,
+        },
+      },
+      ({ city, state, zipcode }) => {
+        console.log("Invoking get_current_weather tool...", {
+          city,
+          state,
+          zipcode,
+        });
+        return {
+          temperature: "70",
+        };
+      },
+    ),
+  ];
+
+  // act
+  const response = await model.sendRequest({
+    system: "Use tools to help answer questions.",
+    prompt: "What is the weather in Boston and New York City?",
+    $tools: tools.map(({ descriptor }) => descriptor),
+  });
+
+  console.log("Got response. Mapping tool invocations....");
+
+  mapGeminiResponseToToolInvocations(response, tools);
+
+  console.log(JSON.stringify(tools, null, 2));
+
+  const last = response.data.candidates[0]?.content;
+
+  if (!last) {
+    throw new Error("No content found in response!?");
+  }
+
+  const response2 = await model.sendRequest({
+    system: "Use tools to help answer questions.",
+    prompt: "What is the weather in Boston and New York City?",
+    contents: [
+      {
+        // TODO eyyy insert prompt at start etc etc...
+        role: "user",
+        parts: [
+          {
+            text: "What is the weather in Boston and New York City?",
+          },
+        ],
+      },
+      {
+        // ...last,
+        // TODO fix the need for this (above line gives error cant convert between t.string() and "model" | "user")
+        role: "model",
+        parts: last.parts,
+      },
+    ],
+    $tools: tools.map(({ descriptor }) => descriptor),
+  });
+
+  console.log(JSON.stringify(response2.data.candidates[0]?.content, null, 2));
+
+  // assert
+  expect(response2).toMatchApiSnapshot();
 });

@@ -30,13 +30,25 @@ interface ChatCompletionRequestMessage {
   };
 }
 
+interface OpenAiChatToolsOptions {
+  tools?: {
+    type: "function";
+    function: {
+      name: string;
+      description?: string;
+      parameters?: object; // TODO JsonSchema
+    };
+  }[];
+}
+
 /**
  * @category OpenAI ChatCompletion
  * @category Requests
  */
 export interface OpenAiChatOptions
   extends ModelRequestOptions,
-    FewShotRequestOptions {
+    FewShotRequestOptions,
+    OpenAiChatToolsOptions {
   messages?: ChatCompletionRequestMessage[];
   frequency_penalty?: number;
   logit_bias?: Record<string, number>;
@@ -57,14 +69,6 @@ export interface OpenAiChatOptions
   temperature?: number;
   top_p?: number;
   user?: string;
-  tools?: {
-    type: "function";
-    function: {
-      name: string;
-      description?: string;
-      parameters?: object; // TODO JsonSchema
-    };
-  }[];
   tool_choice?:
     | "none"
     | "auto"

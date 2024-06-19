@@ -58,7 +58,7 @@ describe("GoogleGeminiApi.requestTemplate", () => {
    * "Native" few shot options (prompt, contents, system_instruction):
    */
 
-  test("prompt, contents", () => {
+  test("prompt, contents (appends prompt)", () => {
     const rendered = render({
       prompt: "mock-prompt",
       contents: [
@@ -73,6 +73,31 @@ describe("GoogleGeminiApi.requestTemplate", () => {
         {
           role: "model",
           parts: [{ text: "mock-model-text-2" }],
+        },
+      ],
+    });
+    expect(rendered).toMatchSnapshot();
+  });
+
+  test("prompt, contents ending with user (does not append prompt)", () => {
+    const rendered = render({
+      prompt: "mock-prompt-should-not-appear",
+      contents: [
+        {
+          role: "model",
+          parts: [{ text: "mock-model-text" }],
+        },
+        {
+          role: "user",
+          parts: [{ text: "mock-user-text" }],
+        },
+        {
+          role: "model",
+          parts: [{ text: "mock-model-text-2" }],
+        },
+        {
+          role: "user",
+          parts: [{ text: "mock-user-text-2" }],
         },
       ],
     });
@@ -112,6 +137,7 @@ describe("GoogleGeminiApi.requestTemplate", () => {
     });
     expect(rendered).toMatchSnapshot();
   });
+
   /**
    * Combinations of FewShotRequestOptions and "native" options:
    */
@@ -191,18 +217,96 @@ describe("GoogleGeminiApi.requestTemplate", () => {
     });
     expect(rendered).toMatchSnapshot();
   });
+
   /**
    * Tool-related:
    */
 
-  test("prompt, contents with function_call", () => {
+  test("prompt, contents ending with function_call, $tools with matching invocation (adds function_response content items)", () => {
     const rendered = render({
       prompt: "mock-prompt",
       contents: [
         {
+          role: "model",
           parts: [
             {
-              function_call: {
+              functionCall: {
+                name: "mock-function",
+                args: { key: "value" },
+              },
+            },
+          ],
+        },
+      ],
+      $tools: [
+        {
+          name: "mock-function",
+          description: "mock-description",
+          parameters: [
+            {
+              name: "key",
+              description: "mock-key-description",
+              type: "STR",
+              required: true,
+            },
+          ],
+          invocations: [
+            {
+              arguments: { key: "value" },
+              returned: { responseKey: "responseValue" },
+            },
+          ],
+        },
+      ],
+    });
+    expect(rendered).toMatchSnapshot();
+  });
+
+  test("prompt, contents ending with model function_call, $tools without matching invocation (appends prompt; TODO logs warning)", () => {
+    const rendered = render({
+      prompt: "mock-prompt",
+      contents: [
+        {
+          role: "model",
+          parts: [
+            {
+              functionCall: {
+                name: "mock-function",
+                args: { key: "value" },
+              },
+            },
+          ],
+        },
+      ],
+      $tools: [
+        {
+          name: "another-function",
+          description: "another-description",
+          parameters: [
+            {
+              name: "another-key",
+              description: "another-key-description",
+              type: "STR",
+              required: false,
+            },
+          ],
+          invocations: [],
+        },
+      ],
+    });
+    expect(rendered).toMatchSnapshot();
+    // TODO expect warning
+  });
+
+  test("prompt, contents ending with model function_call, no $tools (appends prompt; TODO logs warning)", () => {
+    const rendered = render({
+      prompt: "mock-prompt",
+      contents: [
+        {
+          role: "model",
+          parts: [
+            {
+              functionCall: {
                 name: "mock-function",
                 args: { key: "value" },
               },
@@ -212,18 +316,31 @@ describe("GoogleGeminiApi.requestTemplate", () => {
       ],
     });
     expect(rendered).toMatchSnapshot();
+    // TODO expect warning
   });
 
-  test("prompt, contents with function_response", () => {
+  test("prompt, contents ending with user function_response (doesnt append prompt)", () => {
     const rendered = render({
-      prompt: "mock-prompt",
+      prompt: "mock-prompt-should-not-appear",
       contents: [
         {
+          role: "model",
+          parts: [
+            {
+              functionCall: {
+                name: "mock-function",
+                args: { key: "value" },
+              },
+            },
+          ],
+        },
+        {
+          role: "user",
           parts: [
             {
               function_response: {
                 name: "mock-function",
-                response: { key: "value" },
+                response: { responseKey: "responseValue" },
               },
             },
           ],
@@ -232,7 +349,9 @@ describe("GoogleGeminiApi.requestTemplate", () => {
     });
     expect(rendered).toMatchSnapshot();
   });
-
+  /*
+   *  Tool declarations:
+   */
   test("prompt, tools", () => {
     const rendered = render({
       prompt: "mock-prompt",
@@ -250,6 +369,104 @@ describe("GoogleGeminiApi.requestTemplate", () => {
               },
             },
           ],
+        },
+      ],
+    });
+    expect(rendered).toMatchSnapshot();
+  });
+
+  test("prompt, $tools", () => {
+    const rendered = render({
+      prompt: "mock-prompt",
+      $tools: [
+        {
+          name: "mock-function-1",
+          description: "mock-description-1",
+          parameters: [
+            {
+              name: "mock-function-1-param-1",
+              description: "mock-function-1-param-1-description-1",
+              type: "STR",
+              required: false,
+            },
+            {
+              name: "mock-function-1-param-2",
+              description: "mock-function-1-param-2-description-2",
+              type: "NUM",
+              required: false,
+            },
+          ],
+          invocations: [],
+        },
+        {
+          name: "mock-function-2",
+          description: "mock-description-2",
+          parameters: [
+            {
+              name: "mock-function-2-param-1",
+              description: "mock-function-2-param-1-description-1",
+              type: "BOOL",
+              required: false,
+            },
+          ],
+          invocations: [],
+        },
+      ],
+    });
+    expect(rendered).toMatchSnapshot();
+  });
+
+  test("prompt, tools, $tools", () => {
+    const rendered = render({
+      prompt: "mock-prompt",
+      tools: [
+        {
+          function_declarations: [
+            {
+              name: "mock-function",
+              description: "mock-description",
+              parameters: {
+                type: "OBJECT",
+                properties: {
+                  key: { type: "STRING" },
+                },
+              },
+            },
+          ],
+        },
+      ],
+      $tools: [
+        {
+          name: "mock-function-1",
+          description: "mock-description-1",
+          parameters: [
+            {
+              name: "mock-function-1-param-1",
+              description: "mock-function-1-param-1-description-1",
+              type: "STR",
+              required: false,
+            },
+            {
+              name: "mock-function-1-param-2",
+              description: "mock-function-1-param-2-description-2",
+              type: "NUM",
+              required: true,
+            },
+          ],
+          invocations: [],
+        },
+        {
+          name: "mock-function-2",
+          description: "mock-description-2",
+          parameters: [
+            {
+              name: "mock-function-2-param-1",
+              description: "mock-function-2-param-1-description-1",
+              type: "BOOL",
+              required: false,
+            },
+          ],
+          invocations: [],
         },
       ],
     });
@@ -324,22 +541,6 @@ describe("GoogleGeminiApi.requestTemplate", () => {
         top_p: 0.7,
         max_output_tokens: 100,
       },
-    });
-    expect(rendered).toMatchSnapshot();
-  });
-
-  /**
-   * Custom 1-off logic:
-   */
-  test("doesnt include prompt if contents end with a user role", () => {
-    const rendered = render({
-      prompt: "mock-prompt",
-      contents: [
-        {
-          role: "user",
-          parts: [{ text: "mock-user-text" }],
-        },
-      ],
     });
     expect(rendered).toMatchSnapshot();
   });

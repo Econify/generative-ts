@@ -1,20 +1,5 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`GoogleGeminiApi.requestTemplate doesnt include prompt if contents end with a user role 1`] = `
-{
-  "contents": [
-    {
-      "parts": [
-        {
-          "text": "mock-user-text",
-        },
-      ],
-      "role": "user",
-    },
-  ],
-}
-`;
-
 exports[`GoogleGeminiApi.requestTemplate prompt 1`] = `
 {
   "contents": [
@@ -30,7 +15,60 @@ exports[`GoogleGeminiApi.requestTemplate prompt 1`] = `
 }
 `;
 
-exports[`GoogleGeminiApi.requestTemplate prompt, contents 1`] = `
+exports[`GoogleGeminiApi.requestTemplate prompt, $tools 1`] = `
+{
+  "contents": [
+    {
+      "parts": [
+        {
+          "text": "mock-prompt",
+        },
+      ],
+      "role": "user",
+    },
+  ],
+  "tools": [
+    {
+      "function_declarations": [
+        {
+          "description": "mock-description-1",
+          "name": "mock-function-1",
+          "parameters": {
+            "properties": {
+              "mock-function-1-param-1": {
+                "description": "mock-function-1-param-1-description-1",
+                "type": "STRING",
+              },
+              "mock-function-1-param-2": {
+                "description": "mock-function-1-param-2-description-2",
+                "type": "NUMBER",
+              },
+            },
+            "required": [],
+            "type": "OBJECT",
+          },
+        },
+        {
+          "description": "mock-description-2",
+          "name": "mock-function-2",
+          "parameters": {
+            "properties": {
+              "mock-function-2-param-1": {
+                "description": "mock-function-2-param-1-description-1",
+                "type": "BOOLEAN",
+              },
+            },
+            "required": [],
+            "type": "OBJECT",
+          },
+        },
+      ],
+    },
+  ],
+}
+`;
+
+exports[`GoogleGeminiApi.requestTemplate prompt, contents (appends prompt) 1`] = `
 {
   "contents": [
     {
@@ -69,7 +107,7 @@ exports[`GoogleGeminiApi.requestTemplate prompt, contents 1`] = `
 }
 `;
 
-exports[`GoogleGeminiApi.requestTemplate prompt, contents with function_call 1`] = `
+exports[`GoogleGeminiApi.requestTemplate prompt, contents ending with function_call, $tools with matching invocation (adds function_response content items) 1`] = `
 {
   "contents": [
     {
@@ -83,6 +121,108 @@ exports[`GoogleGeminiApi.requestTemplate prompt, contents with function_call 1`]
           },
         },
       ],
+      "role": "model",
+    },
+    {
+      "parts": [
+        {
+          "function_response": {
+            "name": "mock-function",
+            "response": {
+              "returned": {
+                "responseKey": "responseValue",
+              },
+            },
+          },
+        },
+      ],
+      "role": "user",
+    },
+  ],
+  "tools": [
+    {
+      "function_declarations": [
+        {
+          "description": "mock-description",
+          "name": "mock-function",
+          "parameters": {
+            "properties": {
+              "key": {
+                "description": "mock-key-description",
+                "type": "STRING",
+              },
+            },
+            "required": [
+              "key",
+            ],
+            "type": "OBJECT",
+          },
+        },
+      ],
+    },
+  ],
+}
+`;
+
+exports[`GoogleGeminiApi.requestTemplate prompt, contents ending with model function_call, $tools without matching invocation (appends prompt; TODO logs warning) 1`] = `
+{
+  "contents": [
+    {
+      "parts": [
+        {
+          "function_call": {
+            "args": {
+              "key": "value",
+            },
+            "name": "mock-function",
+          },
+        },
+      ],
+      "role": "model",
+    },
+    {
+      "parts": [],
+      "role": "user",
+    },
+  ],
+  "tools": [
+    {
+      "function_declarations": [
+        {
+          "description": "another-description",
+          "name": "another-function",
+          "parameters": {
+            "properties": {
+              "another-key": {
+                "description": "another-key-description",
+                "type": "STRING",
+              },
+            },
+            "required": [],
+            "type": "OBJECT",
+          },
+        },
+      ],
+    },
+  ],
+}
+`;
+
+exports[`GoogleGeminiApi.requestTemplate prompt, contents ending with model function_call, no $tools (appends prompt; TODO logs warning) 1`] = `
+{
+  "contents": [
+    {
+      "parts": [
+        {
+          "function_call": {
+            "args": {
+              "key": "value",
+            },
+            "name": "mock-function",
+          },
+        },
+      ],
+      "role": "model",
     },
     {
       "parts": [
@@ -96,25 +236,70 @@ exports[`GoogleGeminiApi.requestTemplate prompt, contents with function_call 1`]
 }
 `;
 
-exports[`GoogleGeminiApi.requestTemplate prompt, contents with function_response 1`] = `
+exports[`GoogleGeminiApi.requestTemplate prompt, contents ending with user (does not append prompt) 1`] = `
 {
   "contents": [
+    {
+      "parts": [
+        {
+          "text": "mock-model-text",
+        },
+      ],
+      "role": "model",
+    },
+    {
+      "parts": [
+        {
+          "text": "mock-user-text",
+        },
+      ],
+      "role": "user",
+    },
+    {
+      "parts": [
+        {
+          "text": "mock-model-text-2",
+        },
+      ],
+      "role": "model",
+    },
+    {
+      "parts": [
+        {
+          "text": "mock-user-text-2",
+        },
+      ],
+      "role": "user",
+    },
+  ],
+}
+`;
+
+exports[`GoogleGeminiApi.requestTemplate prompt, contents ending with user function_response (doesnt append prompt) 1`] = `
+{
+  "contents": [
+    {
+      "parts": [
+        {
+          "function_call": {
+            "args": {
+              "key": "value",
+            },
+            "name": "mock-function",
+          },
+        },
+      ],
+      "role": "model",
+    },
     {
       "parts": [
         {
           "function_response": {
             "name": "mock-function",
             "response": {
-              "key": "value",
+              "responseKey": "responseValue",
             },
           },
-        },
-      ],
-    },
-    {
-      "parts": [
-        {
-          "text": "mock-prompt",
         },
       ],
       "role": "user",
@@ -591,6 +776,77 @@ exports[`GoogleGeminiApi.requestTemplate prompt, tools 1`] = `
                 "type": "STRING",
               },
             },
+            "type": "OBJECT",
+          },
+        },
+      ],
+    },
+  ],
+}
+`;
+
+exports[`GoogleGeminiApi.requestTemplate prompt, tools, $tools 1`] = `
+{
+  "contents": [
+    {
+      "parts": [
+        {
+          "text": "mock-prompt",
+        },
+      ],
+      "role": "user",
+    },
+  ],
+  "tools": [
+    {
+      "function_declarations": [
+        {
+          "description": "mock-description",
+          "name": "mock-function",
+          "parameters": {
+            "properties": {
+              "key": {
+                "type": "STRING",
+              },
+            },
+            "type": "OBJECT",
+          },
+        },
+      ],
+    },
+    {
+      "function_declarations": [
+        {
+          "description": "mock-description-1",
+          "name": "mock-function-1",
+          "parameters": {
+            "properties": {
+              "mock-function-1-param-1": {
+                "description": "mock-function-1-param-1-description-1",
+                "type": "STRING",
+              },
+              "mock-function-1-param-2": {
+                "description": "mock-function-1-param-2-description-2",
+                "type": "NUMBER",
+              },
+            },
+            "required": [
+              "mock-function-1-param-2",
+            ],
+            "type": "OBJECT",
+          },
+        },
+        {
+          "description": "mock-description-2",
+          "name": "mock-function-2",
+          "parameters": {
+            "properties": {
+              "mock-function-2-param-1": {
+                "description": "mock-function-2-param-1-description-1",
+                "type": "BOOLEAN",
+              },
+            },
+            "required": [],
             "type": "OBJECT",
           },
         },

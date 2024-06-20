@@ -27,23 +27,27 @@ export type ConvertParamMapToArgs<TParamMap extends ToolParamMap> = {
 };
 
 export class Tool<TParamMap extends ToolParamMap, TReturns = unknown> {
-  private invokeFn: (args: ConvertParamMapToArgs<TParamMap>) => TReturns;
+  private invokeFn: (
+    args: ConvertParamMapToArgs<TParamMap>,
+  ) => TReturns | Promise<TReturns>;
 
-  public descriptor: ToolDescriptor;
+  public descriptor: ToolDescriptor<ConvertParamMapToArgs<TParamMap>, TReturns>;
 
   constructor(
     name: string,
     description: string,
     paramMap: TParamMap,
-    invokeFn: (args: ConvertParamMapToArgs<TParamMap>) => TReturns,
+    invokeFn: (
+      args: ConvertParamMapToArgs<TParamMap>,
+    ) => TReturns | Promise<TReturns>,
   ) {
-    this.invokeFn = invokeFn;
     this.descriptor = {
       name,
       description,
       parameters: this.createParameters(paramMap),
       invocations: [],
     };
+    this.invokeFn = invokeFn;
   }
 
   // eslint-disable-next-line class-methods-use-this
@@ -56,53 +60,82 @@ export class Tool<TParamMap extends ToolParamMap, TReturns = unknown> {
     }));
   }
 
-  public invoke(args: ConvertParamMapToArgs<TParamMap>): TReturns {
-    const returned = this.invokeFn(args);
-
+  public addInvocation(args: ConvertParamMapToArgs<TParamMap>) {
     this.descriptor.invocations.push({
       arguments: args,
-      returned,
+      resolved: false,
     });
+  }
 
-    return returned;
+  public hasUnresolved(): boolean {
+    return this.descriptor.invocations.some(
+      (invocation) => !invocation.resolved,
+    );
+  }
+
+  public async resolveAll(): Promise<Array<TReturns>> {
+    const invocations = await Promise.all(
+      this.descriptor.invocations.map(async (invocation) => {
+        if (invocation.resolved) {
+          return invocation;
+        }
+        const returned = await this.invokeFn(invocation.arguments);
+        return {
+          ...invocation,
+          returned,
+          resolved: true,
+        };
+      }),
+    );
+
+    this.descriptor.invocations = invocations;
+
+    return invocations.map(({ returned }) => returned);
   }
 }
 
-export const a = new Tool(
-  "get_current_weather",
-  "Get the current weather for a given location",
-  {
-    city: {
-      description: "The city name",
-      type: "STR",
-      required: true,
-    },
-    state: {
-      description: "The state name",
-      type: "STR",
-      required: true,
-    },
-    zipcode: {
-      description: "An optional zipcode",
-      type: "NUM",
-      required: false,
-    },
-  },
-  // should work:
-  ({ city, state, zipcode }) => {
-    console.log("Invoking get_current_weather tool...", {
-      city,
-      state,
-      zipcode,
-    });
-    return {
-      temperature: "70",
-    };
-  },
-);
+// return {
+//   ...invocation,
+//   returned,
+//   resolved: true,
+// };
 
-a.invoke({ city: "San Francisco", state: "CA" });
-a.invoke({ city: "San Francisco", state: "CA", zipcode: 94105 });
+// export const a = new Tool(
+//   "get_current_weather",
+//   "Get the current weather for a given location",
+//   {
+//     city: {
+//       description: "The city name",
+//       type: "STR",
+//       required: true,
+//     },
+//     state: {
+//       description: "The state name",
+//       type: "STR",
+//       required: true,
+//     },
+//     zipcode: {
+//       description: "An optional zipcode",
+//       type: "NUM",
+//       required: false,
+//     },
+//   },
+//   // should work:
+//   ({ city, state, zipcode }) => {
+//     console.log("Invoking get_current_weather tool...", {
+//       city,
+//       state,
+//       zipcode,
+//     });
+//     return {
+//       temperature: "70",
+//     };
+//   },
+// );
+
+// good:
+// a.invoke({ city: "San Francisco", state: "CA" });
+// a.invoke({ city: "San Francisco", state: "CA", zipcode: 94105 });
 
 // bad:
 // a.invoke({ city: "San Francisco" });

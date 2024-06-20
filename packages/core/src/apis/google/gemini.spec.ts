@@ -58,7 +58,41 @@ describe("GoogleGeminiApi.requestTemplate", () => {
    * "Native" few shot options (prompt, contents, system_instruction):
    */
 
-  test("prompt, contents (appends prompt)", () => {
+  test("prompt, contents with user / model (appends prompt)", () => {
+    const rendered = render({
+      prompt: "mock-prompt",
+      contents: [
+        {
+          role: "user",
+          parts: [{ text: "mock-user-text" }],
+        },
+        {
+          role: "model",
+          parts: [{ text: "mock-model-text" }],
+        },
+      ],
+    });
+    expect(rendered).toMatchSnapshot();
+  });
+
+  test("prompt, contents with model / user (prepends prompt)", () => {
+    const rendered = render({
+      prompt: "mock-prompt",
+      contents: [
+        {
+          role: "model",
+          parts: [{ text: "mock-model-text" }],
+        },
+        {
+          role: "user",
+          parts: [{ text: "mock-user-text-2" }],
+        },
+      ],
+    });
+    expect(rendered).toMatchSnapshot();
+  });
+
+  test("prompt, contents starting and ending with model (appends AND prepends prompt)", () => {
     const rendered = render({
       prompt: "mock-prompt",
       contents: [
@@ -79,21 +113,17 @@ describe("GoogleGeminiApi.requestTemplate", () => {
     expect(rendered).toMatchSnapshot();
   });
 
-  test("prompt, contents ending with user (does not append prompt)", () => {
+  test("prompt, contents starting and ending with user (does not add prompt)", () => {
     const rendered = render({
       prompt: "mock-prompt-should-not-appear",
       contents: [
-        {
-          role: "model",
-          parts: [{ text: "mock-model-text" }],
-        },
         {
           role: "user",
           parts: [{ text: "mock-user-text" }],
         },
         {
           role: "model",
-          parts: [{ text: "mock-model-text-2" }],
+          parts: [{ text: "mock-model-text" }],
         },
         {
           role: "user",
@@ -126,10 +156,6 @@ describe("GoogleGeminiApi.requestTemplate", () => {
           role: "user",
           parts: [{ text: "mock-user-text" }],
         },
-        {
-          role: "model",
-          parts: [{ text: "mock-model-text-2" }],
-        },
       ],
       system_instruction: {
         parts: [{ text: "mock-system-text" }],
@@ -142,16 +168,46 @@ describe("GoogleGeminiApi.requestTemplate", () => {
    * Combinations of FewShotRequestOptions and "native" options:
    */
 
-  test("prompt, examplePairs, contents", () => {
+  test("prompt, examplePairs, contents with user / model (appends prompt)", () => {
     const rendered = render({
       prompt: "mock-prompt",
       examplePairs: [
-        { user: "mock-user-msg-1", assistant: "mock-assistant-msg-1" },
+        {
+          user: "mock-user-example-pair",
+          assistant: "mock-assistant-example-pair",
+        },
+      ],
+      contents: [
+        {
+          role: "user",
+          parts: [{ text: "mock-user-text" }],
+        },
+        {
+          role: "model",
+          parts: [{ text: "mock-model-text" }],
+        },
+      ],
+    });
+    expect(rendered).toMatchSnapshot();
+  });
+
+  test("prompt, examplePairs, contents with model / user (inserts prompt, conversation is valid)", () => {
+    const rendered = render({
+      prompt: "mock-prompt",
+      examplePairs: [
+        {
+          user: "mock-user-example-pair",
+          assistant: "mock-assistant-example-pair",
+        },
       ],
       contents: [
         {
           role: "model",
           parts: [{ text: "mock-model-text" }],
+        },
+        {
+          role: "user",
+          parts: [{ text: "mock-user-text" }],
         },
       ],
     });
@@ -222,10 +278,14 @@ describe("GoogleGeminiApi.requestTemplate", () => {
    * Tool-related:
    */
 
-  test("prompt, contents ending with function_call, $tools with matching invocation (adds function_response content items)", () => {
+  test("prompt, contents ending with function_call, $tools with matching invocation (appends function_response content items)", () => {
     const rendered = render({
       prompt: "mock-prompt",
       contents: [
+        {
+          role: "user",
+          parts: [{ text: "mock-user-text" }],
+        },
         {
           role: "model",
           parts: [
@@ -253,6 +313,7 @@ describe("GoogleGeminiApi.requestTemplate", () => {
           invocations: [
             {
               arguments: { key: "value" },
+              resolved: true,
               returned: { responseKey: "responseValue" },
             },
           ],
@@ -266,6 +327,10 @@ describe("GoogleGeminiApi.requestTemplate", () => {
     const rendered = render({
       prompt: "mock-prompt",
       contents: [
+        {
+          role: "user",
+          parts: [{ text: "mock-user-text" }],
+        },
         {
           role: "model",
           parts: [
@@ -298,7 +363,7 @@ describe("GoogleGeminiApi.requestTemplate", () => {
     // TODO expect warning
   });
 
-  test("prompt, contents ending with model function_call, no $tools (appends prompt; TODO logs warning)", () => {
+  test("prompt, contents ending with model function_call, no $tools (prepends and appends prompt; TODO logs warning)", () => {
     const rendered = render({
       prompt: "mock-prompt",
       contents: [
@@ -319,9 +384,9 @@ describe("GoogleGeminiApi.requestTemplate", () => {
     // TODO expect warning
   });
 
-  test("prompt, contents ending with user function_response (doesnt append prompt)", () => {
+  test("prompt, contents ending with user function_response (prepends prompt)", () => {
     const rendered = render({
-      prompt: "mock-prompt-should-not-appear",
+      prompt: "mock-prompt",
       contents: [
         {
           role: "model",

@@ -68,17 +68,9 @@ exports[`GoogleGeminiApi.requestTemplate prompt, $tools 1`] = `
 }
 `;
 
-exports[`GoogleGeminiApi.requestTemplate prompt, contents (appends prompt) 1`] = `
+exports[`GoogleGeminiApi.requestTemplate prompt, contents ending with function_call, $tools with matching invocation (appends function_response content items) 1`] = `
 {
   "contents": [
-    {
-      "parts": [
-        {
-          "text": "mock-model-text",
-        },
-      ],
-      "role": "model",
-    },
     {
       "parts": [
         {
@@ -90,30 +82,7 @@ exports[`GoogleGeminiApi.requestTemplate prompt, contents (appends prompt) 1`] =
     {
       "parts": [
         {
-          "text": "mock-model-text-2",
-        },
-      ],
-      "role": "model",
-    },
-    {
-      "parts": [
-        {
-          "text": "mock-prompt",
-        },
-      ],
-      "role": "user",
-    },
-  ],
-}
-`;
-
-exports[`GoogleGeminiApi.requestTemplate prompt, contents ending with function_call, $tools with matching invocation (adds function_response content items) 1`] = `
-{
-  "contents": [
-    {
-      "parts": [
-        {
-          "function_call": {
+          "functionCall": {
             "args": {
               "key": "value",
             },
@@ -170,7 +139,15 @@ exports[`GoogleGeminiApi.requestTemplate prompt, contents ending with model func
     {
       "parts": [
         {
-          "function_call": {
+          "text": "mock-user-text",
+        },
+      ],
+      "role": "user",
+    },
+    {
+      "parts": [
+        {
+          "functionCall": {
             "args": {
               "key": "value",
             },
@@ -181,7 +158,11 @@ exports[`GoogleGeminiApi.requestTemplate prompt, contents ending with model func
       "role": "model",
     },
     {
-      "parts": [],
+      "parts": [
+        {
+          "text": "mock-prompt",
+        },
+      ],
       "role": "user",
     },
   ],
@@ -208,13 +189,21 @@ exports[`GoogleGeminiApi.requestTemplate prompt, contents ending with model func
 }
 `;
 
-exports[`GoogleGeminiApi.requestTemplate prompt, contents ending with model function_call, no $tools (appends prompt; TODO logs warning) 1`] = `
+exports[`GoogleGeminiApi.requestTemplate prompt, contents ending with model function_call, no $tools (prepends and appends prompt; TODO logs warning) 1`] = `
 {
   "contents": [
     {
       "parts": [
         {
-          "function_call": {
+          "text": "mock-prompt",
+        },
+      ],
+      "role": "user",
+    },
+    {
+      "parts": [
+        {
+          "functionCall": {
             "args": {
               "key": "value",
             },
@@ -236,21 +225,13 @@ exports[`GoogleGeminiApi.requestTemplate prompt, contents ending with model func
 }
 `;
 
-exports[`GoogleGeminiApi.requestTemplate prompt, contents ending with user (does not append prompt) 1`] = `
+exports[`GoogleGeminiApi.requestTemplate prompt, contents ending with user function_response (prepends prompt) 1`] = `
 {
   "contents": [
     {
       "parts": [
         {
-          "text": "mock-model-text",
-        },
-      ],
-      "role": "model",
-    },
-    {
-      "parts": [
-        {
-          "text": "mock-user-text",
+          "text": "mock-prompt",
         },
       ],
       "role": "user",
@@ -258,30 +239,7 @@ exports[`GoogleGeminiApi.requestTemplate prompt, contents ending with user (does
     {
       "parts": [
         {
-          "text": "mock-model-text-2",
-        },
-      ],
-      "role": "model",
-    },
-    {
-      "parts": [
-        {
-          "text": "mock-user-text-2",
-        },
-      ],
-      "role": "user",
-    },
-  ],
-}
-`;
-
-exports[`GoogleGeminiApi.requestTemplate prompt, contents ending with user function_response (doesnt append prompt) 1`] = `
-{
-  "contents": [
-    {
-      "parts": [
-        {
-          "function_call": {
+          "functionCall": {
             "args": {
               "key": "value",
             },
@@ -308,9 +266,17 @@ exports[`GoogleGeminiApi.requestTemplate prompt, contents ending with user funct
 }
 `;
 
-exports[`GoogleGeminiApi.requestTemplate prompt, contents, system_instruction 1`] = `
+exports[`GoogleGeminiApi.requestTemplate prompt, contents starting and ending with model (appends AND prepends prompt) 1`] = `
 {
   "contents": [
+    {
+      "parts": [
+        {
+          "text": "mock-prompt",
+        },
+      ],
+      "role": "user",
+    },
     {
       "parts": [
         {
@@ -339,6 +305,130 @@ exports[`GoogleGeminiApi.requestTemplate prompt, contents, system_instruction 1`
       "parts": [
         {
           "text": "mock-prompt",
+        },
+      ],
+      "role": "user",
+    },
+  ],
+}
+`;
+
+exports[`GoogleGeminiApi.requestTemplate prompt, contents starting and ending with user (does not add prompt) 1`] = `
+{
+  "contents": [
+    {
+      "parts": [
+        {
+          "text": "mock-user-text",
+        },
+      ],
+      "role": "user",
+    },
+    {
+      "parts": [
+        {
+          "text": "mock-model-text",
+        },
+      ],
+      "role": "model",
+    },
+    {
+      "parts": [
+        {
+          "text": "mock-user-text-2",
+        },
+      ],
+      "role": "user",
+    },
+  ],
+}
+`;
+
+exports[`GoogleGeminiApi.requestTemplate prompt, contents with model / user (prepends prompt) 1`] = `
+{
+  "contents": [
+    {
+      "parts": [
+        {
+          "text": "mock-prompt",
+        },
+      ],
+      "role": "user",
+    },
+    {
+      "parts": [
+        {
+          "text": "mock-model-text",
+        },
+      ],
+      "role": "model",
+    },
+    {
+      "parts": [
+        {
+          "text": "mock-user-text-2",
+        },
+      ],
+      "role": "user",
+    },
+  ],
+}
+`;
+
+exports[`GoogleGeminiApi.requestTemplate prompt, contents with user / model (appends prompt) 1`] = `
+{
+  "contents": [
+    {
+      "parts": [
+        {
+          "text": "mock-user-text",
+        },
+      ],
+      "role": "user",
+    },
+    {
+      "parts": [
+        {
+          "text": "mock-model-text",
+        },
+      ],
+      "role": "model",
+    },
+    {
+      "parts": [
+        {
+          "text": "mock-prompt",
+        },
+      ],
+      "role": "user",
+    },
+  ],
+}
+`;
+
+exports[`GoogleGeminiApi.requestTemplate prompt, contents, system_instruction 1`] = `
+{
+  "contents": [
+    {
+      "parts": [
+        {
+          "text": "mock-prompt",
+        },
+      ],
+      "role": "user",
+    },
+    {
+      "parts": [
+        {
+          "text": "mock-model-text",
+        },
+      ],
+      "role": "model",
+    },
+    {
+      "parts": [
+        {
+          "text": "mock-user-text",
         },
       ],
       "role": "user",
@@ -401,13 +491,13 @@ exports[`GoogleGeminiApi.requestTemplate prompt, examplePairs 1`] = `
 }
 `;
 
-exports[`GoogleGeminiApi.requestTemplate prompt, examplePairs, contents 1`] = `
+exports[`GoogleGeminiApi.requestTemplate prompt, examplePairs, contents with model / user (inserts prompt, conversation is valid) 1`] = `
 {
   "contents": [
     {
       "parts": [
         {
-          "text": "mock-user-msg-1",
+          "text": "mock-user-example-pair",
         },
       ],
       "role": "user",
@@ -415,10 +505,65 @@ exports[`GoogleGeminiApi.requestTemplate prompt, examplePairs, contents 1`] = `
     {
       "parts": [
         {
-          "text": "mock-assistant-msg-1",
+          "text": "mock-assistant-example-pair",
         },
       ],
       "role": "model",
+    },
+    {
+      "parts": [
+        {
+          "text": "mock-prompt",
+        },
+      ],
+      "role": "user",
+    },
+    {
+      "parts": [
+        {
+          "text": "mock-model-text",
+        },
+      ],
+      "role": "model",
+    },
+    {
+      "parts": [
+        {
+          "text": "mock-user-text",
+        },
+      ],
+      "role": "user",
+    },
+  ],
+}
+`;
+
+exports[`GoogleGeminiApi.requestTemplate prompt, examplePairs, contents with user / model (appends prompt) 1`] = `
+{
+  "contents": [
+    {
+      "parts": [
+        {
+          "text": "mock-user-example-pair",
+        },
+      ],
+      "role": "user",
+    },
+    {
+      "parts": [
+        {
+          "text": "mock-assistant-example-pair",
+        },
+      ],
+      "role": "model",
+    },
+    {
+      "parts": [
+        {
+          "text": "mock-user-text",
+        },
+      ],
+      "role": "user",
     },
     {
       "parts": [
@@ -458,6 +603,14 @@ exports[`GoogleGeminiApi.requestTemplate prompt, examplePairs, contents, system_
         },
       ],
       "role": "model",
+    },
+    {
+      "parts": [
+        {
+          "text": "mock-prompt",
+        },
+      ],
+      "role": "user",
     },
     {
       "parts": [
@@ -628,6 +781,14 @@ exports[`GoogleGeminiApi.requestTemplate prompt, system, contents 1`] = `
     {
       "parts": [
         {
+          "text": "mock-prompt",
+        },
+      ],
+      "role": "user",
+    },
+    {
+      "parts": [
+        {
           "text": "mock-model-text",
         },
       ],
@@ -705,6 +866,14 @@ exports[`GoogleGeminiApi.requestTemplate prompt, system_instruction 1`] = `
 exports[`GoogleGeminiApi.requestTemplate prompt, tool, tools_config, system_instruction, safety_settings, generation_config 1`] = `
 {
   "contents": [
+    {
+      "parts": [
+        {
+          "text": "mock-prompt",
+        },
+      ],
+      "role": "user",
+    },
     {
       "parts": [
         {

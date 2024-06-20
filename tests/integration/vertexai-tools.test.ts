@@ -196,8 +196,9 @@ test("VertexAI - Google Gemini ($tools)", async () => {
           state,
           zipcode,
         });
+        const randomTemp = Math.random();
         return {
-          temperature: "70",
+          temperature: `${randomTemp}F`,
         };
       },
     ),
@@ -216,6 +217,13 @@ test("VertexAI - Google Gemini ($tools)", async () => {
 
   console.log(JSON.stringify(tools, null, 2));
 
+  if (tools[0]?.hasUnresolved()) {
+    console.log("Has unresolved! Resolving:");
+    await tools[0]?.resolveAll();
+  } else {
+    console.log("No unresolved!");
+  }
+
   const last = response.data.candidates[0]?.content;
 
   if (!last) {
@@ -223,18 +231,10 @@ test("VertexAI - Google Gemini ($tools)", async () => {
   }
 
   const response2 = await model.sendRequest({
-    system: "Use tools to help answer questions.",
+    system:
+      "Use tools to help answer questions. Keep in mind that you can make multiple tool calls.",
     prompt: "What is the weather in Boston and New York City?",
     contents: [
-      {
-        // TODO eyyy insert prompt at start etc etc...
-        role: "user",
-        parts: [
-          {
-            text: "What is the weather in Boston and New York City?",
-          },
-        ],
-      },
       {
         // ...last,
         // TODO fix the need for this (above line gives error cant convert between t.string() and "model" | "user")
@@ -246,6 +246,14 @@ test("VertexAI - Google Gemini ($tools)", async () => {
   });
 
   console.log(JSON.stringify(response2.data.candidates[0]?.content, null, 2));
+
+  if (tools[0]?.hasUnresolved()) {
+    console.log(
+      "More unresolved! Test ending but should keep going at this point",
+    );
+  } else {
+    console.log("No unresolved! Hopefully we got an answer.");
+  }
 
   // assert
   expect(response2).toMatchApiSnapshot();

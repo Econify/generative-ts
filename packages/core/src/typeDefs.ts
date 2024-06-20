@@ -81,14 +81,29 @@ export interface ToolParam {
   required: boolean;
 }
 
-export interface ToolInvocation<TArgs> {
+export interface UnresolvedToolInvocation<TArgs> {
   arguments: TArgs;
-  returned?: unknown;
+  resolved?: false;
 }
 
-export interface ToolDescriptor {
+export interface ResolvedToolInvocation<TArgs, TReturns> {
+  arguments: TArgs;
+  returned: TReturns;
+  resolved: true;
+}
+
+export type ToolInvocation<TArgs, TReturns> =
+  | UnresolvedToolInvocation<TArgs>
+  | ResolvedToolInvocation<TArgs, TReturns>;
+
+export interface ToolDescriptor<
+  TArgs = {
+    [key: string]: unknown;
+  },
+  TReturns = unknown,
+> {
   name: string;
   description: string;
   parameters: ToolParam[];
-  invocations: ToolInvocation<any>[];
+  invocations: ToolInvocation<TArgs, TReturns>[];
 }

@@ -12,6 +12,13 @@ import { composite } from "../_utils/ioTsHelpers";
 
 import type { FewShotRequestOptions, ToolUseRequestOptions } from "../shared";
 
+import {
+  FUNCTION_CALL_WITHOUT_TOOLS,
+  NO_MATCHING_INVOCATION,
+  NO_MATCHING_TOOL,
+  UNRESOLVED_INVOCATION,
+} from "./errors";
+
 interface FunctionCall {
   name: string;
   args: Record<string, unknown>;
@@ -164,46 +171,39 @@ export const GoogleGeminiTemplate = new FnTemplate(
     safety_settings,
     generation_config,
   }: GoogleGeminiOptions) => {
-    const _contents: GoogleGeminiContentItem[] = [
-      ...(examplePairs
-        ? examplePairs.flatMap((pair) => [
-            {
-              role: "user" as const,
-              parts: [{ text: pair.user }],
-            },
-            {
-              role: "model" as const,
-              parts: [{ text: pair.assistant }],
-            },
-          ])
-        : []),
+    let _contents = (
+      contents && Array.isArray(contents) ? contents : [contents]
+    ).filter((i) => i);
 
-      ...(contents ? (Array.isArray(contents) ? contents : [contents]) : []),
-    ];
-
+    const firstItem = _contents[0];
     const lastItem = _contents[_contents.length - 1];
 
-    if (!lastItem) {
-      _contents.push({
-        role: "user",
-        parts: [{ text: prompt }],
-      });
-    } else if (lastItem.role === "model") {
+    // the conversation must start with a user message:
+    if (!firstItem || firstItem.role === "model") {
+      _contents = [
+        {
+          role: "user",
+          parts: [{ text: prompt }],
+        },
+        ..._contents,
+      ];
+    }
+
+    // the conversation must end with a user message (either prompt or tool responses):
+    if (lastItem && lastItem.role === "model") {
       const functionCalls = lastItem.parts
         .filter((part): part is PartWithFunctionCall => "functionCall" in part)
         .map((part) => part.functionCall);
 
       if (functionCalls.length && $tools) {
+        // append tool responses:
         const responses: PartWithFunctionResponse[] = [];
 
         functionCalls.forEach(({ name, args }) => {
           const matchingTool = $tools.find((tool) => tool.name === name);
 
           if (!matchingTool) {
-            console.warn(
-              "The last item of conversation history (`contents`) contains a `function_call`, but no matching tool was found in `$tools`. Model behavior might be unexpected, because model's function calls were effectively ignored.",
-            );
-
+            console.warn(NO_MATCHING_TOOL);
             return;
           }
 
@@ -218,53 +218,75 @@ export const GoogleGeminiTemplate = new FnTemplate(
             );
 
           if (!matchingInvocation) {
-            console.warn(
-              "The last item of conversation history (`contents`) contains a `function_call`, and a matching `$tool` was found, but no matching invocation was found in the tool's invocations. (Did you forget to call `mapGeminiResponseToToolInvocations`?) Model behavior might be unexpected, because model's function calls were effectively ignored.",
-            );
-
+            console.warn(NO_MATCHING_INVOCATION);
             return;
           }
 
-          const { returned } = matchingInvocation;
-
-          if (!returned) {
-            console.warn(
-              "The last item of conversation history (`contents`) contains a `function_call`, and a $tool with matching invocations was found, but that invocation does NOT have a `returned` value! (Did you forget to execute the tool?) Model behavior might be unexpected, because model's function calls were effectively ignored.",
-            );
-
+          if (!matchingInvocation.resolved) {
+            console.warn(UNRESOLVED_INVOCATION);
             return;
           }
 
           responses.push({
             function_response: {
               name: matchingTool.name,
+              // TODO dont wrap in object if already an object?
               response: {
-                returned,
+                returned: matchingInvocation.returned,
               },
             },
           });
         });
 
-        _contents.push({
-          role: "user",
-          parts: responses,
-        });
+        if (responses.length) {
+          _contents = [
+            ..._contents,
+            {
+              role: "user",
+              parts: responses,
+            },
+          ];
+        } else {
+          // if no tool responses, we logged a warning above, and now append prompt as fallback:
+          _contents = [
+            ..._contents,
+            {
+              role: "user",
+              parts: [{ text: prompt }],
+            },
+          ];
+        }
       } else {
         if (functionCalls.length && !$tools) {
-          console.warn(
-            "The last item of conversation history (`contents`) contains a `function_call`, but no `$tools` were passed, so generative-ts cannot append `function_response` to conversation history. Instead, appending prompt to end of conversation history. Model behavior might be unexpected, because model's function calls were effectively ignored.",
-          );
+          console.warn(FUNCTION_CALL_WITHOUT_TOOLS);
         }
 
-        _contents.push({
-          role: "user",
-          parts: [{ text: prompt }],
-        });
+        _contents = [
+          ..._contents,
+          {
+            role: "user",
+            parts: [{ text: prompt }],
+          },
+        ];
       }
     }
 
     const rewritten = {
-      contents: _contents,
+      contents: [
+        ...(examplePairs
+          ? examplePairs.flatMap((pair) => [
+              {
+                role: "user" as const,
+                parts: [{ text: pair.user }],
+              },
+              {
+                role: "model" as const,
+                parts: [{ text: pair.assistant }],
+              },
+            ])
+          : []),
+        ..._contents,
+      ],
       ...(tools || $tools
         ? {
             tools: [

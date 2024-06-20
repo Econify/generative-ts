@@ -84,7 +84,7 @@ export function mapGeminiResponseToToolInvocations<
           validatedArgs[param.name] = argValue;
         });
 
-        tool.invoke(validatedArgs as ConvertParamMapToArgs<TParamMap>);
+        tool.addInvocation(validatedArgs as ConvertParamMapToArgs<TParamMap>);
       }
     });
   });

@@ -104,7 +104,7 @@ export interface CohereChatOptions
 export const CohereChatTemplate = new FnTemplate(
   ({
     modelId,
-    prompt,
+    $prompt,
     chat_history,
     examplePairs,
     system,
@@ -130,7 +130,7 @@ export const CohereChatTemplate = new FnTemplate(
   }: CohereChatOptions) => {
     const rewritten = {
       model: modelId,
-      message: prompt,
+      message: $prompt,
       ...(chat_history || examplePairs
         ? {
             chat_history: [

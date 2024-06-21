@@ -35,7 +35,7 @@ export interface CohereGenerateOptions extends ModelRequestOptions {
  */
 export const CohereGenerateTemplate = new FnTemplate(
   ({
-    prompt,
+    $prompt,
     num_generations,
     stream,
     max_tokens,
@@ -54,7 +54,7 @@ export const CohereGenerateTemplate = new FnTemplate(
   }: CohereGenerateOptions) => {
     return JSON.stringify(
       {
-        prompt,
+        prompt: $prompt,
         num_generations,
         stream,
         max_tokens,

@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`GoogleGeminiApi.requestTemplate prompt 1`] = `
+exports[`GoogleGeminiApi.requestTemplate $prompt 1`] = `
 {
   "contents": [
     {
@@ -15,7 +15,7 @@ exports[`GoogleGeminiApi.requestTemplate prompt 1`] = `
 }
 `;
 
-exports[`GoogleGeminiApi.requestTemplate prompt, $tools 1`] = `
+exports[`GoogleGeminiApi.requestTemplate $prompt, $tools 1`] = `
 {
   "contents": [
     {
@@ -68,7 +68,7 @@ exports[`GoogleGeminiApi.requestTemplate prompt, $tools 1`] = `
 }
 `;
 
-exports[`GoogleGeminiApi.requestTemplate prompt, contents ending with function_call, $tools with matching invocation (appends function_response content items) 1`] = `
+exports[`GoogleGeminiApi.requestTemplate $prompt, contents ending with function_call, $tools with matching invocation (appends function_response content items) 1`] = `
 {
   "contents": [
     {
@@ -133,7 +133,7 @@ exports[`GoogleGeminiApi.requestTemplate prompt, contents ending with function_c
 }
 `;
 
-exports[`GoogleGeminiApi.requestTemplate prompt, contents ending with model function_call, $tools without matching invocation (appends prompt; TODO logs warning) 1`] = `
+exports[`GoogleGeminiApi.requestTemplate $prompt, contents ending with model function_call, $tools without matching invocation (appends $prompt; TODO logs warning) 1`] = `
 {
   "contents": [
     {
@@ -189,7 +189,7 @@ exports[`GoogleGeminiApi.requestTemplate prompt, contents ending with model func
 }
 `;
 
-exports[`GoogleGeminiApi.requestTemplate prompt, contents ending with model function_call, no $tools (prepends and appends prompt; TODO logs warning) 1`] = `
+exports[`GoogleGeminiApi.requestTemplate $prompt, contents ending with model function_call, no $tools (prepends and appends $prompt; TODO logs warning) 1`] = `
 {
   "contents": [
     {
@@ -225,7 +225,7 @@ exports[`GoogleGeminiApi.requestTemplate prompt, contents ending with model func
 }
 `;
 
-exports[`GoogleGeminiApi.requestTemplate prompt, contents ending with user function_response (prepends prompt) 1`] = `
+exports[`GoogleGeminiApi.requestTemplate $prompt, contents ending with user function_response (prepends $prompt) 1`] = `
 {
   "contents": [
     {
@@ -266,7 +266,7 @@ exports[`GoogleGeminiApi.requestTemplate prompt, contents ending with user funct
 }
 `;
 
-exports[`GoogleGeminiApi.requestTemplate prompt, contents starting and ending with model (appends AND prepends prompt) 1`] = `
+exports[`GoogleGeminiApi.requestTemplate $prompt, contents starting and ending with model (appends AND prepends $prompt) 1`] = `
 {
   "contents": [
     {
@@ -313,7 +313,7 @@ exports[`GoogleGeminiApi.requestTemplate prompt, contents starting and ending wi
 }
 `;
 
-exports[`GoogleGeminiApi.requestTemplate prompt, contents starting and ending with user (does not add prompt) 1`] = `
+exports[`GoogleGeminiApi.requestTemplate $prompt, contents starting and ending with user (does not add $prompt) 1`] = `
 {
   "contents": [
     {
@@ -344,7 +344,7 @@ exports[`GoogleGeminiApi.requestTemplate prompt, contents starting and ending wi
 }
 `;
 
-exports[`GoogleGeminiApi.requestTemplate prompt, contents with model / user (prepends prompt) 1`] = `
+exports[`GoogleGeminiApi.requestTemplate $prompt, contents with model / user (prepends $prompt) 1`] = `
 {
   "contents": [
     {
@@ -375,7 +375,7 @@ exports[`GoogleGeminiApi.requestTemplate prompt, contents with model / user (pre
 }
 `;
 
-exports[`GoogleGeminiApi.requestTemplate prompt, contents with user / model (appends prompt) 1`] = `
+exports[`GoogleGeminiApi.requestTemplate $prompt, contents with user / model (appends $prompt) 1`] = `
 {
   "contents": [
     {
@@ -406,7 +406,7 @@ exports[`GoogleGeminiApi.requestTemplate prompt, contents with user / model (app
 }
 `;
 
-exports[`GoogleGeminiApi.requestTemplate prompt, contents, system_instruction 1`] = `
+exports[`GoogleGeminiApi.requestTemplate $prompt, contents, system_instruction 1`] = `
 {
   "contents": [
     {
@@ -444,7 +444,7 @@ exports[`GoogleGeminiApi.requestTemplate prompt, contents, system_instruction 1`
 }
 `;
 
-exports[`GoogleGeminiApi.requestTemplate prompt, examplePairs 1`] = `
+exports[`GoogleGeminiApi.requestTemplate $prompt, examplePairs 1`] = `
 {
   "contents": [
     {
@@ -491,7 +491,7 @@ exports[`GoogleGeminiApi.requestTemplate prompt, examplePairs 1`] = `
 }
 `;
 
-exports[`GoogleGeminiApi.requestTemplate prompt, examplePairs, contents with model / user (inserts prompt, conversation is valid) 1`] = `
+exports[`GoogleGeminiApi.requestTemplate $prompt, examplePairs, contents with model / user (inserts $prompt, conversation is valid) 1`] = `
 {
   "contents": [
     {
@@ -538,7 +538,7 @@ exports[`GoogleGeminiApi.requestTemplate prompt, examplePairs, contents with mod
 }
 `;
 
-exports[`GoogleGeminiApi.requestTemplate prompt, examplePairs, contents with user / model (appends prompt) 1`] = `
+exports[`GoogleGeminiApi.requestTemplate $prompt, examplePairs, contents with user / model (appends $prompt) 1`] = `
 {
   "contents": [
     {
@@ -585,7 +585,7 @@ exports[`GoogleGeminiApi.requestTemplate prompt, examplePairs, contents with use
 }
 `;
 
-exports[`GoogleGeminiApi.requestTemplate prompt, examplePairs, contents, system_instruction 1`] = `
+exports[`GoogleGeminiApi.requestTemplate $prompt, examplePairs, contents, system_instruction 1`] = `
 {
   "contents": [
     {
@@ -639,7 +639,7 @@ exports[`GoogleGeminiApi.requestTemplate prompt, examplePairs, contents, system_
 }
 `;
 
-exports[`GoogleGeminiApi.requestTemplate prompt, examplePairs, system 1`] = `
+exports[`GoogleGeminiApi.requestTemplate $prompt, examplePairs, system 1`] = `
 {
   "contents": [
     {
@@ -677,7 +677,7 @@ exports[`GoogleGeminiApi.requestTemplate prompt, examplePairs, system 1`] = `
 }
 `;
 
-exports[`GoogleGeminiApi.requestTemplate prompt, examplePairs, system_instruction 1`] = `
+exports[`GoogleGeminiApi.requestTemplate $prompt, examplePairs, system_instruction 1`] = `
 {
   "contents": [
     {
@@ -715,7 +715,7 @@ exports[`GoogleGeminiApi.requestTemplate prompt, examplePairs, system_instructio
 }
 `;
 
-exports[`GoogleGeminiApi.requestTemplate prompt, generation_config 1`] = `
+exports[`GoogleGeminiApi.requestTemplate $prompt, generation_config 1`] = `
 {
   "contents": [
     {
@@ -734,7 +734,7 @@ exports[`GoogleGeminiApi.requestTemplate prompt, generation_config 1`] = `
 }
 `;
 
-exports[`GoogleGeminiApi.requestTemplate prompt, safety_settings 1`] = `
+exports[`GoogleGeminiApi.requestTemplate $prompt, safety_settings 1`] = `
 {
   "contents": [
     {
@@ -753,7 +753,7 @@ exports[`GoogleGeminiApi.requestTemplate prompt, safety_settings 1`] = `
 }
 `;
 
-exports[`GoogleGeminiApi.requestTemplate prompt, system 1`] = `
+exports[`GoogleGeminiApi.requestTemplate $prompt, system 1`] = `
 {
   "contents": [
     {
@@ -775,7 +775,7 @@ exports[`GoogleGeminiApi.requestTemplate prompt, system 1`] = `
 }
 `;
 
-exports[`GoogleGeminiApi.requestTemplate prompt, system, contents 1`] = `
+exports[`GoogleGeminiApi.requestTemplate $prompt, system, contents 1`] = `
 {
   "contents": [
     {
@@ -813,7 +813,7 @@ exports[`GoogleGeminiApi.requestTemplate prompt, system, contents 1`] = `
 }
 `;
 
-exports[`GoogleGeminiApi.requestTemplate prompt, system, system_instruction 1`] = `
+exports[`GoogleGeminiApi.requestTemplate $prompt, system, system_instruction 1`] = `
 {
   "contents": [
     {
@@ -841,7 +841,7 @@ exports[`GoogleGeminiApi.requestTemplate prompt, system, system_instruction 1`] 
 }
 `;
 
-exports[`GoogleGeminiApi.requestTemplate prompt, system_instruction 1`] = `
+exports[`GoogleGeminiApi.requestTemplate $prompt, system_instruction 1`] = `
 {
   "contents": [
     {
@@ -863,7 +863,7 @@ exports[`GoogleGeminiApi.requestTemplate prompt, system_instruction 1`] = `
 }
 `;
 
-exports[`GoogleGeminiApi.requestTemplate prompt, tool, tools_config, system_instruction, safety_settings, generation_config 1`] = `
+exports[`GoogleGeminiApi.requestTemplate $prompt, tool, tools_config, system_instruction, safety_settings, generation_config 1`] = `
 {
   "contents": [
     {
@@ -921,7 +921,7 @@ exports[`GoogleGeminiApi.requestTemplate prompt, tool, tools_config, system_inst
 }
 `;
 
-exports[`GoogleGeminiApi.requestTemplate prompt, tools 1`] = `
+exports[`GoogleGeminiApi.requestTemplate $prompt, tools 1`] = `
 {
   "contents": [
     {
@@ -954,7 +954,7 @@ exports[`GoogleGeminiApi.requestTemplate prompt, tools 1`] = `
 }
 `;
 
-exports[`GoogleGeminiApi.requestTemplate prompt, tools, $tools 1`] = `
+exports[`GoogleGeminiApi.requestTemplate $prompt, tools, $tools 1`] = `
 {
   "contents": [
     {
@@ -1025,7 +1025,7 @@ exports[`GoogleGeminiApi.requestTemplate prompt, tools, $tools 1`] = `
 }
 `;
 
-exports[`GoogleGeminiApi.requestTemplate prompt, tools_config 1`] = `
+exports[`GoogleGeminiApi.requestTemplate $prompt, tools_config 1`] = `
 {
   "contents": [
     {

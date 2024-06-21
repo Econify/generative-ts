@@ -14,12 +14,12 @@ function render(context: Omit<MistralAiOptions, "modelId">) {
 
 describe("MistralAiApi:", () => {
   /**
-   * FewShotRequestOptions (prompt, examplePairs, system):
+   * FewShotRequestOptions ($prompt, examplePairs, system):
    */
 
-  test("prompt", () => {
+  test("$prompt", () => {
     const rendered = render({
-      prompt: "mock-prompt",
+      $prompt: "mock-prompt",
     });
 
     expect(rendered).toMatchSnapshot();
@@ -27,9 +27,9 @@ describe("MistralAiApi:", () => {
     expect(rendered).toMatchSnapshot();
   });
 
-  test("prompt, examplePairs", () => {
+  test("$prompt, examplePairs", () => {
     const rendered = render({
-      prompt: "mock-prompt",
+      $prompt: "mock-prompt",
       examplePairs: [
         { user: "mock-user-msg-1", assistant: "mock-assistant-msg-1" },
         { user: "mock-user-msg-2", assistant: "mock-assistant-msg-2" },
@@ -39,18 +39,18 @@ describe("MistralAiApi:", () => {
     expect(rendered).toMatchSnapshot();
   });
 
-  test("prompt, system", () => {
+  test("$prompt, system", () => {
     const rendered = render({
-      prompt: "mock-prompt",
+      $prompt: "mock-prompt",
       system: "mock-system-text",
     });
 
     expect(rendered).toMatchSnapshot();
   });
 
-  test("prompt, examplePairs, system", () => {
+  test("$prompt, examplePairs, system", () => {
     const rendered = render({
-      prompt: "mock-prompt",
+      $prompt: "mock-prompt",
       examplePairs: [
         { user: "mock-user-msg-1", assistant: "mock-assistant-msg-1" },
       ],
@@ -64,9 +64,9 @@ describe("MistralAiApi:", () => {
    * "Native" few shot options (messages):
    */
 
-  test("prompt, messages", () => {
+  test("$prompt, messages", () => {
     const rendered = render({
-      prompt: "mock-prompt",
+      $prompt: "mock-prompt",
       messages: [
         {
           role: "assistant",
@@ -86,9 +86,9 @@ describe("MistralAiApi:", () => {
     expect(rendered).toMatchSnapshot();
   });
 
-  test("prompt, examplePairs, messages", () => {
+  test("$prompt, examplePairs, messages", () => {
     const rendered = render({
-      prompt: "mock-prompt",
+      $prompt: "mock-prompt",
       examplePairs: [
         { user: "mock-user-msg-1", assistant: "mock-assistant-msg-1" },
       ],
@@ -103,9 +103,9 @@ describe("MistralAiApi:", () => {
     expect(rendered).toMatchSnapshot();
   });
 
-  test("prompt, system, messages", () => {
+  test("$prompt, system, messages", () => {
     const rendered = render({
-      prompt: "mock-prompt",
+      $prompt: "mock-prompt",
       system: "mock-system-text",
       messages: [
         {
@@ -126,9 +126,9 @@ describe("MistralAiApi:", () => {
     expect(rendered).toMatchSnapshot();
   });
 
-  test("prompt, examplePairs, system, messages", () => {
+  test("$prompt, examplePairs, system, messages", () => {
     const rendered = render({
-      prompt: "mock-prompt",
+      $prompt: "mock-prompt",
       examplePairs: [
         { user: "mock-user-msg-1", assistant: "mock-assistant-msg-1" },
       ],
@@ -150,7 +150,7 @@ describe("MistralAiApi:", () => {
 
   test("all options", () => {
     const rendered = render({
-      prompt: "mock-prompt",
+      $prompt: "mock-prompt",
       examplePairs: [
         { user: "mock-user-msg-1", assistant: "mock-assistant-msg-1" },
       ],

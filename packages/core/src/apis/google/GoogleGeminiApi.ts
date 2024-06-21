@@ -24,7 +24,7 @@ import { FUNCTION_CALL_WITHOUT_TOOLS } from "./errors";
  */
 export const GoogleGeminiTemplate = new FnTemplate(
   ({
-    prompt,
+    $prompt,
     examplePairs,
     system,
     $tools,
@@ -47,13 +47,13 @@ export const GoogleGeminiTemplate = new FnTemplate(
       _contents = [
         {
           role: "user",
-          parts: [{ text: prompt }],
+          parts: [{ text: $prompt }],
         },
         ..._contents,
       ];
     }
 
-    // the conversation must end with a user message (either prompt or tool responses):
+    // the conversation must end with a user message (either $prompt or tool responses):
     if (lastItem && lastItem.role === "model") {
       const functionCalls = lastItem.parts.filter(
         (part): part is PartWithFunctionCall => "functionCall" in part,
@@ -73,12 +73,12 @@ export const GoogleGeminiTemplate = new FnTemplate(
             },
           ];
         } else {
-          // if no tool responses, we logged a warning in `applyFunctionCalls`, and now append prompt as fallback:
+          // if no tool responses, we logged a warning in `applyFunctionCalls`, and now append $prompt as fallback:
           _contents = [
             ..._contents,
             {
               role: "user",
-              parts: [{ text: prompt }],
+              parts: [{ text: $prompt }],
             },
           ];
         }
@@ -91,7 +91,7 @@ export const GoogleGeminiTemplate = new FnTemplate(
           ..._contents,
           {
             role: "user",
-            parts: [{ text: prompt }],
+            parts: [{ text: $prompt }],
           },
         ];
       }

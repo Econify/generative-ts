@@ -29,7 +29,7 @@ export interface MistralBedrockOptions
  */
 export const MistralBedrockTemplate = new FnTemplate(
   ({
-    prompt,
+    $prompt,
     system,
     examplePairs,
     max_tokens,
@@ -47,7 +47,7 @@ export const MistralBedrockTemplate = new FnTemplate(
             `${pair.user} [/INST] ${pair.assistant} </s><s>[INST] `,
           ])
         : []),
-      `${prompt} [/INST]`,
+      `${$prompt} [/INST]`,
     ].join("");
 
     const rewritten = {

@@ -16,7 +16,7 @@ import { HttpModelProvider, InferHttpClientOptions } from "../http";
  * });
  *
  * const response = await llama3.sendRequest({
- *   prompt: "Brief History of NY Mets:"
+ *   $prompt: "Brief History of NY Mets:"
  *   // all other OpenAI ChatCompletion options available here (LMStudio uses the OpenAI ChatCompletion API for all the models it hosts)
  * });
  *
@@ -58,7 +58,7 @@ import { HttpModelProvider, InferHttpClientOptions } from "../http";
  * });
  *
  * const response = await llama3.sendRequest({
- *   prompt: "Brief History of NY Mets:"
+ *   $prompt: "Brief History of NY Mets:"
  *   // all other OpenAI ChatCompletion options available here (LMStudio uses the OpenAI ChatCompletion API for all the models it hosts)
  * });
  *

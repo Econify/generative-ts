@@ -40,7 +40,7 @@ export interface Ai21Jurassic2Options extends ModelRequestOptions {
  */
 export const Ai21Jurassic2Template = new FnTemplate(
   ({
-    prompt,
+    $prompt,
     numResults,
     maxTokens,
     minTokens,
@@ -54,7 +54,7 @@ export const Ai21Jurassic2Template = new FnTemplate(
   }: Ai21Jurassic2Options) => {
     return JSON.stringify(
       {
-        prompt,
+        prompt: $prompt,
         numResults,
         maxTokens,
         minTokens,

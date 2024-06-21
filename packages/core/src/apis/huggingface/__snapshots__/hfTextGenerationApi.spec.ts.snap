@@ -1,5 +1,59 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`HfInferenceApi: $prompt and options 1`] = `
+{
+  "inputs": "mock-prompt",
+  "options": {
+    "use_cache": true,
+    "wait_for_model": false,
+  },
+}
+`;
+
+exports[`HfInferenceApi: $prompt and parameters 1`] = `
+{
+  "inputs": "mock-prompt",
+  "parameters": {
+    "do_sample": true,
+    "max_new_tokens": 100,
+    "max_time": 60,
+    "num_return_sequences": 3,
+    "repetition_penalty": 1.2,
+    "return_full_text": true,
+    "temperature": 0.7,
+    "top_k": 50,
+    "top_p": 0.9,
+  },
+}
+`;
+
+exports[`HfInferenceApi: $prompt only 1`] = `
+{
+  "inputs": "mock-prompt",
+}
+`;
+
+exports[`HfInferenceApi: $prompt, parameters, and options 1`] = `
+{
+  "inputs": "mock-prompt",
+  "options": {
+    "use_cache": true,
+    "wait_for_model": false,
+  },
+  "parameters": {
+    "do_sample": true,
+    "max_new_tokens": 100,
+    "max_time": 60,
+    "num_return_sequences": 3,
+    "repetition_penalty": 1.2,
+    "return_full_text": true,
+    "temperature": 0.7,
+    "top_k": 50,
+    "top_p": 0.9,
+  },
+}
+`;
+
 exports[`HfInferenceApi: all options 1`] = `
 {
   "inputs": "mock-prompt",
@@ -32,59 +86,5 @@ exports[`HfInferenceApi: empty parameters 1`] = `
 {
   "inputs": "mock-prompt",
   "parameters": {},
-}
-`;
-
-exports[`HfInferenceApi: prompt and options 1`] = `
-{
-  "inputs": "mock-prompt",
-  "options": {
-    "use_cache": true,
-    "wait_for_model": false,
-  },
-}
-`;
-
-exports[`HfInferenceApi: prompt and parameters 1`] = `
-{
-  "inputs": "mock-prompt",
-  "parameters": {
-    "do_sample": true,
-    "max_new_tokens": 100,
-    "max_time": 60,
-    "num_return_sequences": 3,
-    "repetition_penalty": 1.2,
-    "return_full_text": true,
-    "temperature": 0.7,
-    "top_k": 50,
-    "top_p": 0.9,
-  },
-}
-`;
-
-exports[`HfInferenceApi: prompt only 1`] = `
-{
-  "inputs": "mock-prompt",
-}
-`;
-
-exports[`HfInferenceApi: prompt, parameters, and options 1`] = `
-{
-  "inputs": "mock-prompt",
-  "options": {
-    "use_cache": true,
-    "wait_for_model": false,
-  },
-  "parameters": {
-    "do_sample": true,
-    "max_new_tokens": 100,
-    "max_time": 60,
-    "num_return_sequences": 3,
-    "repetition_penalty": 1.2,
-    "return_full_text": true,
-    "temperature": 0.7,
-    "top_k": 50,
-    "top_p": 0.9,
-  },
 }
 `;

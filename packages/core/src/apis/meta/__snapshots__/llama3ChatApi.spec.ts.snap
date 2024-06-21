@@ -1,5 +1,57 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`Llama3ChatApi: $prompt 1`] = `
+{
+  "prompt": "<|begin_of_text|><|start_header_id|>user<|end_header_id|>
+
+mock-prompt<|eot_id|><|start_header_id|>assistant<|end_header_id|>",
+}
+`;
+
+exports[`Llama3ChatApi: $prompt, examplePairs 1`] = `
+{
+  "prompt": "<|begin_of_text|><|start_header_id|>user<|end_header_id|>
+
+mock-user-msg-1<|eot_id|><|start_header_id|>assistant<|end_header_id|>
+
+mock-assistant-msg-1<|eot_id|><|start_header_id|>user<|end_header_id|>
+
+mock-user-msg-2<|eot_id|><|start_header_id|>assistant<|end_header_id|>
+
+mock-assistant-msg-2<|eot_id|><|start_header_id|>user<|end_header_id|>
+
+mock-prompt<|eot_id|><|start_header_id|>assistant<|end_header_id|>",
+}
+`;
+
+exports[`Llama3ChatApi: $prompt, system 1`] = `
+{
+  "prompt": "<|begin_of_text|><|start_header_id|>system<|end_header_id|>
+
+mock-system-text<|eot_id|><|start_header_id|>user<|end_header_id|>
+
+mock-prompt<|eot_id|><|start_header_id|>assistant<|end_header_id|>",
+}
+`;
+
+exports[`Llama3ChatApi: $prompt, system, examplePairs 1`] = `
+{
+  "prompt": "<|begin_of_text|><|start_header_id|>system<|end_header_id|>
+
+mock-system-text<|eot_id|><|start_header_id|>user<|end_header_id|>
+
+mock-user-msg-1<|eot_id|><|start_header_id|>assistant<|end_header_id|>
+
+mock-assistant-msg-1<|eot_id|><|start_header_id|>user<|end_header_id|>
+
+mock-user-msg-2<|eot_id|><|start_header_id|>assistant<|end_header_id|>
+
+mock-assistant-msg-2<|eot_id|><|start_header_id|>user<|end_header_id|>
+
+mock-prompt<|eot_id|><|start_header_id|>assistant<|end_header_id|>",
+}
+`;
+
 exports[`Llama3ChatApi: all options 1`] = `
 {
   "max_gen_len": 512,
@@ -18,57 +70,5 @@ mock-assistant-msg-2<|eot_id|><|start_header_id|>user<|end_header_id|>
 mock-prompt<|eot_id|><|start_header_id|>assistant<|end_header_id|>",
   "temperature": 0.7,
   "top_p": 0.9,
-}
-`;
-
-exports[`Llama3ChatApi: prompt 1`] = `
-{
-  "prompt": "<|begin_of_text|><|start_header_id|>user<|end_header_id|>
-
-mock-prompt<|eot_id|><|start_header_id|>assistant<|end_header_id|>",
-}
-`;
-
-exports[`Llama3ChatApi: prompt, examplePairs 1`] = `
-{
-  "prompt": "<|begin_of_text|><|start_header_id|>user<|end_header_id|>
-
-mock-user-msg-1<|eot_id|><|start_header_id|>assistant<|end_header_id|>
-
-mock-assistant-msg-1<|eot_id|><|start_header_id|>user<|end_header_id|>
-
-mock-user-msg-2<|eot_id|><|start_header_id|>assistant<|end_header_id|>
-
-mock-assistant-msg-2<|eot_id|><|start_header_id|>user<|end_header_id|>
-
-mock-prompt<|eot_id|><|start_header_id|>assistant<|end_header_id|>",
-}
-`;
-
-exports[`Llama3ChatApi: prompt, system 1`] = `
-{
-  "prompt": "<|begin_of_text|><|start_header_id|>system<|end_header_id|>
-
-mock-system-text<|eot_id|><|start_header_id|>user<|end_header_id|>
-
-mock-prompt<|eot_id|><|start_header_id|>assistant<|end_header_id|>",
-}
-`;
-
-exports[`Llama3ChatApi: prompt, system, examplePairs 1`] = `
-{
-  "prompt": "<|begin_of_text|><|start_header_id|>system<|end_header_id|>
-
-mock-system-text<|eot_id|><|start_header_id|>user<|end_header_id|>
-
-mock-user-msg-1<|eot_id|><|start_header_id|>assistant<|end_header_id|>
-
-mock-assistant-msg-1<|eot_id|><|start_header_id|>user<|end_header_id|>
-
-mock-user-msg-2<|eot_id|><|start_header_id|>assistant<|end_header_id|>
-
-mock-assistant-msg-2<|eot_id|><|start_header_id|>user<|end_header_id|>
-
-mock-prompt<|eot_id|><|start_header_id|>assistant<|end_header_id|>",
 }
 `;

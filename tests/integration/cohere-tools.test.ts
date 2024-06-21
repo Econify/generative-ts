@@ -9,7 +9,7 @@ test("Cohere - Chat (Tools)", async () => {
 
   // act
   // const response = await cohereChat.sendRequest({
-  //   prompt: "Will the NY Mets game be a rainout tonight",
+  //   $prompt: "Will the NY Mets game be a rainout tonight",
   //   preamble: "Answer like Jafar from Aladdin",
   //   tools: [
   //     {
@@ -47,7 +47,7 @@ test("Cohere - Chat (Tools)", async () => {
   */
 
   const response = await cohereChat.sendRequest({
-    prompt: "Will the NY Mets game be a rainout tonight",
+    $prompt: "Will the NY Mets game be a rainout tonight",
     preamble: "Answer like Jafar from Aladdin",
     system: "Use the correct JSON output format",
     examplePairs: [

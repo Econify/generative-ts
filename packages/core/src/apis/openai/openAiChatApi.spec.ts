@@ -17,17 +17,17 @@ describe("OpenAiChatApi:", () => {
    * FewShotRequestOptions (prompt, examplePairs, system):
    */
 
-  test("prompt", () => {
+  test("$prompt", () => {
     const rendered = render({
-      prompt: "mock-prompt",
+      $prompt: "mock-prompt",
     });
 
     expect(rendered).toMatchSnapshot();
   });
 
-  test("prompt, examplePairs", () => {
+  test("$prompt, examplePairs", () => {
     const rendered = render({
-      prompt: "mock-prompt",
+      $prompt: "mock-prompt",
       examplePairs: [
         { user: "mock-user-msg-1", assistant: "mock-assistant-msg-1" },
         { user: "mock-user-msg-2", assistant: "mock-assistant-msg-2" },
@@ -37,18 +37,18 @@ describe("OpenAiChatApi:", () => {
     expect(rendered).toMatchSnapshot();
   });
 
-  test("prompt, system", () => {
+  test("$prompt, system", () => {
     const rendered = render({
-      prompt: "mock-prompt",
+      $prompt: "mock-prompt",
       system: "mock-system-text",
     });
 
     expect(rendered).toMatchSnapshot();
   });
 
-  test("prompt, examplePairs, system", () => {
+  test("$prompt, examplePairs, system", () => {
     const rendered = render({
-      prompt: "mock-prompt",
+      $prompt: "mock-prompt",
       examplePairs: [
         { user: "mock-user-msg-1", assistant: "mock-assistant-msg-1" },
       ],
@@ -62,9 +62,9 @@ describe("OpenAiChatApi:", () => {
    * "Native" few shot options (messages):
    */
 
-  test("prompt, messages", () => {
+  test("$prompt, messages", () => {
     const rendered = render({
-      prompt: "mock-prompt",
+      $prompt: "mock-prompt",
       messages: [
         {
           role: "assistant",
@@ -84,9 +84,9 @@ describe("OpenAiChatApi:", () => {
     expect(rendered).toMatchSnapshot();
   });
 
-  test("prompt, examplePairs, messages", () => {
+  test("$prompt, examplePairs, messages", () => {
     const rendered = render({
-      prompt: "mock-prompt",
+      $prompt: "mock-prompt",
       examplePairs: [
         { user: "mock-user-msg-1", assistant: "mock-assistant-msg-1" },
       ],
@@ -101,9 +101,9 @@ describe("OpenAiChatApi:", () => {
     expect(rendered).toMatchSnapshot();
   });
 
-  test("prompt, system, messages", () => {
+  test("$prompt, system, messages", () => {
     const rendered = render({
-      prompt: "mock-prompt",
+      $prompt: "mock-prompt",
       system: "mock-system-text",
       messages: [
         {
@@ -124,9 +124,9 @@ describe("OpenAiChatApi:", () => {
     expect(rendered).toMatchSnapshot();
   });
 
-  test("prompt, examplePairs, system, messages", () => {
+  test("$prompt, examplePairs, system, messages", () => {
     const rendered = render({
-      prompt: "mock-prompt",
+      $prompt: "mock-prompt",
       examplePairs: [
         { user: "mock-user-msg-1", assistant: "mock-assistant-msg-1" },
       ],
@@ -146,9 +146,9 @@ describe("OpenAiChatApi:", () => {
    * Tool-related:
    */
 
-  test("prompt, messages with function_call", () => {
+  test("$prompt, messages with function_call", () => {
     const rendered = render({
-      prompt: "mock-prompt",
+      $prompt: "mock-prompt",
       messages: [
         {
           role: "assistant",
@@ -164,9 +164,9 @@ describe("OpenAiChatApi:", () => {
     expect(rendered).toMatchSnapshot();
   });
 
-  test("prompt, tools", () => {
+  test("$prompt, tools", () => {
     const rendered = render({
-      prompt: "mock-prompt",
+      $prompt: "mock-prompt",
       tools: [
         {
           type: "function",
@@ -187,9 +187,9 @@ describe("OpenAiChatApi:", () => {
     expect(rendered).toMatchSnapshot();
   });
 
-  test("prompt, tool_choice", () => {
+  test("$prompt, tool_choice", () => {
     const rendered = render({
-      prompt: "mock-prompt",
+      $prompt: "mock-prompt",
       tool_choice: {
         type: "function",
         function: {
@@ -201,9 +201,9 @@ describe("OpenAiChatApi:", () => {
     expect(rendered).toMatchSnapshot();
   });
 
-  test("prompt, functions", () => {
+  test("$prompt, functions", () => {
     const rendered = render({
-      prompt: "mock-prompt",
+      $prompt: "mock-prompt",
       functions: [
         {
           name: "mock-function",
@@ -227,7 +227,7 @@ describe("OpenAiChatApi:", () => {
 
   test("all options", () => {
     const rendered = render({
-      prompt: "mock-prompt",
+      $prompt: "mock-prompt",
       examplePairs: [
         { user: "mock-user-msg-1", assistant: "mock-assistant-msg-1" },
       ],

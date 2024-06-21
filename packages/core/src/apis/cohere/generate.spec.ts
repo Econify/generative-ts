@@ -17,9 +17,9 @@ describe("CohereGenerateApi:", () => {
    * FewShotRequestOptions (prompt):
    */
 
-  test("prompt", () => {
+  test("$prompt", () => {
     const rendered = render({
-      prompt: "mock-prompt",
+      $prompt: "mock-prompt",
     });
 
     expect(rendered).toMatchSnapshot();
@@ -31,7 +31,7 @@ describe("CohereGenerateApi:", () => {
 
   test("all options", () => {
     const rendered = render({
-      prompt: "mock-prompt",
+      $prompt: "mock-prompt",
       num_generations: 3,
       max_tokens: 1000,
       truncate: "END",
@@ -54,9 +54,9 @@ describe("CohereGenerateApi:", () => {
    * Special cases:
    */
 
-  test("prompt, stop_sequences and end_sequences", () => {
+  test("$prompt, stop_sequences and end_sequences", () => {
     const rendered = render({
-      prompt: "mock-prompt",
+      $prompt: "mock-prompt",
       stop_sequences: ["mock-stop-seq"],
       end_sequences: ["mock-end-seq"],
     });
@@ -64,27 +64,27 @@ describe("CohereGenerateApi:", () => {
     expect(rendered).toMatchSnapshot();
   });
 
-  test("prompt, truncate as NONE", () => {
+  test("$prompt, truncate as NONE", () => {
     const rendered = render({
-      prompt: "mock-prompt",
+      $prompt: "mock-prompt",
       truncate: "NONE",
     });
 
     expect(rendered).toMatchSnapshot();
   });
 
-  test("prompt, return_likelihoods as NONE", () => {
+  test("$prompt, return_likelihoods as NONE", () => {
     const rendered = render({
-      prompt: "mock-prompt",
+      $prompt: "mock-prompt",
       return_likelihoods: "NONE",
     });
 
     expect(rendered).toMatchSnapshot();
   });
 
-  test("prompt, logit_bias with multiple values", () => {
+  test("$prompt, logit_bias with multiple values", () => {
     const rendered = render({
-      prompt: "mock-prompt",
+      $prompt: "mock-prompt",
       logit_bias: { 50256: -100, 50257: 50 },
     });
 

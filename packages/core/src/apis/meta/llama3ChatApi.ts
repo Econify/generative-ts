@@ -25,7 +25,7 @@ export interface Llama3ChatOptions
  */
 export const Llama3ChatTemplate = new FnTemplate(
   ({
-    prompt,
+    $prompt,
     system,
     examplePairs,
     temperature,
@@ -42,7 +42,7 @@ export const Llama3ChatTemplate = new FnTemplate(
             `<|start_header_id|>assistant<|end_header_id|>\n\n${pair.assistant}<|eot_id|>`,
           ])
         : []),
-      `<|start_header_id|>user<|end_header_id|>\n\n${prompt}<|eot_id|>`,
+      `<|start_header_id|>user<|end_header_id|>\n\n${$prompt}<|eot_id|>`,
       `<|start_header_id|>assistant<|end_header_id|>`,
     ].join("");
 

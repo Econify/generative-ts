@@ -35,7 +35,7 @@ export interface MistralAiOptions
 export const MistralAiTemplate = new FnTemplate(
   ({
     modelId,
-    prompt,
+    $prompt,
     system,
     examplePairs,
     messages,
@@ -62,7 +62,7 @@ export const MistralAiTemplate = new FnTemplate(
               content: message.content,
             }))
           : []),
-        { role: "user", content: prompt },
+        { role: "user", content: $prompt },
       ],
     };
 

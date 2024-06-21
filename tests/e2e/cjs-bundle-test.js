@@ -10,7 +10,7 @@ async function send_message() {
   });
   
   const response = await model.sendRequest({
-    prompt: prompt,
+    $prompt: prompt,
     generation_config: {
       max_output_tokens: 50,
       temperature: 0

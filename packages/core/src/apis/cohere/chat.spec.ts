@@ -16,14 +16,14 @@ describe("CohereChatApi:", () => {
   /**
    * FewShotRequestOptions (prompt, examplePairs, system):
    */
-  test("prompt", () => {
-    const rendered = render({ prompt: "mock-prompt" });
+  test("$prompt", () => {
+    const rendered = render({ $prompt: "mock-prompt" });
     expect(rendered).toMatchSnapshot();
   });
 
-  test("prompt, examplePairs", () => {
+  test("$prompt, examplePairs", () => {
     const rendered = render({
-      prompt: "mock-prompt",
+      $prompt: "mock-prompt",
       examplePairs: [
         { user: "mock-user-msg-1", assistant: "mock-assistant-msg-1" },
         { user: "mock-user-msg-2", assistant: "mock-assistant-msg-2" },
@@ -32,17 +32,17 @@ describe("CohereChatApi:", () => {
     expect(rendered).toMatchSnapshot();
   });
 
-  test("prompt, system", () => {
+  test("$prompt, system", () => {
     const rendered = render({
-      prompt: "mock-prompt",
+      $prompt: "mock-prompt",
       system: "mock-system-text",
     });
     expect(rendered).toMatchSnapshot();
   });
 
-  test("prompt, examplePairs, system", () => {
+  test("$prompt, examplePairs, system", () => {
     const rendered = render({
-      prompt: "mock-prompt",
+      $prompt: "mock-prompt",
       examplePairs: [
         { user: "mock-user-msg-1", assistant: "mock-assistant-msg-1" },
       ],
@@ -51,9 +51,9 @@ describe("CohereChatApi:", () => {
     expect(rendered).toMatchSnapshot();
   });
 
-  test("prompt, examplePairs, chat_history", () => {
+  test("$prompt, examplePairs, chat_history", () => {
     const rendered = render({
-      prompt: "mock-prompt",
+      $prompt: "mock-prompt",
       examplePairs: [
         { user: "mock-user-msg-1", assistant: "mock-assistant-msg-1" },
       ],
@@ -68,9 +68,9 @@ describe("CohereChatApi:", () => {
   /**
    * Native few shot options (chat_history):
    */
-  test("prompt, chat_history", () => {
+  test("$prompt, chat_history", () => {
     const rendered = render({
-      prompt: "mock-prompt",
+      $prompt: "mock-prompt",
       chat_history: [
         { role: "USER", message: "mock-user-msg" },
         { role: "CHATBOT", message: "mock-chatbot-msg" },
@@ -79,9 +79,9 @@ describe("CohereChatApi:", () => {
     expect(rendered).toMatchSnapshot();
   });
 
-  test("prompt, examplePairs, chat_history", () => {
+  test("$prompt, examplePairs, chat_history", () => {
     const rendered = render({
-      prompt: "mock-prompt",
+      $prompt: "mock-prompt",
       examplePairs: [
         { user: "mock-user-msg-1", assistant: "mock-assistant-msg-1" },
       ],
@@ -90,9 +90,9 @@ describe("CohereChatApi:", () => {
     expect(rendered).toMatchSnapshot();
   });
 
-  test("prompt, system, chat_history", () => {
+  test("$prompt, system, chat_history", () => {
     const rendered = render({
-      prompt: "mock-prompt",
+      $prompt: "mock-prompt",
       system: "mock-system-text",
       chat_history: [
         { role: "USER", message: "mock-user-msg" },
@@ -102,9 +102,9 @@ describe("CohereChatApi:", () => {
     expect(rendered).toMatchSnapshot();
   });
 
-  test("prompt, examplePairs, system, chat_history", () => {
+  test("$prompt, examplePairs, system, chat_history", () => {
     const rendered = render({
-      prompt: "mock-prompt",
+      $prompt: "mock-prompt",
       examplePairs: [
         { user: "mock-user-msg-1", assistant: "mock-assistant-msg-1" },
       ],
@@ -117,9 +117,9 @@ describe("CohereChatApi:", () => {
   /**
    * Tool-related:
    */
-  test("prompt, tools", () => {
+  test("$prompt, tools", () => {
     const rendered = render({
-      prompt: "mock-prompt",
+      $prompt: "mock-prompt",
       tools: [
         {
           name: "mock-tool",
@@ -137,9 +137,9 @@ describe("CohereChatApi:", () => {
     expect(rendered).toMatchSnapshot();
   });
 
-  test("prompt, tool_results", () => {
+  test("$prompt, tool_results", () => {
     const rendered = render({
-      prompt: "mock-prompt",
+      $prompt: "mock-prompt",
       tool_results: [
         {
           call: {
@@ -153,9 +153,9 @@ describe("CohereChatApi:", () => {
     expect(rendered).toMatchSnapshot();
   });
 
-  test("prompt, chat_history with tool_calls", () => {
+  test("$prompt, chat_history with tool_calls", () => {
     const rendered = render({
-      prompt: "mock-prompt",
+      $prompt: "mock-prompt",
       chat_history: [
         {
           role: "USER",
@@ -172,7 +172,7 @@ describe("CohereChatApi:", () => {
    */
   test("all options", () => {
     const rendered = render({
-      prompt: "mock-prompt",
+      $prompt: "mock-prompt",
       examplePairs: [
         { user: "mock-user-msg-1", assistant: "mock-assistant-msg-1" },
       ],
@@ -241,7 +241,7 @@ describe("CohereChatApi:", () => {
    */
   test("combination of system and preamble", () => {
     const rendered = render({
-      prompt: "mock-prompt",
+      $prompt: "mock-prompt",
       system: "mock-system-text",
       preamble: "mock-preamble",
     });
@@ -250,7 +250,7 @@ describe("CohereChatApi:", () => {
 
   test("optional message in CohereChatHistoryToolCall", () => {
     const rendered = render({
-      prompt: "mock-prompt",
+      $prompt: "mock-prompt",
       chat_history: [
         {
           role: "CHATBOT",
@@ -263,7 +263,7 @@ describe("CohereChatApi:", () => {
 
   test("optional message in CohereChatHistoryToolResults", () => {
     const rendered = render({
-      prompt: "mock-prompt",
+      $prompt: "mock-prompt",
       chat_history: [
         {
           role: "TOOL",
@@ -280,7 +280,7 @@ describe("CohereChatApi:", () => {
   });
 
   test("undefined examplePairs and chat_history", () => {
-    const rendered = render({ prompt: "mock-prompt" });
+    const rendered = render({ $prompt: "mock-prompt" });
     expect(rendered).toMatchSnapshot();
   });
 });

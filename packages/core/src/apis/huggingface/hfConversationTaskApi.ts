@@ -33,14 +33,14 @@ export interface HfConversationalTaskOptions extends HfInferenceApiOptions {
  */
 export const HfConversationalTaskTemplate = new FnTemplate(
   ({
-    prompt,
+    $prompt,
     past_user_inputs,
     generated_responses,
     parameters,
     options,
   }: HfConversationalTaskOptions) => {
     const rewritten = {
-      inputs: prompt,
+      inputs: $prompt,
     };
 
     const result = {

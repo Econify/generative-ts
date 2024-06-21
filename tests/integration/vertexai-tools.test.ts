@@ -13,7 +13,7 @@ xtest("VertexAI - Google Gemini (Tools)", async () => {
   // act
   const response = await model.sendRequest({
     system: "Use tools to help answer questions.",
-    prompt: "What is the weather in Boston and New York City?",
+    $prompt: "What is the weather in Boston and New York City?",
     tools: [
       {
         function_declarations: [
@@ -55,7 +55,7 @@ xtest("VertexAI - Google Gemini (Tools with Responses)", async () => {
   // act
   const response = await model.sendRequest({
     system: "Use tools to help answer questions.",
-    prompt: "",
+    $prompt: "",
     examplePairs: [
       {
         user: "When did the New York Mets win the World Series?",
@@ -205,9 +205,14 @@ test("VertexAI - Google Gemini ($tools)", async () => {
   ];
 
   // act
+  const system =
+    "Use tools to help answer questions. Keep in mind that you can make multiple tool calls.";
+
+  const $prompt = "What is the weather in Boston and New York City?";
+
   const response = await model.sendRequest({
-    system: "Use tools to help answer questions.",
-    prompt: "What is the weather in Boston and New York City?",
+    system,
+    $prompt,
     $tools: tools.map(({ descriptor }) => descriptor),
   });
 
@@ -224,17 +229,16 @@ test("VertexAI - Google Gemini ($tools)", async () => {
     console.log("No unresolved!");
   }
 
+  // TODO const contents = getConversationHistory(modelProvider); ???
   const last = response.data.candidates[0]?.content;
 
   if (!last) {
     throw new Error("No content found in response!?");
   }
 
-
   const response2 = await model.sendRequest({
-    system:
-      "Use tools to help answer questions. Keep in mind that you can make multiple tool calls.",
-    prompt: "What is the weather in Boston and New York City?",
+    system,
+    $prompt,
     contents: [
       {
         // ...last,

@@ -24,7 +24,7 @@ export type InferHttpClientOptions<T> =
  * });
  *
  * const response = await gemini.sendRequest({
- *   prompt: "Brief History of NY Mets:",
+ *   $prompt: "Brief History of NY Mets:",
  *   // all other Gemini options available here
  * });
  *
@@ -77,7 +77,7 @@ export type InferHttpClientOptions<T> =
  * });
  *
  * const response = await gemini.sendRequest({
- *   prompt: "Brief History of NY Mets:",
+ *   $prompt: "Brief History of NY Mets:",
  *   // all other Gemini options available here
  * });
  *

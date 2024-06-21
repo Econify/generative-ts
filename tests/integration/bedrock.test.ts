@@ -17,7 +17,7 @@ test("Bedrock - AI21 J2 Complete", async () => {
 
   // act
   const response = await j2.sendRequest({
-    prompt: "Brief history of NY Mets:",
+    $prompt: "Brief history of NY Mets:",
     numResults: 1,
     maxTokens: 50,
     minTokens: 0,
@@ -40,7 +40,7 @@ test("Bedrock - Cohere Generate", async () => {
 
   // act
   const response = await cohereGenerate.sendRequest({
-    prompt: "Brief history of NY Mets:",
+    $prompt: "Brief history of NY Mets:",
     max_tokens: 100,
   });
 
@@ -72,7 +72,7 @@ test("Bedrock - Llama2 Chat", async () => {
           '{ "answer": "The LA Dodgers won the World Series in 2020." }',
       },
     ],
-    prompt: "Brief History of NY Mets:",
+    $prompt: "Brief History of NY Mets:",
   };
 
   // act
@@ -106,7 +106,7 @@ test("Bedrock - Llama3 Chat", async () => {
           '{ "answer": "The LA Dodgers won the World Series in 2020." }',
       },
     ],
-    prompt: "Brief History of NY Mets:",
+    $prompt: "Brief History of NY Mets:",
   };
 
   // act
@@ -140,7 +140,7 @@ test("Bedrock - Mistral (Bedrock specific)", async () => {
           '{ "answer": "The LA Dodgers won the World Series in 2020." }',
       },
     ],
-    prompt: "Brief History of NY Mets:",
+    $prompt: "Brief History of NY Mets:",
   };
 
   // act
@@ -159,7 +159,7 @@ test("Bedrock - Amazon TitanText", async () => {
 
   // act
   const response = await titanText.sendRequest({
-    prompt: "Brief history of NY Mets:",
+    $prompt: "Brief history of NY Mets:",
     maxTokenCount: 100,
   });
 

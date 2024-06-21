@@ -47,7 +47,7 @@ type AwsBedrockApi =
  * });
  *
  * const response = await titanText.sendRequest({
- *   prompt: "Brief history of NY Mets:"
+ *   $prompt: "Brief history of NY Mets:"
  *   // all other options for the specified `api` available here
  * });
  *
@@ -129,7 +129,7 @@ type AwsBedrockApi =
  *   modelId: "ai21.j2-mid-v1",
  * });
  *
- * const params = { prompt: "Brief history of NY Mets:" };
+ * const params = { $prompt: "Brief history of NY Mets:" };
  *
  * const responses = await Promise.all([
  *   titanText.sendRequest(params),

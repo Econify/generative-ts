@@ -22,7 +22,7 @@ const payload = {
       assistant: '{ "answer": "The LA Dodgers won the World Series in 2020." }',
     },
   ],
-  prompt: "Brief History of NY Mets:",
+  $prompt: "Brief History of NY Mets:",
 };
 
 async function main() {

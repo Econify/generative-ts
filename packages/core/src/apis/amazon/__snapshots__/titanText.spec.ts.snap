@@ -1,5 +1,11 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`AmazonTitanTextApi: $prompt 1`] = `
+{
+  "inputText": "mock-prompt",
+}
+`;
+
 exports[`AmazonTitanTextApi: all options 1`] = `
 {
   "inputText": "mock-prompt",
@@ -12,11 +18,5 @@ exports[`AmazonTitanTextApi: all options 1`] = `
     "temperature": 0.7,
     "topP": 0.9,
   },
-}
-`;
-
-exports[`AmazonTitanTextApi: prompt 1`] = `
-{
-  "inputText": "mock-prompt",
 }
 `;

@@ -9,7 +9,7 @@ test("VertexAI - Google Gemini", async () => {
   // act
   const response = await model.sendRequest({
     system: "Talk like Jafar from Aladdin",
-    prompt: "Brief History of NY Mets:",
+    $prompt: "Brief History of NY Mets:",
     examplePairs: [
       {
         user: "When did the New York Mets win the World Series?",

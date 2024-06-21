@@ -31,9 +31,9 @@ export interface HfTextGenerationTaskOptions extends HfInferenceApiOptions {
  * @category Huggingface Text Generation Task
  */
 export const HfTextGenerationTaskTemplate = new FnTemplate(
-  ({ prompt, parameters, options }: HfTextGenerationTaskOptions) => {
+  ({ $prompt, parameters, options }: HfTextGenerationTaskOptions) => {
     const rewritten = {
-      inputs: prompt,
+      inputs: $prompt,
     };
 
     return JSON.stringify(

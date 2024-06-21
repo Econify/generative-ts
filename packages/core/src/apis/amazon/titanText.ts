@@ -23,14 +23,14 @@ export interface AmazonTitanTextOptions extends ModelRequestOptions {
  */
 export const AmazonTitanTextTemplate = new FnTemplate(
   ({
-    prompt,
+    $prompt,
     temperature,
     topP,
     maxTokenCount,
     stopSequences,
   }: AmazonTitanTextOptions) => {
     const rewritten = {
-      inputText: prompt,
+      inputText: $prompt,
     };
 
     const textGenerationConfig = {

@@ -27,7 +27,7 @@ type CohereApi = CohereGenerateApi | CohereChatApi;
  * });
  *
  * const response = await commandR.sendRequest({
- *   prompt: "Brief History of NY Mets:",
+ *   $prompt: "Brief History of NY Mets:",
  *   preamble: "Talk like Jafar from Aladdin",
  *   // all other Cohere /generate options available here
  * });
@@ -82,7 +82,7 @@ type CohereApi = CohereGenerateApi | CohereChatApi;
  * });
  *
  * const response = await commandR.sendRequest({
- *   prompt: "Brief History of NY Mets:",
+ *   $prompt: "Brief History of NY Mets:",
  *   preamble: "Talk like Jafar from Aladdin",
  *   // all other Cohere /generate options available here
  * });
@@ -100,7 +100,7 @@ type CohereApi = CohereGenerateApi | CohereChatApi;
  * });
  *
  * const response = await command.sendRequest({
- *   prompt: "Brief History of NY Mets:",
+ *   $prompt: "Brief History of NY Mets:",
  * });
  * ```
  */

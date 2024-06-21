@@ -16,17 +16,17 @@ function render(context: Omit<HfTextGenerationTaskOptions, "modelId">) {
 }
 
 describe("HfInferenceApi:", () => {
-  test("prompt only", () => {
+  test("$prompt only", () => {
     const rendered = render({
-      prompt: "mock-prompt",
+      $prompt: "mock-prompt",
     });
 
     expect(rendered).toMatchSnapshot();
   });
 
-  test("prompt and parameters", () => {
+  test("$prompt and parameters", () => {
     const rendered = render({
-      prompt: "mock-prompt",
+      $prompt: "mock-prompt",
       parameters: {
         top_k: 50,
         top_p: 0.9,
@@ -43,9 +43,9 @@ describe("HfInferenceApi:", () => {
     expect(rendered).toMatchSnapshot();
   });
 
-  test("prompt and options", () => {
+  test("$prompt and options", () => {
     const rendered = render({
-      prompt: "mock-prompt",
+      $prompt: "mock-prompt",
       options: {
         use_cache: true,
         wait_for_model: false,
@@ -55,9 +55,9 @@ describe("HfInferenceApi:", () => {
     expect(rendered).toMatchSnapshot();
   });
 
-  test("prompt, parameters, and options", () => {
+  test("$prompt, parameters, and options", () => {
     const rendered = render({
-      prompt: "mock-prompt",
+      $prompt: "mock-prompt",
       parameters: {
         top_k: 50,
         top_p: 0.9,
@@ -80,7 +80,7 @@ describe("HfInferenceApi:", () => {
 
   test("empty parameters", () => {
     const rendered = render({
-      prompt: "mock-prompt",
+      $prompt: "mock-prompt",
       parameters: {},
     });
 
@@ -89,7 +89,7 @@ describe("HfInferenceApi:", () => {
 
   test("empty options", () => {
     const rendered = render({
-      prompt: "mock-prompt",
+      $prompt: "mock-prompt",
       options: {},
     });
 
@@ -98,7 +98,7 @@ describe("HfInferenceApi:", () => {
 
   test("all options", () => {
     const rendered = render({
-      prompt: "mock-prompt",
+      $prompt: "mock-prompt",
       parameters: {
         top_k: 50,
         top_p: 0.9,

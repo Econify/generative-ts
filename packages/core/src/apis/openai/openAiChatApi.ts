@@ -94,7 +94,7 @@ export interface OpenAiChatOptions
 export const OpenAiChatTemplate = new FnTemplate(
   ({
     modelId,
-    prompt,
+    $prompt,
     system,
     examplePairs,
     messages,
@@ -142,7 +142,7 @@ export const OpenAiChatTemplate = new FnTemplate(
                 : {}),
             }))
           : []),
-        { role: "user", content: prompt },
+        { role: "user", content: $prompt },
       ],
     };
 

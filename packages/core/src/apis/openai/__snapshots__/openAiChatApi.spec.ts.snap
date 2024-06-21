@@ -1,5 +1,282 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`OpenAiChatApi: $prompt 1`] = `
+{
+  "messages": [
+    {
+      "content": "mock-prompt",
+      "role": "user",
+    },
+  ],
+  "model": "mock-model-id",
+}
+`;
+
+exports[`OpenAiChatApi: $prompt, examplePairs 1`] = `
+{
+  "messages": [
+    {
+      "content": "mock-user-msg-1",
+      "role": "user",
+    },
+    {
+      "content": "mock-assistant-msg-1",
+      "role": "assistant",
+    },
+    {
+      "content": "mock-user-msg-2",
+      "role": "user",
+    },
+    {
+      "content": "mock-assistant-msg-2",
+      "role": "assistant",
+    },
+    {
+      "content": "mock-prompt",
+      "role": "user",
+    },
+  ],
+  "model": "mock-model-id",
+}
+`;
+
+exports[`OpenAiChatApi: $prompt, examplePairs, messages 1`] = `
+{
+  "messages": [
+    {
+      "content": "mock-user-msg-1",
+      "role": "user",
+    },
+    {
+      "content": "mock-assistant-msg-1",
+      "role": "assistant",
+    },
+    {
+      "content": "mock-assistant-text",
+      "role": "assistant",
+    },
+    {
+      "content": "mock-prompt",
+      "role": "user",
+    },
+  ],
+  "model": "mock-model-id",
+}
+`;
+
+exports[`OpenAiChatApi: $prompt, examplePairs, system 1`] = `
+{
+  "messages": [
+    {
+      "content": "mock-system-text",
+      "role": "system",
+    },
+    {
+      "content": "mock-user-msg-1",
+      "role": "user",
+    },
+    {
+      "content": "mock-assistant-msg-1",
+      "role": "assistant",
+    },
+    {
+      "content": "mock-prompt",
+      "role": "user",
+    },
+  ],
+  "model": "mock-model-id",
+}
+`;
+
+exports[`OpenAiChatApi: $prompt, examplePairs, system, messages 1`] = `
+{
+  "messages": [
+    {
+      "content": "mock-system-text",
+      "role": "system",
+    },
+    {
+      "content": "mock-user-msg-1",
+      "role": "user",
+    },
+    {
+      "content": "mock-assistant-msg-1",
+      "role": "assistant",
+    },
+    {
+      "content": "mock-assistant-text",
+      "role": "assistant",
+    },
+    {
+      "content": "mock-prompt",
+      "role": "user",
+    },
+  ],
+  "model": "mock-model-id",
+}
+`;
+
+exports[`OpenAiChatApi: $prompt, functions 1`] = `
+{
+  "functions": [
+    {
+      "description": "mock-description",
+      "name": "mock-function",
+      "parameters": {
+        "properties": {
+          "key": {
+            "type": "string",
+          },
+        },
+        "type": "object",
+      },
+    },
+  ],
+  "messages": [
+    {
+      "content": "mock-prompt",
+      "role": "user",
+    },
+  ],
+  "model": "mock-model-id",
+}
+`;
+
+exports[`OpenAiChatApi: $prompt, messages 1`] = `
+{
+  "messages": [
+    {
+      "content": "mock-assistant-text",
+      "role": "assistant",
+    },
+    {
+      "content": "mock-user-text",
+      "role": "user",
+    },
+    {
+      "content": "mock-assistant-text-2",
+      "role": "assistant",
+    },
+    {
+      "content": "mock-prompt",
+      "role": "user",
+    },
+  ],
+  "model": "mock-model-id",
+}
+`;
+
+exports[`OpenAiChatApi: $prompt, messages with function_call 1`] = `
+{
+  "messages": [
+    {
+      "content": "mock-assistant-text",
+      "function_call": {
+        "arguments": "{ "key": "value" }",
+        "name": "mock-function",
+      },
+      "role": "assistant",
+    },
+    {
+      "content": "mock-prompt",
+      "role": "user",
+    },
+  ],
+  "model": "mock-model-id",
+}
+`;
+
+exports[`OpenAiChatApi: $prompt, system 1`] = `
+{
+  "messages": [
+    {
+      "content": "mock-system-text",
+      "role": "system",
+    },
+    {
+      "content": "mock-prompt",
+      "role": "user",
+    },
+  ],
+  "model": "mock-model-id",
+}
+`;
+
+exports[`OpenAiChatApi: $prompt, system, messages 1`] = `
+{
+  "messages": [
+    {
+      "content": "mock-system-text",
+      "role": "system",
+    },
+    {
+      "content": "mock-assistant-text",
+      "role": "assistant",
+    },
+    {
+      "content": "mock-user-text",
+      "role": "user",
+    },
+    {
+      "content": "mock-assistant-text-2",
+      "role": "assistant",
+    },
+    {
+      "content": "mock-prompt",
+      "role": "user",
+    },
+  ],
+  "model": "mock-model-id",
+}
+`;
+
+exports[`OpenAiChatApi: $prompt, tool_choice 1`] = `
+{
+  "messages": [
+    {
+      "content": "mock-prompt",
+      "role": "user",
+    },
+  ],
+  "model": "mock-model-id",
+  "tool_choice": {
+    "function": {
+      "name": "mock-function",
+    },
+    "type": "function",
+  },
+}
+`;
+
+exports[`OpenAiChatApi: $prompt, tools 1`] = `
+{
+  "messages": [
+    {
+      "content": "mock-prompt",
+      "role": "user",
+    },
+  ],
+  "model": "mock-model-id",
+  "tools": [
+    {
+      "function": {
+        "description": "mock-description",
+        "name": "mock-function",
+        "parameters": {
+          "properties": {
+            "key": {
+              "type": "string",
+            },
+          },
+          "type": "object",
+        },
+      },
+      "type": "function",
+    },
+  ],
+}
+`;
+
 exports[`OpenAiChatApi: all options 1`] = `
 {
   "frequency_penalty": 0.5,
@@ -90,282 +367,5 @@ exports[`OpenAiChatApi: all options 1`] = `
   "top_logprobs": 5,
   "top_p": 0.9,
   "user": "mock-user",
-}
-`;
-
-exports[`OpenAiChatApi: prompt 1`] = `
-{
-  "messages": [
-    {
-      "content": "mock-prompt",
-      "role": "user",
-    },
-  ],
-  "model": "mock-model-id",
-}
-`;
-
-exports[`OpenAiChatApi: prompt, examplePairs 1`] = `
-{
-  "messages": [
-    {
-      "content": "mock-user-msg-1",
-      "role": "user",
-    },
-    {
-      "content": "mock-assistant-msg-1",
-      "role": "assistant",
-    },
-    {
-      "content": "mock-user-msg-2",
-      "role": "user",
-    },
-    {
-      "content": "mock-assistant-msg-2",
-      "role": "assistant",
-    },
-    {
-      "content": "mock-prompt",
-      "role": "user",
-    },
-  ],
-  "model": "mock-model-id",
-}
-`;
-
-exports[`OpenAiChatApi: prompt, examplePairs, messages 1`] = `
-{
-  "messages": [
-    {
-      "content": "mock-user-msg-1",
-      "role": "user",
-    },
-    {
-      "content": "mock-assistant-msg-1",
-      "role": "assistant",
-    },
-    {
-      "content": "mock-assistant-text",
-      "role": "assistant",
-    },
-    {
-      "content": "mock-prompt",
-      "role": "user",
-    },
-  ],
-  "model": "mock-model-id",
-}
-`;
-
-exports[`OpenAiChatApi: prompt, examplePairs, system 1`] = `
-{
-  "messages": [
-    {
-      "content": "mock-system-text",
-      "role": "system",
-    },
-    {
-      "content": "mock-user-msg-1",
-      "role": "user",
-    },
-    {
-      "content": "mock-assistant-msg-1",
-      "role": "assistant",
-    },
-    {
-      "content": "mock-prompt",
-      "role": "user",
-    },
-  ],
-  "model": "mock-model-id",
-}
-`;
-
-exports[`OpenAiChatApi: prompt, examplePairs, system, messages 1`] = `
-{
-  "messages": [
-    {
-      "content": "mock-system-text",
-      "role": "system",
-    },
-    {
-      "content": "mock-user-msg-1",
-      "role": "user",
-    },
-    {
-      "content": "mock-assistant-msg-1",
-      "role": "assistant",
-    },
-    {
-      "content": "mock-assistant-text",
-      "role": "assistant",
-    },
-    {
-      "content": "mock-prompt",
-      "role": "user",
-    },
-  ],
-  "model": "mock-model-id",
-}
-`;
-
-exports[`OpenAiChatApi: prompt, functions 1`] = `
-{
-  "functions": [
-    {
-      "description": "mock-description",
-      "name": "mock-function",
-      "parameters": {
-        "properties": {
-          "key": {
-            "type": "string",
-          },
-        },
-        "type": "object",
-      },
-    },
-  ],
-  "messages": [
-    {
-      "content": "mock-prompt",
-      "role": "user",
-    },
-  ],
-  "model": "mock-model-id",
-}
-`;
-
-exports[`OpenAiChatApi: prompt, messages 1`] = `
-{
-  "messages": [
-    {
-      "content": "mock-assistant-text",
-      "role": "assistant",
-    },
-    {
-      "content": "mock-user-text",
-      "role": "user",
-    },
-    {
-      "content": "mock-assistant-text-2",
-      "role": "assistant",
-    },
-    {
-      "content": "mock-prompt",
-      "role": "user",
-    },
-  ],
-  "model": "mock-model-id",
-}
-`;
-
-exports[`OpenAiChatApi: prompt, messages with function_call 1`] = `
-{
-  "messages": [
-    {
-      "content": "mock-assistant-text",
-      "function_call": {
-        "arguments": "{ "key": "value" }",
-        "name": "mock-function",
-      },
-      "role": "assistant",
-    },
-    {
-      "content": "mock-prompt",
-      "role": "user",
-    },
-  ],
-  "model": "mock-model-id",
-}
-`;
-
-exports[`OpenAiChatApi: prompt, system 1`] = `
-{
-  "messages": [
-    {
-      "content": "mock-system-text",
-      "role": "system",
-    },
-    {
-      "content": "mock-prompt",
-      "role": "user",
-    },
-  ],
-  "model": "mock-model-id",
-}
-`;
-
-exports[`OpenAiChatApi: prompt, system, messages 1`] = `
-{
-  "messages": [
-    {
-      "content": "mock-system-text",
-      "role": "system",
-    },
-    {
-      "content": "mock-assistant-text",
-      "role": "assistant",
-    },
-    {
-      "content": "mock-user-text",
-      "role": "user",
-    },
-    {
-      "content": "mock-assistant-text-2",
-      "role": "assistant",
-    },
-    {
-      "content": "mock-prompt",
-      "role": "user",
-    },
-  ],
-  "model": "mock-model-id",
-}
-`;
-
-exports[`OpenAiChatApi: prompt, tool_choice 1`] = `
-{
-  "messages": [
-    {
-      "content": "mock-prompt",
-      "role": "user",
-    },
-  ],
-  "model": "mock-model-id",
-  "tool_choice": {
-    "function": {
-      "name": "mock-function",
-    },
-    "type": "function",
-  },
-}
-`;
-
-exports[`OpenAiChatApi: prompt, tools 1`] = `
-{
-  "messages": [
-    {
-      "content": "mock-prompt",
-      "role": "user",
-    },
-  ],
-  "model": "mock-model-id",
-  "tools": [
-    {
-      "function": {
-        "description": "mock-description",
-        "name": "mock-function",
-        "parameters": {
-          "properties": {
-            "key": {
-              "type": "string",
-            },
-          },
-          "type": "object",
-        },
-      },
-      "type": "function",
-    },
-  ],
 }
 `;

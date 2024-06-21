@@ -15,7 +15,7 @@ export type ModelId = string;
  */
 export interface ModelRequestOptions {
   modelId: ModelId;
-  prompt: string;
+  $prompt: string;
 }
 
 /**

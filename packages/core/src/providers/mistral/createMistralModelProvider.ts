@@ -20,7 +20,7 @@ import type { MistralAuthConfig } from "./authConfig";
  * });
  *
  * const response = await mistralLarge.sendRequest({
- *   prompt: "Brief History of NY Mets:"
+ *   $prompt: "Brief History of NY Mets:"
  *   // all other Mistral ChatCompletion API options available here
  * });
  *
@@ -65,7 +65,7 @@ import type { MistralAuthConfig } from "./authConfig";
  * });
  *
  * const response = await mistralLarge.sendRequest({
- *   prompt: "Brief History of NY Mets:"
+ *   $prompt: "Brief History of NY Mets:"
  *   // all other Mistral ChatCompletion API options available here
  * });
  *

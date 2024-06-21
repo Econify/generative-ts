@@ -1,5 +1,201 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`MistralAiApi: $prompt 1`] = `
+{
+  "messages": [
+    {
+      "content": "mock-prompt",
+      "role": "user",
+    },
+  ],
+  "model": "mock-model-id",
+}
+`;
+
+exports[`MistralAiApi: $prompt 2`] = `
+{
+  "messages": [
+    {
+      "content": "mock-prompt",
+      "role": "user",
+    },
+  ],
+  "model": "mock-model-id",
+}
+`;
+
+exports[`MistralAiApi: $prompt, examplePairs 1`] = `
+{
+  "messages": [
+    {
+      "content": "mock-user-msg-1",
+      "role": "user",
+    },
+    {
+      "content": "mock-assistant-msg-1",
+      "role": "assistant",
+    },
+    {
+      "content": "mock-user-msg-2",
+      "role": "user",
+    },
+    {
+      "content": "mock-assistant-msg-2",
+      "role": "assistant",
+    },
+    {
+      "content": "mock-prompt",
+      "role": "user",
+    },
+  ],
+  "model": "mock-model-id",
+}
+`;
+
+exports[`MistralAiApi: $prompt, examplePairs, messages 1`] = `
+{
+  "messages": [
+    {
+      "content": "mock-user-msg-1",
+      "role": "user",
+    },
+    {
+      "content": "mock-assistant-msg-1",
+      "role": "assistant",
+    },
+    {
+      "content": "mock-assistant-text",
+      "role": "assistant",
+    },
+    {
+      "content": "mock-prompt",
+      "role": "user",
+    },
+  ],
+  "model": "mock-model-id",
+}
+`;
+
+exports[`MistralAiApi: $prompt, examplePairs, system 1`] = `
+{
+  "messages": [
+    {
+      "content": "mock-system-text",
+      "role": "system",
+    },
+    {
+      "content": "mock-user-msg-1",
+      "role": "user",
+    },
+    {
+      "content": "mock-assistant-msg-1",
+      "role": "assistant",
+    },
+    {
+      "content": "mock-prompt",
+      "role": "user",
+    },
+  ],
+  "model": "mock-model-id",
+}
+`;
+
+exports[`MistralAiApi: $prompt, examplePairs, system, messages 1`] = `
+{
+  "messages": [
+    {
+      "content": "mock-system-text",
+      "role": "system",
+    },
+    {
+      "content": "mock-user-msg-1",
+      "role": "user",
+    },
+    {
+      "content": "mock-assistant-msg-1",
+      "role": "assistant",
+    },
+    {
+      "content": "mock-assistant-text",
+      "role": "assistant",
+    },
+    {
+      "content": "mock-prompt",
+      "role": "user",
+    },
+  ],
+  "model": "mock-model-id",
+}
+`;
+
+exports[`MistralAiApi: $prompt, messages 1`] = `
+{
+  "messages": [
+    {
+      "content": "mock-assistant-text",
+      "role": "assistant",
+    },
+    {
+      "content": "mock-user-text",
+      "role": "user",
+    },
+    {
+      "content": "mock-assistant-text-2",
+      "role": "assistant",
+    },
+    {
+      "content": "mock-prompt",
+      "role": "user",
+    },
+  ],
+  "model": "mock-model-id",
+}
+`;
+
+exports[`MistralAiApi: $prompt, system 1`] = `
+{
+  "messages": [
+    {
+      "content": "mock-system-text",
+      "role": "system",
+    },
+    {
+      "content": "mock-prompt",
+      "role": "user",
+    },
+  ],
+  "model": "mock-model-id",
+}
+`;
+
+exports[`MistralAiApi: $prompt, system, messages 1`] = `
+{
+  "messages": [
+    {
+      "content": "mock-system-text",
+      "role": "system",
+    },
+    {
+      "content": "mock-assistant-text",
+      "role": "assistant",
+    },
+    {
+      "content": "mock-user-text",
+      "role": "user",
+    },
+    {
+      "content": "mock-assistant-text-2",
+      "role": "assistant",
+    },
+    {
+      "content": "mock-prompt",
+      "role": "user",
+    },
+  ],
+  "model": "mock-model-id",
+}
+`;
+
 exports[`MistralAiApi: all options 1`] = `
 {
   "max_tokens": 1000,
@@ -31,201 +227,5 @@ exports[`MistralAiApi: all options 1`] = `
   "stream": true,
   "temperature": 0.7,
   "top_p": 0.9,
-}
-`;
-
-exports[`MistralAiApi: prompt 1`] = `
-{
-  "messages": [
-    {
-      "content": "mock-prompt",
-      "role": "user",
-    },
-  ],
-  "model": "mock-model-id",
-}
-`;
-
-exports[`MistralAiApi: prompt 2`] = `
-{
-  "messages": [
-    {
-      "content": "mock-prompt",
-      "role": "user",
-    },
-  ],
-  "model": "mock-model-id",
-}
-`;
-
-exports[`MistralAiApi: prompt, examplePairs 1`] = `
-{
-  "messages": [
-    {
-      "content": "mock-user-msg-1",
-      "role": "user",
-    },
-    {
-      "content": "mock-assistant-msg-1",
-      "role": "assistant",
-    },
-    {
-      "content": "mock-user-msg-2",
-      "role": "user",
-    },
-    {
-      "content": "mock-assistant-msg-2",
-      "role": "assistant",
-    },
-    {
-      "content": "mock-prompt",
-      "role": "user",
-    },
-  ],
-  "model": "mock-model-id",
-}
-`;
-
-exports[`MistralAiApi: prompt, examplePairs, messages 1`] = `
-{
-  "messages": [
-    {
-      "content": "mock-user-msg-1",
-      "role": "user",
-    },
-    {
-      "content": "mock-assistant-msg-1",
-      "role": "assistant",
-    },
-    {
-      "content": "mock-assistant-text",
-      "role": "assistant",
-    },
-    {
-      "content": "mock-prompt",
-      "role": "user",
-    },
-  ],
-  "model": "mock-model-id",
-}
-`;
-
-exports[`MistralAiApi: prompt, examplePairs, system 1`] = `
-{
-  "messages": [
-    {
-      "content": "mock-system-text",
-      "role": "system",
-    },
-    {
-      "content": "mock-user-msg-1",
-      "role": "user",
-    },
-    {
-      "content": "mock-assistant-msg-1",
-      "role": "assistant",
-    },
-    {
-      "content": "mock-prompt",
-      "role": "user",
-    },
-  ],
-  "model": "mock-model-id",
-}
-`;
-
-exports[`MistralAiApi: prompt, examplePairs, system, messages 1`] = `
-{
-  "messages": [
-    {
-      "content": "mock-system-text",
-      "role": "system",
-    },
-    {
-      "content": "mock-user-msg-1",
-      "role": "user",
-    },
-    {
-      "content": "mock-assistant-msg-1",
-      "role": "assistant",
-    },
-    {
-      "content": "mock-assistant-text",
-      "role": "assistant",
-    },
-    {
-      "content": "mock-prompt",
-      "role": "user",
-    },
-  ],
-  "model": "mock-model-id",
-}
-`;
-
-exports[`MistralAiApi: prompt, messages 1`] = `
-{
-  "messages": [
-    {
-      "content": "mock-assistant-text",
-      "role": "assistant",
-    },
-    {
-      "content": "mock-user-text",
-      "role": "user",
-    },
-    {
-      "content": "mock-assistant-text-2",
-      "role": "assistant",
-    },
-    {
-      "content": "mock-prompt",
-      "role": "user",
-    },
-  ],
-  "model": "mock-model-id",
-}
-`;
-
-exports[`MistralAiApi: prompt, system 1`] = `
-{
-  "messages": [
-    {
-      "content": "mock-system-text",
-      "role": "system",
-    },
-    {
-      "content": "mock-prompt",
-      "role": "user",
-    },
-  ],
-  "model": "mock-model-id",
-}
-`;
-
-exports[`MistralAiApi: prompt, system, messages 1`] = `
-{
-  "messages": [
-    {
-      "content": "mock-system-text",
-      "role": "system",
-    },
-    {
-      "content": "mock-assistant-text",
-      "role": "assistant",
-    },
-    {
-      "content": "mock-user-text",
-      "role": "user",
-    },
-    {
-      "content": "mock-assistant-text-2",
-      "role": "assistant",
-    },
-    {
-      "content": "mock-prompt",
-      "role": "user",
-    },
-  ],
-  "model": "mock-model-id",
 }
 `;

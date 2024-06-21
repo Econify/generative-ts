@@ -11,7 +11,7 @@ describe('@generative-ts/core esm bundle', () => {
     });
     
     const response = await model.sendRequest({
-      prompt: "Say hi:",
+      $prompt: "Say hi:",
       max_tokens: 50,
       temperature: 0
     });

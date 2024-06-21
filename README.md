@@ -45,7 +45,7 @@ const titanText = createAwsBedrockModelProvider({
 });
 
 const response = await titanText.sendRequest({ 
-  prompt: "Brief history of NY Mets:" 
+  $prompt:"Brief history of NY Mets:" 
   // all other options for the specified `api` available here
 });
 
@@ -66,7 +66,7 @@ const commandR = createCohereModelProvider({
 });
 
 const response = await commandR.sendRequest({
-  prompt: "Brief History of NY Mets:",
+  $prompt:"Brief History of NY Mets:",
   preamble: "Talk like Jafar from Aladdin",
   // all other Cohere /generate options available here
 });
@@ -88,7 +88,7 @@ const gemini = await createVertexAiModelProvider({
 });
 
 const response = await gemini.sendRequest({
-  prompt: "Brief History of NY Mets:",
+  $prompt:"Brief History of NY Mets:",
   // all other Gemini options available here
 });
 
@@ -109,7 +109,7 @@ const llama3 = createGroqModelProvider({
 });
 
 const response = await llama3.sendRequest({ 
-  prompt: "Brief History of NY Mets:" 
+  $prompt:"Brief History of NY Mets:" 
   // all other OpenAI ChatCompletion options available here (Groq uses the OpenAI ChatCompletion API for all the models it hosts)
 });
 
@@ -135,7 +135,7 @@ const gpt2 = createHuggingfaceInferenceModelProvider({
 });
 
 const response = await gpt2.sendRequest({ 
-  prompt: "Hello," 
+  $prompt:"Hello," 
   // all other options for the specified `api` available here
 });
 
@@ -155,7 +155,7 @@ const llama3 = createLmStudioModelProvider({
 });
 
 const response = await llama3.sendRequest({ 
-  prompt: "Brief History of NY Mets:" 
+  $prompt:"Brief History of NY Mets:" 
   // all other OpenAI ChatCompletion options available here (LMStudio uses the OpenAI ChatCompletion API for all the models it hosts)
 });
 
@@ -176,7 +176,7 @@ const mistralLarge = createMistralModelProvider({
 });
 
 const response = await mistralLarge.sendRequest({ 
-  prompt: "Brief History of NY Mets:" 
+  $prompt:"Brief History of NY Mets:" 
   // all other Mistral ChatCompletion API options available here
 });
 
@@ -197,7 +197,7 @@ const gpt = createOpenAiChatModelProvider({
 });
 
 const response = await gpt.sendRequest({
-  prompt: "Brief History of NY Mets:",
+  $prompt:"Brief History of NY Mets:",
   max_tokens: 100,
   // all other OpenAI ChatCompletion options available here
 });

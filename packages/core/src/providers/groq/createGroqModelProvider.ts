@@ -23,7 +23,7 @@ import type { GroqAuthConfig } from "./authConfig";
  * });
  *
  * const response = await llama3.sendRequest({
- *   prompt: "Brief History of NY Mets:"
+ *   $prompt: "Brief History of NY Mets:"
  *   // all other OpenAI ChatCompletion options available here (Groq uses the OpenAI ChatCompletion API for all the models it hosts)
  * });
  *
@@ -68,7 +68,7 @@ import type { GroqAuthConfig } from "./authConfig";
  *   modelId: "llama3-70b-8192",
  * });
  *
- * const response = await llama3.sendRequest({ prompt: "Brief History of NY Mets:" });
+ * const response = await llama3.sendRequest({ $prompt: "Brief History of NY Mets:" });
  *
  * console.log(response.choices[0]?.message.content);
  * ```

@@ -7,8 +7,6 @@ import type { FewShotRequestOptions } from "../shared";
 
 import { isLlamaResponse, LlamaResponse } from "./llama";
 
-export const Llama2ChatMlTemplateSource = `<s>[INST] <% if (typeof system !== 'undefined') { %><<SYS>>\\n<%= system %>\\n<</SYS>>\\n\\n<% } %><% (typeof examplePairs !== 'undefined' ? examplePairs : []).forEach(pair => { %><%= pair.user %> [/INST] <%= pair.assistant %> </s><s>[INST] <% }) %><%= prompt %> [/INST]`;
-
 /**
  * @category Requests
  * @category Llama2
@@ -28,7 +26,7 @@ export interface Llama2ChatOptions
  */
 export const Llama2ChatTemplate = new FnTemplate(
   ({
-    prompt,
+    $prompt,
     system,
     examplePairs,
     temperature,
@@ -44,7 +42,7 @@ export const Llama2ChatTemplate = new FnTemplate(
               `${pair.user} [/INST] ${pair.assistant} </s><s>[INST] `,
             ])
           : []),
-        `${prompt} [/INST]`,
+        `${$prompt} [/INST]`,
       ].join(""),
     };
 

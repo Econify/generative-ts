@@ -17,9 +17,9 @@ describe("Ai21Jurassic2Api:", () => {
    * FewShotRequestOptions (prompt):
    */
 
-  test("prompt", () => {
+  test("$prompt", () => {
     const rendered = render({
-      prompt: "mock-prompt",
+      $prompt: "mock-prompt",
     });
 
     expect(rendered).toMatchSnapshot();
@@ -31,7 +31,7 @@ describe("Ai21Jurassic2Api:", () => {
 
   test("all options", () => {
     const rendered = render({
-      prompt: "mock-prompt",
+      $prompt: "mock-prompt",
       numResults: 3,
       maxTokens: 200,
       minTokens: 100,

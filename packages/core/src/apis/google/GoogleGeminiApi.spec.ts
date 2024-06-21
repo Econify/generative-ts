@@ -15,19 +15,19 @@ function render(context: Omit<GoogleGeminiOptions, "modelId">) {
 
 describe("GoogleGeminiApi.requestTemplate", () => {
   /**
-   * FewShotRequestOptions (prompt, examplePairs, system):
+   * FewShotRequestOptions ($prompt, examplePairs, system):
    */
 
-  test("prompt", () => {
+  test("$prompt", () => {
     const rendered = render({
-      prompt: "mock-prompt",
+      $prompt: "mock-prompt",
     });
     expect(rendered).toMatchSnapshot();
   });
 
-  test("prompt, examplePairs", () => {
+  test("$prompt, examplePairs", () => {
     const rendered = render({
-      prompt: "mock-prompt",
+      $prompt: "mock-prompt",
       examplePairs: [
         { user: "mock-user-msg-1", assistant: "mock-assistant-msg-1" },
         { user: "mock-user-msg-2", assistant: "mock-assistant-msg-2" },
@@ -36,17 +36,17 @@ describe("GoogleGeminiApi.requestTemplate", () => {
     expect(rendered).toMatchSnapshot();
   });
 
-  test("prompt, system", () => {
+  test("$prompt, system", () => {
     const rendered = render({
-      prompt: "mock-prompt",
+      $prompt: "mock-prompt",
       system: "mock-system-text",
     });
     expect(rendered).toMatchSnapshot();
   });
 
-  test("prompt, examplePairs, system", () => {
+  test("$prompt, examplePairs, system", () => {
     const rendered = render({
-      prompt: "mock-prompt",
+      $prompt: "mock-prompt",
       examplePairs: [
         { user: "mock-user-msg-1", assistant: "mock-assistant-msg-1" },
       ],
@@ -56,12 +56,12 @@ describe("GoogleGeminiApi.requestTemplate", () => {
   });
 
   /**
-   * "Native" few shot options (prompt, contents, system_instruction):
+   * "Native" few shot options ($prompt, contents, system_instruction):
    */
 
-  test("prompt, contents with user / model (appends prompt)", () => {
+  test("$prompt, contents with user / model (appends $prompt)", () => {
     const rendered = render({
-      prompt: "mock-prompt",
+      $prompt: "mock-prompt",
       contents: [
         {
           role: "user",
@@ -76,9 +76,9 @@ describe("GoogleGeminiApi.requestTemplate", () => {
     expect(rendered).toMatchSnapshot();
   });
 
-  test("prompt, contents with model / user (prepends prompt)", () => {
+  test("$prompt, contents with model / user (prepends $prompt)", () => {
     const rendered = render({
-      prompt: "mock-prompt",
+      $prompt: "mock-prompt",
       contents: [
         {
           role: "model",
@@ -93,9 +93,9 @@ describe("GoogleGeminiApi.requestTemplate", () => {
     expect(rendered).toMatchSnapshot();
   });
 
-  test("prompt, contents starting and ending with model (appends AND prepends prompt)", () => {
+  test("$prompt, contents starting and ending with model (appends AND prepends $prompt)", () => {
     const rendered = render({
-      prompt: "mock-prompt",
+      $prompt: "mock-prompt",
       contents: [
         {
           role: "model",
@@ -114,9 +114,9 @@ describe("GoogleGeminiApi.requestTemplate", () => {
     expect(rendered).toMatchSnapshot();
   });
 
-  test("prompt, contents starting and ending with user (does not add prompt)", () => {
+  test("$prompt, contents starting and ending with user (does not add $prompt)", () => {
     const rendered = render({
-      prompt: "mock-prompt-should-not-appear",
+      $prompt: "mock-prompt-should-not-appear",
       contents: [
         {
           role: "user",
@@ -135,9 +135,9 @@ describe("GoogleGeminiApi.requestTemplate", () => {
     expect(rendered).toMatchSnapshot();
   });
 
-  test("prompt, system_instruction", () => {
+  test("$prompt, system_instruction", () => {
     const rendered = render({
-      prompt: "mock-prompt",
+      $prompt: "mock-prompt",
       system_instruction: {
         parts: [{ text: "mock-system-text" }],
       },
@@ -145,9 +145,9 @@ describe("GoogleGeminiApi.requestTemplate", () => {
     expect(rendered).toMatchSnapshot();
   });
 
-  test("prompt, contents, system_instruction", () => {
+  test("$prompt, contents, system_instruction", () => {
     const rendered = render({
-      prompt: "mock-prompt",
+      $prompt: "mock-prompt",
       contents: [
         {
           role: "model",
@@ -169,9 +169,9 @@ describe("GoogleGeminiApi.requestTemplate", () => {
    * Combinations of FewShotRequestOptions and "native" options:
    */
 
-  test("prompt, examplePairs, contents with user / model (appends prompt)", () => {
+  test("$prompt, examplePairs, contents with user / model (appends $prompt)", () => {
     const rendered = render({
-      prompt: "mock-prompt",
+      $prompt: "mock-prompt",
       examplePairs: [
         {
           user: "mock-user-example-pair",
@@ -192,9 +192,9 @@ describe("GoogleGeminiApi.requestTemplate", () => {
     expect(rendered).toMatchSnapshot();
   });
 
-  test("prompt, examplePairs, contents with model / user (inserts prompt, conversation is valid)", () => {
+  test("$prompt, examplePairs, contents with model / user (inserts $prompt, conversation is valid)", () => {
     const rendered = render({
-      prompt: "mock-prompt",
+      $prompt: "mock-prompt",
       examplePairs: [
         {
           user: "mock-user-example-pair",
@@ -215,9 +215,9 @@ describe("GoogleGeminiApi.requestTemplate", () => {
     expect(rendered).toMatchSnapshot();
   });
 
-  test("prompt, examplePairs, system_instruction", () => {
+  test("$prompt, examplePairs, system_instruction", () => {
     const rendered = render({
-      prompt: "mock-prompt",
+      $prompt: "mock-prompt",
       examplePairs: [
         { user: "mock-user-msg-1", assistant: "mock-assistant-msg-1" },
       ],
@@ -228,9 +228,9 @@ describe("GoogleGeminiApi.requestTemplate", () => {
     expect(rendered).toMatchSnapshot();
   });
 
-  test("prompt, system, contents", () => {
+  test("$prompt, system, contents", () => {
     const rendered = render({
-      prompt: "mock-prompt",
+      $prompt: "mock-prompt",
       system: "mock-system-text",
       contents: [
         {
@@ -242,9 +242,9 @@ describe("GoogleGeminiApi.requestTemplate", () => {
     expect(rendered).toMatchSnapshot();
   });
 
-  test("prompt, system, system_instruction", () => {
+  test("$prompt, system, system_instruction", () => {
     const rendered = render({
-      prompt: "mock-prompt",
+      $prompt: "mock-prompt",
       system: "mock-system-text",
       system_instruction: {
         parts: [
@@ -256,9 +256,9 @@ describe("GoogleGeminiApi.requestTemplate", () => {
     expect(rendered).toMatchSnapshot();
   });
 
-  test("prompt, examplePairs, contents, system_instruction", () => {
+  test("$prompt, examplePairs, contents, system_instruction", () => {
     const rendered = render({
-      prompt: "mock-prompt",
+      $prompt: "mock-prompt",
       examplePairs: [
         { user: "mock-user-msg-1", assistant: "mock-assistant-msg-1" },
       ],
@@ -279,9 +279,9 @@ describe("GoogleGeminiApi.requestTemplate", () => {
    * Tool-related:
    */
 
-  test("prompt, contents ending with function_call, $tools with matching invocation (appends function_response content items)", () => {
+  test("$prompt, contents ending with function_call, $tools with matching invocation (appends function_response content items)", () => {
     const rendered = render({
-      prompt: "mock-prompt",
+      $prompt: "mock-prompt",
       contents: [
         {
           role: "user",
@@ -324,9 +324,9 @@ describe("GoogleGeminiApi.requestTemplate", () => {
     expect(rendered).toMatchSnapshot();
   });
 
-  test("prompt, contents ending with model function_call, $tools without matching invocation (appends prompt; TODO logs warning)", () => {
+  test("$prompt, contents ending with model function_call, $tools without matching invocation (appends $prompt; TODO logs warning)", () => {
     const rendered = render({
-      prompt: "mock-prompt",
+      $prompt: "mock-prompt",
       contents: [
         {
           role: "user",
@@ -364,9 +364,9 @@ describe("GoogleGeminiApi.requestTemplate", () => {
     // TODO expect warning
   });
 
-  test("prompt, contents ending with model function_call, no $tools (prepends and appends prompt; TODO logs warning)", () => {
+  test("$prompt, contents ending with model function_call, no $tools (prepends and appends $prompt; TODO logs warning)", () => {
     const rendered = render({
-      prompt: "mock-prompt",
+      $prompt: "mock-prompt",
       contents: [
         {
           role: "model",
@@ -385,9 +385,9 @@ describe("GoogleGeminiApi.requestTemplate", () => {
     // TODO expect warning
   });
 
-  test("prompt, contents ending with user function_response (prepends prompt)", () => {
+  test("$prompt, contents ending with user function_response (prepends $prompt)", () => {
     const rendered = render({
-      prompt: "mock-prompt",
+      $prompt: "mock-prompt",
       contents: [
         {
           role: "model",
@@ -418,9 +418,9 @@ describe("GoogleGeminiApi.requestTemplate", () => {
   /*
    *  Tool declarations:
    */
-  test("prompt, tools", () => {
+  test("$prompt, tools", () => {
     const rendered = render({
-      prompt: "mock-prompt",
+      $prompt: "mock-prompt",
       tools: [
         {
           function_declarations: [
@@ -441,9 +441,9 @@ describe("GoogleGeminiApi.requestTemplate", () => {
     expect(rendered).toMatchSnapshot();
   });
 
-  test("prompt, $tools", () => {
+  test("$prompt, $tools", () => {
     const rendered = render({
-      prompt: "mock-prompt",
+      $prompt: "mock-prompt",
       $tools: [
         {
           name: "mock-function-1",
@@ -482,9 +482,9 @@ describe("GoogleGeminiApi.requestTemplate", () => {
     expect(rendered).toMatchSnapshot();
   });
 
-  test("prompt, tools, $tools", () => {
+  test("$prompt, tools, $tools", () => {
     const rendered = render({
-      prompt: "mock-prompt",
+      $prompt: "mock-prompt",
       tools: [
         {
           function_declarations: [
@@ -539,9 +539,9 @@ describe("GoogleGeminiApi.requestTemplate", () => {
     expect(rendered).toMatchSnapshot();
   });
 
-  test("prompt, tools_config", () => {
+  test("$prompt, tools_config", () => {
     const rendered = render({
-      prompt: "mock-prompt",
+      $prompt: "mock-prompt",
       tools_config: {
         mode: "AUTO",
         allowed_function_names: ["mock-function"],
@@ -553,9 +553,9 @@ describe("GoogleGeminiApi.requestTemplate", () => {
   /**
    * "Native" options:
    */
-  test("prompt, safety_settings", () => {
+  test("$prompt, safety_settings", () => {
     const rendered = render({
-      prompt: "mock-prompt",
+      $prompt: "mock-prompt",
       safety_settings: {
         category: "mock-category",
         threshold: "mock-threshold",
@@ -564,9 +564,9 @@ describe("GoogleGeminiApi.requestTemplate", () => {
     expect(rendered).toMatchSnapshot();
   });
 
-  test("prompt, generation_config", () => {
+  test("$prompt, generation_config", () => {
     const rendered = render({
-      prompt: "mock-prompt",
+      $prompt: "mock-prompt",
       generation_config: {
         temperature: 0.7,
         top_p: 0.9,
@@ -575,9 +575,9 @@ describe("GoogleGeminiApi.requestTemplate", () => {
     expect(rendered).toMatchSnapshot();
   });
 
-  test("prompt, tool, tools_config, system_instruction, safety_settings, generation_config", () => {
+  test("$prompt, tool, tools_config, system_instruction, safety_settings, generation_config", () => {
     const rendered = render({
-      prompt: "mock-prompt",
+      $prompt: "mock-prompt",
       contents: [
         {
           role: "model",

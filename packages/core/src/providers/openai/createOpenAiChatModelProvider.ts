@@ -23,7 +23,7 @@ import type { OpenAiAuthConfig } from "./authConfig";
  * });
  *
  * const response = await gpt.sendRequest({
- *   prompt: "Brief History of NY Mets:",
+ *   $prompt: "Brief History of NY Mets:",
  *   max_tokens: 100,
  *   // all other OpenAI ChatCompletion options available here
  * });
@@ -69,7 +69,7 @@ import type { OpenAiAuthConfig } from "./authConfig";
  * });
  *
  * const response = await gpt.sendRequest({
- *   prompt: "Brief History of NY Mets:",
+ *   $prompt: "Brief History of NY Mets:",
  *   max_tokens: 100,
  *   // all other OpenAI ChatCompletion options available here
  * });

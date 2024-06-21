@@ -16,35 +16,35 @@ function render(context: Omit<HfConversationalTaskOptions, "modelId">) {
 }
 
 describe("HfConversationalTaskOptions:", () => {
-  test("prompt", () => {
+  test("$prompt", () => {
     const rendered = render({
-      prompt: "mock-prompt",
+      $prompt: "mock-prompt",
     });
 
     expect(rendered).toMatchSnapshot();
   });
 
-  test("prompt, past_user_inputs", () => {
+  test("$prompt, past_user_inputs", () => {
     const rendered = render({
-      prompt: "mock-prompt",
+      $prompt: "mock-prompt",
       past_user_inputs: ["input1", "input2"],
     });
 
     expect(rendered).toMatchSnapshot();
   });
 
-  test("prompt, generated_responses", () => {
+  test("$prompt, generated_responses", () => {
     const rendered = render({
-      prompt: "mock-prompt",
+      $prompt: "mock-prompt",
       generated_responses: ["response1", "response2"],
     });
 
     expect(rendered).toMatchSnapshot();
   });
 
-  test("prompt, past_user_inputs, generated_responses", () => {
+  test("$prompt, past_user_inputs, generated_responses", () => {
     const rendered = render({
-      prompt: "mock-prompt",
+      $prompt: "mock-prompt",
       past_user_inputs: ["input1", "input2"],
       generated_responses: ["response1", "response2"],
     });
@@ -52,9 +52,9 @@ describe("HfConversationalTaskOptions:", () => {
     expect(rendered).toMatchSnapshot();
   });
 
-  test("prompt, parameters", () => {
+  test("$prompt, parameters", () => {
     const rendered = render({
-      prompt: "mock-prompt",
+      $prompt: "mock-prompt",
       parameters: {
         min_length: 10,
         max_length: 100,
@@ -69,9 +69,9 @@ describe("HfConversationalTaskOptions:", () => {
     expect(rendered).toMatchSnapshot();
   });
 
-  test("prompt, options", () => {
+  test("$prompt, options", () => {
     const rendered = render({
-      prompt: "mock-prompt",
+      $prompt: "mock-prompt",
       options: {
         use_cache: true,
         wait_for_model: false,
@@ -83,7 +83,7 @@ describe("HfConversationalTaskOptions:", () => {
 
   test("all options", () => {
     const rendered = render({
-      prompt: "mock-prompt",
+      $prompt: "mock-prompt",
       past_user_inputs: ["input1", "input2"],
       generated_responses: ["response1", "response2"],
       parameters: {

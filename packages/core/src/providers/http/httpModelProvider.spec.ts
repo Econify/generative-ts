@@ -48,7 +48,7 @@ describe("HttpModelProvider", () => {
       mockApi.requestTemplate.render.mockReturnValue(mockBody);
 
       // act
-      await provider.sendRequest({ prompt: "Hello, world!" });
+      await provider.sendRequest({ $prompt: "Hello, world!" });
 
       // assert
       expect(mockClient.fetch).toHaveBeenCalledWith(mockEndpoint, {
@@ -75,7 +75,7 @@ describe("HttpModelProvider", () => {
       mockApi.requestTemplate.render.mockReturnValue(mockBody);
 
       // act
-      await provider.sendRequest({ prompt: "Hello, world!" });
+      await provider.sendRequest({ $prompt: "Hello, world!" });
 
       // assert
       expect(mockClient.fetch).toHaveBeenCalledWith(mockEndpoint, {
@@ -106,7 +106,7 @@ describe("HttpModelProvider", () => {
       mockApi.requestTemplate.render.mockReturnValue(mockBody);
 
       // act
-      await provider.sendRequest({ prompt: "Hello, world!" });
+      await provider.sendRequest({ $prompt: "Hello, world!" });
 
       // assert
       expect(mockClient.fetch).toHaveBeenCalledWith(mockEndpoint, {
@@ -135,7 +135,7 @@ describe("HttpModelProvider", () => {
 
       // act & assert
       await expect(
-        provider.sendRequest({ prompt: "Hello, world!" }),
+        provider.sendRequest({ $prompt: "Hello, world!" }),
       ).rejects.toThrow("Network error");
     });
   });

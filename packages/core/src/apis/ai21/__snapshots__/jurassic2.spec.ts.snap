@@ -1,5 +1,11 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`Ai21Jurassic2Api: $prompt 1`] = `
+{
+  "prompt": "mock-prompt",
+}
+`;
+
 exports[`Ai21Jurassic2Api: all options 1`] = `
 {
   "countPenalty": {
@@ -37,11 +43,5 @@ exports[`Ai21Jurassic2Api: all options 1`] = `
   "temperature": 0.7,
   "topKReturn": 5,
   "topP": 0.9,
-}
-`;
-
-exports[`Ai21Jurassic2Api: prompt 1`] = `
-{
-  "prompt": "mock-prompt",
 }
 `;

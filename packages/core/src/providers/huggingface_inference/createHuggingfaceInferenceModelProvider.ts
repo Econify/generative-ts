@@ -38,7 +38,7 @@ type HfApi = HfConversationalTaskApi | HfTextGenerationTaskApi;
  * });
  *
  * const response = await gpt2.sendRequest({
- *   prompt: "Hello,"
+ *   $prompt: "Hello,"
  *   // all other options for the specified `api` available here
  * });
  *
@@ -98,7 +98,7 @@ type HfApi = HfConversationalTaskApi | HfTextGenerationTaskApi;
  * });
  *
  * const response = await gpt2.sendRequest({
- *   prompt: "Hello,"
+ *   $prompt: "Hello,"
  *   // all other options for the specified `api` available here
  * });
  *

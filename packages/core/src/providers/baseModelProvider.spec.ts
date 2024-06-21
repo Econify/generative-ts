@@ -28,13 +28,13 @@ describe("BaseModelProvider", () => {
       });
 
       // act
-      await provider.sendRequest({ prompt: "the ny mets are:" });
+      await provider.sendRequest({ $prompt: "the ny mets are:" });
 
       // assert
       expect(provider.dispatchRequest).toHaveBeenCalledWith(
         {
           modelId: "dummy-configured-model-id",
-          prompt: "the ny mets are:",
+          $prompt: "the ny mets are:",
         },
         undefined,
       );
@@ -52,14 +52,14 @@ describe("BaseModelProvider", () => {
       // act
       await provider.sendRequest({
         modelId: "dummy-request-model-id",
-        prompt: "the ny mets are:",
+        $prompt: "the ny mets are:",
       });
 
       // assert
       expect(provider.dispatchRequest).toHaveBeenCalledWith(
         {
           modelId: "dummy-request-model-id",
-          prompt: "the ny mets are:",
+          $prompt: "the ny mets are:",
         },
         undefined,
       );
@@ -78,7 +78,7 @@ describe("BaseModelProvider", () => {
 
       // act & assert
       await expect(
-        provider.sendRequest({ prompt: "the ny mets are:" }),
+        provider.sendRequest({ $prompt: "the ny mets are:" }),
       ).rejects.toThrow("Unexpected response from model provider");
     });
 
@@ -99,7 +99,7 @@ describe("BaseModelProvider", () => {
       await provider.sendRequest(
         {
           modelId: "dummy-request-model-id",
-          prompt: "the ny mets are:",
+          $prompt: "the ny mets are:",
         },
         {
           metaProp: "dummy-meta",
@@ -111,7 +111,7 @@ describe("BaseModelProvider", () => {
       expect(provider.history[0]).toEqual({
         options: {
           modelId: "dummy-request-model-id",
-          prompt: "the ny mets are:",
+          $prompt: "the ny mets are:",
         },
         response: { data: "some valid response" },
         meta: {
@@ -122,7 +122,7 @@ describe("BaseModelProvider", () => {
       // act again
       await provider.sendRequest({
         modelId: "dummy-request-model-id-2",
-        prompt: "the ny yankees are:",
+        $prompt: "the ny yankees are:",
       });
 
       // assert again
@@ -130,7 +130,7 @@ describe("BaseModelProvider", () => {
       expect(provider.history[0]).toEqual({
         options: {
           modelId: "dummy-request-model-id",
-          prompt: "the ny mets are:",
+          $prompt: "the ny mets are:",
         },
         response: { data: "some valid response" },
         meta: {
@@ -140,7 +140,7 @@ describe("BaseModelProvider", () => {
       expect(provider.history[1]).toEqual({
         options: {
           modelId: "dummy-request-model-id-2",
-          prompt: "the ny yankees are:",
+          $prompt: "the ny yankees are:",
         },
         response: { data: "some valid response" },
         meta: undefined, // no meta in second call
@@ -161,7 +161,7 @@ describe("BaseModelProvider", () => {
         provider.sendRequest(
           {
             modelId: "dummy-request-model-id",
-            prompt: "the ny mets are:",
+            $prompt: "the ny mets are:",
           },
           {
             metaProp: "dummy-meta",
@@ -173,7 +173,7 @@ describe("BaseModelProvider", () => {
       expect(provider.history[0]).toEqual({
         options: {
           modelId: "dummy-request-model-id",
-          prompt: "the ny mets are:",
+          $prompt: "the ny mets are:",
         },
         response: undefined,
         meta: {

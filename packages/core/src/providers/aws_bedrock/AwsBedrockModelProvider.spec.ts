@@ -51,7 +51,7 @@ describe("AwsBedrockModelProvider", () => {
       // act
       const result = await provider.sendRequest({
         modelId: "dummy-request-model-id",
-        prompt: "explain aws bedrock:",
+        $prompt: "explain aws bedrock:",
       });
 
       // assert
@@ -109,7 +109,7 @@ describe("AwsBedrockModelProvider", () => {
       // act
       const result = await provider.sendRequest({
         modelId: "dummy-request-model-id",
-        prompt: "explain aws bedrock:",
+        $prompt: "explain aws bedrock:",
       });
 
       // assert
@@ -162,7 +162,7 @@ describe("AwsBedrockModelProvider", () => {
       await expect(
         provider.sendRequest({
           modelId: "dummy-request-model-id",
-          prompt: "explain aws bedrock:",
+          $prompt: "explain aws bedrock:",
         }),
       ).rejects.toThrow("Signing failed");
     });

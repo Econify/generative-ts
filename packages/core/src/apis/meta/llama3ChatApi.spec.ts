@@ -17,26 +17,26 @@ describe("Llama3ChatApi:", () => {
    * FewShotRequestOptions (prompt, examplePairs, system):
    */
 
-  test("prompt", () => {
+  test("$prompt", () => {
     const rendered = render({
-      prompt: "mock-prompt",
+      $prompt: "mock-prompt",
     });
 
     expect(rendered).toMatchSnapshot();
   });
 
-  test("prompt, system", () => {
+  test("$prompt, system", () => {
     const rendered = render({
-      prompt: "mock-prompt",
+      $prompt: "mock-prompt",
       system: "mock-system-text",
     });
 
     expect(rendered).toMatchSnapshot();
   });
 
-  test("prompt, examplePairs", () => {
+  test("$prompt, examplePairs", () => {
     const rendered = render({
-      prompt: "mock-prompt",
+      $prompt: "mock-prompt",
       examplePairs: [
         { user: "mock-user-msg-1", assistant: "mock-assistant-msg-1" },
         { user: "mock-user-msg-2", assistant: "mock-assistant-msg-2" },
@@ -46,9 +46,9 @@ describe("Llama3ChatApi:", () => {
     expect(rendered).toMatchSnapshot();
   });
 
-  test("prompt, system, examplePairs", () => {
+  test("$prompt, system, examplePairs", () => {
     const rendered = render({
-      prompt: "mock-prompt",
+      $prompt: "mock-prompt",
       system: "mock-system-text",
       examplePairs: [
         { user: "mock-user-msg-1", assistant: "mock-assistant-msg-1" },
@@ -65,7 +65,7 @@ describe("Llama3ChatApi:", () => {
 
   test("all options", () => {
     const rendered = render({
-      prompt: "mock-prompt",
+      $prompt: "mock-prompt",
       system: "mock-system-text",
       examplePairs: [
         { user: "mock-user-msg-1", assistant: "mock-assistant-msg-1" },

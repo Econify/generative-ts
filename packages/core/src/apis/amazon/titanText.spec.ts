@@ -16,9 +16,9 @@ describe("AmazonTitanTextApi:", () => {
   /**
    * FewShotRequestOptions (prompt):
    */
-  test("prompt", () => {
+  test("$prompt", () => {
     const rendered = render({
-      prompt: "mock-prompt",
+      $prompt: "mock-prompt",
     });
 
     expect(rendered).toMatchSnapshot();
@@ -29,7 +29,7 @@ describe("AmazonTitanTextApi:", () => {
    */
   test("all options", () => {
     const rendered = render({
-      prompt: "mock-prompt",
+      $prompt: "mock-prompt",
       temperature: 0.7,
       topP: 0.9,
       maxTokenCount: 100,

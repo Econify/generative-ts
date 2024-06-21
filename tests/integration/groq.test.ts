@@ -9,7 +9,7 @@ test("Groq - OpenAI ChatCompletion", async () => {
   // act
   const response = await groq.sendRequest(
     {
-      prompt: "Brief History of NY Mets:",
+      $prompt: "Brief History of NY Mets:",
       max_tokens: 100,
     },
     {

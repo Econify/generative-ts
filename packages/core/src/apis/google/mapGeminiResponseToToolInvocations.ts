@@ -1,6 +1,6 @@
 import { ConvertParamMapToArgs, Tool, ToolParamMap } from "../../utils/Tool";
 
-import type { GoogleGeminiResponse } from "./gemini";
+import type { GoogleGeminiResponse } from "./GoogleGeminiResponse";
 
 /**
  * @category Google Gemini

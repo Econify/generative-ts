@@ -230,6 +230,7 @@ test("VertexAI - Google Gemini ($tools)", async () => {
     throw new Error("No content found in response!?");
   }
 
+
   const response2 = await model.sendRequest({
     system:
       "Use tools to help answer questions. Keep in mind that you can make multiple tool calls.",

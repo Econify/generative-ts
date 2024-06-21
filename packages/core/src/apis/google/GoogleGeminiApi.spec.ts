@@ -1,4 +1,5 @@
-import { GoogleGeminiApi, GoogleGeminiOptions } from "./gemini";
+import { GoogleGeminiApi } from "./GoogleGeminiApi";
+import type { GoogleGeminiOptions } from "./GoogleGeminiRequest";
 
 function render(context: Omit<GoogleGeminiOptions, "modelId">) {
   try {

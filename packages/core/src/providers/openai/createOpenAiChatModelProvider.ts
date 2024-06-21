@@ -2,7 +2,11 @@ import type { HttpClient } from "@typeDefs";
 
 import { OpenAiChatApi } from "../../apis/openai";
 
-import { BearerTokenAuthStrategy, HttpModelProvider } from "../http";
+import {
+  BearerTokenAuthStrategy,
+  HttpModelProvider,
+  InferHttpClientOptions,
+} from "../http";
 
 import type { OpenAiAuthConfig } from "./authConfig";
 
@@ -19,7 +23,7 @@ import type { OpenAiAuthConfig } from "./authConfig";
  * });
  *
  * const response = await gpt.sendRequest({
- *   prompt: "Brief History of NY Mets:",
+ *   $prompt: "Brief History of NY Mets:",
  *   max_tokens: 100,
  *   // all other OpenAI ChatCompletion options available here
  * });
@@ -65,7 +69,7 @@ import type { OpenAiAuthConfig } from "./authConfig";
  * });
  *
  * const response = await gpt.sendRequest({
- *   prompt: "Brief History of NY Mets:",
+ *   $prompt: "Brief History of NY Mets:",
  *   max_tokens: 100,
  *   // all other OpenAI ChatCompletion options available here
  * });
@@ -73,13 +77,15 @@ import type { OpenAiAuthConfig } from "./authConfig";
  * console.log(response.choices[0]?.message.content);
  * ```
  */
-export function createOpenAiChatModelProvider({
+export function createOpenAiChatModelProvider<
+  THttpClientOptions = InferHttpClientOptions<HttpModelProvider>,
+>({
   modelId,
   client,
   auth,
 }: {
   modelId: string;
-  client?: HttpClient;
+  client?: HttpClient<THttpClientOptions>;
   auth?: OpenAiAuthConfig;
 }) {
   const { OPENAI_API_KEY } = auth ?? process.env;

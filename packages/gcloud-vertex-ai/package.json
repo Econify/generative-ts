@@ -1,0 +1,57 @@
+{
+  "name": "@generative-ts/gcloud-vertex-ai",
+  "version": "0.1.0-alpha.6",
+  "description": "Google Cloud VertexAI support for for generative-ts",
+  "main": "dist/index.cjs",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
+  "exports": {
+    "default": "./dist/index.cjs",
+    "import": "./dist/index.mjs",
+    "types": "./dist/index.d.ts"
+  },
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "scripts": {
+    "build": "npm run clean && npm run build:rollup",
+    "build:rollup": "rollup -c",
+    "check": "npm run typecheck && npm run lint && npm run test",
+    "clean": "rm -rf dist && rm -rf .rollup.cache && rm -f *.tsbuildinfo",
+    "lint": "eslint src/",
+    "lint:fix": "eslint --fix src/",
+    "prepare": "npm run build",
+    "prepublishOnly": "npm run check",
+    "test": "jest",
+    "test:cov": "jest --coverage",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "google-auth-library": "^9.10.0",
+    "tslib": "^2.6.2"
+  },
+  "peerDependencies": {
+    "@generative-ts/core": "^0.1.0-alpha.6"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "license": "ISC",
+  "repository": {
+    "url": "Econify/generative-ts",
+    "directory": "packages/gcloud-vertex-ai"
+  },
+  "author": "John M Naglick",
+  "homepage": "https://github.com/Econify/generative-ts#readme",
+  "bugs": {
+    "url": "https://github.com/Econify/generative-ts/issues"
+  },
+  "keywords": [
+    "llm",
+    "vertexai",
+    "ts",
+    "generative",
+    "typescript"
+  ]
+}

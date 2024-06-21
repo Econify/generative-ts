@@ -10,7 +10,11 @@ import type {
   HfTextGenerationTaskApi,
 } from "../../apis";
 
-import { BearerTokenAuthStrategy, HttpModelProvider } from "../http";
+import {
+  BearerTokenAuthStrategy,
+  HttpModelProvider,
+  InferHttpClientOptions,
+} from "../http";
 
 import type { HuggingfaceAuthConfig } from "./authConfig";
 
@@ -34,7 +38,7 @@ type HfApi = HfConversationalTaskApi | HfTextGenerationTaskApi;
  * });
  *
  * const response = await gpt2.sendRequest({
- *   prompt: "Hello,"
+ *   $prompt: "Hello,"
  *   // all other options for the specified `api` available here
  * });
  *
@@ -94,14 +98,17 @@ type HfApi = HfConversationalTaskApi | HfTextGenerationTaskApi;
  * });
  *
  * const response = await gpt2.sendRequest({
- *   prompt: "Hello,"
+ *   $prompt: "Hello,"
  *   // all other options for the specified `api` available here
  * });
  *
  * console.log(response[0]?.generated_text);
  * ```
  */
-export function createHuggingfaceInferenceModelProvider<THfApi extends HfApi>({
+export function createHuggingfaceInferenceModelProvider<
+  THfApi extends HfApi,
+  THttpClientOptions = InferHttpClientOptions<HttpModelProvider>,
+>({
   api,
   modelId,
   client,
@@ -109,7 +116,7 @@ export function createHuggingfaceInferenceModelProvider<THfApi extends HfApi>({
 }: {
   api: THfApi;
   modelId: string;
-  client?: HttpClient;
+  client?: HttpClient<THttpClientOptions>;
   auth?: HuggingfaceAuthConfig;
 }) {
   const { HUGGINGFACE_API_TOKEN } = auth ?? process.env;

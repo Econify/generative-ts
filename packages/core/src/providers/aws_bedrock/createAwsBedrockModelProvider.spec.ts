@@ -1,12 +1,14 @@
-import aws4 from "aws4";
+import { HttpModelProvider } from "../http";
 
-import { AwsBedrockModelProvider } from "./AwsBedrockModelProvider";
 import { createAwsBedrockModelProvider } from "./createAwsBedrockModelProvider";
 
-jest.mock("aws4");
-jest.mock("../../utils/httpClient");
+import type { AwsBedrockAuthConfig } from "./AwsBedrockAuthConfig";
 
-describe("AwsBedrockModelProvider", () => {
+jest.mock("../http", () => ({
+  HttpModelProvider: jest.fn(),
+}));
+
+describe("createAwsBedrockModelProvider", () => {
   const mockApi = {
     requestTemplate: {
       render: jest.fn().mockReturnValue("dummy-request-template-output"),
@@ -14,163 +16,69 @@ describe("AwsBedrockModelProvider", () => {
     responseGuard: jest.fn().mockReturnValue(true),
   } as unknown as any;
 
-  const mockAuthConfig = {
-    AWS_ACCESS_KEY_ID: "dummy-access-key-id",
-    AWS_SECRET_ACCESS_KEY: "dummy-secret-access-key",
+  const mockAuthConfig: AwsBedrockAuthConfig = {
+    AWS_ACCESS_KEY_ID: "test-access-key-id",
+    AWS_SECRET_ACCESS_KEY: "test-secret-access-key",
+    AWS_REGION: "us-east-1",
   };
 
-  const mockClient = {
-    post: jest.fn().mockResolvedValue({
-      dummyClientResponseKey: "dummy-client-response-value",
-    }),
-  };
+  const mockModelId = "test-model";
+
+  const ORIGINAL_ENV = process.env;
 
   beforeEach(() => {
-    jest.clearAllMocks();
+    process.env = { ...ORIGINAL_ENV };
   });
 
-  describe("dispatchRequest", () => {
-    it("signs the request using explicit credentials and calls the client correctly", async () => {
-      // arrange
-      const provider = new AwsBedrockModelProvider({
-        api: mockApi,
-        modelId: "dummy-configured-model-id",
-        client: mockClient,
-        auth: mockAuthConfig,
-        region: "mock-aws-region",
-      });
-
-      (aws4.sign as jest.Mock).mockReturnValue({
-        headers: {
-          "Content-Type": "application/json",
-          Accept: "application/json",
-          Authorization: "signedAuth",
-          "X-Amz-Date": "signedDate",
-        },
-      });
-
-      // act
-      const result = await provider.dispatchRequest({
-        modelId: "dummy-request-model-id",
-        prompt: "explain aws bedrock:",
-      });
-
-      // assert
-      expect(aws4.sign).toHaveBeenCalledWith(
-        expect.objectContaining({
-          method: "POST",
-          region: "mock-aws-region",
-          service: "bedrock",
-        }),
-        expect.objectContaining({
-          accessKeyId: mockAuthConfig.AWS_ACCESS_KEY_ID,
-          secretAccessKey: mockAuthConfig.AWS_SECRET_ACCESS_KEY,
-        }),
-      );
-
-      expect(mockClient.post).toHaveBeenCalledWith(
-        `https://bedrock-runtime.mock-aws-region.amazonaws.com/model/dummy-request-model-id/invoke`,
-        "dummy-request-template-output",
-        expect.objectContaining({
-          Authorization: "signedAuth",
-          "X-Amz-Date": "signedDate",
-        }),
-      );
-
-      expect(result).toEqual({
-        dummyClientResponseKey: "dummy-client-response-value",
-      });
-    });
-
-    it("omits credentials when signing the request when credentials are not provided", async () => {
-      // arrange
-      const provider = new AwsBedrockModelProvider({
-        api: mockApi,
-        modelId: "dummy-configured-model-id",
-        client: mockClient,
-        region: "mock-aws-region",
-      });
-
-      (aws4.sign as jest.Mock).mockReturnValue({
-        headers: {
-          "Content-Type": "application/json",
-          Accept: "application/json",
-          Authorization: "signedAuth",
-          "X-Amz-Date": "signedDate",
-        },
-      });
-
-      // act
-      const result = await provider.dispatchRequest({
-        modelId: "dummy-request-model-id",
-        prompt: "explain aws bedrock:",
-      });
-
-      // assert
-      expect(aws4.sign).toHaveBeenCalledWith(
-        expect.objectContaining({
-          method: "POST",
-          region: "mock-aws-region",
-          service: "bedrock",
-        }),
-        undefined, // credentials omitted
-      );
-
-      expect(mockClient.post).toHaveBeenCalledWith(
-        `https://bedrock-runtime.mock-aws-region.amazonaws.com/model/dummy-request-model-id/invoke`,
-        "dummy-request-template-output",
-        expect.objectContaining({
-          Authorization: "signedAuth",
-          "X-Amz-Date": "signedDate",
-        }),
-      );
-
-      expect(result).toEqual({
-        dummyClientResponseKey: "dummy-client-response-value",
-      });
-    });
-
-    it("throws error when signing fails", async () => {
-      // arrange
-      const badMockClient = {
-        post: jest.fn().mockRejectedValue(new Error("Signing failed")),
-      };
-
-      const provider = new AwsBedrockModelProvider({
-        api: mockApi,
-        modelId: "dummy-configured-model-id",
-        client: badMockClient,
-        auth: mockAuthConfig,
-        region: "mock-aws-region",
-      });
-
-      (aws4.sign as jest.Mock).mockImplementation(() => {
-        throw new Error("Signing failed");
-      });
-
-      // act & assert
-      await expect(
-        provider.dispatchRequest({
-          modelId: "dummy-request-model-id",
-          prompt: "explain aws bedrock:",
-        }),
-      ).rejects.toThrow("Signing failed");
-    });
+  afterEach(() => {
+    process.env = ORIGINAL_ENV;
   });
 
-  describe("createAwsBedrockModelProvider", () => {
-    it("creates a new AwsBedrockModelProvider instance and defaults the region if not provided", () => {
-      // arrange
-      const defaultRegionProvider = createAwsBedrockModelProvider({
-        api: mockApi,
-        modelId: "test-model",
-        auth: mockAuthConfig,
-        client: mockClient,
-      });
-
-      // assert
-      expect(defaultRegionProvider.config.region).toBe("us-east-1");
-      expect(defaultRegionProvider).toBeInstanceOf(AwsBedrockModelProvider);
+  it("should use auth config if provided", () => {
+    createAwsBedrockModelProvider({
+      api: mockApi,
+      modelId: mockModelId,
+      auth: mockAuthConfig,
     });
+
+    expect(HttpModelProvider).toHaveBeenCalledWith(
+      expect.objectContaining({
+        config: {
+          modelId: mockModelId,
+          auth: mockAuthConfig,
+        },
+      }),
+    );
+  });
+
+  it("should use environment variables if auth config is not provided", () => {
+    process.env.AWS_REGION = "mock-region";
+
+    createAwsBedrockModelProvider({
+      api: mockApi,
+      modelId: mockModelId,
+    });
+
+    expect(HttpModelProvider).toHaveBeenCalledWith(
+      expect.objectContaining({
+        config: {
+          modelId: mockModelId,
+          auth: {
+            AWS_REGION: "mock-region",
+          },
+        },
+      }),
+    );
+  });
+
+  it("should throw an error if AWS_REGION is not provided in auth or environment", () => {
+    expect(() => {
+      createAwsBedrockModelProvider({
+        api: mockApi,
+        modelId: mockModelId,
+      });
+    }).toThrow(
+      "Error in createAwsBedrockModelProvider: AWS_REGION must either be passed in the `auth` object or set in the local process.env",
+    );
   });
 });

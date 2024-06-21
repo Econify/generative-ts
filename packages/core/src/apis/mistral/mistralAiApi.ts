@@ -1,50 +1,13 @@
+/* eslint-disable camelcase */
 import * as t from "io-ts";
 import type { TypeOf } from "io-ts";
-import { isLeft } from "fp-ts/Either";
+import { isLeft } from "fp-ts/lib/Either.js";
 
 import type { ModelApi, ModelRequestOptions } from "@typeDefs";
 
-import { EjsTemplate } from "../../utils/ejsTemplate";
+import { FnTemplate } from "../../utils/Template";
 
-import type { FewShotRequestOptions } from "../shared/fewShot";
-
-const templateSource = `{
-  "model": "<%= modelId %>",
-  "messages": [
-    <% if (typeof system !== 'undefined') { %>
-    {
-      "role": "system",
-      "content": "<%= system %>"
-    },
-    <% } %>
-    <% (typeof examplePairs !== 'undefined' ? examplePairs : []).forEach(pair => { %>
-    {
-      "role": "user",
-      "content": "<%= pair.user %>"
-    },
-    {
-      "role": "assistant",
-      "content": "<%= pair.assistant %>"
-    },
-    <% }) %>
-    <% (typeof messages !== 'undefined' ? messages : []).forEach(message => { %>
-    {
-      "role": "<%= message.role %>",
-      "content": "<%= message.content %>"
-    },
-    <% }) %>
-    {
-      "role": "user",
-      "content": "<%= prompt %>"
-    }
-  ]
-  <% if (typeof temperature !== 'undefined') { %>, "temperature": <%= temperature %><% } %>
-  <% if (typeof top_p !== 'undefined') { %>, "top_p": <%= top_p %><% } %>
-  <% if (typeof max_tokens !== 'undefined') { %>, "max_tokens": <%= max_tokens %><% } %>
-  <% if (typeof stream !== 'undefined') { %>, "stream": <%= stream %><% } %>
-  <% if (typeof safe_prompt !== 'undefined') { %>, "safe_prompt": <%= safe_prompt %><% } %>
-  <% if (typeof random_seed !== 'undefined') { %>, "seed": <%= seed %><% } %>
-}`;
+import type { FewShotRequestOptions } from "../shared";
 
 /**
  * @category Requests
@@ -69,8 +32,52 @@ export interface MistralAiOptions
  * @category Templates
  * @category Mistral ChatCompletion
  */
-export const MistralAiTemplate = new EjsTemplate<MistralAiOptions>(
-  templateSource,
+export const MistralAiTemplate = new FnTemplate(
+  ({
+    modelId,
+    $prompt,
+    system,
+    examplePairs,
+    messages,
+    temperature,
+    top_p,
+    max_tokens,
+    stream,
+    safe_prompt,
+    random_seed,
+  }: MistralAiOptions) => {
+    const rewritten = {
+      model: modelId,
+      messages: [
+        ...(system ? [{ role: "system", content: system }] : []),
+        ...(examplePairs
+          ? examplePairs.flatMap((pair) => [
+              { role: "user", content: pair.user },
+              { role: "assistant", content: pair.assistant },
+            ])
+          : []),
+        ...(messages
+          ? messages.map((message) => ({
+              role: message.role,
+              content: message.content,
+            }))
+          : []),
+        { role: "user", content: $prompt },
+      ],
+    };
+
+    const result = {
+      ...rewritten,
+      temperature,
+      top_p,
+      max_tokens,
+      stream,
+      safe_prompt,
+      random_seed,
+    };
+
+    return JSON.stringify(result, null, 2);
+  },
 );
 
 const MistralAiApiResponseCodec = t.type({

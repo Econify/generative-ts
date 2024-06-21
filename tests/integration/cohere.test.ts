@@ -13,7 +13,7 @@ test("Cohere - Generate", async () => {
 
   // act
   const response = await cohereGen.sendRequest({
-    prompt: "Brief History of NY Mets:",
+    $prompt: "Brief History of NY Mets:",
     return_likelihoods: "ALL",
   });
 
@@ -30,7 +30,7 @@ test("Cohere - Chat", async () => {
 
   // act
   const response = await cohereChat.sendRequest({
-    prompt: "Brief History of NY Mets:",
+    $prompt: "Brief History of NY Mets:",
     preamble: "Talk like Jafar from Aladdin",
   });
 
@@ -46,7 +46,7 @@ test("Cohere - Chat (Default)", async () => {
 
   // act
   const response = await cohereChat.sendRequest({
-    prompt: "Brief History of NY Mets:",
+    $prompt: "Brief History of NY Mets:",
     preamble: "Talk like Jafar from Aladdin",
   });
 

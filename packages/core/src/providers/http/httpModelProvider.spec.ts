@@ -6,6 +6,8 @@ import {
   StaticHeadersStrategy,
 } from "./strategies";
 
+import { getClient } from "../../utils/httpClient";
+
 import { HttpModelProvider } from "./httpModelProvider";
 
 jest.mock("../../utils/httpClient");
@@ -19,7 +21,7 @@ describe("HttpModelProvider", () => {
   };
 
   const mockClient = {
-    post: jest.fn(),
+    fetch: jest.fn(),
   };
 
   const mockModelId = "mock-model-id";
@@ -46,11 +48,15 @@ describe("HttpModelProvider", () => {
       mockApi.requestTemplate.render.mockReturnValue(mockBody);
 
       // act
-      await provider.sendRequest({ prompt: "Hello, world!" });
+      await provider.sendRequest({ $prompt: "Hello, world!" });
 
       // assert
-      expect(mockClient.post).toHaveBeenCalledWith(mockEndpoint, mockBody, {
-        "Content-Type": "application/json",
+      expect(mockClient.fetch).toHaveBeenCalledWith(mockEndpoint, {
+        method: "POST",
+        body: mockBody,
+        headers: {
+          "Content-Type": "application/json",
+        },
       });
     });
 
@@ -69,14 +75,14 @@ describe("HttpModelProvider", () => {
       mockApi.requestTemplate.render.mockReturnValue(mockBody);
 
       // act
-      await provider.sendRequest({ prompt: "Hello, world!" });
+      await provider.sendRequest({ $prompt: "Hello, world!" });
 
       // assert
-      expect(mockClient.post).toHaveBeenCalledWith(
-        mockEndpoint,
-        mockBody,
-        mockHeaders,
-      );
+      expect(mockClient.fetch).toHaveBeenCalledWith(mockEndpoint, {
+        method: "POST",
+        body: mockBody,
+        headers: mockHeaders,
+      });
     });
 
     it("should correctly process the request with strategies", async () => {
@@ -100,12 +106,16 @@ describe("HttpModelProvider", () => {
       mockApi.requestTemplate.render.mockReturnValue(mockBody);
 
       // act
-      await provider.sendRequest({ prompt: "Hello, world!" });
+      await provider.sendRequest({ $prompt: "Hello, world!" });
 
       // assert
-      expect(mockClient.post).toHaveBeenCalledWith(mockEndpoint, mockBody, {
-        ...mockHeaders,
-        Authorization: "Bearer mock-bearer-token",
+      expect(mockClient.fetch).toHaveBeenCalledWith(mockEndpoint, {
+        method: "POST",
+        body: mockBody,
+        headers: {
+          ...mockHeaders,
+          Authorization: "Bearer mock-bearer-token",
+        },
       });
     });
 
@@ -121,12 +131,69 @@ describe("HttpModelProvider", () => {
       });
 
       mockApi.requestTemplate.render.mockReturnValue(mockBody);
-      mockClient.post.mockRejectedValue(new Error("Network error"));
+      mockClient.fetch.mockRejectedValue(new Error("Network error"));
 
       // act & assert
       await expect(
-        provider.sendRequest({ prompt: "Hello, world!" }),
+        provider.sendRequest({ $prompt: "Hello, world!" }),
       ).rejects.toThrow("Network error");
+    });
+  });
+
+  describe("constructor", () => {
+    it("uses a custom client", () => {
+      // act
+      const provider = new HttpModelProvider({
+        api: mockApi as unknown as ModelApi,
+        config: {
+          modelId: mockModelId,
+        },
+        client: mockClient,
+        endpoint: mockEndpoint,
+      });
+
+      // assert
+      expect(provider.client).toBe(mockClient);
+    });
+
+    it("falls back to the default client when no client is provided", () => {
+      // arrange
+      (getClient as jest.Mock).mockReturnValue(mockClient);
+
+      // act
+      const provider = new HttpModelProvider({
+        api: mockApi as unknown as ModelApi,
+        config: {
+          modelId: mockModelId,
+        },
+        endpoint: mockEndpoint,
+      });
+
+      // assert
+      expect(getClient).toHaveBeenCalled();
+      expect(provider.client).toBe(mockClient);
+    });
+
+    it("rethrows error with wrapped message when client creation fails", () => {
+      // arrange
+      const error = new Error("ERROR!");
+      (getClient as jest.Mock).mockImplementation(() => {
+        throw error;
+      });
+
+      // act & assert
+      expect(
+        () =>
+          new HttpModelProvider({
+            api: mockApi as unknown as ModelApi,
+            config: {
+              modelId: mockModelId,
+            },
+            endpoint: mockEndpoint,
+          }),
+      ).toThrow(
+        "Error initializing HttpModelProvider when attempting to load built-in HttpClient: ERROR! To avoid loading built-in client, pass a custom HttpClient implementation as `client` to the HttpModelProvider constructor.",
+      );
     });
   });
 });

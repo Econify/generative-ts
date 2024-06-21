@@ -7,84 +7,85 @@ import type {
   ModelRequestOptions,
 } from "@typeDefs";
 
+import { HttpClientOptions } from "../../utils/httpClient";
+
 import { BaseModelProviderConfig } from "../baseModelProvider";
 
-import { BaseHttpModelProvider } from "../http";
+import { HttpModelProvider } from "../http";
 
-import { AwsAuthConfig } from "./authConfig";
+import { AwsBedrockAuthConfig } from "./AwsBedrockAuthConfig";
 
-interface AwsBedrockModelProviderConfig extends BaseModelProviderConfig {
-  auth?: AwsAuthConfig;
-  region: string;
-}
+type AwsBedrockModelProviderConfig = BaseModelProviderConfig & {
+  auth: AwsBedrockAuthConfig;
+};
 
+// Could use custom auth strategy with HttpModelProvider instead of this class...
 export class AwsBedrockModelProvider<
   TRequestOptions extends ModelRequestOptions,
   TResponse = unknown,
-> extends BaseHttpModelProvider<
+  THttpClientOptions = HttpClientOptions,
+> extends HttpModelProvider<
   TRequestOptions,
   TResponse,
+  THttpClientOptions,
   AwsBedrockModelProviderConfig
 > {
   constructor({
     api,
     modelId,
-    client,
     auth,
-    region,
+    client,
   }: {
     api: ModelApi<TRequestOptions, TResponse>;
     modelId: ModelId;
-    client?: HttpClient;
-    auth?: AwsAuthConfig;
-    region: string;
+    client?: HttpClient<THttpClientOptions>;
+    auth: AwsBedrockAuthConfig;
   }) {
     super({
       api,
-      client,
       config: {
         modelId,
         auth,
-        region,
+      },
+      client: client as HttpClient<THttpClientOptions>,
+      endpoint: {
+        getEndpoint(
+          options: TRequestOptions,
+          config: AwsBedrockModelProviderConfig,
+        ) {
+          return [
+            `https://bedrock-runtime.${config.auth.AWS_REGION}.amazonaws.com`,
+            `/model/${options.modelId}`,
+            "/invoke",
+          ].join("");
+        },
       },
     });
   }
 
-  // TODO AwsBedrockModelProvider should inherit from HttpModelProvider
-  protected getBody(options: TRequestOptions) {
-    // TODO move this to "JsonBodyStrategy" (or something like that)
-    const escapedOptions = Object.entries(options).reduce(
-      (acc, [key, value]) => {
-        if (typeof value === "string") {
-          return {
-            ...acc,
-            [key]: value.replace(/\n/g, "\\n"),
-          };
-        }
-        return {
-          ...acc,
-          [key]: value as unknown,
-        };
-      },
-      {} as TRequestOptions,
-    );
-
-    return this.api.requestTemplate.render(escapedOptions);
-  }
-
-  async dispatchRequest(options: TRequestOptions) {
-    const { auth, region } = this.config;
+  async dispatchRequest(
+    options: TRequestOptions,
+    clientOptions: THttpClientOptions,
+  ) {
     const { modelId } = options;
 
-    const host = `bedrock-runtime.${region}.amazonaws.com`;
-    const endpoint = `https://${host}/model/${modelId}/invoke`;
+    const {
+      auth: {
+        AWS_ACCESS_KEY_ID: accessKeyId,
+        AWS_SECRET_ACCESS_KEY: secretAccessKey,
+        AWS_REGION: region,
+      },
+    } = this.config;
 
-    const credentials = auth
-      ? {
-          accessKeyId: auth.AWS_ACCESS_KEY_ID,
-          secretAccessKey: auth.AWS_SECRET_ACCESS_KEY,
-        }
-      : undefined;
+    const host = `bedrock-runtime.${region}.amazonaws.com`;
+
+    const credentials =
+      accessKeyId && secretAccessKey
+        ? {
+            accessKeyId,
+            secretAccessKey,
+          }
+        : undefined;
 
     const body = this.getBody(options);
 
@@ -118,6 +119,13 @@ export class AwsBedrockModelProvider<
       "X-Amz-Date": signedHeaders["X-Amz-Date"] as string,
     };
 
-    return this.client.post(endpoint, body, headers);
+    const endpoint = await this.getEndpoint(options);
+
+    return this.client.fetch(endpoint, {
+      method: "POST",
+      body,
+      headers,
+      ...clientOptions,
+    });
   }
 }

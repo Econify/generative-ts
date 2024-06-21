@@ -1,2 +1,2 @@
-export * from "./authConfig";
+export * from "./AwsBedrockAuthConfig";
 export * from "./createAwsBedrockModelProvider";

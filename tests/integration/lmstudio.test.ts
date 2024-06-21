@@ -8,7 +8,7 @@ test("LmStudio - OpenAI ChatCompletion", async () => {
 
   // act
   const response = await lmStudio.sendRequest({
-    prompt: "Brief History of NY Mets:",
+    $prompt: "Brief History of NY Mets:",
     max_tokens: 100,
   });
 

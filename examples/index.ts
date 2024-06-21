@@ -15,7 +15,7 @@ import {
 } from "@packages/core";
 
 async function main() {
-  const prompt = "Brief History of NY Mets:";
+  const $prompt = "Brief History of NY Mets:";
 
   const gptProvider = createOpenAiChatModelProvider({
     modelId: "gpt-4-turbo",
@@ -76,7 +76,7 @@ async function main() {
       provider: gptProvider,
       params: {
         system: "talk like jafar from aladdin",
-        prompt,
+        $prompt,
         max_tokens: 50,
         temperature: 1.0,
       },
@@ -84,31 +84,31 @@ async function main() {
     {
       name: "Titan(AWS)",
       provider: titanTextProvider,
-      params: { prompt, maxTokenCount: 50, temperature: 1.0 },
+      params: { $prompt, maxTokenCount: 50, temperature: 1.0 },
     },
     {
       name: "Cohere-Command(AWS)",
       provider: cohereCommandProvider,
-      params: { prompt, max_tokens: 50, temperature: 1.0 },
+      params: { $prompt, max_tokens: 50, temperature: 1.0 },
     },
     {
       name: "DialoGPT(HF)",
       provider: hfConvoProvider,
       params: {
-        prompt,
+        $prompt,
         parameters: { max_new_tokens: 50, temperature: 1.0 },
       },
     },
     {
       name: "GPT2(HF)",
       provider: hfTextgenProvider,
-      params: { prompt, parameters: { max_new_tokens: 50, temperature: 1.0 } },
+      params: { $prompt, parameters: { max_new_tokens: 50, temperature: 1.0 } },
     },
     {
       name: "LLama3(LM Studio)",
       provider: lmStudioProvider,
       params: {
-        prompt,
+        $prompt,
         system: "talk like iago from aladdin",
         temperature: 1.0,
         max_tokens: 50,
@@ -118,7 +118,7 @@ async function main() {
       name: "Llama3(AWS)",
       provider: llama3aws,
       params: {
-        prompt,
+        $prompt,
         system: "talk like jafar from aladdin",
         temperature: 1.0,
       },
@@ -126,18 +126,18 @@ async function main() {
     {
       name: "Jurassic2(AWS)",
       provider: jurassic,
-      params: { prompt, maxTokens: 50, temperature: 1.0 },
+      params: { $prompt, maxTokens: 50, temperature: 1.0 },
     },
     {
       name: "Mistral(AWS)",
       provider: mistral,
-      params: { prompt, temperature: 1.0 },
+      params: { $prompt, temperature: 1.0 },
     },
     {
       name: "Lama3-70b(Groq)",
       provider: groqProvider,
       params: {
-        prompt,
+        $prompt,
         system: "talk like jafar from aladdin",
         temperature: 1.0,
       },
@@ -145,7 +145,7 @@ async function main() {
     {
       name: "Cohere-Command(Cohere-API)",
       provider: cohereProvider,
-      params: { prompt },
+      params: { $prompt },
     },
   ];
 

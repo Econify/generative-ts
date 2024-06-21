@@ -1,1 +1,2 @@
-e2e/cjs-bundle.test.browserified.js
+cjs-bundle-test.browserified.js
+esm-bundle-test.browserified.js

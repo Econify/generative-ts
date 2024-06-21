@@ -9,6 +9,8 @@ import { CohereChatApi, CohereGenerateApi } from "../../apis";
 
 import { BearerTokenAuthStrategy, HttpModelProvider } from "../http";
 
+import type { InferHttpClientOptions } from "../http";
+
 import type { CohereAuthConfig } from "./authConfig";
 
 type CohereApi = CohereGenerateApi | CohereChatApi;
@@ -25,7 +27,7 @@ type CohereApi = CohereGenerateApi | CohereChatApi;
  * });
  *
  * const response = await commandR.sendRequest({
- *   prompt: "Brief History of NY Mets:",
+ *   $prompt: "Brief History of NY Mets:",
  *   preamble: "Talk like Jafar from Aladdin",
  *   // all other Cohere /generate options available here
  * });
@@ -80,7 +82,7 @@ type CohereApi = CohereGenerateApi | CohereChatApi;
  * });
  *
  * const response = await commandR.sendRequest({
- *   prompt: "Brief History of NY Mets:",
+ *   $prompt: "Brief History of NY Mets:",
  *   preamble: "Talk like Jafar from Aladdin",
  *   // all other Cohere /generate options available here
  * });
@@ -98,12 +100,13 @@ type CohereApi = CohereGenerateApi | CohereChatApi;
  * });
  *
  * const response = await command.sendRequest({
- *   prompt: "Brief History of NY Mets:",
+ *   $prompt: "Brief History of NY Mets:",
  * });
  * ```
  */
 export function createCohereModelProvider<
   TCohereApi extends CohereApi = CohereChatApi,
+  THttpClientOptions = InferHttpClientOptions<HttpModelProvider>,
 >({
   api = CohereChatApi as TCohereApi,
   modelId,
@@ -112,7 +115,7 @@ export function createCohereModelProvider<
 }: {
   api?: TCohereApi;
   modelId: string;
-  client?: HttpClient;
+  client?: HttpClient<THttpClientOptions>;
   auth?: CohereAuthConfig;
 }) {
   const { COHERE_API_KEY } = auth ?? process.env;
@@ -136,7 +139,8 @@ export function createCohereModelProvider<
 
   return new HttpModelProvider<
     InferRequestOptions<TCohereApi>,
-    InferResponse<TCohereApi>
+    InferResponse<TCohereApi>,
+    THttpClientOptions
   >({
     api: api as ModelApi<
       InferRequestOptions<TCohereApi>,

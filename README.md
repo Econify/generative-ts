@@ -41,11 +41,11 @@ import {
 const titanText = createAwsBedrockModelProvider({
   api: AmazonTitanTextApi,
   modelId: "amazon.titan-text-express-v1",
-  // auth will be read from process.env and properly handled for the AWS environment on which the code is running
+  // If your code is running in an AWS Environment (eg, Lambda) authorization will happen automatically. Otherwise, explicitly pass in `auth`
 });
 
 const response = await titanText.sendRequest({ 
-  prompt: "Brief history of NY Mets:" 
+  $prompt:"Brief history of NY Mets:" 
   // all other options for the specified `api` available here
 });
 
@@ -66,12 +66,33 @@ const commandR = createCohereModelProvider({
 });
 
 const response = await commandR.sendRequest({
-  prompt: "Brief History of NY Mets:",
+  $prompt:"Brief History of NY Mets:",
   preamble: "Talk like Jafar from Aladdin",
   // all other Cohere /generate options available here
 });
 
 console.log(response.text);
+```
+
+### Google Cloud VertexAI
+
+**[API docs: `createVertexAiModelProvider` ](https://econify.github.io/generative-ts/functions/createVertexAiModelProvider.html)**
+
+<!-- TEST [VertexAI] -->
+```ts
+import { createVertexAiModelProvider } from "@packages/gcloud-vertex-ai";
+
+const gemini = await createVertexAiModelProvider({
+  modelId: "gemini-1.0-pro", // VertexAI defined model ID
+  // you can explicitly pass auth here, otherwise by default it is read from process.env
+});
+
+const response = await gemini.sendRequest({
+  $prompt:"Brief History of NY Mets:",
+  // all other Gemini options available here
+});
+
+console.log(response.data.candidates[0]);
 ```
 
 ### Groq
@@ -88,7 +109,7 @@ const llama3 = createGroqModelProvider({
 });
 
 const response = await llama3.sendRequest({ 
-  prompt: "Brief History of NY Mets:" 
+  $prompt:"Brief History of NY Mets:" 
   // all other OpenAI ChatCompletion options available here (Groq uses the OpenAI ChatCompletion API for all the models it hosts)
 });
 
@@ -114,7 +135,7 @@ const gpt2 = createHuggingfaceInferenceModelProvider({
 });
 
 const response = await gpt2.sendRequest({ 
-  prompt: "Hello," 
+  $prompt:"Hello," 
   // all other options for the specified `api` available here
 });
 
@@ -134,7 +155,7 @@ const llama3 = createLmStudioModelProvider({
 });
 
 const response = await llama3.sendRequest({ 
-  prompt: "Brief History of NY Mets:" 
+  $prompt:"Brief History of NY Mets:" 
   // all other OpenAI ChatCompletion options available here (LMStudio uses the OpenAI ChatCompletion API for all the models it hosts)
 });
 
@@ -155,7 +176,7 @@ const mistralLarge = createMistralModelProvider({
 });
 
 const response = await mistralLarge.sendRequest({ 
-  prompt: "Brief History of NY Mets:" 
+  $prompt:"Brief History of NY Mets:" 
   // all other Mistral ChatCompletion API options available here
 });
 
@@ -176,7 +197,7 @@ const gpt = createOpenAiChatModelProvider({
 });
 
 const response = await gpt.sendRequest({
-  prompt: "Brief History of NY Mets:",
+  $prompt:"Brief History of NY Mets:",
   max_tokens: 100,
   // all other OpenAI ChatCompletion options available here
 });
@@ -202,13 +223,13 @@ See [Usage](#usage) for how to use each provider.
 |-|-|-|
 |AWS Bedrock|[Multiple hosted models](https://docs.aws.amazon.com/bedrock/latest/userguide/model-ids.html#model-ids-arns)|[Native model APIs](https://docs.aws.amazon.com/bedrock/latest/userguide/model-parameters.html)|
 |Cohere|Command / Command R+|Cohere /generate and /chat|
+|Google Vertex AI|Gemini x.y|Gemini; OpenAI in preview|
 |Groq|[Multiple hosted models](https://console.groq.com/docs/models)|OpenAI ChatCompletion|
 |Huggingface Inference|Open-source|[Huggingface Inference APIs](https://huggingface.co/docs/api-inference/detailed_parameters)|
 |LMStudio (localhost)|Open-source (must be downloaded)|OpenAI ChatCompletion|
 |Mistral|Mistral x.y|Mistral ChatCompletion|
 |OpenAI|GPT x.y|OpenAI ChatCompletion|
 |Azure (coming soon)||
-|Google Vertex AI (coming soon)||
 |Replicate (coming soon)||
 |Anthropic (coming soon)||
 |Fireworks (coming soon)||
@@ -223,9 +244,8 @@ If you're using a modern bundler, just install generative-ts to get everything. 
 |-|-|-|
 | `generative-ts`              | Everything                             | Includes all scoped packages listed below                                                                                                  |
 | `@generative-ts/core`        | Core functionality (zero dependencies)                      | Interfaces, classes, utilities, etc                                                                                           |
-| `@generative-ts/providers`   | All Model Providers                    | All `ModelProvider` implementations that aren't in their own packages. Most providers don't require any special dependencies so are here                         |
-| `@generative-ts/provider-bedrock` | AWS Bedrock provider                    | This is its own package because it uses the `aws4` dependency to properly authenticate when running in AWS environments        |
-| `@generative-ts/apis`        | Model APIs                             | `ModelAPI` implementations. These use some internal dependencies (like `ejs` for templating) which arent strictly necessary because you can implement your own (see docs of `ModelAPI` for full details -- **TODO**) |
+| `@generative-ts/gcloud-vertex-ai` | Google Cloud VertexAI `ModelProvider`                   | Uses Application Default Credentials (ADC) to properly authenticate in GCloud environments        |
+| `@generative-ts/aws-bedrock` | AWS Bedrock `ModelProvider`                   | Uses aws4 to properly authenticate when running in AWS environments        |
 
 ## Report Bugs / Submit Feature Requests
 

@@ -1,23 +1,13 @@
+/* eslint-disable camelcase */
 import * as t from "io-ts";
 import type { TypeOf } from "io-ts";
-import { isLeft } from "fp-ts/Either";
+import { isLeft } from "fp-ts/lib/Either.js";
 
 import type { ModelApi, ModelRequestOptions } from "@typeDefs";
 
-import { EjsTemplate } from "../../utils/ejsTemplate";
+import { FnTemplate } from "../../utils/Template";
 
-import type { FewShotRequestOptions } from "../shared/fewShot";
-
-import { Llama2ChatMlTemplateSource } from "../meta/llama2ChatApi";
-
-const templateSource = `{
-  "prompt": "${Llama2ChatMlTemplateSource}"
-  <% if (typeof max_tokens !== 'undefined') { %>, "max_tokens": <%= max_tokens %><% } %>
-  <% if (typeof stop !== 'undefined') { %>, "stop": [<%= stop.join(', ') %>]<% } %>
-  <% if (typeof temperature !== 'undefined') { %>, "temperature": <%= temperature %><% } %>
-  <% if (typeof top_p !== 'undefined') { %>, "top_p": <%= top_p %><% } %>
-  <% if (typeof top_k !== 'undefined') { %>, "top_k": <%= top_k %><% } %>  
-}`;
+import type { FewShotRequestOptions } from "../shared";
 
 /**
  * @category Requests
@@ -37,8 +27,46 @@ export interface MistralBedrockOptions
  * @category Templates
  * @category Mistral Bedrock
  */
-export const MistralBedrockTemplate = new EjsTemplate<MistralBedrockOptions>(
-  templateSource,
+export const MistralBedrockTemplate = new FnTemplate(
+  ({
+    $prompt,
+    system,
+    examplePairs,
+    max_tokens,
+    stop,
+    temperature,
+    top_p,
+    top_k,
+  }: MistralBedrockOptions) => {
+    // LLama2 Chat ML (https://llama.meta.com/docs/model-cards-and-prompt-formats/meta-llama-2)
+    const llama2chatFomat = [
+      "<s>[INST] ",
+      ...(system ? [`<<SYS>>\n${system}\n<</SYS>>\n\n`] : []),
+      ...(examplePairs
+        ? examplePairs.flatMap((pair) => [
+            `${pair.user} [/INST] ${pair.assistant} </s><s>[INST] `,
+          ])
+        : []),
+      `${$prompt} [/INST]`,
+    ].join("");
+
+    const rewritten = {
+      prompt: llama2chatFomat,
+    };
+
+    return JSON.stringify(
+      {
+        ...rewritten,
+        max_tokens,
+        stop,
+        temperature,
+        top_p,
+        top_k,
+      },
+      null,
+      2,
+    );
+  },
 );
 
 const MistralBedrockResponseCodec = t.type({

@@ -3,15 +3,17 @@
   "private": true,
   "description": "integration/e2e tests",
   "scripts": {
-    "browserify:cjs": "browserify ./e2e/cjs-bundle.test.js -o ./e2e/cjs-bundle.test.browserified.js",
-    "test:e2e:browser:cjs": "open http://localhost:3001/tests/e2e/cjs-bundle.test.html && python3 -m http.server 3001 --directory ../",
-    "test:e2e:browser:esm": "open http://localhost:3001/tests/e2e/esm-bundle.test.html && python3 -m http.server 3001 --directory ../",
-    "test:e2e:browser": "npm-run-all test:e2e:browser:*",
-    "test:e2e:node:cjs": "node ./e2e/cjs-bundle.test.js",
-    "test:e2e:node:esm": "node ./e2e/esm-bundle.test.mjs",
-    "test:e2e:node": "npm-run-all test:e2e:node:*",
-    "test:readme": "jest ./e2e/readme",
+    "browserify:cjs": "browserify ./e2e/cjs-bundle-test.js -o ./e2e/cjs-bundle-test.browserified.js",
+    "browserify:esm": "browserify ./e2e/esm-bundle-test.js -t [ babelify --presets [ @babel/preset-env ] ] -o ./e2e/esm-bundle-test.browserified.js",
+    "test:e2e:browser:cjs": "npm run browserify:cjs && open http://localhost:3001/tests/e2e/cjs-bundle-test.html && python3 -m http.server 3001 --directory ../",
+    "test:e2e:browser:esm": "npm run browserify:esm && open http://localhost:3001/tests/e2e/esm-bundle-test.html && python3 -m http.server 3001 --directory ../",
+    "test:e2e:browser:umd": "open http://localhost:3001/tests/e2e/umd-bundle-test.html && python3 -m http.server 3001 --directory ../",
+    "test:e2e": "jest ./e2e",
+    "test:e2e:core": "jest --displayName='core e2e' ./e2e/core/",
+    "test:e2e:main": "jest --displayName='main e2e' ./e2e/generative-ts/",
+    "test:e2e:vertexai": "jest --displayName='gcloud-vertex-ai e2e' ./e2e/gcloud-vertex-ai/",
     "test:integration": "jest ./integration",
+    "test:integration:ci": "jest ./integration/bedrock",
     "test:integration:bedrock": "jest ./integration/bedrock",
     "test:integration:cohere": "jest ./integration/cohere",
     "test:integration:cohere-tools": "jest ./integration/cohere-tools",
@@ -20,13 +22,14 @@
     "test:integration:lmstudio": "jest ./integration/lmstudio",
     "test:integration:mistral": "jest ./integration/mistral",
     "test:integration:openai": "jest ./integration/openai",
-    "test:integration:ci": "jest ./integration/bedrock",
+    "test:integration:vertexai": "jest ./integration/vertexai",
+    "test:integration:vertexai-tools": "jest ./integration/vertexai-tools",
+    "test:readme": "jest ./readme",
     "clean": "",
     "lint": "",
     "test": ""
   },
   "devDependencies": {
-    "browserify": "^17.0.0",
-    "npm-run-all": "^4.1.5"
+    "browserify": "^17.0.0"
   }
 }

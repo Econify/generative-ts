@@ -10,6 +10,7 @@
   "include": ["src/**/*.ts"],
   "exclude": ["src/**/*.spec.ts"],
   "references": [
-    { "path": "../core" }
+    { "path": "../core" },
+    { "path": "../gcloud-vertex-ai" }
   ]
 }

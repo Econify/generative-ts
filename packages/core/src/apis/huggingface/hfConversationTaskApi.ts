@@ -1,41 +1,13 @@
+/* eslint-disable camelcase */
 import * as t from "io-ts";
 import type { TypeOf } from "io-ts";
-import { isLeft } from "fp-ts/Either";
+import { isLeft } from "fp-ts/lib/Either.js";
 
 import type { ModelApi } from "@typeDefs";
 
-import { EjsTemplate } from "../../utils/ejsTemplate";
+import { FnTemplate } from "../../utils/Template";
 
 import { HfInferenceApiOptions } from "./hfInferenceApi";
-
-const templateSource = `{
-  "inputs": "<%= prompt %>"
-  <% if (typeof past_user_inputs !== 'undefined' && past_user_inputs.length > 0) { %>
-    , "past_user_inputs": <%- JSON.stringify(past_user_inputs) %>
-  <% } %>
-  <% if (typeof generated_responses !== 'undefined' && generated_responses.length > 0) { %>
-    , "generated_responses": <%- JSON.stringify(generated_responses) %>
-  <% } %>
-  <% if (typeof parameters !== 'undefined') { %>
-  , "parameters": {
-    <% let comma = false; %>
-    <% if (typeof parameters.min_length !== 'undefined') { %><% if (comma) { %>, <% } %>"min_length": <%= parameters.min_length %><% comma = true; %><% } %>
-    <% if (typeof parameters.max_length !== 'undefined') { %><% if (comma) { %>, <% } %>"max_length": <%= parameters.max_length %><% comma = true; %><% } %>
-    <% if (typeof parameters.top_k !== 'undefined') { %><% if (comma) { %>, <% } %>"top_k": <%= parameters.top_k %><% comma = true; %><% } %>
-    <% if (typeof parameters.top_p !== 'undefined') { %><% if (comma) { %>, <% } %>"top_p": <%= parameters.top_p %><% comma = true; %><% } %>
-    <% if (typeof parameters.temperature !== 'undefined') { %><% if (comma) { %>, <% } %>"temperature": <%= parameters.temperature %><% comma = true; %><% } %>
-    <% if (typeof parameters.repetition_penalty !== 'undefined') { %><% if (comma) { %>, <% } %>"repetition_penalty": <%= parameters.repetition_penalty %><% } %>
-    <% if (typeof parameters.max_time !== 'undefined') { %><% if (comma) { %>, <% } %>"max_time": <%= parameters.max_time %><% comma = true; %><% } %>
-  }
-  <% } %>
-  <% if (typeof options !== 'undefined') { %>
-  , "options": {
-    <% let commaOptions = false; %>
-    <% if (typeof options.use_cache !== 'undefined') { %>"use_cache": <%= options.use_cache %><% commaOptions = true; %><% } %>
-    <% if (typeof options.wait_for_model !== 'undefined') { %><% if (commaOptions) { %>, <% } %>"wait_for_model": <%= options.wait_for_model %><% } %>
-  }
-  <% } %>
-}`;
 
 /**
  * @category Requests
@@ -59,8 +31,29 @@ export interface HfConversationalTaskOptions extends HfInferenceApiOptions {
  * @category Templates
  * @category Huggingface Conversational Task
  */
-export const HfConversationalTaskTemplate =
-  new EjsTemplate<HfConversationalTaskOptions>(templateSource);
+export const HfConversationalTaskTemplate = new FnTemplate(
+  ({
+    $prompt,
+    past_user_inputs,
+    generated_responses,
+    parameters,
+    options,
+  }: HfConversationalTaskOptions) => {
+    const rewritten = {
+      inputs: $prompt,
+    };
+
+    const result = {
+      ...rewritten,
+      past_user_inputs,
+      generated_responses,
+      parameters,
+      options,
+    };
+
+    return JSON.stringify(result, null, 2);
+  },
+);
 
 const HfConversationalTaskResponseCodec = t.array(
   t.type({

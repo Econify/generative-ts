@@ -1,6 +1,6 @@
 {
   "name": "generative-ts",
-  "version": "0.1.0-alpha.5",
+  "version": "0.1.0-alpha.6",
   "description": "simple, type-safe, isomorphic LLM interactions (with power)",
   "main": "dist/index.cjs",
   "module": "dist/index.mjs",
@@ -17,6 +17,7 @@
   "scripts": {
     "build": "npm run clean && npm run build:rollup",
     "build:rollup": "rollup -c",
+    "build:rollup:umd": "rollup -c rollup.config.umd.mjs",
     "check": "npm run typecheck && npm run lint && npm run test",
     "clean": "rm -rf dist && rm -rf .rollup.cache && rm -f *.tsbuildinfo",
     "lint": "eslint src/",
@@ -28,7 +29,8 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@generative-ts/core": "^0.1.0-alpha.5",
+    "@generative-ts/core": "^0.1.0-alpha.6",
+    "@generative-ts/gcloud-vertex-ai": "^0.1.0-alpha.6",
     "tslib": "^2.6.2"
   },
   "publishConfig": {

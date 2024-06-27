@@ -105,7 +105,7 @@ export class HttpModelProvider<
   }
 
   protected getBody(options: TRequestOptions) {
-    const escapedOptions = escape<TRequestOptions>(options);
+    const escapedOptions = escape<TRequestOptions>(options); // TODO remove!
 
     return this.api.requestTemplate.render(escapedOptions);
   }

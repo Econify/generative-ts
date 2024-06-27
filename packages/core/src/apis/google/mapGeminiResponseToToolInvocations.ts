@@ -8,11 +8,7 @@ import type { GoogleGeminiResponse } from "./GoogleGeminiResponse";
  */
 export function mapGeminiResponseToToolInvocations<
   TParamMap extends ToolParamMap,
->(
-  { data: { candidates } }: GoogleGeminiResponse,
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  tools: Tool<TParamMap>[],
-) {
+>({ data: { candidates } }: GoogleGeminiResponse, tools: Tool<TParamMap>[]) {
   if (!tools.length) {
     return;
   }

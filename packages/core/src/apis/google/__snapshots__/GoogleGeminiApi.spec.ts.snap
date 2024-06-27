@@ -892,10 +892,21 @@ exports[`GoogleGeminiApi.requestTemplate $prompt, tool, tools_config, system_ins
     },
   ],
   "generation_config": {
+    "candidate_count": 5,
+    "frequency_penalty": 0.3,
     "max_output_tokens": 100,
-    "top_p": 0.7,
+    "presence_penalty": 0.5,
+    "response_mime_type": "application/json",
+    "stop_sequences": [
+      "mock-stop-sequence",
+    ],
+    "temperature": 0.7,
+    "top_k": 10,
+    "top_p": 0.9,
   },
   "safety_settings": {
+    "category": "mock-category",
+    "max_influential_terms": 10,
     "method": "mock-method",
     "threshold": "mock-threshold",
   },
@@ -916,6 +927,9 @@ exports[`GoogleGeminiApi.requestTemplate $prompt, tool, tools_config, system_ins
     },
   ],
   "tools_config": {
+    "allowed_function_names": [
+      "mock-function",
+    ],
     "mode": "ANY",
   },
 }

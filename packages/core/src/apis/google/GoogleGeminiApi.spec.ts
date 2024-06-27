@@ -593,19 +593,29 @@ describe("GoogleGeminiApi.requestTemplate", () => {
           ],
         },
       ],
-      tools_config: {
-        mode: "ANY",
-      },
       system_instruction: {
         parts: [{ text: "mock-system-text" }],
       },
+      tools_config: {
+        mode: "ANY",
+        allowed_function_names: ["mock-function"],
+      },
       safety_settings: {
+        category: "mock-category",
         threshold: "mock-threshold",
+        max_influential_terms: 10,
         method: "mock-method",
       },
       generation_config: {
-        top_p: 0.7,
+        temperature: 0.7,
+        top_p: 0.9,
+        top_k: 10,
+        candidate_count: 5,
         max_output_tokens: 100,
+        stop_sequences: ["mock-stop-sequence"],
+        presence_penalty: 0.5,
+        frequency_penalty: 0.3,
+        response_mime_type: "application/json",
       },
     });
     expect(rendered).toMatchSnapshot();

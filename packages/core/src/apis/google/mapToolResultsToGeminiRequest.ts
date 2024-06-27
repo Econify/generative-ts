@@ -14,13 +14,6 @@ import {
   UNRESOLVED_INVOCATION,
 } from "./errors";
 
-/**
- * Applies function calls to generate tool responses.
- *
- * @param functionCalls - The array of function calls to process.
- * @param $tools - The array of tools available for processing function calls.
- * @returns An array of PartWithFunctionResponse objects representing the tool responses.
- */
 export function mapToolResultsToGeminiRequest(
   functionCalls: PartWithFunctionCall[],
   { $tools }: Required<ToolUseRequestOptions>,

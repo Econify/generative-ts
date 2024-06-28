@@ -14,7 +14,7 @@ import {
   UNRESOLVED_INVOCATION,
 } from "./errors";
 
-export function mapToolResultsToGeminiRequest(
+export function mapToolInvocationsToGeminiRequest(
   functionCalls: PartWithFunctionCall[],
   { $tools }: Required<ToolUseRequestOptions>,
 ): PartWithFunctionResponse[] {

@@ -6,7 +6,7 @@ import type { ModelApi } from "@typeDefs";
 import { FnTemplate } from "../../utils/Template";
 
 import { mapToolDescriptionsToGeminiRequest } from "./mapToolDescriptionsToGeminiRequest";
-import { mapToolResultsToGeminiRequest } from "./mapToolResultsToGeminiRequest";
+import { mapToolInvocationsToGeminiRequest } from "./mapToolInvocationsToGeminiRequest";
 import {
   GoogleGeminiResponse,
   isGoogleGeminiResponse,
@@ -60,7 +60,7 @@ export const GoogleGeminiTemplate = new FnTemplate(
       );
 
       if (functionCalls.length && $tools) {
-        const responses = mapToolResultsToGeminiRequest(functionCalls, {
+        const responses = mapToolInvocationsToGeminiRequest(functionCalls, {
           $tools,
         });
 

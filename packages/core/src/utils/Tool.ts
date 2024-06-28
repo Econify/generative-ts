@@ -1,4 +1,38 @@
-import { ToolDescriptor, ToolParam, ToolParameterTypes } from "@typeDefs";
+type ToolParameterTypes = "STR" | "NUM" | "BOOL";
+
+interface ToolParam {
+  name: string;
+  description: string;
+  type: ToolParameterTypes;
+  required: boolean;
+}
+
+interface UnresolvedToolInvocation<TArgs> {
+  arguments: TArgs;
+  resolved?: false; // TODO why is this optional?
+}
+
+interface ResolvedToolInvocation<TArgs, TReturns> {
+  arguments: TArgs;
+  returned: TReturns;
+  resolved: true;
+}
+
+type ToolInvocation<TArgs, TReturns> =
+  | UnresolvedToolInvocation<TArgs>
+  | ResolvedToolInvocation<TArgs, TReturns>;
+
+export interface ToolDescriptor<
+  TArgs = {
+    [key: string]: unknown;
+  },
+  TReturns = unknown,
+> {
+  name: string;
+  description: string;
+  parameters: ToolParam[];
+  invocations: ToolInvocation<TArgs, TReturns>[];
+}
 
 export type ToolParamMap = {
   [key: string]: {

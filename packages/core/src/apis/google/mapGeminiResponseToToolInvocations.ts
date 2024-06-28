@@ -11,10 +11,8 @@ import {
 
 import type { GoogleGeminiResponse } from "./GoogleGeminiResponse";
 
-/**
- * @category Google Gemini
- * @category Tools
- */
+// TODO this will eventually happen internally "somewhere"
+
 export function mapGeminiResponseToToolInvocations<
   TParamMap extends ToolParamMap,
 >({ data: { candidates } }: GoogleGeminiResponse, tools: Tool<TParamMap>[]) {

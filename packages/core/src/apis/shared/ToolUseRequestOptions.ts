@@ -1,4 +1,4 @@
-import { ToolDescriptor } from "@typeDefs";
+import type { ToolDescriptor } from "../../utils/Tool";
 
 /**
  * @category Core Interfaces

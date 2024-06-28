@@ -66,6 +66,8 @@ export {
   OpenAiChatTemplate,
 } from "./apis/openai";
 
+// TODO export shared (FewShot, Tool)
+
 /*
  * Public API - Providers
  */

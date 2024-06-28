@@ -78,20 +78,15 @@ export class Tool<TParamMap extends ToolParamMap, TReturns = unknown> {
     this.descriptor = {
       name,
       description,
-      parameters: this.createParameters(paramMap),
+      parameters: Object.entries(paramMap).map(([n, paramInfo]) => ({
+        name: n,
+        description: paramInfo.description,
+        type: paramInfo.type,
+        required: paramInfo.required,
+      })),
       invocations: [],
     };
     this.invokeFn = invokeFn;
-  }
-
-  // eslint-disable-next-line class-methods-use-this
-  private createParameters(paramMap: TParamMap): ToolParam[] {
-    return Object.entries(paramMap).map(([name, paramInfo]) => ({
-      name,
-      description: paramInfo.description,
-      type: paramInfo.type,
-      required: paramInfo.required,
-    }));
   }
 
   public addInvocation(args: ConvertParamMapToArgs<TParamMap>) {

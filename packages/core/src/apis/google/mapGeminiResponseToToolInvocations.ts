@@ -1,4 +1,13 @@
-import { ConvertParamMapToArgs, Tool, ToolParamMap } from "../../utils/Tool";
+import { Tool } from "../../utils/Tool";
+
+import type { ConvertParamMapToArgs, ToolParamMap } from "../../utils/Tool";
+
+import {
+  ModelInvokedNonexistentToolError,
+  ModelInvokedToolWithInvalidArgumentTypeError,
+  ModelInvokedToolWithUnexpectedArgumentError,
+  ModelInvokedToolWithWrongArgumentsError,
+} from "./errors";
 
 import type { GoogleGeminiResponse } from "./GoogleGeminiResponse";
 
@@ -21,19 +30,19 @@ export function mapGeminiResponseToToolInvocations<
         const tool = tools.find(({ descriptor }) => descriptor.name === name);
 
         if (!tool) {
-          throw new Error(
-            `Model attempted to invoke tool ${name} that does not exist`,
-          );
+          throw new ModelInvokedNonexistentToolError(name);
         }
 
-        // TODO: check unexpected arguments
-        // Object.keys(args).forEach((argName) => {
-        //   if (!$tool.parameters?.some((param) => param.name === argName)) {
-        //     throw new Error(
-        //       `Model attempted to invoke tool ${name} using unexpected argument ${argName}`,
-        //     );
-        //   }
-        // });
+        Object.keys(args).forEach((argName) => {
+          if (
+            !tool.descriptor.parameters.some((param) => param.name === argName)
+          ) {
+            throw new ModelInvokedToolWithUnexpectedArgumentError(
+              name,
+              argName,
+            );
+          }
+        });
 
         const validatedArgs: Record<string, string | number | boolean> = {};
 
@@ -41,34 +50,40 @@ export function mapGeminiResponseToToolInvocations<
           const argValue = args[param.name];
 
           if (!argValue && param.required) {
-            throw new Error(
-              `Model attempted to call function ${name} without providing required argument ${param.name}`,
-            );
+            throw new ModelInvokedToolWithWrongArgumentsError(name, param.name);
           }
 
           if (!argValue) {
             return;
           }
-
           switch (param.type) {
             case "STR":
               if (typeof argValue !== "string") {
-                throw new Error(
-                  `Model attempted to call function ${name} with invalid argument type for ${param.name}. Should have been ${param.type} but got ${typeof argValue}`,
+                throw new ModelInvokedToolWithInvalidArgumentTypeError(
+                  name,
+                  param.name,
+                  param.type,
+                  typeof argValue,
                 );
               }
               break;
             case "NUM":
               if (typeof argValue !== "number") {
-                throw new Error(
-                  `Model attempted to call function ${name} with invalid argument type for ${param.name}. Should have been ${param.type} but got ${typeof argValue}`,
+                throw new ModelInvokedToolWithInvalidArgumentTypeError(
+                  name,
+                  param.name,
+                  param.type,
+                  typeof argValue,
                 );
               }
               break;
             case "BOOL":
               if (typeof argValue !== "boolean") {
-                throw new Error(
-                  `Model attempted to call function ${name} with invalid argument type for ${param.name}. Should have been ${param.type} but got ${typeof argValue}`,
+                throw new ModelInvokedToolWithInvalidArgumentTypeError(
+                  name,
+                  param.name,
+                  param.type,
+                  typeof argValue,
                 );
               }
               break;

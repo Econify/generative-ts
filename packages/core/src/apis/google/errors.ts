@@ -9,3 +9,42 @@ export const NO_MATCHING_INVOCATION =
 
 export const NO_MATCHING_TOOL =
   "The last item of conversation history (`contents`) contains a `function_call`, but no matching tool was found in `$tools`, so generative-ts cannot append `function_response` to conversation history. Model behavior might be unexpected, because model's function calls were effectively ignored.";
+
+export class ModelInvokedNonexistentToolError extends Error {
+  constructor(toolName: string) {
+    super(`Model attempted to invoke tool ${toolName} that does not exist`);
+    this.name = "ModelInvokedNonexistentToolError";
+  }
+}
+
+export class ModelInvokedToolWithWrongArgumentsError extends Error {
+  constructor(toolName: string, argName: string) {
+    super(
+      `Model attempted to invoke tool ${toolName} without providing required argument ${argName}`,
+    );
+    this.name = "ModelInvokedToolWithWrongArgumentsError";
+  }
+}
+
+export class ModelInvokedToolWithUnexpectedArgumentError extends Error {
+  constructor(toolName: string, argName: string) {
+    super(
+      `Model attempted to invoke tool ${toolName} using unexpected argument ${argName}`,
+    );
+    this.name = "ModelInvokedToolWithUnexpectedArgumentError";
+  }
+}
+
+export class ModelInvokedToolWithInvalidArgumentTypeError extends Error {
+  constructor(
+    toolName: string,
+    argName: string,
+    expectedType: string,
+    actualType: string,
+  ) {
+    super(
+      `Model attempted to call function ${toolName} with invalid argument type for ${argName}. Should have been ${expectedType} but got ${actualType}`,
+    );
+    this.name = "ModelInvokedToolWithInvalidArgumentTypeError";
+  }
+}

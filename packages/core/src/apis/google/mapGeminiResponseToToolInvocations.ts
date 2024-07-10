@@ -25,16 +25,14 @@ export function mapGeminiResponseToToolInvocations<
       if (part.functionCall) {
         const { name, args } = part.functionCall;
 
-        const tool = tools.find(({ descriptor }) => descriptor.name === name);
+        const tool = tools.find(({ name: toolName }) => toolName === name);
 
         if (!tool) {
           throw new ModelInvokedNonexistentToolError(name);
         }
 
         Object.keys(args).forEach((argName) => {
-          if (
-            !tool.descriptor.parameters.some((param) => param.name === argName)
-          ) {
+          if (!tool.parameters.some((param) => param.name === argName)) {
             throw new ModelInvokedToolWithUnexpectedArgumentError(
               name,
               argName,
@@ -44,7 +42,7 @@ export function mapGeminiResponseToToolInvocations<
 
         const validatedArgs: Record<string, string | number | boolean> = {};
 
-        tool.descriptor.parameters.forEach((param) => {
+        tool.parameters.forEach((param) => {
           const argValue = args[param.name];
 
           if (!argValue && param.required) {

@@ -1,38 +1,9 @@
-type ToolParameterTypes = "STR" | "NUM" | "BOOL";
-
-interface ToolParam {
-  name: string;
-  description: string;
-  type: ToolParameterTypes;
-  required: boolean;
-}
-
-interface UnresolvedToolInvocation<TArgs> {
-  arguments: TArgs;
-  resolved?: false; // TODO why is this optional?
-}
-
-interface ResolvedToolInvocation<TArgs, TReturns> {
-  arguments: TArgs;
-  returned: TReturns;
-  resolved: true;
-}
-
-type ToolInvocation<TArgs, TReturns> =
-  | UnresolvedToolInvocation<TArgs>
-  | ResolvedToolInvocation<TArgs, TReturns>;
-
-export interface ToolDescriptor<
-  TArgs = {
-    [key: string]: unknown;
-  },
-  TReturns = unknown,
-> {
-  name: string;
-  description: string;
-  parameters: ToolParam[];
-  invocations: ToolInvocation<TArgs, TReturns>[];
-}
+import {
+  ToolDescriptor,
+  ToolInvocation,
+  ToolParameterDescriptor,
+  ToolParameterTypes,
+} from "@typeDefs";
 
 export type ToolParamMap = {
   [key: string]: {
@@ -60,12 +31,23 @@ export type ConvertParamMapToArgs<TParamMap extends ToolParamMap> = {
     : never]?: ExtractArgumentType<TParamMap[K]["type"]>;
 };
 
-export class Tool<TParamMap extends ToolParamMap, TReturns = unknown> {
+export class Tool<TParamMap extends ToolParamMap, TReturns = unknown>
+  implements ToolDescriptor<ConvertParamMapToArgs<TParamMap>, TReturns>
+{
+  public name: string;
+
+  public description: string;
+
+  public parameters: ToolParameterDescriptor[];
+
+  public invocations: ToolInvocation<
+    ConvertParamMapToArgs<TParamMap>,
+    TReturns
+  >[];
+
   private invokeFn: (
     args: ConvertParamMapToArgs<TParamMap>,
   ) => TReturns | Promise<TReturns>;
-
-  public descriptor: ToolDescriptor<ConvertParamMapToArgs<TParamMap>, TReturns>;
 
   constructor(
     name: string,
@@ -75,36 +57,34 @@ export class Tool<TParamMap extends ToolParamMap, TReturns = unknown> {
       args: ConvertParamMapToArgs<TParamMap>,
     ) => TReturns | Promise<TReturns>,
   ) {
-    this.descriptor = {
-      name,
-      description,
-      parameters: Object.entries(paramMap).map(([n, paramInfo]) => ({
-        name: n,
+    this.name = name;
+    this.description = description;
+    this.parameters = Object.entries(paramMap).map(
+      ([paramName, paramInfo]) => ({
+        name: paramName,
         description: paramInfo.description,
         type: paramInfo.type,
         required: paramInfo.required,
-      })),
-      invocations: [],
-    };
+      }),
+    );
+    this.invocations = [];
     this.invokeFn = invokeFn;
   }
 
   public addInvocation(args: ConvertParamMapToArgs<TParamMap>) {
-    this.descriptor.invocations.push({
+    this.invocations.push({
       arguments: args,
       resolved: false,
     });
   }
 
-  public hasUnresolved(): boolean {
-    return this.descriptor.invocations.some(
-      (invocation) => !invocation.resolved,
-    );
+  public allResolved(): boolean {
+    return !this.invocations.some((invocation) => !invocation.resolved);
   }
 
   public async resolveAll(): Promise<Array<TReturns>> {
     const invocations = await Promise.all(
-      this.descriptor.invocations.map(async (invocation) => {
+      this.invocations.map(async (invocation) => {
         if (invocation.resolved) {
           return invocation;
         }
@@ -117,7 +97,7 @@ export class Tool<TParamMap extends ToolParamMap, TReturns = unknown> {
       }),
     );
 
-    this.descriptor.invocations = invocations;
+    this.invocations = invocations;
 
     return invocations.map(({ returned }) => returned);
   }

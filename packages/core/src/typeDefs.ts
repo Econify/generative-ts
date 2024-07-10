@@ -71,3 +71,39 @@ export type InferRequestOptions<T> =
   T extends ModelApi<infer U, unknown> ? U : never;
 export type InferResponse<T> =
   T extends ModelApi<ModelRequestOptions, infer V> ? V : never;
+
+export type ToolParameterTypes = "STR" | "NUM" | "BOOL";
+
+export interface ToolParameterDescriptor {
+  name: string;
+  description: string;
+  type: ToolParameterTypes;
+  required: boolean;
+}
+
+interface UnresolvedToolInvocation<TArgs> {
+  arguments: TArgs;
+  resolved?: false; // TODO why is this optional?
+}
+
+interface ResolvedToolInvocation<TArgs, TReturns> {
+  arguments: TArgs;
+  returned: TReturns;
+  resolved: true;
+}
+
+export type ToolInvocation<TArgs, TReturns> =
+  | UnresolvedToolInvocation<TArgs>
+  | ResolvedToolInvocation<TArgs, TReturns>;
+
+export interface ToolDescriptor<
+  TArgs = {
+    [key: string]: unknown;
+  },
+  TReturns = unknown,
+> {
+  name: string;
+  description: string;
+  parameters: ToolParameterDescriptor[];
+  invocations: ToolInvocation<TArgs, TReturns>[];
+}

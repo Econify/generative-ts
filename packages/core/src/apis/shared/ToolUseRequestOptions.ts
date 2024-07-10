@@ -1,8 +1,5 @@
-import type { ToolDescriptor } from "../../utils/Tool";
+import type { ToolDescriptor } from "@typeDefs";
 
-/**
- * @category Core Interfaces
- */
 export interface ToolUseRequestOptions {
   $tools?: ToolDescriptor[];
 }

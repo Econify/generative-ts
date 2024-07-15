@@ -1,10 +1,12 @@
 /* eslint-disable import/no-relative-packages */
+
 import { createVertexAiModelProvider } from "@packages/gcloud-vertex-ai";
+
 // TODO decide on these import/exports as part of public API
 import { mapGeminiResponseToToolInvocations } from "../../packages/core/src/apis/google/mapGeminiResponseToToolInvocations";
 import { Tool } from "../../packages/core/src/utils/Tool";
 
-xtest("VertexAI - Google Gemini (Tools)", async () => {
+test("VertexAI - Google Gemini (Tools)", async () => {
   // arrange
   const model = await createVertexAiModelProvider({
     modelId: "gemini-1.0-pro",
@@ -46,7 +48,7 @@ xtest("VertexAI - Google Gemini (Tools)", async () => {
   expect(response).toMatchApiSnapshot();
 });
 
-xtest("VertexAI - Google Gemini (Tools with Responses)", async () => {
+test("VertexAI - Google Gemini (Tools with Responses)", async () => {
   // arrange
   const model = await createVertexAiModelProvider({
     modelId: "gemini-1.0-pro",
@@ -163,13 +165,18 @@ xtest("VertexAI - Google Gemini (Tools with Responses)", async () => {
   expect(response).toMatchApiSnapshot();
 });
 
-test("VertexAI - Google Gemini ($tools)", async () => {
+test("VertexAI - Google Gemini ($tools workflow)", async () => {
   // arrange
   const model = await createVertexAiModelProvider({
     modelId: "gemini-1.0-pro",
   });
 
-  const tools = [
+  const system =
+    "Use tools to help answer questions. Keep in mind that you can make multiple tool calls.";
+
+  const $prompt = "What is the weather in Boston and New York City?";
+
+  const $tools = [
     new Tool(
       "get_current_weather",
       "Get the current weather for a given location",
@@ -205,31 +212,24 @@ test("VertexAI - Google Gemini ($tools)", async () => {
   ];
 
   // act
-  const system =
-    "Use tools to help answer questions. Keep in mind that you can make multiple tool calls.";
-
-  const $prompt = "What is the weather in Boston and New York City?";
-
   const response = await model.sendRequest({
     system,
     $prompt,
-    $tools: tools.map(({ descriptor }) => descriptor),
+    $tools,
   });
 
-  console.log("Got response. Mapping tool invocations....");
+  mapGeminiResponseToToolInvocations(response, $tools); // TODO internal
 
-  mapGeminiResponseToToolInvocations(response, tools);
+  // console.log(JSON.stringify(response, null, 2));
+  // console.log(JSON.stringify(tools, null, 2));
 
-  console.log(JSON.stringify(tools, null, 2));
+  const allResolved = $tools.every((tool) => tool.allResolved());
 
-  if (tools[0]?.hasUnresolved()) {
-    console.log("Has unresolved! Resolving:");
-    await tools[0]?.resolveAll();
-  } else {
-    console.log("No unresolved!");
+  if (!allResolved) {
+    await Promise.all($tools.map((tool) => tool.resolveAll()));
   }
 
-  // TODO const contents = getConversationHistory(modelProvider); ???
+  // TODO something like: const contents = getConversationHistory(model);
   const last = response.data.candidates[0]?.content;
 
   if (!last) {
@@ -241,25 +241,18 @@ test("VertexAI - Google Gemini ($tools)", async () => {
     $prompt,
     contents: [
       {
-        // ...last,
-        // TODO fix the need for this (above line gives error cant convert between t.string() and "model" | "user")
-        role: "model",
+        role: last.role as "user" | "model", // TODO fix typing disparity between req and resp
         parts: last.parts,
       },
     ],
-    $tools: tools.map(({ descriptor }) => descriptor),
+    $tools,
   });
 
-  console.log(JSON.stringify(response2.data.candidates[0]?.content, null, 2));
+  // console.log(JSON.stringify(response2.data.candidates[0]?.content, null, 2));
 
-  if (tools[0]?.hasUnresolved()) {
-    console.log(
-      "More unresolved! Test ending but should keep going at this point",
-    );
-  } else {
-    console.log("No unresolved! Hopefully we got an answer.");
-  }
+  const allResolved2 = $tools.every((tool) => tool.allResolved());
 
   // assert
+  expect(allResolved2).toBe(true);
   expect(response2).toMatchApiSnapshot();
 });

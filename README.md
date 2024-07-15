@@ -2,17 +2,9 @@
 
 **a typescript library for building LLM applications+agents**
 
-[![Documentation](https://img.shields.io/badge/docs-generative--ts-blue)](https://econify.github.io/generative-ts/)
-
-generative-ts is a web-first library for programming LLM applications. Its core feature is allowing you to easily use a wide variety of different model providers with minimal code and dependencies, while still exposing their native APIs so as to not get in your way. We provide some useful features on top of that for common applications like Chatbots, Tool Use, RAG, and Agents.
-
-## Features
-
-- **Simple**: *NOT* a heavy duty abstraction or framework. The library is easy to understand and model APIs are exposed 1:1.
-- **Minimal**: *NOT* a wrapper of a bunch of different SDKs. It uses a small number of dependencies and also provide [scoped packages](#packages) for fine-grained installs.
-- **Portable**: Can run in node or entirely in the browser
-- **Just HTTP**: It uses native fetch out of the box, giving you universal control of timeout, retries, and proxies. You can also [inject your own HTTP client](#custom-http-client) as an alternative.
-- **Versatile**: Provides utilities for things like Chatbots, Tool Use, RAG, and Agents (mostly coming in beta)
+[![Documentation](https://img.shields.io/badge/API-documentation-blue)](https://econify.github.io/generative-ts/)
+[![NPM](https://img.shields.io/badge/npm-alpha--6-yellow)](https://www.npmjs.com/package/generative-ts)
+[![License](https://img.shields.io/badge/license-MIT-green)](https://github.com/Econify/generative-ts/blob/main/LICENSE.md)
 
 ## Install
 
@@ -211,10 +203,6 @@ console.log(response.choices[0]?.message.content);
 todo;
 ```
 
-### Additional Examples
-
-For more examples, please refer to the /examples folder in the repository.
-
 ## Supported Providers and Models
 
 See [Usage](#usage) for how to use each provider.
@@ -260,12 +248,8 @@ nvm use
 npm ci
 ```
 
-To run examples and integration/e2e tests you'll need to create an .env file by running `cp .env.example .env` and then add values where necessary. This section needs a lot more work :)
+To run examples and integration/e2e tests, create an .env file by running `cp .env.example .env` and then add values where necessary
 
 ## Publishing
 
 The "main" `generative-ts` package and the scoped `@generative-ts` packages both are controlled by the generative-ts npm organization. Releases are published via circleci job upon pushes of tags that have a name starting with `release/`. The job requires an NPM token that has publishing permissions to both `generative-ts` and `@generative-ts`. Currently this is a "granular" token set to expire every 30 days, created by @jnaglick, set in a circleci context.
-
-## License
-
-**TODO**

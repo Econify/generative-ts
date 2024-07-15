@@ -4,7 +4,7 @@ import { MistralAiApi } from "../../apis/mistral";
 
 import { BearerTokenAuthStrategy } from "../http/strategies";
 
-import { HttpModelProvider } from "../http";
+import { HttpModelProvider, InferHttpClientOptions } from "../http";
 
 import type { MistralAuthConfig } from "./authConfig";
 
@@ -20,7 +20,7 @@ import type { MistralAuthConfig } from "./authConfig";
  * });
  *
  * const response = await mistralLarge.sendRequest({
- *   prompt: "Brief History of NY Mets:"
+ *   $prompt: "Brief History of NY Mets:"
  *   // all other Mistral ChatCompletion API options available here
  * });
  *
@@ -65,20 +65,22 @@ import type { MistralAuthConfig } from "./authConfig";
  * });
  *
  * const response = await mistralLarge.sendRequest({
- *   prompt: "Brief History of NY Mets:"
+ *   $prompt: "Brief History of NY Mets:"
  *   // all other Mistral ChatCompletion API options available here
  * });
  *
  * console.log(response.choices[0]?.message.content);
  * ```
  */
-export function createMistralModelProvider({
+export function createMistralModelProvider<
+  THttpClientOptions = InferHttpClientOptions<HttpModelProvider>,
+>({
   modelId,
   client,
   auth,
 }: {
   modelId: string;
-  client?: HttpClient;
+  client?: HttpClient<THttpClientOptions>;
   auth?: MistralAuthConfig;
 }) {
   const { MISTRAL_API_KEY } = auth ?? process.env;

@@ -1,0 +1,50 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`MistralBedrockApi: $prompt 1`] = `
+{
+  "prompt": "<s>[INST] mock-prompt [/INST]",
+}
+`;
+
+exports[`MistralBedrockApi: $prompt, examplePairs 1`] = `
+{
+  "prompt": "<s>[INST] mock-user-msg-1 [/INST] mock-assistant-msg-1 </s><s>[INST] mock-user-msg-2 [/INST] mock-assistant-msg-2 </s><s>[INST] mock-prompt [/INST]",
+}
+`;
+
+exports[`MistralBedrockApi: $prompt, examplePairs, system 1`] = `
+{
+  "prompt": "<s>[INST] <<SYS>>
+mock-system-text
+<</SYS>>
+
+mock-user-msg-1 [/INST] mock-assistant-msg-1 </s><s>[INST] mock-user-msg-2 [/INST] mock-assistant-msg-2 </s><s>[INST] mock-prompt [/INST]",
+}
+`;
+
+exports[`MistralBedrockApi: $prompt, system 1`] = `
+{
+  "prompt": "<s>[INST] <<SYS>>
+mock-system-text
+<</SYS>>
+
+mock-prompt [/INST]",
+}
+`;
+
+exports[`MistralBedrockApi: all options 1`] = `
+{
+  "max_tokens": 1000,
+  "prompt": "<s>[INST] <<SYS>>
+mock-system-text
+<</SYS>>
+
+mock-user-msg-1 [/INST] mock-assistant-msg-1 </s><s>[INST] mock-prompt [/INST]",
+  "stop": [
+    "mock-stop-1",
+  ],
+  "temperature": 0.7,
+  "top_k": 50,
+  "top_p": 0.9,
+}
+`;

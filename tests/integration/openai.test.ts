@@ -8,7 +8,7 @@ test("OpenAI - OpenAI ChatCompletion", async () => {
 
   // act
   const response = await gpt4.sendRequest({
-    prompt: "Brief History of NY Mets:",
+    $prompt: "Brief History of NY Mets:",
     max_tokens: 100,
   });
 

@@ -28,16 +28,19 @@ describe("BaseModelProvider", () => {
       });
 
       // act
-      await provider.sendRequest({ prompt: "the ny mets are:" });
+      await provider.sendRequest({ $prompt: "the ny mets are:" });
 
       // assert
-      expect(provider.dispatchRequest).toHaveBeenCalledWith({
-        modelId: "dummy-configured-model-id",
-        prompt: "the ny mets are:",
-      });
+      expect(provider.dispatchRequest).toHaveBeenCalledWith(
+        {
+          modelId: "dummy-configured-model-id",
+          $prompt: "the ny mets are:",
+        },
+        undefined,
+      );
     });
 
-    it("calls dispatchRequest with passed modelId", async () => {
+    it("calls dispatchRequest with passed modelId and meta", async () => {
       // arrange
       const provider = new MockBaseModelProvider({
         api: {
@@ -49,14 +52,17 @@ describe("BaseModelProvider", () => {
       // act
       await provider.sendRequest({
         modelId: "dummy-request-model-id",
-        prompt: "the ny mets are:",
+        $prompt: "the ny mets are:",
       });
 
       // assert
-      expect(provider.dispatchRequest).toHaveBeenCalledWith({
-        modelId: "dummy-request-model-id",
-        prompt: "the ny mets are:",
-      });
+      expect(provider.dispatchRequest).toHaveBeenCalledWith(
+        {
+          modelId: "dummy-request-model-id",
+          $prompt: "the ny mets are:",
+        },
+        undefined,
+      );
     });
 
     it("throws an error if responseGuard returns false", async () => {
@@ -72,11 +78,11 @@ describe("BaseModelProvider", () => {
 
       // act & assert
       await expect(
-        provider.sendRequest({ prompt: "the ny mets are:" }),
+        provider.sendRequest({ $prompt: "the ny mets are:" }),
       ).rejects.toThrow("Unexpected response from model provider");
     });
 
-    it("saves request and response in history if response is valid", async () => {
+    it("saves request, meta, and response in history if response is valid", async () => {
       // arrange
       const provider = new MockBaseModelProvider({
         api: {
@@ -90,46 +96,58 @@ describe("BaseModelProvider", () => {
       });
 
       // act
-      await provider.sendRequest({
-        modelId: "dummy-request-model-id",
-        prompt: "the ny mets are:",
-      });
+      await provider.sendRequest(
+        {
+          modelId: "dummy-request-model-id",
+          $prompt: "the ny mets are:",
+        },
+        {
+          metaProp: "dummy-meta",
+        },
+      );
 
       // assert
       expect(provider.history).toHaveLength(1);
       expect(provider.history[0]).toEqual({
-        request: {
+        options: {
           modelId: "dummy-request-model-id",
-          prompt: "the ny mets are:",
+          $prompt: "the ny mets are:",
         },
         response: { data: "some valid response" },
+        meta: {
+          metaProp: "dummy-meta",
+        },
       });
 
       // act again
       await provider.sendRequest({
         modelId: "dummy-request-model-id-2",
-        prompt: "the ny yankees are:",
+        $prompt: "the ny yankees are:",
       });
 
       // assert again
       expect(provider.history).toHaveLength(2);
       expect(provider.history[0]).toEqual({
-        request: {
+        options: {
           modelId: "dummy-request-model-id",
-          prompt: "the ny mets are:",
+          $prompt: "the ny mets are:",
         },
         response: { data: "some valid response" },
+        meta: {
+          metaProp: "dummy-meta",
+        },
       });
       expect(provider.history[1]).toEqual({
-        request: {
+        options: {
           modelId: "dummy-request-model-id-2",
-          prompt: "the ny yankees are:",
+          $prompt: "the ny yankees are:",
         },
         response: { data: "some valid response" },
+        meta: undefined, // no meta in second call
       });
     });
 
-    it("saves request and undefined response in history if response is invalid", async () => {
+    it("saves request, meta, and undefined response in history if response is invalid", async () => {
       // arrange
       const provider = new MockBaseModelProvider({
         api: {
@@ -140,19 +158,27 @@ describe("BaseModelProvider", () => {
 
       // act & assert
       await expect(
-        provider.sendRequest({
-          modelId: "dummy-request-model-id",
-          prompt: "the ny mets are:",
-        }),
+        provider.sendRequest(
+          {
+            modelId: "dummy-request-model-id",
+            $prompt: "the ny mets are:",
+          },
+          {
+            metaProp: "dummy-meta",
+          },
+        ),
       ).rejects.toThrow("Unexpected response from model provider");
 
       expect(provider.history).toHaveLength(1);
       expect(provider.history[0]).toEqual({
-        request: {
+        options: {
           modelId: "dummy-request-model-id",
-          prompt: "the ny mets are:",
+          $prompt: "the ny mets are:",
         },
         response: undefined,
+        meta: {
+          metaProp: "dummy-meta",
+        },
       });
     });
   });

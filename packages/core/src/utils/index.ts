@@ -1,1 +1,2 @@
-export * from "./ejsTemplate";
+export * from "./Template";
+export * from "./Tool";

@@ -13,6 +13,7 @@
   "Provider: AWS Bedrock", 
   "Provider: Cohere", 
   "Provider: Groq", 
+  "Provider: GCloud VertexAI", 
   "Provider: Huggingface", 
   "Provider: LMStudio",
   "Provider: Mistral", 

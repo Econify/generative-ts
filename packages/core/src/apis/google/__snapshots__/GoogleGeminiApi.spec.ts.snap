@@ -1,0 +1,1061 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`GoogleGeminiApi.requestTemplate $prompt 1`] = `
+{
+  "contents": [
+    {
+      "parts": [
+        {
+          "text": "mock-prompt",
+        },
+      ],
+      "role": "user",
+    },
+  ],
+}
+`;
+
+exports[`GoogleGeminiApi.requestTemplate $prompt, $tools 1`] = `
+{
+  "contents": [
+    {
+      "parts": [
+        {
+          "text": "mock-prompt",
+        },
+      ],
+      "role": "user",
+    },
+  ],
+  "tools": [
+    {
+      "function_declarations": [
+        {
+          "description": "mock-description-1",
+          "name": "mock-function-1",
+          "parameters": {
+            "properties": {
+              "mock-function-1-param-1": {
+                "description": "mock-function-1-param-1-description-1",
+                "type": "STRING",
+              },
+              "mock-function-1-param-2": {
+                "description": "mock-function-1-param-2-description-2",
+                "type": "NUMBER",
+              },
+            },
+            "required": [],
+            "type": "OBJECT",
+          },
+        },
+        {
+          "description": "mock-description-2",
+          "name": "mock-function-2",
+          "parameters": {
+            "properties": {
+              "mock-function-2-param-1": {
+                "description": "mock-function-2-param-1-description-1",
+                "type": "BOOLEAN",
+              },
+            },
+            "required": [],
+            "type": "OBJECT",
+          },
+        },
+      ],
+    },
+  ],
+}
+`;
+
+exports[`GoogleGeminiApi.requestTemplate $prompt, contents ending with function_call, $tools with matching invocation (appends function_response content items) 1`] = `
+{
+  "contents": [
+    {
+      "parts": [
+        {
+          "text": "mock-user-text",
+        },
+      ],
+      "role": "user",
+    },
+    {
+      "parts": [
+        {
+          "functionCall": {
+            "args": {
+              "key": "value",
+            },
+            "name": "mock-function",
+          },
+        },
+      ],
+      "role": "model",
+    },
+    {
+      "parts": [
+        {
+          "function_response": {
+            "name": "mock-function",
+            "response": {
+              "returned": {
+                "responseKey": "responseValue",
+              },
+            },
+          },
+        },
+      ],
+      "role": "user",
+    },
+  ],
+  "tools": [
+    {
+      "function_declarations": [
+        {
+          "description": "mock-description",
+          "name": "mock-function",
+          "parameters": {
+            "properties": {
+              "key": {
+                "description": "mock-key-description",
+                "type": "STRING",
+              },
+            },
+            "required": [
+              "key",
+            ],
+            "type": "OBJECT",
+          },
+        },
+      ],
+    },
+  ],
+}
+`;
+
+exports[`GoogleGeminiApi.requestTemplate $prompt, contents ending with model function_call, $tools without matching invocation (appends $prompt; TODO logs warning) 1`] = `
+{
+  "contents": [
+    {
+      "parts": [
+        {
+          "text": "mock-user-text",
+        },
+      ],
+      "role": "user",
+    },
+    {
+      "parts": [
+        {
+          "functionCall": {
+            "args": {
+              "key": "value",
+            },
+            "name": "mock-function",
+          },
+        },
+      ],
+      "role": "model",
+    },
+    {
+      "parts": [
+        {
+          "text": "mock-prompt",
+        },
+      ],
+      "role": "user",
+    },
+  ],
+  "tools": [
+    {
+      "function_declarations": [
+        {
+          "description": "another-description",
+          "name": "another-function",
+          "parameters": {
+            "properties": {
+              "another-key": {
+                "description": "another-key-description",
+                "type": "STRING",
+              },
+            },
+            "required": [],
+            "type": "OBJECT",
+          },
+        },
+      ],
+    },
+  ],
+}
+`;
+
+exports[`GoogleGeminiApi.requestTemplate $prompt, contents ending with model function_call, no $tools (prepends and appends $prompt; TODO logs warning) 1`] = `
+{
+  "contents": [
+    {
+      "parts": [
+        {
+          "text": "mock-prompt",
+        },
+      ],
+      "role": "user",
+    },
+    {
+      "parts": [
+        {
+          "functionCall": {
+            "args": {
+              "key": "value",
+            },
+            "name": "mock-function",
+          },
+        },
+      ],
+      "role": "model",
+    },
+    {
+      "parts": [
+        {
+          "text": "mock-prompt",
+        },
+      ],
+      "role": "user",
+    },
+  ],
+}
+`;
+
+exports[`GoogleGeminiApi.requestTemplate $prompt, contents ending with user function_response (prepends $prompt) 1`] = `
+{
+  "contents": [
+    {
+      "parts": [
+        {
+          "text": "mock-prompt",
+        },
+      ],
+      "role": "user",
+    },
+    {
+      "parts": [
+        {
+          "functionCall": {
+            "args": {
+              "key": "value",
+            },
+            "name": "mock-function",
+          },
+        },
+      ],
+      "role": "model",
+    },
+    {
+      "parts": [
+        {
+          "function_response": {
+            "name": "mock-function",
+            "response": {
+              "responseKey": "responseValue",
+            },
+          },
+        },
+      ],
+      "role": "user",
+    },
+  ],
+}
+`;
+
+exports[`GoogleGeminiApi.requestTemplate $prompt, contents starting and ending with model (appends AND prepends $prompt) 1`] = `
+{
+  "contents": [
+    {
+      "parts": [
+        {
+          "text": "mock-prompt",
+        },
+      ],
+      "role": "user",
+    },
+    {
+      "parts": [
+        {
+          "text": "mock-model-text",
+        },
+      ],
+      "role": "model",
+    },
+    {
+      "parts": [
+        {
+          "text": "mock-user-text",
+        },
+      ],
+      "role": "user",
+    },
+    {
+      "parts": [
+        {
+          "text": "mock-model-text-2",
+        },
+      ],
+      "role": "model",
+    },
+    {
+      "parts": [
+        {
+          "text": "mock-prompt",
+        },
+      ],
+      "role": "user",
+    },
+  ],
+}
+`;
+
+exports[`GoogleGeminiApi.requestTemplate $prompt, contents starting and ending with user (does not add $prompt) 1`] = `
+{
+  "contents": [
+    {
+      "parts": [
+        {
+          "text": "mock-user-text",
+        },
+      ],
+      "role": "user",
+    },
+    {
+      "parts": [
+        {
+          "text": "mock-model-text",
+        },
+      ],
+      "role": "model",
+    },
+    {
+      "parts": [
+        {
+          "text": "mock-user-text-2",
+        },
+      ],
+      "role": "user",
+    },
+  ],
+}
+`;
+
+exports[`GoogleGeminiApi.requestTemplate $prompt, contents with model / user (prepends $prompt) 1`] = `
+{
+  "contents": [
+    {
+      "parts": [
+        {
+          "text": "mock-prompt",
+        },
+      ],
+      "role": "user",
+    },
+    {
+      "parts": [
+        {
+          "text": "mock-model-text",
+        },
+      ],
+      "role": "model",
+    },
+    {
+      "parts": [
+        {
+          "text": "mock-user-text-2",
+        },
+      ],
+      "role": "user",
+    },
+  ],
+}
+`;
+
+exports[`GoogleGeminiApi.requestTemplate $prompt, contents with user / model (appends $prompt) 1`] = `
+{
+  "contents": [
+    {
+      "parts": [
+        {
+          "text": "mock-user-text",
+        },
+      ],
+      "role": "user",
+    },
+    {
+      "parts": [
+        {
+          "text": "mock-model-text",
+        },
+      ],
+      "role": "model",
+    },
+    {
+      "parts": [
+        {
+          "text": "mock-prompt",
+        },
+      ],
+      "role": "user",
+    },
+  ],
+}
+`;
+
+exports[`GoogleGeminiApi.requestTemplate $prompt, contents, system_instruction 1`] = `
+{
+  "contents": [
+    {
+      "parts": [
+        {
+          "text": "mock-prompt",
+        },
+      ],
+      "role": "user",
+    },
+    {
+      "parts": [
+        {
+          "text": "mock-model-text",
+        },
+      ],
+      "role": "model",
+    },
+    {
+      "parts": [
+        {
+          "text": "mock-user-text",
+        },
+      ],
+      "role": "user",
+    },
+  ],
+  "system_instruction": {
+    "parts": [
+      {
+        "text": "mock-system-text",
+      },
+    ],
+  },
+}
+`;
+
+exports[`GoogleGeminiApi.requestTemplate $prompt, examplePairs 1`] = `
+{
+  "contents": [
+    {
+      "parts": [
+        {
+          "text": "mock-user-msg-1",
+        },
+      ],
+      "role": "user",
+    },
+    {
+      "parts": [
+        {
+          "text": "mock-assistant-msg-1",
+        },
+      ],
+      "role": "model",
+    },
+    {
+      "parts": [
+        {
+          "text": "mock-user-msg-2",
+        },
+      ],
+      "role": "user",
+    },
+    {
+      "parts": [
+        {
+          "text": "mock-assistant-msg-2",
+        },
+      ],
+      "role": "model",
+    },
+    {
+      "parts": [
+        {
+          "text": "mock-prompt",
+        },
+      ],
+      "role": "user",
+    },
+  ],
+}
+`;
+
+exports[`GoogleGeminiApi.requestTemplate $prompt, examplePairs, contents with model / user (inserts $prompt, conversation is valid) 1`] = `
+{
+  "contents": [
+    {
+      "parts": [
+        {
+          "text": "mock-user-example-pair",
+        },
+      ],
+      "role": "user",
+    },
+    {
+      "parts": [
+        {
+          "text": "mock-assistant-example-pair",
+        },
+      ],
+      "role": "model",
+    },
+    {
+      "parts": [
+        {
+          "text": "mock-prompt",
+        },
+      ],
+      "role": "user",
+    },
+    {
+      "parts": [
+        {
+          "text": "mock-model-text",
+        },
+      ],
+      "role": "model",
+    },
+    {
+      "parts": [
+        {
+          "text": "mock-user-text",
+        },
+      ],
+      "role": "user",
+    },
+  ],
+}
+`;
+
+exports[`GoogleGeminiApi.requestTemplate $prompt, examplePairs, contents with user / model (appends $prompt) 1`] = `
+{
+  "contents": [
+    {
+      "parts": [
+        {
+          "text": "mock-user-example-pair",
+        },
+      ],
+      "role": "user",
+    },
+    {
+      "parts": [
+        {
+          "text": "mock-assistant-example-pair",
+        },
+      ],
+      "role": "model",
+    },
+    {
+      "parts": [
+        {
+          "text": "mock-user-text",
+        },
+      ],
+      "role": "user",
+    },
+    {
+      "parts": [
+        {
+          "text": "mock-model-text",
+        },
+      ],
+      "role": "model",
+    },
+    {
+      "parts": [
+        {
+          "text": "mock-prompt",
+        },
+      ],
+      "role": "user",
+    },
+  ],
+}
+`;
+
+exports[`GoogleGeminiApi.requestTemplate $prompt, examplePairs, contents, system_instruction 1`] = `
+{
+  "contents": [
+    {
+      "parts": [
+        {
+          "text": "mock-user-msg-1",
+        },
+      ],
+      "role": "user",
+    },
+    {
+      "parts": [
+        {
+          "text": "mock-assistant-msg-1",
+        },
+      ],
+      "role": "model",
+    },
+    {
+      "parts": [
+        {
+          "text": "mock-prompt",
+        },
+      ],
+      "role": "user",
+    },
+    {
+      "parts": [
+        {
+          "text": "mock-model-text",
+        },
+      ],
+      "role": "model",
+    },
+    {
+      "parts": [
+        {
+          "text": "mock-prompt",
+        },
+      ],
+      "role": "user",
+    },
+  ],
+  "system_instruction": {
+    "parts": [
+      {
+        "text": "mock-system-text",
+      },
+    ],
+  },
+}
+`;
+
+exports[`GoogleGeminiApi.requestTemplate $prompt, examplePairs, system 1`] = `
+{
+  "contents": [
+    {
+      "parts": [
+        {
+          "text": "mock-user-msg-1",
+        },
+      ],
+      "role": "user",
+    },
+    {
+      "parts": [
+        {
+          "text": "mock-assistant-msg-1",
+        },
+      ],
+      "role": "model",
+    },
+    {
+      "parts": [
+        {
+          "text": "mock-prompt",
+        },
+      ],
+      "role": "user",
+    },
+  ],
+  "system_instruction": {
+    "parts": [
+      {
+        "text": "mock-system-text",
+      },
+    ],
+  },
+}
+`;
+
+exports[`GoogleGeminiApi.requestTemplate $prompt, examplePairs, system_instruction 1`] = `
+{
+  "contents": [
+    {
+      "parts": [
+        {
+          "text": "mock-user-msg-1",
+        },
+      ],
+      "role": "user",
+    },
+    {
+      "parts": [
+        {
+          "text": "mock-assistant-msg-1",
+        },
+      ],
+      "role": "model",
+    },
+    {
+      "parts": [
+        {
+          "text": "mock-prompt",
+        },
+      ],
+      "role": "user",
+    },
+  ],
+  "system_instruction": {
+    "parts": [
+      {
+        "text": "mock-system-text",
+      },
+    ],
+  },
+}
+`;
+
+exports[`GoogleGeminiApi.requestTemplate $prompt, generation_config 1`] = `
+{
+  "contents": [
+    {
+      "parts": [
+        {
+          "text": "mock-prompt",
+        },
+      ],
+      "role": "user",
+    },
+  ],
+  "generation_config": {
+    "temperature": 0.7,
+    "top_p": 0.9,
+  },
+}
+`;
+
+exports[`GoogleGeminiApi.requestTemplate $prompt, safety_settings 1`] = `
+{
+  "contents": [
+    {
+      "parts": [
+        {
+          "text": "mock-prompt",
+        },
+      ],
+      "role": "user",
+    },
+  ],
+  "safety_settings": {
+    "category": "mock-category",
+    "threshold": "mock-threshold",
+  },
+}
+`;
+
+exports[`GoogleGeminiApi.requestTemplate $prompt, system 1`] = `
+{
+  "contents": [
+    {
+      "parts": [
+        {
+          "text": "mock-prompt",
+        },
+      ],
+      "role": "user",
+    },
+  ],
+  "system_instruction": {
+    "parts": [
+      {
+        "text": "mock-system-text",
+      },
+    ],
+  },
+}
+`;
+
+exports[`GoogleGeminiApi.requestTemplate $prompt, system, contents 1`] = `
+{
+  "contents": [
+    {
+      "parts": [
+        {
+          "text": "mock-prompt",
+        },
+      ],
+      "role": "user",
+    },
+    {
+      "parts": [
+        {
+          "text": "mock-model-text",
+        },
+      ],
+      "role": "model",
+    },
+    {
+      "parts": [
+        {
+          "text": "mock-prompt",
+        },
+      ],
+      "role": "user",
+    },
+  ],
+  "system_instruction": {
+    "parts": [
+      {
+        "text": "mock-system-text",
+      },
+    ],
+  },
+}
+`;
+
+exports[`GoogleGeminiApi.requestTemplate $prompt, system, system_instruction 1`] = `
+{
+  "contents": [
+    {
+      "parts": [
+        {
+          "text": "mock-prompt",
+        },
+      ],
+      "role": "user",
+    },
+  ],
+  "system_instruction": {
+    "parts": [
+      {
+        "text": "mock-system-text",
+      },
+      {
+        "text": "mock-additional-instruction",
+      },
+      {
+        "text": "mock-additional-instruction-2",
+      },
+    ],
+  },
+}
+`;
+
+exports[`GoogleGeminiApi.requestTemplate $prompt, system_instruction 1`] = `
+{
+  "contents": [
+    {
+      "parts": [
+        {
+          "text": "mock-prompt",
+        },
+      ],
+      "role": "user",
+    },
+  ],
+  "system_instruction": {
+    "parts": [
+      {
+        "text": "mock-system-text",
+      },
+    ],
+  },
+}
+`;
+
+exports[`GoogleGeminiApi.requestTemplate $prompt, tool, tools_config, system_instruction, safety_settings, generation_config 1`] = `
+{
+  "contents": [
+    {
+      "parts": [
+        {
+          "text": "mock-prompt",
+        },
+      ],
+      "role": "user",
+    },
+    {
+      "parts": [
+        {
+          "text": "mock-model-text",
+        },
+      ],
+      "role": "model",
+    },
+    {
+      "parts": [
+        {
+          "text": "mock-prompt",
+        },
+      ],
+      "role": "user",
+    },
+  ],
+  "generation_config": {
+    "candidate_count": 5,
+    "frequency_penalty": 0.3,
+    "max_output_tokens": 100,
+    "presence_penalty": 0.5,
+    "response_mime_type": "application/json",
+    "stop_sequences": [
+      "mock-stop-sequence",
+    ],
+    "temperature": 0.7,
+    "top_k": 10,
+    "top_p": 0.9,
+  },
+  "safety_settings": {
+    "category": "mock-category",
+    "max_influential_terms": 10,
+    "method": "mock-method",
+    "threshold": "mock-threshold",
+  },
+  "system_instruction": {
+    "parts": [
+      {
+        "text": "mock-system-text",
+      },
+    ],
+  },
+  "tools": [
+    {
+      "function_declarations": [
+        {
+          "name": "mock-function",
+        },
+      ],
+    },
+  ],
+  "tools_config": {
+    "allowed_function_names": [
+      "mock-function",
+    ],
+    "mode": "ANY",
+  },
+}
+`;
+
+exports[`GoogleGeminiApi.requestTemplate $prompt, tools 1`] = `
+{
+  "contents": [
+    {
+      "parts": [
+        {
+          "text": "mock-prompt",
+        },
+      ],
+      "role": "user",
+    },
+  ],
+  "tools": [
+    {
+      "function_declarations": [
+        {
+          "description": "mock-description",
+          "name": "mock-function",
+          "parameters": {
+            "properties": {
+              "key": {
+                "type": "STRING",
+              },
+            },
+            "type": "OBJECT",
+          },
+        },
+      ],
+    },
+  ],
+}
+`;
+
+exports[`GoogleGeminiApi.requestTemplate $prompt, tools, $tools 1`] = `
+{
+  "contents": [
+    {
+      "parts": [
+        {
+          "text": "mock-prompt",
+        },
+      ],
+      "role": "user",
+    },
+  ],
+  "tools": [
+    {
+      "function_declarations": [
+        {
+          "description": "mock-description",
+          "name": "mock-function",
+          "parameters": {
+            "properties": {
+              "key": {
+                "type": "STRING",
+              },
+            },
+            "type": "OBJECT",
+          },
+        },
+      ],
+    },
+    {
+      "function_declarations": [
+        {
+          "description": "mock-description-1",
+          "name": "mock-function-1",
+          "parameters": {
+            "properties": {
+              "mock-function-1-param-1": {
+                "description": "mock-function-1-param-1-description-1",
+                "type": "STRING",
+              },
+              "mock-function-1-param-2": {
+                "description": "mock-function-1-param-2-description-2",
+                "type": "NUMBER",
+              },
+            },
+            "required": [
+              "mock-function-1-param-2",
+            ],
+            "type": "OBJECT",
+          },
+        },
+        {
+          "description": "mock-description-2",
+          "name": "mock-function-2",
+          "parameters": {
+            "properties": {
+              "mock-function-2-param-1": {
+                "description": "mock-function-2-param-1-description-1",
+                "type": "BOOLEAN",
+              },
+            },
+            "required": [],
+            "type": "OBJECT",
+          },
+        },
+      ],
+    },
+  ],
+}
+`;
+
+exports[`GoogleGeminiApi.requestTemplate $prompt, tools_config 1`] = `
+{
+  "contents": [
+    {
+      "parts": [
+        {
+          "text": "mock-prompt",
+        },
+      ],
+      "role": "user",
+    },
+  ],
+  "tools_config": {
+    "allowed_function_names": [
+      "mock-function",
+    ],
+    "mode": "AUTO",
+  },
+}
+`;

@@ -1,60 +1,15 @@
+/* eslint-disable camelcase */
 import { array, boolean, number, record, string, type, unknown } from "io-ts";
 import type { TypeOf } from "io-ts";
-import { isLeft } from "fp-ts/Either";
+import { isLeft } from "fp-ts/lib/Either.js";
 
 import type { ModelApi, ModelRequestOptions } from "@typeDefs";
 
-import { EjsTemplate } from "../../utils/ejsTemplate";
+import { FnTemplate } from "../../utils/Template";
 
 import { composite } from "../_utils/ioTsHelpers";
 
-import type { FewShotRequestOptions } from "../shared/fewShot";
-
-const templateSource = `{
-  "model": "<%= modelId %>",
-  "message": "<%= prompt %>"
-  <% if (typeof chat_history !== 'undefined' || typeof examplePairs !== 'undefined') { %> 
-  , "chat_history": [
-    <% (typeof examplePairs !== 'undefined' ? examplePairs : []).forEach((pair, index) => { %>
-    {
-      "role": "USER",
-      "message": "<%= pair.user %>"
-    },
-    {
-      "role": "CHATBOT",
-      "message": "<%= pair.assistant %>"
-    }<% if (index < chat_history.length - 1 || typeof chat_history !== 'undefined') { %>,<% } %>
-    <% }) %>
-    <% (typeof chat_history !== 'undefined' ? chat_history : []).forEach((item, index) => { %>
-    {
-      "role": "<%= item.role %>"
-      <% if (typeof item.message !== 'undefined') { %>, "message": "<%= item.message %>"<% } %>
-      <% if (typeof item.tool_calls !== 'undefined') { %>, "tool_calls": <%- JSON.stringify(item.tool_calls) %><% } %>
-      <% if (typeof item.tool_results !== 'undefined') { %>, "tool_results": <%- JSON.stringify(item.tool_results) %><% } %>
-    }<% if (index < chat_history.length - 1) { %>,<% } %>
-    <% }) %>
-  ]
-  <% } %>
-  <% if (typeof system !== 'undefined' || typeof preamble !== 'undefined') { %>, "preamble": "<%=(typeof system !== 'undefined' ? system : "") + (typeof preamble !== 'undefined' ? preamble : "")%>"<% } %>
-  <% if (typeof stream !== 'undefined') { %>, "stream": <%= stream %><% } %>
-  <% if (typeof conversation_id !== 'undefined') { %>, "conversation_id": "<%= conversation_id %>"<% } %>
-  <% if (typeof prompt_truncation !== 'undefined') { %>, "prompt_truncation": "<%= prompt_truncation %>"<% } %>
-  <% if (typeof search_queries_only !== 'undefined') { %>, "search_queries_only": <%= search_queries_only %><% } %>
-  <% if (typeof documents !== 'undefined') { %>, "documents": <%- JSON.stringify(documents) %><% } %>
-  <% if (typeof citation_quality !== 'undefined') { %>, "citation_quality": "<%= citation_quality %>"<% } %>
-  <% if (typeof temperature !== 'undefined') { %>, "temperature": <%= temperature %><% } %>
-  <% if (typeof max_tokens !== 'undefined') { %>, "max_tokens": <%= max_tokens %><% } %>
-  <% if (typeof max_input_tokens !== 'undefined') { %>, "max_input_tokens": <%= max_input_tokens %><% } %>
-  <% if (typeof k !== 'undefined') { %>, "k": <%= k %><% } %>
-  <% if (typeof p !== 'undefined') { %>, "p": <%= p %><% } %>
-  <% if (typeof seed !== 'undefined') { %>, "seed": <%= seed %><% } %>
-  <% if (typeof stop_sequences !== 'undefined') { %>, "stop_sequences": <%- JSON.stringify(stop_sequences) %><% } %>
-  <% if (typeof frequency_penalty !== 'undefined') { %>, "frequency_penalty": <%= frequency_penalty %><% } %>
-  <% if (typeof presence_penalty !== 'undefined') { %>, "presence_penalty": <%= presence_penalty %><% } %>
-  <% if (typeof tools !== 'undefined') { %>, "tools": <%- JSON.stringify(tools) %><% } %>
-  <% if (typeof tool_results !== 'undefined') { %>, "tool_results": <%- JSON.stringify(tool_results) %><% } %>
-  <% if (typeof force_single_step !== 'undefined') { %>, "force_single_step": <%= force_single_step %><% } %>
-}`;
+import type { FewShotRequestOptions } from "../shared";
 
 interface CohereChatToolExecutionResult {
   call: {
@@ -88,6 +43,18 @@ type CohereChatHistoryItem =
   | CohereChatHistoryMessage
   | CohereChatHistoryToolCall
   | CohereChatHistoryToolResults;
+
+function isToolCallItem(
+  item: CohereChatHistoryItem,
+): item is CohereChatHistoryToolCall {
+  return "tool_calls" in item;
+}
+
+function isToolResultItem(
+  item: CohereChatHistoryItem,
+): item is CohereChatHistoryToolResults {
+  return "tool_results" in item;
+}
 
 /**
  * @category Requests
@@ -134,8 +101,92 @@ export interface CohereChatOptions
  * @category Templates
  * @category Cohere Chat
  */
-export const CohereChatTemplate = new EjsTemplate<CohereChatOptions>(
-  templateSource,
+export const CohereChatTemplate = new FnTemplate(
+  ({
+    modelId,
+    $prompt,
+    chat_history,
+    examplePairs,
+    system,
+    preamble,
+    stream,
+    conversation_id,
+    prompt_truncation,
+    search_queries_only,
+    documents,
+    citation_quality,
+    temperature,
+    max_tokens,
+    max_input_tokens,
+    k,
+    p,
+    seed,
+    stop_sequences,
+    frequency_penalty,
+    presence_penalty,
+    tools,
+    tool_results,
+    force_single_step,
+  }: CohereChatOptions) => {
+    const rewritten = {
+      model: modelId,
+      message: $prompt,
+      ...(chat_history || examplePairs
+        ? {
+            chat_history: [
+              ...(examplePairs
+                ? examplePairs.flatMap((pair) => [
+                    { role: "USER", message: pair.user },
+                    { role: "CHATBOT", message: pair.assistant },
+                  ])
+                : []),
+              ...(chat_history
+                ? chat_history.map((item) => {
+                    const baseItem = {
+                      role: item.role,
+                      ...(item.message ? { message: item.message } : {}),
+                    };
+                    if (isToolCallItem(item)) {
+                      return { ...baseItem, tool_calls: item.tool_calls };
+                    }
+                    if (isToolResultItem(item)) {
+                      return { ...baseItem, tool_results: item.tool_results };
+                    }
+                    return baseItem;
+                  })
+                : []),
+            ],
+          }
+        : {}),
+      ...(system || preamble
+        ? { preamble: `${system || ""}${preamble || ""}` }
+        : {}),
+    };
+
+    const result = {
+      ...rewritten,
+      stream,
+      conversation_id,
+      prompt_truncation,
+      search_queries_only,
+      documents,
+      citation_quality,
+      temperature,
+      max_tokens,
+      max_input_tokens,
+      k,
+      p,
+      seed,
+      stop_sequences,
+      frequency_penalty,
+      presence_penalty,
+      tools,
+      tool_results,
+      force_single_step,
+    };
+
+    return JSON.stringify(result, null, 2);
+  },
 );
 
 const CohereChatResponseCodec = composite({

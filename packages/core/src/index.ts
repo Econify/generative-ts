@@ -24,6 +24,12 @@ export {
   CohereGenerateTemplate,
 } from "./apis/cohere";
 export {
+  GoogleGeminiApi,
+  GoogleGeminiOptions,
+  GoogleGeminiResponse,
+  GoogleGeminiTemplate,
+} from "./apis/google";
+export {
   HfConversationalTaskApi,
   HfConversationalTaskOptions,
   HfConversationalTaskResponse,
@@ -60,6 +66,8 @@ export {
   OpenAiChatTemplate,
 } from "./apis/openai";
 
+// TODO export shared (FewShot, Tool)
+
 /*
  * Public API - Providers
  */
@@ -73,7 +81,7 @@ export {
   createLmStudioModelProvider,
   createMistralModelProvider,
   createOpenAiChatModelProvider,
-  AwsAuthConfig,
+  AwsBedrockAuthConfig,
   CohereAuthConfig,
   GroqAuthConfig,
   HuggingfaceAuthConfig,
@@ -84,7 +92,8 @@ export {
 /*
  * Public API - Utils
  */
-export { EjsTemplate } from "./utils";
+export { FnTemplate } from "./utils";
+// TODO export Tool
 
 /*
  * Public API - TypeDefs
@@ -96,4 +105,5 @@ export {
   ModelApi,
   ModelProvider,
   HttpClient,
+  HttpClientRequest,
 } from "./typeDefs";

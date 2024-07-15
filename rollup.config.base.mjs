@@ -3,23 +3,35 @@ import commonjs from '@rollup/plugin-commonjs';
 import typescript from '@rollup/plugin-typescript';
 import terser from '@rollup/plugin-terser';
 import { visualizer } from 'rollup-plugin-visualizer';
-import json from '@rollup/plugin-json';
+
+export const finishedPlugin = ({ name }) => ({
+  name: 'finished',
+  buildStart() {
+    console.log(`\x1b[32mBundling ${name}...\x1b[0m`);
+  },
+  writeBundle({ format }) {
+    console.log(`\x1b[32mFinished \x1b[1m${name}\x1b[0m (${format})`);
+  }
+});
 
 export const baseConfig = {
   plugins: [
     resolve(),
-    typescript(),
-    commonjs(),
-    json({
-      include: '**/ejs/package.json',
+    typescript({
+      outputToFilesystem: true,
+      tslib: 'tslib',
     }),
+    commonjs(),
     terser(),
     visualizer({
       filename: './stats.html',
       open: false,
       gzipSize: true,
       brotliSize: true
-    })
+    }),
   ],
-  external: ['@generative-ts/core', 'process']
+  external: [
+    'tslib',
+    'process',
+  ]
 };

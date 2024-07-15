@@ -1,8 +1,11 @@
-import { baseConfig } from '../../rollup.config.base.mjs';
+import { baseConfig, finishedPlugin } from '../../rollup.config.base.mjs';
+
+// import pkg from './package.json' assert { type: 'json' };
+const pkg = { name: 'generative-ts' };
 
 export default [
-  // main bundles (cjs, esm)
   {
+    ...baseConfig,
     input: 'src/index.ts',
     output: [
       {
@@ -14,8 +17,16 @@ export default [
         file: 'dist/index.mjs',
         format: 'esm',
         sourcemap: true
-      }
+      },
     ],
-    ...baseConfig
-  }
+    plugins: [
+      ...baseConfig.plugins,
+      finishedPlugin(pkg),
+    ],
+    external: [
+      ...baseConfig.external,
+      '@generative-ts/core', 
+      '@generative-ts/gcloud-vertex-ai',
+    ],
+  },
 ];

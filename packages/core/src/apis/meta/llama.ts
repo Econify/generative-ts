@@ -1,6 +1,6 @@
 import * as t from "io-ts";
 import type { TypeOf } from "io-ts";
-import { isLeft } from "fp-ts/Either";
+import { isLeft } from "fp-ts/lib/Either.js";
 
 const LlamaResponseCodec = t.type({
   generation: t.string,

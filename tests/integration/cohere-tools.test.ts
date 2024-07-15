@@ -7,47 +7,8 @@ test("Cohere - Chat (Tools)", async () => {
     modelId: "command-r-plus",
   });
 
-  // act
-  // const response = await cohereChat.sendRequest({
-  //   prompt: "Will the NY Mets game be a rainout tonight",
-  //   preamble: "Answer like Jafar from Aladdin",
-  //   tools: [
-  //     {
-  //       name: "get_weather",
-  //       description: "tells you the weather in a certain city",
-  //       parameter_definitions: {
-  //         city: {
-  //           type: "str",
-  //           description: "the city you want the weather for",
-  //         },
-  //       },
-  //     },
-  //   ],
-  // });
-
-  // get back a chat_history that looks like this:
-  /*
-      "chat_history": [
-        {
-          "role": "USER",
-          "message": "Will the NY Mets game be a rainout tonight"
-        },
-        {
-          "role": "CHATBOT",
-          "tool_calls": [
-            {
-              "name": "get_weather",
-              "parameters": {
-                "city": "New York City"
-              }
-            }
-          ]
-        }
-      ],
-  */
-
   const response = await cohereChat.sendRequest({
-    prompt: "Will the NY Mets game be a rainout tonight",
+    $prompt: "Will the NY Mets game be a rainout tonight",
     preamble: "Answer like Jafar from Aladdin",
     system: "Use the correct JSON output format",
     examplePairs: [

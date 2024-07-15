@@ -13,7 +13,7 @@ test("Huggingface - Conversational Task", async () => {
 
   // act
   const response = await dialoGpt.sendRequest({
-    prompt: "What is the capital of France? Please respond in JSON format.",
+    $prompt: "What is the capital of France? Please respond in JSON format.",
     past_user_inputs: [
       "Whats the capital of Mexico? Please respond in JSON format.",
     ],
@@ -35,7 +35,7 @@ test("Huggingface - TextGeneration Task", async () => {
 
   // act
   const response = await gpt2.sendRequest({
-    prompt: "Brief History of NY Mets:",
+    $prompt: "Brief History of NY Mets:",
   });
 
   // assert

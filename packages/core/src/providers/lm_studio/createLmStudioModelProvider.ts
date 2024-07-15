@@ -2,7 +2,7 @@ import type { HttpClient } from "@typeDefs";
 
 import { OpenAiChatApi } from "../../apis/openai";
 
-import { HttpModelProvider } from "../http";
+import { HttpModelProvider, InferHttpClientOptions } from "../http";
 
 /**
  *
@@ -16,7 +16,7 @@ import { HttpModelProvider } from "../http";
  * });
  *
  * const response = await llama3.sendRequest({
- *   prompt: "Brief History of NY Mets:"
+ *   $prompt: "Brief History of NY Mets:"
  *   // all other OpenAI ChatCompletion options available here (LMStudio uses the OpenAI ChatCompletion API for all the models it hosts)
  * });
  *
@@ -58,20 +58,22 @@ import { HttpModelProvider } from "../http";
  * });
  *
  * const response = await llama3.sendRequest({
- *   prompt: "Brief History of NY Mets:"
+ *   $prompt: "Brief History of NY Mets:"
  *   // all other OpenAI ChatCompletion options available here (LMStudio uses the OpenAI ChatCompletion API for all the models it hosts)
  * });
  *
  * console.log(response.choices[0]?.message.content);
  * ```
  */
-export function createLmStudioModelProvider({
+export function createLmStudioModelProvider<
+  THttpClientOptions = InferHttpClientOptions<HttpModelProvider>,
+>({
   modelId,
   client,
   endpoint = "http://localhost:1234/v1/chat/completions",
 }: {
   modelId: string;
-  client?: HttpClient;
+  client?: HttpClient<THttpClientOptions>;
   endpoint?: string;
 }) {
   return new HttpModelProvider({

@@ -1,19 +1,11 @@
+/* eslint-disable camelcase */
 import type { ModelApi, ModelRequestOptions } from "@typeDefs";
 
-import { EjsTemplate } from "../../utils/ejsTemplate";
+import { FnTemplate } from "../../utils/Template";
 
-import type { FewShotRequestOptions } from "../shared/fewShot";
+import type { FewShotRequestOptions } from "../shared";
 
 import { isLlamaResponse, LlamaResponse } from "./llama";
-
-export const Llama3ChatMlTemplateSource = `<|begin_of_text|><% if (typeof system !== 'undefined') { %><|start_header_id|>system<|end_header_id|>\\n\\n<%= system %><|eot_id|><% } %><% (typeof examplePairs !== 'undefined' ? examplePairs : []).forEach(pair => { %><|start_header_id|>user<|end_header_id|>\\n\\n<%= pair.user %><|eot_id|><|start_header_id|>assistant<|end_header_id|>\\n\\n<%= pair.assistant %><|eot_id|><% }) %><|start_header_id|>user<|end_header_id|>\\n\\n<%= prompt %><|eot_id|><|start_header_id|>assistant<|end_header_id|>`;
-
-const templateSource = `{
-  "prompt": "${Llama3ChatMlTemplateSource}"
-  <% if (typeof temperature !== 'undefined') { %>, "temperature": <%= temperature %><% } %>
-  <% if (typeof top_p !== 'undefined') { %>, "top_p": <%= top_p %><% } %>
-  <% if (typeof max_gen_len !== 'undefined') { %>, "max_gen_len": <%= max_gen_len %><% } %>
-}`;
 
 /**
  * @category Requests
@@ -31,8 +23,42 @@ export interface Llama3ChatOptions
  * @category Templates
  * @category Llama3
  */
-export const Llama3ChatTemplate = new EjsTemplate<Llama3ChatOptions>(
-  templateSource,
+export const Llama3ChatTemplate = new FnTemplate(
+  ({
+    $prompt,
+    system,
+    examplePairs,
+    temperature,
+    top_p,
+    max_gen_len,
+  }: Llama3ChatOptions) => {
+    const rewrittenPrompt = [
+      ...(system
+        ? [`<|start_header_id|>system<|end_header_id|>\n\n${system}<|eot_id|>`]
+        : []),
+      ...(examplePairs
+        ? examplePairs.flatMap((pair) => [
+            `<|start_header_id|>user<|end_header_id|>\n\n${pair.user}<|eot_id|>`,
+            `<|start_header_id|>assistant<|end_header_id|>\n\n${pair.assistant}<|eot_id|>`,
+          ])
+        : []),
+      `<|start_header_id|>user<|end_header_id|>\n\n${$prompt}<|eot_id|>`,
+      `<|start_header_id|>assistant<|end_header_id|>`,
+    ].join("");
+
+    const rewritten = {
+      prompt: `<|begin_of_text|>${rewrittenPrompt}`,
+    };
+
+    const result = {
+      ...rewritten,
+      temperature,
+      top_p,
+      max_gen_len,
+    };
+
+    return JSON.stringify(result, null, 2);
+  },
 );
 
 export interface Llama3ChatApi

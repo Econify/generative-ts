@@ -18,6 +18,7 @@ export abstract class BaseModelProvider<
   TResponse = unknown,
   TModelProviderConfig extends
     BaseModelProviderConfig = BaseModelProviderConfig,
+  TMetaOptions = unknown,
 > implements ModelProvider<TRequestOptions, TResponse>
 {
   public readonly api: ModelApi<TRequestOptions, TResponse>;
@@ -25,7 +26,8 @@ export abstract class BaseModelProvider<
   public readonly config: TModelProviderConfig;
 
   public readonly history: {
-    request: TRequestOptions;
+    options: TRequestOptions;
+    meta: TMetaOptions | undefined;
     response: TResponse | undefined;
   }[] = [];
 
@@ -42,23 +44,26 @@ export abstract class BaseModelProvider<
 
   protected abstract dispatchRequest(
     options: TRequestOptions,
+    meta?: TMetaOptions,
   ): Promise<unknown>;
 
   async sendRequest(
     options: MakeOptional<TRequestOptions, "modelId">,
+    meta?: TMetaOptions,
   ): Promise<TResponse> {
     // tsc doesn't automatically deduce that merging the spread of options with modelId satisfies TRequestOptions
     // logically we know it does, so this typecasting is necessary and safe:
-    const requestOptions = {
+    const fullOptions = {
       ...options,
       modelId: options.modelId ?? this.config.modelId,
     } as TRequestOptions;
 
-    const data = await this.dispatchRequest(requestOptions);
+    const data = await this.dispatchRequest(fullOptions, meta);
 
     if (!this.api.responseGuard(data)) {
       this.history.push({
-        request: requestOptions,
+        options: fullOptions,
+        meta,
         response: undefined,
       });
 
@@ -67,7 +72,8 @@ export abstract class BaseModelProvider<
     }
 
     this.history.push({
-      request: requestOptions,
+      options: fullOptions,
+      meta,
       response: data,
     });
 

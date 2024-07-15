@@ -19,10 +19,12 @@ interface Part {
 }
 
 export interface PartWithFunctionCall extends Part {
+  // TODO name "Gemini" if exported
   functionCall: FunctionCall;
 }
 
 export interface PartWithFunctionResponse extends Part {
+  // TODO name "Gemini" if exported
   function_response: FunctionResponse;
 }
 

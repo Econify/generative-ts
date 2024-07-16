@@ -1,6 +1,6 @@
 {
   "name": "generative-ts",
-  "version": "0.1.0-alpha.6",
+  "version": "0.1.0-alpha.7",
   "description": "simple, type-safe, isomorphic LLM interactions (with power)",
   "main": "dist/index.cjs",
   "module": "dist/index.mjs",
@@ -29,8 +29,8 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@generative-ts/core": "^0.1.0-alpha.6",
-    "@generative-ts/gcloud-vertex-ai": "^0.1.0-alpha.6",
+    "@generative-ts/core": "0.1.0-alpha.7",
+    "@generative-ts/gcloud-vertex-ai": "0.1.0-alpha.7",
     "tslib": "^2.6.2"
   },
   "publishConfig": {

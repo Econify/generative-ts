@@ -1,6 +1,6 @@
 {
   "name": "@generative-ts/gcloud-vertex-ai",
-  "version": "0.1.0-alpha.6",
+  "version": "0.1.0-alpha.7",
   "description": "Google Cloud VertexAI support for for generative-ts",
   "main": "dist/index.cjs",
   "module": "dist/index.mjs",
@@ -32,7 +32,7 @@
     "tslib": "^2.6.2"
   },
   "peerDependencies": {
-    "@generative-ts/core": "^0.1.0-alpha.6"
+    "@generative-ts/core": "^0.1.0-alpha.7"
   },
   "publishConfig": {
     "access": "public"
